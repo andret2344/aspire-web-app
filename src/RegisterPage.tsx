@@ -9,17 +9,23 @@ import {
 	useMediaQuery,
 } from '@mui/material';
 import { theme } from './theme';
-import { FieldValues, useForm } from 'react-hook-form';
 import React from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 import '../assets/fonts.css';
 import { AuthComponent, renderPasswordVisibilityIcon } from './AuthComponent';
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
+	const [showPasswordRepeat, setShowPasswordRepeat] =
+		React.useState<boolean>(false);
 
 	const handleClickShowPassword = () => {
 		setShowPassword((prev) => !prev);
+	};
+
+	const handleClickShowPasswordRepeat = () => {
+		setShowPasswordRepeat((prev) => !prev);
 	};
 
 	const { register, handleSubmit } = useForm();
@@ -42,7 +48,7 @@ export const LoginPage = () => {
 				<TextField
 					hiddenLabel
 					variant={'filled'}
-					placeholder={'Login'}
+					placeholder={'E-mail address'}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
@@ -79,6 +85,36 @@ export const LoginPage = () => {
 					required
 					{...register('password')}
 				/>
+				<TextField
+					type={showPasswordRepeat ? 'text' : 'password'}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment
+								position="end"
+								sx={{ margin: 0, padding: 0 }}
+							>
+								<IconButton
+									sx={{ margin: 0, padding: 0 }}
+									onClick={handleClickShowPasswordRepeat}
+								>
+									{renderPasswordVisibilityIcon(
+										showPasswordRepeat
+									)}
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
+					hiddenLabel
+					variant={'filled'}
+					placeholder={'Repeat password'}
+					size={isSmallerThan600 ? 'small' : 'medium'}
+					sx={{
+						width: '200px',
+						marginTop: '5px',
+					}}
+					required
+					{...register('passwordRepeat')}
+				/>
 				<Button
 					variant="contained"
 					sx={{
@@ -87,20 +123,8 @@ export const LoginPage = () => {
 					}}
 					type={'submit'}
 				>
-					Login
+					Register
 				</Button>
-				<Link
-					href="#"
-					sx={{
-						marginTop: '10px',
-						color: 'black',
-						fontFamily: 'Montserrat',
-						textDecoration: 'underline',
-						fontWeight: 400,
-					}}
-				>
-					Forgot password?
-				</Link>
 				<Box mt={'10px'} display={'flex'} alignItems={'center'}>
 					<Typography
 						sx={{
@@ -111,7 +135,7 @@ export const LoginPage = () => {
 							fontWeight: 400,
 						}}
 					>
-						Don&apos;t have an account?
+						Already have an account?
 					</Typography>
 					<Link
 						href="#"
@@ -124,7 +148,7 @@ export const LoginPage = () => {
 							fontWeight: 400,
 						}}
 					>
-						Sign up
+						Sign in
 					</Link>
 				</Box>
 			</form>

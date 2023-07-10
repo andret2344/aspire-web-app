@@ -1,6 +1,7 @@
 import './styles.css';
-import { LoginPage } from './LoginPage';
+import React from 'react';
+import { RegisterPage } from './RegisterPage';
 
 export const App = () => {
-	return <LoginPage />;
+	return <RegisterPage />;
 };
