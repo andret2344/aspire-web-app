@@ -2,6 +2,10 @@ import {
 	Box,
 	Button,
 	Container,
+	IconButton,
+	InputAdornment,
+	Link,
+	Paper,
 	TextField,
 	Typography,
 	useMediaQuery,
@@ -10,9 +14,24 @@ import { theme } from './theme';
 import { FieldValues, useForm } from 'react-hook-form';
 import React from 'react';
 import '../assets/fonts.css';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
+const renderPasswordVisibilityIcon = (showPassword: boolean) => {
+	return showPassword ? (
+		<Visibility sx={{ margin: 0, padding: 0 }} />
+	) : (
+		<VisibilityOff sx={{ margin: 0, padding: 0 }} />
+	);
+};
 
 export const LoginPage = () => {
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const [showPassword, setShowPassword] = React.useState<boolean>(false);
+
+	const handleClickShowPassword = () => {
+		setShowPassword((prev) => !prev);
+	};
+
 	const {
 		register,
 		handleSubmit,
@@ -43,12 +62,13 @@ export const LoginPage = () => {
 				overflowX: 'auto',
 			}}
 		>
-			<Box
-				display={'flex'}
-				flexDirection={'column'}
-				justifyContent={'center'}
-				alignItems={'center'}
+			<Paper
+				elevation={5}
 				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center',
 					padding: '30px 0',
 					height: {
 						xs: '100%',
@@ -63,9 +83,6 @@ export const LoginPage = () => {
 						xs: '0px',
 						sm: '10px 20px 10px 20px',
 					},
-					borderColor: theme.palette.otherColor.mainBlue,
-					borderStyle: 'solid',
-					borderWidth: '2px',
 				}}
 			>
 				<Typography
@@ -101,72 +118,53 @@ export const LoginPage = () => {
 						variant={'filled'}
 						placeholder={'Login'}
 						size={isSmallerThan600 ? 'small' : 'medium'}
-						fullWidth={true}
 						sx={{
-							borderRadius: '5px',
-							border: 'none',
-							width: {
-								xs: '80%',
-								sm: '250px',
-							},
-							margin: '5px',
-							backgroundColor: 'white',
-							'& .MuiFilledInput-underline:before': {
-								borderBottom: 'none',
-							},
-							'& .MuiFilledInput-underline:after': {
-								borderBottom: 'none',
-							},
-							'& .MuiFilledInput-underline:hover:not(.Mui-disabled):before':
-								{
-									borderBottom: 'none',
-								},
+							width: '200px',
+							marginTop: '5px',
 						}}
 						type={'email'}
 						{...register('email', { required: true })}
 					/>
 					{errors.email && (
-						<span style={{ color: 'black' }}>
+						<span
+							style={{ fontFamily: 'Montserrat', color: 'black' }}
+						>
 							Login is mandatory
 						</span>
 					)}
 					<TextField
+						type={showPassword ? 'text' : 'password'}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment
+									position="end"
+									sx={{ margin: 0, padding: 0 }}
+								>
+									<IconButton
+										sx={{ margin: 0, padding: 0 }}
+										onClick={handleClickShowPassword}
+									>
+										{renderPasswordVisibilityIcon(
+											showPassword
+										)}
+									</IconButton>
+								</InputAdornment>
+							),
+						}}
 						hiddenLabel
 						variant={'filled'}
 						placeholder={'Password'}
 						size={isSmallerThan600 ? 'small' : 'medium'}
-						fullWidth={true}
 						sx={{
-							borderRadius: '5px',
-							border: 'none',
-							width: {
-								xs: '80%',
-								sm: '250px',
-							},
-							margin: '5px',
-							backgroundColor: 'white',
-							'& .MuiFilledInput-underline:before': {
-								borderBottom: 'none',
-							},
-							'& .MuiFilledInput-underline:after': {
-								borderBottom: 'none',
-							},
-							'& .MuiFilledInput-underline:hover:not(.Mui-disabled):before':
-								{
-									borderBottom: 'none',
-								},
+							width: '200px',
+							marginTop: '5px',
 						}}
-						type="password"
+						required
 						{...register('password')}
 					/>
 					<Button
 						variant="contained"
 						sx={{
-							height: {
-								xs: '60px',
-								sm: '40px',
-							},
-							width: '150px',
 							marginTop: '10px',
 							backgroundColor: theme.palette.otherColor.mainBlue,
 						}}
@@ -174,22 +172,46 @@ export const LoginPage = () => {
 					>
 						Login
 					</Button>
-					<Button
-						variant="contained"
+					<Link
+						href="#"
 						sx={{
-							height: {
-								xs: '60px',
-								sm: '40px',
-							},
-							width: '150px',
 							marginTop: '10px',
-							backgroundColor: theme.palette.otherColor.mainBlue,
+							color: 'black',
+							fontFamily: 'Montserrat',
+							textDecoration: 'underline',
+							fontWeight: 400,
 						}}
 					>
-						Register
-					</Button>
+						Forgot password?
+					</Link>
+					<Box mt={'10px'} display={'flex'} alignItems={'center'}>
+						<Typography
+							sx={{
+								color: 'black',
+								fontFamily: 'Montserrat',
+								marginRight: 0,
+								paddingRight: 0,
+								fontWeight: 400,
+							}}
+						>
+							Don&apos;t have an account?
+						</Typography>
+						<Link
+							href="#"
+							sx={{
+								paddingLeft: '3px',
+								fontFamily: 'Montserrat',
+								marginLeft: 0,
+								color: 'black',
+								textDecoration: 'underline',
+								fontWeight: 400,
+							}}
+						>
+							Sign up
+						</Link>
+					</Box>
 				</form>
-			</Box>
+			</Paper>
 		</Container>
 	);
 };
