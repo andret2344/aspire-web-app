@@ -1,5 +1,4 @@
 import { Container, Paper, Typography } from '@mui/material';
-import { theme } from './theme';
 import React from 'react';
 import '../assets/fonts.css';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -69,7 +68,7 @@ export const AuthComponent: React.FC<React.ReactNode> = ({ children }) => {
 						fontWeight: 700,
 						fontSize: '45px',
 						letterSpacing: '.3rem',
-						color: theme.palette.otherColor.mainBlue,
+						color: 'primary.main',
 						textDecoration: 'none',
 					}}
 				>

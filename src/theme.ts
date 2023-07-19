@@ -1,10 +1,19 @@
 import { createTheme } from '@mui/material';
 
-export const theme = createTheme({
+export const lightTheme = createTheme({
 	palette: {
-		otherColor: {
-			mainBlue: '#026DD1',
-			raspberryPink: '#D84797',
+		mode: 'light',
+		primary: {
+			main: '#026DD1',
+		},
+	},
+});
+
+export const darkTheme = createTheme({
+	palette: {
+		mode: 'dark',
+		primary: {
+			main: '#026DD1',
 		},
 	},
 });

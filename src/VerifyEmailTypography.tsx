@@ -6,7 +6,6 @@ export const VerifyEmailTypography = (props: TypographyProps) => {
 		<Typography
 			align={'center'}
 			sx={{
-				color: 'black',
 				fontFamily: 'Montserrat',
 				fontWeight: 400,
 				marginTop: '10px',
