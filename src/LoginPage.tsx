@@ -7,14 +7,15 @@ import {
 	TextField,
 	Typography,
 	useMediaQuery,
+	useTheme,
 } from '@mui/material';
-import { theme } from './theme';
 import { FieldValues, useForm } from 'react-hook-form';
 import React from 'react';
 import '../assets/fonts.css';
 import { AuthComponent, renderPasswordVisibilityIcon } from './AuthComponent';
 
 export const LoginPage = () => {
+	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
@@ -83,7 +84,6 @@ export const LoginPage = () => {
 					variant="contained"
 					sx={{
 						marginTop: '10px',
-						backgroundColor: theme.palette.otherColor.mainBlue,
 					}}
 					type={'submit'}
 				>
@@ -93,7 +93,6 @@ export const LoginPage = () => {
 					href="#"
 					sx={{
 						marginTop: '10px',
-						color: 'black',
 						fontFamily: 'Montserrat',
 						textDecoration: 'underline',
 						fontWeight: 400,
@@ -104,7 +103,6 @@ export const LoginPage = () => {
 				<Box mt={'10px'} display={'flex'} alignItems={'center'}>
 					<Typography
 						sx={{
-							color: 'black',
 							fontFamily: 'Montserrat',
 							marginRight: 0,
 							paddingRight: 0,
@@ -119,7 +117,6 @@ export const LoginPage = () => {
 							paddingLeft: '3px',
 							fontFamily: 'Montserrat',
 							marginLeft: 0,
-							color: 'black',
 							textDecoration: 'underline',
 							fontWeight: 400,
 						}}

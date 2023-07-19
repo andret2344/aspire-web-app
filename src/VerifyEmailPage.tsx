@@ -1,7 +1,6 @@
 import React from 'react';
 import { AuthComponent } from './AuthComponent';
 import { Box, Button, Link, Typography } from '@mui/material';
-import { theme } from './theme';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { VerifyEmailTypography } from './VerifyEmailTypography';
 
@@ -47,7 +46,6 @@ export const VerifyEmailPage = () => {
 				variant="contained"
 				sx={{
 					marginTop: '0px',
-					backgroundColor: theme.palette.otherColor.mainBlue,
 				}}
 				type={'submit'}
 			>
@@ -61,7 +59,6 @@ export const VerifyEmailPage = () => {
 			>
 				<Typography
 					sx={{
-						color: 'black',
 						fontFamily: 'Montserrat',
 						marginRight: 0,
 						paddingRight: 0,
@@ -76,7 +73,6 @@ export const VerifyEmailPage = () => {
 						paddingLeft: '3px',
 						fontFamily: 'Montserrat',
 						marginLeft: 0,
-						color: 'black',
 						textDecoration: 'underline',
 						fontWeight: 400,
 					}}

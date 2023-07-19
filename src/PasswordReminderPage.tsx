@@ -6,11 +6,12 @@ import {
 	TextField,
 	Typography,
 	useMediaQuery,
+	useTheme,
 } from '@mui/material';
-import { theme } from './theme';
 import { FieldValues, useForm } from 'react-hook-form';
 
 export const PasswordReminderPage = () => {
+	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 
 	const onSubmit = (data: FieldValues) => console.log(data);
@@ -23,7 +24,6 @@ export const PasswordReminderPage = () => {
 				<Typography
 					align={'center'}
 					sx={{
-						color: 'black',
 						fontFamily: 'Montserrat',
 						fontWeight: 400,
 					}}
@@ -59,7 +59,6 @@ export const PasswordReminderPage = () => {
 					variant="contained"
 					sx={{
 						marginTop: '10px',
-						backgroundColor: theme.palette.otherColor.mainBlue,
 					}}
 					type={'submit'}
 				>
