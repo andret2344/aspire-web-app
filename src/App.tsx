@@ -4,7 +4,7 @@ import { CssBaseline, IconButton, ThemeProvider } from '@mui/material';
 import { darkTheme, lightTheme } from './theme';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { LoginPage } from './LoginPage';
+import { WishlistListView } from './WishlistListView';
 
 export const App = () => {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
@@ -21,15 +21,15 @@ export const App = () => {
 
 	return (
 		<ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-			<CssBaseline />
 			<IconButton
-				color={'primary'}
+				color={'warning'}
 				sx={{ position: 'fixed', top: '5px', right: '5px' }}
 				onClick={toggleDarkMode}
 			>
 				{darkMode ? <LightModeIcon /> : <DarkModeIcon />}
 			</IconButton>
-			<LoginPage />
+			<CssBaseline />
+			<WishlistListView />
 		</ThemeProvider>
 	);
 };
