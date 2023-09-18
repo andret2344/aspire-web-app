@@ -4,7 +4,10 @@ import { CssBaseline, IconButton, ThemeProvider } from '@mui/material';
 import { darkTheme, lightTheme } from './theme';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { Route, Routes } from 'react-router-dom';
 import { WishlistListView } from './WishlistListView';
+import { LoginPage } from './LoginPage';
+import { ErrorPage } from './ErrorPage';
 
 export const App = () => {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
@@ -29,7 +32,11 @@ export const App = () => {
 				{darkMode ? <LightModeIcon /> : <DarkModeIcon />}
 			</IconButton>
 			<CssBaseline />
-			<WishlistListView />
+			<Routes>
+				<Route path={'/'} element={<LoginPage />} />
+				<Route path={'wishlists'} element={<WishlistListView />} />
+				<Route path={'*'} element={<ErrorPage />} />
+			</Routes>
 		</ThemeProvider>
 	);
 };
