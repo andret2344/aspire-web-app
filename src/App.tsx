@@ -8,6 +8,7 @@ import { Route, Routes } from 'react-router-dom';
 import { WishlistListView } from './WishlistListView';
 import { LoginPage } from './LoginPage';
 import { ErrorPage } from './ErrorPage';
+import { ProfilePage } from './ProfilePage';
 
 export const App = () => {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
@@ -35,6 +36,7 @@ export const App = () => {
 			<Routes>
 				<Route path={'/'} element={<LoginPage />} />
 				<Route path={'wishlists'} element={<WishlistListView />} />
+				<Route path={'profile'} element={<ProfilePage />} />
 				<Route path={'*'} element={<ErrorPage />} />
 			</Routes>
 		</ThemeProvider>
