@@ -12,8 +12,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ListItem } from './Entity/ListItem';
-import { getPriorityColor } from './theme';
 import React from 'react';
+import { PriorityBadge } from './PriorityBadge';
 
 interface RowProps {
 	row: ListItem;
@@ -53,22 +53,7 @@ const Row: React.FC<RowProps> = (props: RowProps) => {
 							alignItems: 'center',
 						}}
 					>
-						<Box
-							sx={{
-								backgroundColor: getPriorityColor(1),
-								borderRadius: '50%',
-								width: '40px',
-								height: '40px',
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}
-						>
-							<Typography color={'black'}>
-								{props.row.priorityId}
-							</Typography>
-						</Box>
+						<PriorityBadge priorityId={3} />
 					</Box>
 				</TableCell>
 				<TableCell>
