@@ -11,12 +11,12 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ListItem } from './Entity/ListItem';
+import { WishlistItem } from './Entity/WishlistItem';
 import React from 'react';
 import { PriorityBadge } from './PriorityBadge';
 
 interface RowProps {
-	row: ListItem;
+	readonly row: WishlistItem;
 }
 
 const Row: React.FC<RowProps> = (props: RowProps) => {
@@ -43,7 +43,7 @@ const Row: React.FC<RowProps> = (props: RowProps) => {
 					</IconButton>
 				</TableCell>
 				<TableCell align="left">{props.row.id}</TableCell>
-				<TableCell align="left">{props.row.title}</TableCell>
+				<TableCell align="left">{props.row.name}</TableCell>
 				<TableCell align="center">
 					<Box
 						sx={{

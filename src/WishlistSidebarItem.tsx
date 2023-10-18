@@ -2,9 +2,11 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { getThemeColor } from './theme';
 
-export const WishlistSidebarItem = () => {
-	const wishlistNamePlaceholder = 'Jan wishlist';
+interface WishlistSidebarItemProps {
+	name: string;
+}
 
+export const WishlistSidebarItem = (props: WishlistSidebarItemProps) => {
 	const handleClick = () => {
 		console.log('Wishlist listing item clicked');
 	};
@@ -38,7 +40,7 @@ export const WishlistSidebarItem = () => {
 					fontWeight: 500,
 				}}
 			>
-				{wishlistNamePlaceholder}
+				{props.name}
 			</Typography>
 		</Box>
 	);

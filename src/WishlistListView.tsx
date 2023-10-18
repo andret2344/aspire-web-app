@@ -15,16 +15,37 @@ import {
 import React from 'react';
 import '../assets/fonts.css';
 import Grid from '@mui/material/Unstable_Grid2';
-import { WishlistSidebarItem } from './WishlistSidebarItem';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { ListItem } from './Entity/ListItem';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getThemeColor } from './theme';
 import Row from './Row';
+import { WishList } from './Entity/WishList';
+import { WishlistSidebarItem } from './WishlistSidebarItem';
+import { firstWishlistItems } from './Entity/WishlistItem';
+import { getWishlists } from './Services/WishListService';
 
 export const WishlistListView = () => {
+	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
+	const renderWishlistSidebarItem = (
+		wishList: WishList
+	): React.ReactElement => {
+		return <WishlistSidebarItem name={wishList.name} />;
+	};
+
+	const fetchData = async (): Promise<WishList[]> => {
+		return await getWishlists();
+	};
+
+	React.useEffect(() => {
+		fetchData().then(setWishlists);
+	}, []);
+
+	const addNewWishlist = async () => {
+		// add new wishlist in future
+	};
+
 	return (
 		<Box
 			sx={{
@@ -74,11 +95,9 @@ export const WishlistListView = () => {
 					xs={12}
 					md={3}
 				>
-					<WishlistSidebarItem />
-					<WishlistSidebarItem />
-					<WishlistSidebarItem />
-					<WishlistSidebarItem />
+					{wishlists?.map(renderWishlistSidebarItem)}
 					<Button
+						onClick={addNewWishlist}
 						variant={'outlined'}
 						sx={{ margin: '15px' }}
 						startIcon={<AddCircleOutlineIcon />}
@@ -141,8 +160,11 @@ export const WishlistListView = () => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{rows.map((row) => (
-									<Row key={row.id} row={row} />
+								{firstWishlistItems.map((wishlistItem) => (
+									<Row
+										key={wishlistItem.id}
+										row={wishlistItem}
+									/>
 								))}
 							</TableBody>
 						</Table>
@@ -152,25 +174,3 @@ export const WishlistListView = () => {
 		</Box>
 	);
 };
-
-const rows: ListItem[] = [
-	{
-		id: 1,
-		title: 'Papier toaletowy',
-		description: 'KONIECZNIE',
-		priorityId: 1,
-	},
-	{
-		id: 2,
-		title: 'Posciel',
-		description: '220x200',
-		priorityId: 2,
-	},
-	{
-		id: 3,
-		title: 'Wyjazd na mecz',
-		description:
-			'Musze sie jeszcze nad tym zastanowic, to bardzo duzy wydatek',
-		priorityId: 3,
-	},
-];

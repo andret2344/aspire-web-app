@@ -13,6 +13,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import React from 'react';
 import '../assets/fonts.css';
 import { AuthComponent, renderPasswordVisibilityIcon } from './AuthComponent';
+import { logIn } from './Services/AuthService';
 
 export const LoginPage = () => {
 	const theme = useTheme();
@@ -25,7 +26,7 @@ export const LoginPage = () => {
 
 	const { register, handleSubmit } = useForm();
 
-	const onSubmit = (data: FieldValues) => console.log(data);
+	const onSubmit = (data: FieldValues) => logIn(data.email, data.password);
 
 	return (
 		<AuthComponent>
