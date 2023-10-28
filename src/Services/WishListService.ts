@@ -1,24 +1,10 @@
-import axios, { isAxiosError } from 'axios';
-import { getToken } from './AuthService';
+import { isAxiosError } from 'axios';
 import { WishList } from '../Entity/WishList';
-
-const axiosInstance = axios.create();
+import apiInstance from './ApiInstance';
 
 export const getWishlists = async (): Promise<WishList[]> => {
-	const token = await getToken();
-
 	try {
-		const result = await axiosInstance.get<WishList[]>(
-			'http://localhost:8080/api/wishlist/',
-			{
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		);
-
+		const result = await apiInstance.get<WishList[]>('/wishlist/');
 		return result.data;
 	} catch (err) {
 		if (isAxiosError(err)) {

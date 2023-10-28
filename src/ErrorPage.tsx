@@ -12,7 +12,7 @@ export const ErrorPage = () => {
 				alignItems: 'center',
 			}}
 		>
-			<Typography variant={'h4'}>Page not found.</Typography>
+			<Typography variant={'h4'}>Something went wrong.</Typography>
 		</Box>
 	);
 };

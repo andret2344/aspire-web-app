@@ -38,6 +38,7 @@ export const App = () => {
 				<Route path={'wishlists'} element={<WishlistListView />} />
 				<Route path={'profile'} element={<ProfilePage />} />
 				<Route path={'*'} element={<ErrorPage />} />
+				<Route path={'error'} element={<ErrorPage />} />
 			</Routes>
 		</ThemeProvider>
 	);

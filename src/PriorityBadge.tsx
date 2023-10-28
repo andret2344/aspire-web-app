@@ -15,21 +15,23 @@ export const PriorityBadge = (props: PriorityBadgeProps) => {
 
 	return (
 		<Tooltip title={priority.description}>
-			<Box
-				sx={{
-					backgroundColor: priority.color,
-					borderRadius: '50%',
-					width: '40px',
-					height: '40px',
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}
-				title={priority.description}
-			>
-				<Typography color={'black'}>{priority.value}</Typography>
-			</Box>
+			<div>
+				<Box
+					sx={{
+						backgroundColor: priority.color,
+						borderRadius: '50%',
+						width: '40px',
+						height: '40px',
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
+					title={priority.description}
+				>
+					<Typography color={'black'}>{priority.value}</Typography>
+				</Box>
+			</div>
 		</Tooltip>
 	);
 };
