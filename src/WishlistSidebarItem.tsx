@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { getThemeColor } from './theme';
+import { WishList } from './Entity/WishList';
 
 interface WishlistSidebarItemProps {
-	name: string;
+	readonly wishlist: WishList;
 }
 
 export const WishlistSidebarItem = (props: WishlistSidebarItemProps) => {
@@ -40,7 +41,7 @@ export const WishlistSidebarItem = (props: WishlistSidebarItemProps) => {
 					fontWeight: 500,
 				}}
 			>
-				{props.name}
+				{props.wishlist.name}
 			</Typography>
 		</Box>
 	);

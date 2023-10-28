@@ -53,7 +53,7 @@ const Row: React.FC<RowProps> = (props: RowProps) => {
 							alignItems: 'center',
 						}}
 					>
-						<PriorityBadge priorityId={3} />
+						<PriorityBadge priorityId={2} />
 					</Box>
 				</TableCell>
 				<TableCell>

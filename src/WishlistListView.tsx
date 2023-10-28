@@ -31,7 +31,7 @@ export const WishlistListView = () => {
 	const renderWishlistSidebarItem = (
 		wishList: WishList
 	): React.ReactElement => {
-		return <WishlistSidebarItem name={wishList.name} />;
+		return <WishlistSidebarItem key={wishList.id} wishlist={wishList} />;
 	};
 
 	const fetchData = async (): Promise<WishList[]> => {
