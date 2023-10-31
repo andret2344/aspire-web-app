@@ -4,7 +4,7 @@ import {
 	IconButton,
 	TableCell,
 	TableRow,
-	Typography,
+	Typography
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -19,16 +19,19 @@ interface RowProps {
 	readonly row: WishlistItem;
 }
 
-const Row: React.FC<RowProps> = (props: RowProps) => {
+const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 	const [open, setOpen] = React.useState(false);
 
-	const handleToggleExpandButton = () => {
-		setOpen((prevOpen) => !prevOpen);
+	const handleToggleExpandButton = (): void => {
+		setOpen((prevOpen: boolean) => !prevOpen);
 	};
 
-	function ExpandButton() {
-		return open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />;
-	}
+	const renderExpandButton = (): React.ReactElement => {
+		if (open) {
+			return <KeyboardArrowUpIcon/>;
+		}
+		return <KeyboardArrowDownIcon/>;
+	};
 
 	return (
 		<React.Fragment>
@@ -39,7 +42,7 @@ const Row: React.FC<RowProps> = (props: RowProps) => {
 						size="small"
 						onClick={handleToggleExpandButton}
 					>
-						<ExpandButton />
+						{renderExpandButton()}
 					</IconButton>
 				</TableCell>
 				<TableCell align="left">{props.row.id}</TableCell>
@@ -50,10 +53,10 @@ const Row: React.FC<RowProps> = (props: RowProps) => {
 							display: 'flex',
 							flexDirection: 'row',
 							justifyContent: 'center',
-							alignItems: 'center',
+							alignItems: 'center'
 						}}
 					>
-						<PriorityBadge priorityId={2} />
+						<PriorityBadge priorityId={2}/>
 					</Box>
 				</TableCell>
 				<TableCell>
@@ -62,19 +65,19 @@ const Row: React.FC<RowProps> = (props: RowProps) => {
 							sx={{ marginLeft: '15px' }}
 							aria-label={'share'}
 						>
-							<ShareIcon fontSize={'large'} />
+							<ShareIcon fontSize={'large'}/>
 						</IconButton>
 						<IconButton
 							sx={{ marginLeft: '15px' }}
 							aria-label={'edit'}
 						>
-							<EditIcon fontSize={'large'} />
+							<EditIcon fontSize={'large'}/>
 						</IconButton>
 						<IconButton
 							sx={{ marginLeft: '15px', marginRight: '20px' }}
 							aria-label={'delete'}
 						>
-							<DeleteIcon fontSize={'large'} />
+							<DeleteIcon fontSize={'large'}/>
 						</IconButton>
 					</Box>
 				</TableCell>

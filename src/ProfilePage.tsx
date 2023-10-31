@@ -9,7 +9,7 @@ import {
 import Grid from '@mui/material/Unstable_Grid2';
 import React from 'react';
 
-export const ProfilePage = () => {
+export const ProfilePage: React.FC = (): React.ReactElement => {
 	return (
 		<Box
 			sx={{

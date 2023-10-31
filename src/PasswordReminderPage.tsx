@@ -10,11 +10,11 @@ import {
 } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
 
-export const PasswordReminderPage = () => {
+export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 
-	const onSubmit = (data: FieldValues) => console.log(data);
+	const onSubmit = (data: FieldValues): void => console.log(data);
 
 	const { register, handleSubmit } = useForm();
 

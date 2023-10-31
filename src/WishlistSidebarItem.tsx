@@ -7,8 +7,8 @@ interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
 }
 
-export const WishlistSidebarItem = (props: WishlistSidebarItemProps) => {
-	const handleClick = () => {
+export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (props: WishlistSidebarItemProps): React.ReactElement => {
+	const handleClick = (): void => {
 		console.log('Wishlist listing item clicked');
 	};
 
@@ -26,11 +26,11 @@ export const WishlistSidebarItem = (props: WishlistSidebarItemProps) => {
 				marginTop: '15px',
 				width: {
 					xs: '100%',
-					md: '80%',
+					md: '80%'
 				},
 				'&:hover': {
-					backgroundColor: 'rgba(0, 109, 209, 0.4)',
-				},
+					backgroundColor: 'rgba(0, 109, 209, 0.4)'
+				}
 			})}
 		>
 			<Typography
@@ -38,7 +38,7 @@ export const WishlistSidebarItem = (props: WishlistSidebarItemProps) => {
 					margin: '10px',
 					fontFamily: 'Montserrat',
 					fontSize: '25px',
-					fontWeight: 500,
+					fontWeight: 500
 				}}
 			>
 				{props.wishlist.name}

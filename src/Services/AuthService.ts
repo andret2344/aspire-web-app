@@ -2,9 +2,10 @@ import { isAxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import apiInstance from './ApiInstance';
 
-const ACCESS_TOKEN = 'accessToken';
-const REFRESH_TOKEN = 'refreshToken';
-export const logIn = async (email: string, password: string) => {
+const ACCESS_TOKEN: string = 'accessToken';
+const REFRESH_TOKEN: string = 'refreshToken';
+
+export const logIn = async (email: string, password: string): Promise<number | null> => {
 	if (!email || !password) {
 		return null;
 	}
@@ -22,11 +23,11 @@ export const logIn = async (email: string, password: string) => {
 	}
 };
 
-const saveAccessTokenInLocalStorage = (accessToken: string) => {
+const saveAccessTokenInLocalStorage = (accessToken: string): void => {
 	localStorage.setItem(ACCESS_TOKEN, accessToken);
 };
 
-const saveRefreshTokenInCookies = (refreshToken: string) => {
+const saveRefreshTokenInCookies = (refreshToken: string): void => {
 	Cookies.set(REFRESH_TOKEN, refreshToken);
 };
 

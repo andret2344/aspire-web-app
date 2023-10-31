@@ -9,19 +9,19 @@ export interface Priority {
 const PRIORITY_HIGH: Priority = {
 	value: 1,
 	color: getPriorityColor(1),
-	description: 'Bardzo tego potrzebuję, pilny, niemalże krytyczna potrzeba.',
+	description: 'Bardzo tego potrzebuję, pilny, niemalże krytyczna potrzeba.'
 };
 
 const PRIORITY_MEDIUM: Priority = {
 	value: 2,
 	color: getPriorityColor(2),
-	description: 'Przydałoby mi się, gdyż często odczuwam brak.',
+	description: 'Przydałoby mi się, gdyż często odczuwam brak.'
 };
 
 const PRIORITY_LOW: Priority = {
 	value: 3,
 	color: getPriorityColor(3),
-	description: 'Jak już naprawdę nie ma innej możliwości, niech będzie.',
+	description: 'Jak już naprawdę nie ma innej możliwości, niech będzie.'
 };
 
 export function getAllPriorities(): Priority[] {

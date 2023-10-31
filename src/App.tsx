@@ -10,17 +10,17 @@ import { LoginPage } from './LoginPage';
 import { ErrorPage } from './ErrorPage';
 import { ProfilePage } from './ProfilePage';
 
-export const App = () => {
+export const App: React.FC = (): React.ReactElement => {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
 		localStorage.getItem('dark-mode') === 'true'
 	);
 
-	React.useEffect(() => {
+	React.useEffect((): void => {
 		localStorage.setItem('dark-mode', JSON.stringify(darkMode));
 	}, [darkMode]);
 
-	const toggleDarkMode = () => {
-		setDarkMode((prev) => !prev);
+	const toggleDarkMode = (): void => {
+		setDarkMode((prev: boolean): boolean => !prev);
 	};
 
 	return (
@@ -30,15 +30,15 @@ export const App = () => {
 				sx={{ position: 'fixed', top: '5px', right: '5px' }}
 				onClick={toggleDarkMode}
 			>
-				{darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+				{darkMode ? <LightModeIcon/> : <DarkModeIcon/>}
 			</IconButton>
-			<CssBaseline />
+			<CssBaseline/>
 			<Routes>
-				<Route path={'/'} element={<LoginPage />} />
-				<Route path={'wishlists'} element={<WishlistListView />} />
-				<Route path={'profile'} element={<ProfilePage />} />
-				<Route path={'*'} element={<ErrorPage />} />
-				<Route path={'error'} element={<ErrorPage />} />
+				<Route path={'/'} element={<LoginPage/>}/>
+				<Route path={'wishlists'} element={<WishlistListView/>}/>
+				<Route path={'profile'} element={<ProfilePage/>}/>
+				<Route path={'*'} element={<ErrorPage/>}/>
+				<Route path={'error'} element={<ErrorPage/>}/>
 			</Routes>
 		</ThemeProvider>
 	);
