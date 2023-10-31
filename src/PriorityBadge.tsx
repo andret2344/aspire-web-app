@@ -6,7 +6,7 @@ interface PriorityBadgeProps {
 	readonly priorityId: number;
 }
 
-export const PriorityBadge = (props: PriorityBadgeProps) => {
+export const PriorityBadge: React.FC<PriorityBadgeProps> = (props: PriorityBadgeProps): React.ReactElement | null => {
 	const priority: Priority | undefined = getPriority(props.priorityId);
 
 	if (!priority) {

@@ -16,20 +16,20 @@ import { AuthComponent, renderPasswordVisibilityIcon } from './AuthComponent';
 import { logIn } from './Services/AuthService';
 import { useNavigate } from 'react-router-dom';
 
-export const LoginPage = () => {
+export const LoginPage: React.FC = (): React.ReactElement => {
 	const navigate = useNavigate();
 	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
-	const handleClickShowPassword = () => {
-		setShowPassword((prev) => !prev);
+	const handleClickShowPassword = (): void => {
+		setShowPassword((prev: boolean): boolean => !prev);
 	};
 
 	const { register, handleSubmit } = useForm();
 
-	const onSubmit = (data: FieldValues) =>
-		logIn(data.email, data.password).then(() => navigate('/wishlists'));
+	const onSubmit = (data: FieldValues): Promise<void> =>
+		logIn(data.email, data.password).then((): void => navigate('/wishlists'));
 
 	return (
 		<AuthComponent>

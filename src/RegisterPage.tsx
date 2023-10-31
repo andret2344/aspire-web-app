@@ -14,24 +14,24 @@ import { FieldValues, useForm } from 'react-hook-form';
 import '../assets/fonts.css';
 import { AuthComponent, renderPasswordVisibilityIcon } from './AuthComponent';
 
-export const RegisterPage = () => {
+export const RegisterPage: React.FC = (): React.ReactElement => {
 	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const [showPasswordRepeat, setShowPasswordRepeat] =
 		React.useState<boolean>(false);
 
-	const handleClickShowPassword = () => {
-		setShowPassword((prev) => !prev);
+	const handleClickShowPassword = (): void => {
+		setShowPassword((prev: boolean): boolean => !prev);
 	};
 
-	const handleClickShowPasswordRepeat = () => {
-		setShowPasswordRepeat((prev) => !prev);
+	const handleClickShowPasswordRepeat = (): void => {
+		setShowPasswordRepeat((prev: boolean): boolean => !prev);
 	};
 
 	const { register, handleSubmit } = useForm();
 
-	const onSubmit = (data: FieldValues) => console.log(data);
+	const onSubmit = (data: FieldValues): void => console.log(data);
 
 	return (
 		<AuthComponent>

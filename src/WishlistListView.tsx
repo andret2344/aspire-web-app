@@ -10,7 +10,7 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
-	Typography,
+	Typography
 } from '@mui/material';
 import React from 'react';
 import '../assets/fonts.css';
@@ -26,23 +26,23 @@ import { WishlistSidebarItem } from './WishlistSidebarItem';
 import { firstWishlistItems } from './Entity/WishlistItem';
 import { getWishlists } from './Services/WishListService';
 
-export const WishlistListView = () => {
+export const WishlistListView: React.FC = (): React.ReactElement => {
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
 	const renderWishlistSidebarItem = (
 		wishList: WishList
 	): React.ReactElement => {
-		return <WishlistSidebarItem key={wishList.id} wishlist={wishList} />;
+		return <WishlistSidebarItem key={wishList.id} wishlist={wishList}/>;
 	};
 
 	const fetchData = async (): Promise<WishList[]> => {
 		return await getWishlists();
 	};
 
-	React.useEffect(() => {
+	React.useEffect((): void => {
 		fetchData().then(setWishlists);
 	}, []);
 
-	const addNewWishlist = async () => {
+	const addNewWishlist = async (): Promise<void> => {
 		// add new wishlist in future
 	};
 
@@ -52,7 +52,7 @@ export const WishlistListView = () => {
 				display: 'flex',
 				flexDirection: 'column',
 				minHeight: '100vh',
-				padding: '0px',
+				padding: '0px'
 			}}
 		>
 			<Container
@@ -71,7 +71,7 @@ export const WishlistListView = () => {
 						fontSize: '35px',
 						letterSpacing: '.3rem',
 						color: 'white',
-						textDecoration: 'none',
+						textDecoration: 'none'
 					}}
 				>
 					wishlist
@@ -90,7 +90,7 @@ export const WishlistListView = () => {
 						flexDirection: 'column',
 						justifyContent: 'flex-start',
 						alignItems: 'center',
-						borderRight: `2px solid ${theme.palette.divider}`,
+						borderRight: `2px solid ${theme.palette.divider}`
 					})}
 					xs={12}
 					md={3}
@@ -100,7 +100,7 @@ export const WishlistListView = () => {
 						onClick={addNewWishlist}
 						variant={'outlined'}
 						sx={{ margin: '15px' }}
-						startIcon={<AddCircleOutlineIcon />}
+						startIcon={<AddCircleOutlineIcon/>}
 					>
 						Add new wishlist
 					</Button>
@@ -117,7 +117,7 @@ export const WishlistListView = () => {
 								theme.palette.mode === 'dark'
 									? ''
 									: getThemeColor(theme, 'lightBlue'),
-							borderTop: '2px #FFFFFF',
+							borderTop: '2px #FFFFFF'
 						})}
 					>
 						<Typography sx={{ marginLeft: '50px' }}>
@@ -128,19 +128,19 @@ export const WishlistListView = () => {
 								sx={{ marginLeft: '15px' }}
 								aria-label={'share'}
 							>
-								<ShareIcon fontSize={'large'} />
+								<ShareIcon fontSize={'large'}/>
 							</IconButton>
 							<IconButton
 								sx={{ marginLeft: '15px' }}
 								aria-label={'share'}
 							>
-								<EditIcon fontSize={'large'} />
+								<EditIcon fontSize={'large'}/>
 							</IconButton>
 							<IconButton
 								sx={{ marginLeft: '15px', marginRight: '20px' }}
 								aria-label={'share'}
 							>
-								<DeleteIcon fontSize={'large'} />
+								<DeleteIcon fontSize={'large'}/>
 							</IconButton>
 						</Box>
 					</Box>
@@ -148,7 +148,7 @@ export const WishlistListView = () => {
 						<Table aria-label="collapsible table">
 							<TableHead>
 								<TableRow>
-									<TableCell width={'5%'} align="left" />
+									<TableCell width={'5%'} align="left"/>
 									<TableCell align="left">Id</TableCell>
 									<TableCell align="left">Name</TableCell>
 									<TableCell width={'10%'} align="center">
