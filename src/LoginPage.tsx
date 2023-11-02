@@ -7,14 +7,15 @@ import {
 	TextField,
 	Typography,
 	useMediaQuery,
-	useTheme,
+	useTheme
 } from '@mui/material';
-import { FieldValues, useForm } from 'react-hook-form';
+import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
 import '../assets/fonts.css';
-import { AuthComponent, renderPasswordVisibilityIcon } from './AuthComponent';
-import { logIn } from './Services/AuthService';
-import { useNavigate } from 'react-router-dom';
+import {AuthComponent} from './AuthComponent';
+import {logIn} from './Services/AuthService';
+import {useNavigate} from 'react-router-dom';
+import {RenderPasswordVisibilityIcon} from './PasswordVisibilityIcon';
 
 export const LoginPage: React.FC = (): React.ReactElement => {
 	const navigate = useNavigate();
@@ -26,10 +27,19 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 		setShowPassword((prev: boolean): boolean => !prev);
 	};
 
-	const { register, handleSubmit } = useForm();
+	const {register, handleSubmit} = useForm();
 
-	const onSubmit = (data: FieldValues): Promise<void> =>
-		logIn(data.email, data.password).then((): void => navigate('/wishlists'));
+	const onSubmit = async (data: FieldValues): Promise<void> => {
+		await logIn(data.email, data.password).then((response: number) => {
+			if ([200, 201].includes(response)) {
+				navigate('/wishlists');
+			} else {
+				console.error(
+					`Wrong username or password, to do in feature with modal :)`
+				);
+			}
+		});
+	};
 
 	return (
 		<AuthComponent>
@@ -39,9 +49,9 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
-					alignItems: 'center',
+					alignItems: 'center'
 				}}
-				className="loginForm"
+				className='loginForm'
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<TextField
@@ -51,27 +61,29 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
-						marginTop: '5px',
+						marginTop: '5px'
 					}}
 					type={'email'}
-					{...register('email', { required: true })}
+					{...register('email', {required: true})}
 				/>
 				<TextField
 					type={showPassword ? 'text' : 'password'}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment
-								position="end"
-								sx={{ margin: 0, padding: 0 }}
+								position='end'
+								sx={{margin: 0, padding: 0}}
 							>
 								<IconButton
-									sx={{ margin: 0, padding: 0 }}
+									sx={{margin: 0, padding: 0}}
 									onClick={handleClickShowPassword}
 								>
-									{renderPasswordVisibilityIcon(showPassword)}
+									<RenderPasswordVisibilityIcon
+										showPassword={showPassword}
+									/>
 								</IconButton>
 							</InputAdornment>
-						),
+						)
 					}}
 					hiddenLabel
 					variant={'filled'}
@@ -79,50 +91,54 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
-						marginTop: '5px',
+						marginTop: '5px'
 					}}
 					required
 					{...register('password')}
 				/>
 				<Button
-					variant="contained"
+					variant='contained'
 					sx={{
-						marginTop: '10px',
+						marginTop: '10px'
 					}}
 					type={'submit'}
 				>
 					Login
 				</Button>
 				<Link
-					href="#"
+					href='#'
 					sx={{
 						marginTop: '10px',
 						fontFamily: 'Montserrat',
 						textDecoration: 'underline',
-						fontWeight: 400,
+						fontWeight: 400
 					}}
 				>
 					Forgot password?
 				</Link>
-				<Box mt={'10px'} display={'flex'} alignItems={'center'}>
+				<Box
+					mt={'10px'}
+					display={'flex'}
+					alignItems={'center'}
+				>
 					<Typography
 						sx={{
 							fontFamily: 'Montserrat',
 							marginRight: 0,
 							paddingRight: 0,
-							fontWeight: 400,
+							fontWeight: 400
 						}}
 					>
 						Don&apos;t have an account?
 					</Typography>
 					<Link
-						href="#"
+						href='#'
 						sx={{
 							paddingLeft: '3px',
 							fontFamily: 'Montserrat',
 							marginLeft: 0,
 							textDecoration: 'underline',
-							fontWeight: 400,
+							fontWeight: 400
 						}}
 					>
 						Sign up

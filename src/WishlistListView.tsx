@@ -19,32 +19,90 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getThemeColor } from './theme';
+import {getThemeColor} from './theme';
 import Row from './Row';
-import { WishList } from './Entity/WishList';
-import { WishlistSidebarItem } from './WishlistSidebarItem';
-import { firstWishlistItems } from './Entity/WishlistItem';
-import { getWishlists } from './Services/WishListService';
+import {WishList} from './Entity/WishList';
+import {WishlistSidebarItem} from './WishlistSidebarItem';
+import {getWishlist, getWishlists} from './Services/WishListService';
+import {WishlistModal} from './WishlistModal';
+import {
+	Link as Anchor,
+	NavigateFunction,
+	useNavigate,
+	useParams
+} from 'react-router-dom';
+import {WishlistItem} from './Entity/WishlistItem';
 
 export const WishlistListView: React.FC = (): React.ReactElement => {
+	type Params = {id?: string};
+	const params: Params = useParams<Params>();
+	const navigate: NavigateFunction = useNavigate();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	const renderWishlistSidebarItem = (
-		wishList: WishList
-	): React.ReactElement => {
-		return <WishlistSidebarItem key={wishList.id} wishlist={wishList}/>;
+	const [wishlist, setWishlist] = React.useState<WishList | null>(null);
+	const [open, setOpen] = React.useState<boolean>(false);
+
+	const renderWishlistSidebarItems = (): React.ReactElement[] => {
+		return wishlists?.map((wishlist) => {
+			return (
+				<WishlistSidebarItem
+					key={wishlist.id}
+					wishlist={wishlist}
+				/>
+			);
+		});
 	};
 
-	const fetchData = async (): Promise<WishList[]> => {
+	const handleWishlistSelect = (id: number) => {
+		return <Anchor to={`/wishlists/${id}`} />;
+	};
+
+	const toggleModal = () => {
+		setOpen((prev) => !prev);
+	};
+
+	const fetchWishlists = async (): Promise<WishList[]> => {
 		return await getWishlists();
 	};
 
-	React.useEffect((): void => {
-		fetchData().then(setWishlists);
-	}, []);
+	const fetchSelectedWishlist = async (
+		id: number
+	): Promise<WishList | null> => {
+		console.log('test2, ', id);
+		return await getWishlist(id);
+	};
+
+	React.useEffect(() => {
+		console.log('useEffect running with id:', params.id);
+		fetchWishlists().then(setWishlists);
+
+		if (params.id) {
+			const id = parseInt(params.id, 10);
+			fetchSelectedWishlist(id)
+				.then((wishlist) => {
+					if (wishlist) {
+						setWishlist(wishlist);
+					} else {
+						navigate('/error');
+					}
+				})
+				.catch((error) => {
+					navigate('error');
+				});
+		} else {
+			setWishlist(null);
+		}
+	}, [params.id, navigate]);
 
 	const addNewWishlist = async (): Promise<void> => {
 		// add new wishlist in future
 	};
+
+	const renderWishlistItem = (wishlistItem: WishlistItem) => (
+		<Row
+			key={wishlistItem?.id}
+			row={wishlistItem}
+		/>
+	);
 
 	return (
 		<Box
@@ -57,13 +115,13 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 		>
 			<Container
 				maxWidth={false}
-				sx={{ backgroundColor: 'primary.main' }}
+				sx={{backgroundColor: 'primary.main'}}
 			>
 				<Typography
-					variant="h6"
+					variant='h6'
 					noWrap
-					component="a"
-					href="/"
+					component='a'
+					href='/wishlists'
 					sx={{
 						display: 'flex',
 						fontFamily: 'Courgette',
@@ -78,7 +136,7 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 				</Typography>
 			</Container>
 			<Grid
-				sx={{ flexGrow: 1 }}
+				sx={{flexGrow: 1}}
 				disableEqualOverflow={true}
 				container
 				columnSpacing={2}
@@ -95,17 +153,20 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 					xs={12}
 					md={3}
 				>
-					{wishlists?.map(renderWishlistSidebarItem)}
+					{renderWishlistSidebarItems()}
 					<Button
-						onClick={addNewWishlist}
+						onClick={toggleModal}
 						variant={'outlined'}
-						sx={{ margin: '15px' }}
-						startIcon={<AddCircleOutlineIcon/>}
+						sx={{margin: '15px'}}
+						startIcon={<AddCircleOutlineIcon />}
 					>
 						Add new wishlist
 					</Button>
 				</Grid>
-				<Grid xs={12} md={9}>
+				<Grid
+					xs={12}
+					md={9}
+				>
 					<Box
 						sx={(theme) => ({
 							height: '60px',
@@ -120,57 +181,67 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 							borderTop: '2px #FFFFFF'
 						})}
 					>
-						<Typography sx={{ marginLeft: '50px' }}>
-							Jan wishlist
+						<Typography sx={{marginLeft: '50px'}}>
+							{wishlist?.name}
 						</Typography>
-						<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+						<Box sx={{display: 'flex', flexDirection: 'row'}}>
 							<IconButton
-								sx={{ marginLeft: '15px' }}
+								sx={{marginLeft: '15px'}}
 								aria-label={'share'}
 							>
-								<ShareIcon fontSize={'large'}/>
+								<ShareIcon fontSize={'large'} />
 							</IconButton>
 							<IconButton
-								sx={{ marginLeft: '15px' }}
+								sx={{marginLeft: '15px'}}
 								aria-label={'share'}
 							>
-								<EditIcon fontSize={'large'}/>
+								<EditIcon fontSize={'large'} />
 							</IconButton>
 							<IconButton
-								sx={{ marginLeft: '15px', marginRight: '20px' }}
+								sx={{marginLeft: '15px', marginRight: '20px'}}
 								aria-label={'share'}
 							>
-								<DeleteIcon fontSize={'large'}/>
+								<DeleteIcon fontSize={'large'} />
 							</IconButton>
 						</Box>
 					</Box>
 					<TableContainer component={Paper}>
-						<Table aria-label="collapsible table">
+						<Table aria-label='collapsible table'>
 							<TableHead>
 								<TableRow>
-									<TableCell width={'5%'} align="left"/>
-									<TableCell align="left">Id</TableCell>
-									<TableCell align="left">Name</TableCell>
-									<TableCell width={'10%'} align="center">
+									<TableCell
+										width={'5%'}
+										align='left'
+									/>
+									<TableCell align='left'>Id</TableCell>
+									<TableCell align='left'>Name</TableCell>
+									<TableCell
+										width={'10%'}
+										align='center'
+									>
 										Priority
 									</TableCell>
-									<TableCell width={'10%'} align="center">
+									<TableCell
+										width={'10%'}
+										align='center'
+									>
 										Action
 									</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{firstWishlistItems.map((wishlistItem) => (
-									<Row
-										key={wishlistItem.id}
-										row={wishlistItem}
-									/>
-								))}
+								{wishlist?.wishlistItems?.map(
+									renderWishlistItem
+								)}
 							</TableBody>
 						</Table>
 					</TableContainer>
 				</Grid>
 			</Grid>
+			<WishlistModal
+				opened={open}
+				toggleModal={toggleModal}
+			/>
 		</Box>
 	);
 };

@@ -1,16 +1,10 @@
-import { Container, Paper, Typography } from '@mui/material';
+import {Container, Paper, Typography} from '@mui/material';
 import React from 'react';
 import '../assets/fonts.css';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-export const renderPasswordVisibilityIcon = (showPassword: boolean): React.ReactNode => {
-	if (showPassword) {
-		return <Visibility sx={{ margin: 0, padding: 0 }}/>;
-	}
-	return <VisibilityOff sx={{ margin: 0, padding: 0 }}/>;
-};
-
-export const AuthComponent: React.FC = (props: React.PropsWithChildren<{}>): React.ReactElement => {
+export const AuthComponent: React.FC<React.PropsWithChildren<{}>> = (
+	props: React.PropsWithChildren<{}>
+): React.ReactElement => {
 	return (
 		<Container
 			sx={{
@@ -57,10 +51,10 @@ export const AuthComponent: React.FC = (props: React.PropsWithChildren<{}>): Rea
 				}}
 			>
 				<Typography
-					variant="h6"
+					variant='h6'
 					noWrap
-					component="a"
-					href="/"
+					component='a'
+					href='/'
 					sx={{
 						display: 'flex',
 						fontFamily: 'Courgette',
