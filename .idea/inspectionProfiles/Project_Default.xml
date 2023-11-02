@@ -9,6 +9,7 @@
     <inspection_tool class="CloneInNonCloneableClass" enabled="true" level="WEAK WARNING" enabled_by_default="true" editorAttributes="INFO_ATTRIBUTES" />
     <inspection_tool class="CloneReturnsClassType" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ConditionalCanBeOptional" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
+    <inspection_tool class="ConditionalExpressionWithIdenticalBranchesJS" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ConfigurationAvoidance" enabled="true" level="INFORMATION" enabled_by_default="true" />
     <inspection_tool class="ConfusingElse" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES">
       <option name="reportWhenNoStatementFollow" value="true" />
@@ -18,6 +19,7 @@
     <inspection_tool class="ControlFlowStatementWithoutBraces" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
     <inspection_tool class="DiamondCanBeReplacedWithExplicitTypeArguments" enabled="false" level="INFORMATION" enabled_by_default="false" />
     <inspection_tool class="DoubleLiteralMayBeFloatLiteral" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="NOT_USED_ELEMENT_ATTRIBUTES" />
+    <inspection_tool class="DuplicateConditionJS" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <Languages>
         <language minSize="200" name="Kotlin" />
@@ -33,6 +35,10 @@
     <inspection_tool class="Finalize" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoreTrivialFinalizers" value="true" />
     </inspection_tool>
+    <inspection_tool class="IfStatementWithIdenticalBranchesJS" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="IfStatementWithTooManyBranchesJS" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="m_limit" value="3" />
+    </inspection_tool>
     <inspection_tool class="InconsistentLineSeparators" enabled="true" level="WEAK WARNING" enabled_by_default="true" editorAttributes="INFO_ATTRIBUTES" />
     <inspection_tool class="IncorrectFormatting" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
     <inspection_tool class="IncorrectHttpHeaderInspection" enabled="true" level="WARNING" enabled_by_default="true">
@@ -47,7 +53,9 @@
     <inspection_tool class="JSArrowFunctionBracesCanBeRemoved" enabled="false" level="WARNING" enabled_by_default="false" editorAttributes="NOT_USED_ELEMENT_ATTRIBUTES" />
     <inspection_tool class="JSConstructorReturnsPrimitive" enabled="true" level="ERROR" enabled_by_default="true" editorAttributes="ERRORS_ATTRIBUTES" />
     <inspection_tool class="JSFunctionExpressionToArrowFunction" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
-    <inspection_tool class="JSRemoveUnnecessaryParentheses" enabled="false" level="WARNING" enabled_by_default="false" editorAttributes="NOT_USED_ELEMENT_ATTRIBUTES" />
+    <inspection_tool class="JSMissingSwitchBranches" enabled="true" level="WEAK WARNING" enabled_by_default="true" editorAttributes="INFO_ATTRIBUTES" />
+    <inspection_tool class="JSMissingSwitchDefault" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
+    <inspection_tool class="JSRemoveUnnecessaryParentheses" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
     <inspection_tool class="JSStringConcatenationToES6Template" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
     <inspection_tool class="JavaLangImport" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="JoinDeclarationAndAssignmentJava" enabled="true" level="WEAK WARNING" enabled_by_default="true" editorAttributes="INFO_ATTRIBUTES" />
@@ -98,6 +106,7 @@
     <inspection_tool class="SingleStatementInBlock" enabled="false" level="INFORMATION" enabled_by_default="false" />
     <inspection_tool class="StaticNonFinalField" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="TypeParameterExtendsFinalClass" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="TypeScriptExplicitMemberType" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
     <inspection_tool class="UnnecessarilyQualifiedStaticUsage" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_ignoreStaticFieldAccesses" value="false" />
       <option name="m_ignoreStaticMethodCalls" value="false" />
