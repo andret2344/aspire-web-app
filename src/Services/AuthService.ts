@@ -5,9 +5,12 @@ import apiInstance from './ApiInstance';
 const ACCESS_TOKEN: string = 'accessToken';
 const REFRESH_TOKEN: string = 'refreshToken';
 
-export const logIn = async (email: string, password: string): Promise<number | null> => {
+export const logIn = async (
+	email: string,
+	password: string
+): Promise<number> => {
 	if (!email || !password) {
-		return null;
+		return 401;
 	}
 	try {
 		const result = await apiInstance.post(`/account/login/`, {

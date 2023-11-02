@@ -1,21 +1,21 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import { getThemeColor } from './theme';
-import { WishList } from './Entity/WishList';
+import {Box, Link, Typography} from '@mui/material';
+import {getThemeColor} from './theme';
+import {WishList} from './Entity/WishList';
+import {Link as Anchor} from 'react-router-dom';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
 }
 
-export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (props: WishlistSidebarItemProps): React.ReactElement => {
-	const handleClick = (): void => {
-		console.log('Wishlist listing item clicked');
-	};
-
+export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
+	props: WishlistSidebarItemProps
+): React.ReactElement => {
 	return (
-		<Box
-			onClick={handleClick}
+		<Link
 			sx={(theme) => ({
+				color: 'inherit',
+				textDecoration: 'none',
 				cursor: 'pointer',
 				display: 'flex',
 				flexDirection: 'column',
@@ -32,17 +32,22 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (props: W
 					backgroundColor: 'rgba(0, 109, 209, 0.4)'
 				}
 			})}
+			component={Anchor}
+			to={`/wishlists/${props.wishlist.id}`}
 		>
-			<Typography
-				sx={{
-					margin: '10px',
-					fontFamily: 'Montserrat',
-					fontSize: '25px',
-					fontWeight: 500
-				}}
-			>
-				{props.wishlist.name}
-			</Typography>
-		</Box>
+			<Box>
+				<Typography
+					sx={{
+						textDecoration: 'none',
+						margin: '10px',
+						fontFamily: 'Montserrat',
+						fontSize: '25px',
+						fontWeight: 500
+					}}
+				>
+					{props.wishlist.name}
+				</Typography>
+			</Box>
+		</Link>
 	);
 };

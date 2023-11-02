@@ -8,13 +8,13 @@ module.exports = {
 		hot: true,
 		open: true,
 		historyApiFallback: true,
-		port: 3000,
+		port: 3000
 	},
 	plugins: [
 		new ReactRefreshWebpackPlugin(),
 		new Dotenv({
 			path: `./.env.dev`,
-			systemvars: true,
-		}),
-	],
+			systemvars: true
+		})
+	]
 };
