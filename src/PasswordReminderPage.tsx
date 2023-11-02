@@ -1,31 +1,36 @@
 import React from 'react';
-import { AuthComponent } from './AuthComponent';
+import {AuthComponent} from './AuthComponent';
 import {
 	Box,
 	Button,
 	TextField,
+	Theme,
 	Typography,
 	useMediaQuery,
-	useTheme,
+	useTheme
 } from '@mui/material';
-import { FieldValues, useForm } from 'react-hook-form';
+import {FieldValues, useForm} from 'react-hook-form';
 
 export const PasswordReminderPage: React.FC = (): React.ReactElement => {
-	const theme = useTheme();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const theme: Theme = useTheme();
+	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
 
 	const onSubmit = (data: FieldValues): void => console.log(data);
 
-	const { register, handleSubmit } = useForm();
+	const {register, handleSubmit} = useForm();
 
 	return (
 		<AuthComponent>
-			<Box m={'10px'} display={'flex'} alignItems={'center'}>
+			<Box
+				m={'10px'}
+				display={'flex'}
+				alignItems={'center'}
+			>
 				<Typography
 					align={'center'}
 					sx={{
 						fontFamily: 'Montserrat',
-						fontWeight: 400,
+						fontWeight: 400
 					}}
 				>
 					Enter your e-mail and we&apos;ll send you a link to reset
@@ -38,9 +43,9 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
-					alignItems: 'center',
+					alignItems: 'center'
 				}}
-				className="reminderForm"
+				className='reminderForm'
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<TextField
@@ -50,15 +55,15 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
-						marginTop: '5px',
+						marginTop: '5px'
 					}}
 					type={'email'}
-					{...register('email', { required: true })}
+					{...register('email', {required: true})}
 				/>
 				<Button
-					variant="contained"
+					variant='contained'
 					sx={{
-						marginTop: '10px',
+						marginTop: '10px'
 					}}
 					type={'submit'}
 				>

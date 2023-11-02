@@ -34,7 +34,7 @@ export const getWishlist = async (id: number): Promise<WishList | null> => {
 
 export const addWishlist = async (): Promise<WishList | null> => {
 	try {
-		const result = await apiInstance.post('/wishlist/');
+		const result: AxiosResponse = await apiInstance.post('/wishlist/');
 		return result.data;
 	} catch (err) {
 		if (isAxiosError(err)) {

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import React from 'react';
 
 export const ErrorPage: React.FC = (): React.ReactElement => {

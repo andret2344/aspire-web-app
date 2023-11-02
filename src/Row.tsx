@@ -11,9 +11,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { WishlistItem } from './Entity/WishlistItem';
+import {WishlistItem} from './Entity/WishlistItem';
 import React from 'react';
-import { PriorityBadge } from './PriorityBadge';
+import {PriorityBadge} from './PriorityBadge';
 
 interface RowProps {
 	readonly row: WishlistItem;
@@ -28,26 +28,26 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 
 	const renderExpandButton = (): React.ReactElement => {
 		if (open) {
-			return <KeyboardArrowUpIcon/>;
+			return <KeyboardArrowUpIcon />;
 		}
-		return <KeyboardArrowDownIcon/>;
+		return <KeyboardArrowDownIcon />;
 	};
 
 	return (
 		<React.Fragment>
-			<TableRow sx={{ borderBottom: 'unset' }}>
+			<TableRow sx={{borderBottom: 'unset'}}>
 				<TableCell>
 					<IconButton
-						aria-label="expand row"
-						size="small"
+						aria-label='expand row'
+						size='small'
 						onClick={handleToggleExpandButton}
 					>
 						{renderExpandButton()}
 					</IconButton>
 				</TableCell>
-				<TableCell align="left">{props.row.id}</TableCell>
-				<TableCell align="left">{props.row.name}</TableCell>
-				<TableCell align="center">
+				<TableCell align='left'>{props.row.id}</TableCell>
+				<TableCell align='left'>{props.row.name}</TableCell>
+				<TableCell align='center'>
 					<Box
 						sx={{
 							display: 'flex',
@@ -56,40 +56,44 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 							alignItems: 'center'
 						}}
 					>
-						<PriorityBadge priorityId={2}/>
+						<PriorityBadge priorityId={2} />
 					</Box>
 				</TableCell>
 				<TableCell>
-					<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+					<Box sx={{display: 'flex', flexDirection: 'row'}}>
 						<IconButton
-							sx={{ marginLeft: '15px' }}
+							sx={{marginLeft: '15px'}}
 							aria-label={'share'}
 						>
-							<ShareIcon fontSize={'large'}/>
+							<ShareIcon fontSize={'large'} />
 						</IconButton>
 						<IconButton
-							sx={{ marginLeft: '15px' }}
+							sx={{marginLeft: '15px'}}
 							aria-label={'edit'}
 						>
-							<EditIcon fontSize={'large'}/>
+							<EditIcon fontSize={'large'} />
 						</IconButton>
 						<IconButton
-							sx={{ marginLeft: '15px', marginRight: '20px' }}
+							sx={{marginLeft: '15px', marginRight: '20px'}}
 							aria-label={'delete'}
 						>
-							<DeleteIcon fontSize={'large'}/>
+							<DeleteIcon fontSize={'large'} />
 						</IconButton>
 					</Box>
 				</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell
-					style={{ paddingBottom: 0, paddingTop: 0 }}
+					style={{paddingBottom: 0, paddingTop: 0}}
 					colSpan={6}
 				>
-					<Collapse in={open} timeout="auto" unmountOnExit>
-						<Box sx={{ margin: 1 }}>
-							<Typography component="div">
+					<Collapse
+						in={open}
+						timeout='auto'
+						unmountOnExit
+					>
+						<Box sx={{margin: 1}}>
+							<Typography component='div'>
 								{props.row.description}
 							</Typography>
 						</Box>

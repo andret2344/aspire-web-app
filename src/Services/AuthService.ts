@@ -1,4 +1,4 @@
-import { isAxiosError } from 'axios';
+import {isAxiosError} from 'axios';
 import Cookies from 'js-cookie';
 import apiInstance from './ApiInstance';
 
@@ -15,7 +15,7 @@ export const logIn = async (
 	try {
 		const result = await apiInstance.post(`/account/login/`, {
 			email,
-			password,
+			password
 		});
 
 		saveAccessTokenInLocalStorage(result.data.access);
@@ -45,7 +45,7 @@ export const getToken = () => {
 export const refreshToken = async () => {
 	try {
 		const result = await apiInstance.post('/account/login/refresh/', {
-			refresh: getRefreshTokenFromCookies(),
+			refresh: getRefreshTokenFromCookies()
 		});
 
 		saveAccessTokenInLocalStorage(result.data.access);

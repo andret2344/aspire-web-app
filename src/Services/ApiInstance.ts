@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { getToken, refreshToken } from './AuthService';
+import {getToken, refreshToken} from './AuthService';
 
-const baseUrl = process.env.REACT_APP_API_URL;
+const baseUrl: string | undefined = process.env.REACT_APP_API_URL;
 
 const apiInstance = axios.create({
 	baseURL: `${baseUrl}/api`,
 	headers: {
 		Accept: 'application/json',
-		'Content-Type': 'application/json',
-	},
+		'Content-Type': 'application/json'
+	}
 });
 
 apiInstance.interceptors.request.use(async (config) => {

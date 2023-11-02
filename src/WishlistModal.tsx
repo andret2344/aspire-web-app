@@ -4,6 +4,7 @@ import {
 	Modal,
 	Paper,
 	TextField,
+	Theme,
 	Typography,
 	useMediaQuery,
 	useTheme
@@ -16,8 +17,8 @@ interface WishlistModalProps {
 }
 
 export const WishlistModal = (props: WishlistModalProps) => {
-	const theme = useTheme();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const theme: Theme = useTheme();
+	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
 
 	return (
 		<Modal
