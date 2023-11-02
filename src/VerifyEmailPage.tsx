@@ -1,8 +1,8 @@
 import React from 'react';
-import { AuthComponent } from './AuthComponent';
-import { Box, Button, Link, Typography } from '@mui/material';
+import {AuthComponent} from './AuthComponent';
+import {Box, Button, Link, Typography} from '@mui/material';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import { VerifyEmailTypography } from './VerifyEmailTypography';
+import {VerifyEmailTypography} from './VerifyEmailTypography';
 
 export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 	const emailPlaceholder: string = 'andret@wishlist.com';
@@ -18,7 +18,7 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 				alignItems={'center'}
 				flexDirection={'column'}
 			>
-				<EmailOutlinedIcon sx={{ fontSize: '74px' }}/>
+				<EmailOutlinedIcon sx={{fontSize: '74px'}} />
 				<VerifyEmailTypography>
 					Please verify your e-mail.
 				</VerifyEmailTypography>
@@ -43,7 +43,7 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 			</Box>
 			<Button
 				onClick={handleClick}
-				variant="contained"
+				variant='contained'
 				sx={{
 					marginTop: '0px'
 				}}
@@ -68,7 +68,7 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 					Already verified?
 				</Typography>
 				<Link
-					href="#"
+					href='#'
 					sx={{
 						paddingLeft: '3px',
 						fontFamily: 'Montserrat',

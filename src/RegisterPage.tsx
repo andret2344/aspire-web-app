@@ -7,12 +7,13 @@ import {
 	TextField,
 	Typography,
 	useMediaQuery,
-	useTheme,
+	useTheme
 } from '@mui/material';
 import React from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import {FieldValues, useForm} from 'react-hook-form';
 import '../assets/fonts.css';
-import { AuthComponent, renderPasswordVisibilityIcon } from './AuthComponent';
+import {AuthComponent} from './AuthComponent';
+import {RenderPasswordVisibilityIcon} from './PasswordVisibilityIcon';
 
 export const RegisterPage: React.FC = (): React.ReactElement => {
 	const theme = useTheme();
@@ -29,7 +30,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 		setShowPasswordRepeat((prev: boolean): boolean => !prev);
 	};
 
-	const { register, handleSubmit } = useForm();
+	const {register, handleSubmit} = useForm();
 
 	const onSubmit = (data: FieldValues): void => console.log(data);
 
@@ -41,9 +42,9 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
-					alignItems: 'center',
+					alignItems: 'center'
 				}}
-				className="loginForm"
+				className='loginForm'
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<TextField
@@ -53,27 +54,29 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
-						marginTop: '5px',
+						marginTop: '5px'
 					}}
 					type={'email'}
-					{...register('email', { required: true })}
+					{...register('email', {required: true})}
 				/>
 				<TextField
 					type={showPassword ? 'text' : 'password'}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment
-								position="end"
-								sx={{ margin: 0, padding: 0 }}
+								position='end'
+								sx={{margin: 0, padding: 0}}
 							>
 								<IconButton
-									sx={{ margin: 0, padding: 0 }}
+									sx={{margin: 0, padding: 0}}
 									onClick={handleClickShowPassword}
 								>
-									{renderPasswordVisibilityIcon(showPassword)}
+									<RenderPasswordVisibilityIcon
+										showPassword={showPassword}
+									/>
 								</IconButton>
 							</InputAdornment>
-						),
+						)
 					}}
 					hiddenLabel
 					variant={'filled'}
@@ -81,7 +84,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
-						marginTop: '5px',
+						marginTop: '5px'
 					}}
 					required
 					{...register('password')}
@@ -91,19 +94,19 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					InputProps={{
 						endAdornment: (
 							<InputAdornment
-								position="end"
-								sx={{ margin: 0, padding: 0 }}
+								position='end'
+								sx={{margin: 0, padding: 0}}
 							>
 								<IconButton
-									sx={{ margin: 0, padding: 0 }}
+									sx={{margin: 0, padding: 0}}
 									onClick={handleClickShowPasswordRepeat}
 								>
-									{renderPasswordVisibilityIcon(
-										showPasswordRepeat
-									)}
+									<RenderPasswordVisibilityIcon
+										showPassword={showPassword}
+									/>
 								</IconButton>
 							</InputAdornment>
-						),
+						)
 					}}
 					hiddenLabel
 					variant={'filled'}
@@ -111,39 +114,43 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
-						marginTop: '5px',
+						marginTop: '5px'
 					}}
 					required
 					{...register('passwordRepeat')}
 				/>
 				<Button
-					variant="contained"
+					variant='contained'
 					sx={{
-						marginTop: '10px',
+						marginTop: '10px'
 					}}
 					type={'submit'}
 				>
 					Register
 				</Button>
-				<Box mt={'10px'} display={'flex'} alignItems={'center'}>
+				<Box
+					mt={'10px'}
+					display={'flex'}
+					alignItems={'center'}
+				>
 					<Typography
 						sx={{
 							fontFamily: 'Montserrat',
 							marginRight: 0,
 							paddingRight: 0,
-							fontWeight: 400,
+							fontWeight: 400
 						}}
 					>
 						Already have an account?
 					</Typography>
 					<Link
-						href="#"
+						href='#'
 						sx={{
 							paddingLeft: '3px',
 							fontFamily: 'Montserrat',
 							marginLeft: 0,
 							textDecoration: 'underline',
-							fontWeight: 400,
+							fontWeight: 400
 						}}
 					>
 						Sign in

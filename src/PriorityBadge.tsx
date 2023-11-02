@@ -1,12 +1,14 @@
-import { Box, Tooltip, Typography } from '@mui/material';
+import {Box, Tooltip, Typography} from '@mui/material';
 import React from 'react';
-import { getPriority, Priority } from './Entity/Priority';
+import {getPriority, Priority} from './Entity/Priority';
 
 interface PriorityBadgeProps {
 	readonly priorityId: number;
 }
 
-export const PriorityBadge: React.FC<PriorityBadgeProps> = (props: PriorityBadgeProps): React.ReactElement | null => {
+export const PriorityBadge: React.FC<PriorityBadgeProps> = (
+	props: PriorityBadgeProps
+): React.ReactElement | null => {
 	const priority: Priority | undefined = getPriority(props.priorityId);
 
 	if (!priority) {
@@ -25,7 +27,7 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = (props: PriorityBadge
 						display: 'flex',
 						flexDirection: 'row',
 						justifyContent: 'center',
-						alignItems: 'center',
+						alignItems: 'center'
 					}}
 					title={priority.description}
 				>

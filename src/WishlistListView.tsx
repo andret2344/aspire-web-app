@@ -91,7 +91,7 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 		} else {
 			setWishlist(null);
 		}
-	}, [params.id, navigate]);
+	}, [params.id]);
 
 	const addNewWishlist = async (): Promise<void> => {
 		// add new wishlist in future
