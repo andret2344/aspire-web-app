@@ -1,4 +1,5 @@
 /build/
 /node_modules/
-/.env*.dev
+/.env*
 *.iml
+yarn-error.log

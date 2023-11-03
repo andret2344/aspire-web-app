@@ -25,24 +25,19 @@ import {WishList} from './Entity/WishList';
 import {WishlistSidebarItem} from './WishlistSidebarItem';
 import {getWishlist, getWishlists} from './Services/WishListService';
 import {WishlistModal} from './WishlistModal';
-import {
-	Link as Anchor,
-	NavigateFunction,
-	useNavigate,
-	useParams
-} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from './Entity/WishlistItem';
 
 export const WishlistListView: React.FC = (): React.ReactElement => {
 	type Params = {id?: string};
 	const params: Params = useParams<Params>();
-	const navigate: NavigateFunction = useNavigate();
+	const navigate = useNavigate();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
 	const [wishlist, setWishlist] = React.useState<WishList | null>(null);
 	const [open, setOpen] = React.useState<boolean>(false);
 
 	const renderWishlistSidebarItems = (): React.ReactElement[] => {
-		return wishlists?.map((wishlist) => {
+		return wishlists?.map((wishlist): React.ReactElement => {
 			return (
 				<WishlistSidebarItem
 					key={wishlist.id}
@@ -52,12 +47,8 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 		});
 	};
 
-	const handleWishlistSelect = (id: number) => {
-		return <Anchor to={`/wishlists/${id}`} />;
-	};
-
-	const toggleModal = () => {
-		setOpen((prev) => !prev);
+	const toggleModal = (): void => {
+		setOpen((prev): boolean => !prev);
 	};
 
 	const fetchWishlists = async (): Promise<WishList[]> => {
@@ -67,25 +58,23 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 	const fetchSelectedWishlist = async (
 		id: number
 	): Promise<WishList | null> => {
-		console.log('test2, ', id);
 		return await getWishlist(id);
 	};
 
-	React.useEffect(() => {
-		console.log('useEffect running with id:', params.id);
+	React.useEffect((): void => {
 		fetchWishlists().then(setWishlists);
 
 		if (params.id) {
 			const id = parseInt(params.id, 10);
 			fetchSelectedWishlist(id)
-				.then((wishlist) => {
+				.then((wishlist): void => {
 					if (wishlist) {
 						setWishlist(wishlist);
 					} else {
 						navigate('/error');
 					}
 				})
-				.catch((error) => {
+				.catch((error): void => {
 					navigate('error');
 				});
 		} else {
@@ -97,7 +86,9 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 		// add new wishlist in future
 	};
 
-	const renderWishlistItem = (wishlistItem: WishlistItem) => (
+	const renderWishlistItem = (
+		wishlistItem: WishlistItem
+	): React.ReactElement => (
 		<Row
 			key={wishlistItem?.id}
 			row={wishlistItem}
@@ -142,7 +133,16 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 				columnSpacing={2}
 			>
 				<Grid
-					sx={(theme) => ({
+					sx={(
+						theme
+					): {
+						paddingBottom: '15px';
+						alignItems: 'center';
+						flexDirection: 'column';
+						borderRight: string;
+						display: 'flex';
+						justifyContent: 'flex-start';
+					} => ({
 						paddingBottom: '15px',
 						display: 'flex',
 						flexDirection: 'column',
@@ -168,7 +168,17 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 					md={9}
 				>
 					<Box
-						sx={(theme) => ({
+						sx={(
+							theme
+						): {
+							backgroundColor: string | undefined;
+							alignItems: 'center';
+							display: 'flex';
+							width: '100%';
+							borderTop: '2px #FFFFFF';
+							justifyContent: 'space-between';
+							height: '60px';
+						} => ({
 							height: '60px',
 							display: 'flex',
 							alignItems: 'center',
