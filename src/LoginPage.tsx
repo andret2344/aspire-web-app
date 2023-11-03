@@ -30,15 +30,17 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 	const {register, handleSubmit} = useForm();
 
 	const onSubmit = async (data: FieldValues): Promise<void> => {
-		await logIn(data.email, data.password).then((response: number) => {
-			if ([200, 201].includes(response)) {
-				navigate('/wishlists');
-			} else {
-				console.error(
-					`Wrong username or password, to do in feature with modal :)`
-				);
+		await logIn(data.email, data.password).then(
+			(response: number): void => {
+				if ([200, 201].includes(response)) {
+					navigate('/wishlists');
+				} else {
+					console.error(
+						`Wrong username or password, to do in feature with modal :)`
+					);
+				}
 			}
-		});
+		);
 	};
 
 	return (
