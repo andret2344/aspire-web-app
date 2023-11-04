@@ -11,7 +11,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {WishlistItem} from './Entity/WishlistItem';
+import {WishlistItem} from '../Entity/WishlistItem';
 import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
 
@@ -23,7 +23,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 	const [open, setOpen] = React.useState(false);
 
 	const handleToggleExpandButton = (): void => {
-		setOpen((prevOpen: boolean) => !prevOpen);
+		setOpen((prevOpen: boolean): boolean => !prevOpen);
 	};
 
 	const renderExpandButton = (): React.ReactElement => {

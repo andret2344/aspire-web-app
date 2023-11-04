@@ -1,9 +1,10 @@
 import {Container, Paper, Typography} from '@mui/material';
 import React from 'react';
-import '../assets/fonts.css';
+import '../../assets/fonts.css';
+import {None} from '../Types/None';
 
-export const AuthComponent: React.FC<React.PropsWithChildren<{}>> = (
-	props: React.PropsWithChildren<{}>
+export const AuthComponent: React.FC<React.PropsWithChildren<None>> = (
+	props: React.PropsWithChildren<None>
 ): React.ReactElement => {
 	return (
 		<Container

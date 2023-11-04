@@ -1,6 +1,6 @@
 import {Box, Tooltip, Typography} from '@mui/material';
 import React from 'react';
-import {getPriority, Priority} from './Entity/Priority';
+import {getPriority} from '../Entity/Priority';
 
 interface PriorityBadgeProps {
 	readonly priorityId: number;
@@ -9,7 +9,7 @@ interface PriorityBadgeProps {
 export const PriorityBadge: React.FC<PriorityBadgeProps> = (
 	props: PriorityBadgeProps
 ): React.ReactElement | null => {
-	const priority: Priority | undefined = getPriority(props.priorityId);
+	const priority = getPriority(props.priorityId);
 
 	if (!priority) {
 		return null;

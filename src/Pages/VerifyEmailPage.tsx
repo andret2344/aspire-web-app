@@ -1,8 +1,8 @@
 import React from 'react';
-import {AuthComponent} from './AuthComponent';
+import {AuthComponent} from '../Components/AuthComponent';
 import {Box, Button, Link, Typography} from '@mui/material';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import {VerifyEmailTypography} from './VerifyEmailTypography';
+import {VerifyEmailTypography} from '../Components/VerifyEmailTypography';
 
 export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 	const emailPlaceholder: string = 'andret@wishlist.com';

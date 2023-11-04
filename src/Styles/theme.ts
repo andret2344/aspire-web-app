@@ -1,4 +1,4 @@
-import { createTheme, Theme } from '@mui/material';
+import {createTheme, Theme} from '@mui/material';
 
 const PRIORITY_COLOR_HIGH = 'rgba(255, 99, 71, 1)';
 const PRIORITY_COLOR_MEDIUM = 'rgba(255, 255, 0, 1)';
@@ -48,12 +48,15 @@ export const darkTheme = createTheme({
 	}
 });
 
-export function getThemeColor(theme: Theme, colorName: keyof Colors) {
+export function getThemeColor(
+	theme: Theme,
+	colorName: keyof Colors
+): string | undefined {
 	return theme.palette.mode === 'light'
 		? lightColors[colorName]
 		: darkColors[colorName];
 }
 
-export function getPriorityColor(priorityId: number) {
+export function getPriorityColor(priorityId: number): string {
 	return priorityColors[priorityId];
 }
