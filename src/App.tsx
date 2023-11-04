@@ -1,14 +1,14 @@
-import './styles.css';
+import './Styles/styles.css';
 import React from 'react';
 import {CssBaseline, IconButton, ThemeProvider} from '@mui/material';
-import {darkTheme, lightTheme} from './theme';
+import {darkTheme, lightTheme} from './Styles/theme';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import {Route, Routes} from 'react-router-dom';
-import {WishlistListView} from './WishlistListView';
-import {LoginPage} from './LoginPage';
-import {ErrorPage} from './ErrorPage';
-import {ProfilePage} from './ProfilePage';
+import {WishlistListPage} from './Pages/WishlistListPage';
+import {LoginPage} from './Pages/LoginPage';
+import {ErrorPage} from './Pages/ErrorPage';
+import {ProfilePage} from './Pages/ProfilePage';
 
 export const App: React.FC = (): React.ReactElement => {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
@@ -40,11 +40,11 @@ export const App: React.FC = (): React.ReactElement => {
 				/>
 				<Route
 					path={'wishlists'}
-					element={<WishlistListView />}
+					element={<WishlistListPage />}
 				/>
 				<Route
 					path={'wishlists/:id'}
-					element={<WishlistListView />}
+					element={<WishlistListPage />}
 				/>
 				<Route
 					path={'profile'}

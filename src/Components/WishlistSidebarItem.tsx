@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Link, Typography} from '@mui/material';
-import {getThemeColor} from './theme';
-import {WishList} from './Entity/WishList';
+import {getThemeColor} from '../Styles/theme';
+import {WishList} from '../Entity/WishList';
 import {Link as Anchor} from 'react-router-dom';
 
 interface WishlistSidebarItemProps {
@@ -13,7 +13,22 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 ): React.ReactElement => {
 	return (
 		<Link
-			sx={(theme) => ({
+			sx={(
+				theme
+			): {
+				cursor: 'pointer';
+				backgroundColor: string | undefined;
+				color: 'inherit';
+				alignItems: 'center';
+				borderRadius: '10px';
+				flexDirection: 'column';
+				display: 'flex';
+				width: {md: string; xs: string};
+				textDecoration: 'none';
+				'&:hover': {backgroundColor: string};
+				justifyContent: 'center';
+				marginTop: '15px';
+			} => ({
 				color: 'inherit',
 				textDecoration: 'none',
 				cursor: 'pointer',

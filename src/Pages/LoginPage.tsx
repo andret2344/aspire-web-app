@@ -11,11 +11,11 @@ import {
 } from '@mui/material';
 import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
-import '../assets/fonts.css';
-import {AuthComponent} from './AuthComponent';
-import {logIn} from './Services/AuthService';
+import '../../assets/fonts.css';
+import {AuthComponent} from '../Components/AuthComponent';
+import {logIn} from '../Services/AuthService';
 import {useNavigate} from 'react-router-dom';
-import {RenderPasswordVisibilityIcon} from './PasswordVisibilityIcon';
+import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 
 export const LoginPage: React.FC = (): React.ReactElement => {
 	const navigate = useNavigate();

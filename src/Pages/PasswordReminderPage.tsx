@@ -1,10 +1,9 @@
 import React from 'react';
-import {AuthComponent} from './AuthComponent';
+import {AuthComponent} from '../Components/AuthComponent';
 import {
 	Box,
 	Button,
 	TextField,
-	Theme,
 	Typography,
 	useMediaQuery,
 	useTheme
@@ -12,8 +11,8 @@ import {
 import {FieldValues, useForm} from 'react-hook-form';
 
 export const PasswordReminderPage: React.FC = (): React.ReactElement => {
-	const theme: Theme = useTheme();
-	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
+	const theme = useTheme();
+	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 
 	const onSubmit = (data: FieldValues): void => console.log(data);
 

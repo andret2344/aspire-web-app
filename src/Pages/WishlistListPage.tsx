@@ -13,22 +13,22 @@ import {
 	Typography
 } from '@mui/material';
 import React from 'react';
-import '../assets/fonts.css';
+import '../../assets/fonts.css';
 import Grid from '@mui/material/Unstable_Grid2';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {getThemeColor} from './theme';
-import Row from './Row';
-import {WishList} from './Entity/WishList';
-import {WishlistSidebarItem} from './WishlistSidebarItem';
-import {getWishlist, getWishlists} from './Services/WishListService';
-import {WishlistModal} from './WishlistModal';
+import {getThemeColor} from '../Styles/theme';
+import Row from '../Components/Row';
+import {WishList} from '../Entity/WishList';
+import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
+import {getWishlist, getWishlists} from '../Services/WishListService';
+import {WishlistModal} from '../Components/WishlistModal';
 import {useNavigate, useParams} from 'react-router-dom';
-import {WishlistItem} from './Entity/WishlistItem';
+import {WishlistItem} from '../Entity/WishlistItem';
 
-export const WishlistListView: React.FC = (): React.ReactElement => {
+export const WishlistListPage: React.FC = (): React.ReactElement => {
 	type Params = {id?: string};
 	const params: Params = useParams<Params>();
 	const navigate = useNavigate();
@@ -74,17 +74,13 @@ export const WishlistListView: React.FC = (): React.ReactElement => {
 						navigate('/error');
 					}
 				})
-				.catch((error): void => {
+				.catch((): void => {
 					navigate('error');
 				});
 		} else {
 			setWishlist(null);
 		}
 	}, [params.id]);
-
-	const addNewWishlist = async (): Promise<void> => {
-		// add new wishlist in future
-	};
 
 	const renderWishlistItem = (
 		wishlistItem: WishlistItem

@@ -11,9 +11,9 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {FieldValues, useForm} from 'react-hook-form';
-import '../assets/fonts.css';
-import {AuthComponent} from './AuthComponent';
-import {RenderPasswordVisibilityIcon} from './PasswordVisibilityIcon';
+import '../../assets/fonts.css';
+import {AuthComponent} from '../Components/AuthComponent';
+import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 
 export const RegisterPage: React.FC = (): React.ReactElement => {
 	const theme = useTheme();
