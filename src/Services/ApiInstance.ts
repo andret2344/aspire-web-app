@@ -1,9 +1,18 @@
-import axios from 'axios';
-import {getToken, refreshToken} from './AuthService';
+import {
+	getToken,
+	refreshToken,
+	saveAccessTokenInLocalStorage
+} from './AuthService';
+import axios, {
+	AxiosError,
+	AxiosInstance,
+	AxiosResponse,
+	InternalAxiosRequestConfig
+} from 'axios';
 
-const baseUrl: string | undefined = process.env.REACT_APP_API_URL;
+export const baseUrl: string | undefined = process.env.REACT_APP_API_URL;
 
-const apiInstance = axios.create({
+const apiInstance: AxiosInstance = axios.create({
 	baseURL: `${baseUrl}/api`,
 	headers: {
 		Accept: 'application/json',
@@ -11,26 +20,35 @@ const apiInstance = axios.create({
 	}
 });
 
-apiInstance.interceptors.request.use(async (config) => {
-	const token = getToken();
-	if (token) {
-		config.headers['Authorization'] = `Bearer ${token}`;
-	}
-	return config;
-});
-
-apiInstance.interceptors.response.use(
-	(response) => response,
-	async (error) => {
-		if (error.response?.status === 401) {
-			const newToken = await refreshToken();
-			if (newToken) {
-				error.config.headers['Authorization'] = `Bearer ${newToken}`;
-				return apiInstance(error.config);
-			}
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+apiInstance.interceptors.request.use(
+	async (
+		config: InternalAxiosRequestConfig
+	): Promise<InternalAxiosRequestConfig<any>> => {
+		const token = getToken();
+		if (token) {
+			config.headers['Authorization'] = `Bearer ${token}`;
 		}
-		throw error;
+		return config;
 	}
 );
+
+apiInstance.interceptors.response.use(
+	(response: AxiosResponse): AxiosResponse<any, any> => response,
+	async (error: AxiosError): Promise<AxiosResponse<any>> => {
+		const originalRequest: InternalAxiosRequestConfig<any> | undefined =
+			error.config;
+
+		if (error.response?.status === 401 && originalRequest) {
+			const newToken = await refreshToken();
+			if (newToken) {
+				saveAccessTokenInLocalStorage(newToken);
+				return apiInstance(originalRequest);
+			}
+		}
+		return Promise.reject(error);
+	}
+);
+/* eslint-enable  @typescript-eslint/no-explicit-any */
 
 export default apiInstance;

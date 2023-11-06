@@ -9,6 +9,7 @@ import {WishlistListPage} from './Pages/WishlistListPage';
 import {LoginPage} from './Pages/LoginPage';
 import {ErrorPage} from './Pages/ErrorPage';
 import {ProfilePage} from './Pages/ProfilePage';
+import {RegisterPage} from './Pages/RegisterPage';
 
 export const App: React.FC = (): React.ReactElement => {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
@@ -37,6 +38,10 @@ export const App: React.FC = (): React.ReactElement => {
 				<Route
 					path={'/'}
 					element={<LoginPage />}
+				/>
+				<Route
+					path={'register'}
+					element={<RegisterPage />}
 				/>
 				<Route
 					path={'wishlists'}
