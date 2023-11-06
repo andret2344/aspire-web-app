@@ -134,7 +134,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 						Don&apos;t have an account?
 					</Typography>
 					<Link
-						href='#'
+						href='register'
 						sx={{
 							paddingLeft: '3px',
 							fontFamily: 'Montserrat',

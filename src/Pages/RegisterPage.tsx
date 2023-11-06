@@ -10,10 +10,19 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import {FieldValues, useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import '../../assets/fonts.css';
 import {AuthComponent} from '../Components/AuthComponent';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
+import {useNavigate} from 'react-router-dom';
+import {RegisterApiError, signUp} from '../Services/AuthService';
+import {AxiosError, AxiosResponse} from 'axios';
+
+interface IFormInput {
+	readonly email: string;
+	readonly password: string;
+	readonly passwordRepeat: string;
+}
 
 export const RegisterPage: React.FC = (): React.ReactElement => {
 	const theme = useTheme();
@@ -21,6 +30,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const [showPasswordRepeat, setShowPasswordRepeat] =
 		React.useState<boolean>(false);
+	const navigate = useNavigate();
 
 	const handleClickShowPassword = (): void => {
 		setShowPassword((prev: boolean): boolean => !prev);
@@ -30,9 +40,45 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 		setShowPasswordRepeat((prev: boolean): boolean => !prev);
 	};
 
-	const {register, handleSubmit} = useForm();
+	const {
+		register,
+		setError,
+		formState: {errors},
+		handleSubmit
+	} = useForm<IFormInput>();
 
-	const onSubmit = (data: FieldValues): void => console.log(data);
+	const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput): void => {
+		if (data.password !== data.passwordRepeat) {
+			setError('passwordRepeat', {
+				type: 'manual',
+				message: 'Passwords are not equal.'
+			});
+			navigate('/register');
+			return;
+		}
+
+		signUp(data.email, data.password)
+			.then((response: AxiosResponse): void => {
+				if ([200, 201].includes(response?.status || -1)) {
+					navigate('/');
+				}
+			})
+			.catch((response: AxiosError<RegisterApiError>): void => {
+				const registerApiError = response.response?.data;
+				if (registerApiError?.email) {
+					setError('email', {
+						type: 'manual',
+						message: registerApiError?.email
+					});
+				}
+				if (registerApiError?.password) {
+					setError('password', {
+						type: 'manual',
+						message: registerApiError?.password
+					});
+				}
+			});
+	};
 
 	return (
 		<AuthComponent>
@@ -48,6 +94,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<TextField
+					required
 					hiddenLabel
 					variant={'filled'}
 					placeholder={'E-mail address'}
@@ -57,6 +104,8 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						marginTop: '5px'
 					}}
 					type={'email'}
+					error={!!errors.email}
+					helperText={errors.email?.message}
 					{...register('email', {required: true})}
 				/>
 				<TextField
@@ -87,6 +136,8 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						marginTop: '5px'
 					}}
 					required
+					error={!!errors.password}
+					helperText={errors.password?.message}
 					{...register('password')}
 				/>
 				<TextField
@@ -117,6 +168,8 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						marginTop: '5px'
 					}}
 					required
+					error={!!errors.passwordRepeat}
+					helperText={errors.passwordRepeat?.message}
 					{...register('passwordRepeat')}
 				/>
 				<Button
@@ -144,7 +197,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						Already have an account?
 					</Typography>
 					<Link
-						href='#'
+						href='/'
 						sx={{
 							paddingLeft: '3px',
 							fontFamily: 'Montserrat',
