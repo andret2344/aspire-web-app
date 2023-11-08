@@ -47,6 +47,13 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		});
 	};
 
+	const addNewWishlist = (newWishlist: WishList): void => {
+		setWishlists((prevWishlists): WishList[] => [
+			...prevWishlists,
+			newWishlist
+		]);
+	};
+
 	const toggleModal = (): void => {
 		setOpen((prev): boolean => !prev);
 	};
@@ -247,6 +254,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 			<WishlistModal
 				opened={open}
 				toggleModal={toggleModal}
+				addNewWishlist={addNewWishlist}
 			/>
 		</Box>
 	);
