@@ -27,6 +27,7 @@ import {getWishlist, getWishlists} from '../Services/WishListService';
 import {WishlistModal} from '../Components/WishlistModal';
 import {useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
+import {WishlistItemModal} from '../Components/WishlistItemModal';
 
 export const WishlistListPage: React.FC = (): React.ReactElement => {
 	type Params = {id?: string};
@@ -34,7 +35,10 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const navigate = useNavigate();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
 	const [wishlist, setWishlist] = React.useState<WishList | null>(null);
-	const [open, setOpen] = React.useState<boolean>(false);
+	const [openAddWishlistModal, setOpenAddWishlistModal] =
+		React.useState<boolean>(false);
+	const [openAddWishlistItemModal, setOpenAddWishlistItemModal] =
+		React.useState<boolean>(false);
 
 	const renderWishlistSidebarItems = (): React.ReactElement[] => {
 		return wishlists?.map((wishlist): React.ReactElement => {
@@ -54,8 +58,12 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		]);
 	};
 
-	const toggleModal = (): void => {
-		setOpen((prev): boolean => !prev);
+	const toggleWishlistModal = (): void => {
+		setOpenAddWishlistModal((prev): boolean => !prev);
+	};
+
+	const toggleWishlistItemModal = (): void => {
+		setOpenAddWishlistItemModal((prev): boolean => !prev);
 	};
 
 	const fetchWishlists = async (): Promise<WishList[]> => {
@@ -68,12 +76,22 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		return await getWishlist(id);
 	};
 
+	const fetchAndSetWishlist = async (id: number): Promise<void> => {
+		await getWishlist(id).then((wishlist): void => {
+			if (wishlist) {
+				setWishlist(wishlist);
+			} else {
+				navigate('/error');
+			}
+		});
+	};
+
 	React.useEffect((): void => {
 		fetchWishlists().then(setWishlists);
 
 		if (params.id) {
-			const id = parseInt(params.id, 10);
-			fetchSelectedWishlist(id)
+			const paramId = parseInt(params.id);
+			fetchSelectedWishlist(paramId)
 				.then((wishlist): void => {
 					if (wishlist) {
 						setWishlist(wishlist);
@@ -158,7 +176,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				>
 					{renderWishlistSidebarItems()}
 					<Button
-						onClick={toggleModal}
+						onClick={toggleWishlistModal}
 						variant={'outlined'}
 						sx={{margin: '15px'}}
 						startIcon={<AddCircleOutlineIcon />}
@@ -249,12 +267,36 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 							</TableBody>
 						</Table>
 					</TableContainer>
+					<Box
+						sx={{
+							width: '100%',
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'flex-end',
+							justifyContent: 'flex-end'
+						}}
+					>
+						<IconButton
+							onClick={toggleWishlistItemModal}
+							sx={{
+								margin: '25px'
+							}}
+						>
+							<AddCircleOutlineIcon fontSize={'large'} />
+						</IconButton>
+					</Box>
 				</Grid>
 			</Grid>
 			<WishlistModal
-				opened={open}
-				toggleModal={toggleModal}
+				opened={openAddWishlistModal}
+				toggleModal={toggleWishlistModal}
 				addNewWishlist={addNewWishlist}
+			/>
+			<WishlistItemModal
+				wishlistId={wishlist?.id}
+				opened={openAddWishlistItemModal}
+				toggleModal={toggleWishlistItemModal}
+				getWishlistAgain={fetchAndSetWishlist}
 			/>
 		</Box>
 	);
