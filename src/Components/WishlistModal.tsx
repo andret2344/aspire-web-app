@@ -4,21 +4,40 @@ import {
 	Modal,
 	Paper,
 	TextField,
-	Theme,
 	Typography,
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
 import React from 'react';
+import {addWishlist} from '../Services/WishListService';
+import {WishList} from '../Entity/WishList';
 
 interface WishlistModalProps {
-	opened: boolean;
-	toggleModal: () => void;
+	readonly opened: boolean;
+	readonly toggleModal: () => void;
+	readonly addNewWishlist: (newWishlist: WishList) => void;
 }
 
-export const WishlistModal = (props: WishlistModalProps) => {
-	const theme: Theme = useTheme();
-	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
+export const WishlistModal = (
+	props: WishlistModalProps
+): React.ReactElement => {
+	const theme = useTheme();
+	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const inputRef = React.useRef<HTMLInputElement>(null);
+
+	const handleSaveButton = async (): Promise<void> => {
+		const wishlistName = inputRef.current?.value;
+		if (wishlistName) {
+			const newWishlist = await addWishlist(wishlistName);
+			if (newWishlist) {
+				props.addNewWishlist(newWishlist);
+				props.toggleModal();
+				if (inputRef.current) {
+					inputRef.current.value = '';
+				}
+			}
+		}
+	};
 
 	return (
 		<Modal
@@ -51,6 +70,7 @@ export const WishlistModal = (props: WishlistModalProps) => {
 					hiddenLabel
 					variant={'filled'}
 					placeholder={'Name'}
+					inputRef={inputRef}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '300px',
@@ -76,6 +96,7 @@ export const WishlistModal = (props: WishlistModalProps) => {
 						Cancel
 					</Button>
 					<Button
+						onClick={handleSaveButton}
 						variant='contained'
 						sx={{
 							marginTop: '10px'

@@ -30,9 +30,11 @@ export const getWishlist = async (id: number): Promise<WishList | null> => {
 	}
 };
 
-export const addWishlist = async (): Promise<WishList | null> => {
+export const addWishlist = async (name: string): Promise<WishList | null> => {
 	try {
-		const result = await apiInstance.post('/wishlist');
+		const result = await apiInstance.post('/wishlist', {
+			name
+		});
 		return result.data;
 	} catch (err) {
 		if (isAxiosError(err)) {
