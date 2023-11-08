@@ -1,17 +1,24 @@
 import apiInstance from './ApiInstance';
-import {AxiosResponse, isAxiosError} from 'axios';
 import {WishlistItem} from '../Entity/WishlistItem';
+import {isAxiosError} from 'axios';
 
-export const getWishlistItems = async (): Promise<WishlistItem[]> => {
+export const addWishlistItem = async (
+	wishlistId: number,
+	name: string,
+	description: string,
+	priorityId: number | string
+): Promise<WishlistItem | null> => {
 	try {
-		const result: AxiosResponse<WishlistItem[]> =
-			await apiInstance.get<WishlistItem[]>('/wishlist');
+		const result = await apiInstance.post(`/${wishlistId}/wishlistitem`, {
+			name,
+			description,
+			priority_id: priorityId
+		});
 		return result.data;
 	} catch (err) {
 		if (isAxiosError(err)) {
 			console.error(err.response);
 		}
-		console.error(err);
-		return [];
+		return null;
 	}
 };

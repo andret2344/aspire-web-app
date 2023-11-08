@@ -1,6 +1,7 @@
 import {WishList, WishListDto} from '../Entity/WishList';
 import {AxiosResponse, isAxiosError} from 'axios';
 import apiInstance from './ApiInstance';
+import {mapWishlistItem} from '../Entity/WishlistItem';
 
 export const getWishlists = async (): Promise<WishList[]> => {
 	try {
@@ -25,7 +26,6 @@ export const getWishlist = async (id: number): Promise<WishList | null> => {
 		if (isAxiosError(err)) {
 			console.error(err.response);
 		}
-		console.error(err);
 		return null;
 	}
 };
@@ -40,7 +40,6 @@ export const addWishlist = async (name: string): Promise<WishList | null> => {
 		if (isAxiosError(err)) {
 			console.error(err.response);
 		}
-		console.error(err);
 		return null;
 	}
 };
@@ -48,6 +47,6 @@ export const addWishlist = async (name: string): Promise<WishList | null> => {
 const mapWishlist = (wishlist: WishListDto): WishList => {
 	return {
 		...wishlist,
-		wishlistItems: wishlist.wishlist_items
+		wishlistItems: wishlist.wishlist_items.map(mapWishlistItem)
 	};
 };

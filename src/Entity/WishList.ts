@@ -1,4 +1,4 @@
-import {WishlistItem} from './WishlistItem';
+import {WishlistItem, WishlistItemDto} from './WishlistItem';
 
 export interface WishList {
 	readonly id: number;
@@ -11,5 +11,5 @@ export interface WishListDto {
 	readonly id: number;
 	readonly uuid: string;
 	readonly name: string;
-	readonly wishlist_items: WishlistItem[];
+	readonly wishlist_items: WishlistItemDto[];
 }
