@@ -2,12 +2,12 @@ module.exports = {
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaVersion: 'latest',
-		sourceType: 'module',
+		sourceType: 'module'
 	},
 	settings: {
 		react: {
-			version: 'detect',
-		},
+			version: 'detect'
+		}
 	},
 	extends: [
 		'plugin:react/recommended',
@@ -18,7 +18,7 @@ module.exports = {
 		'plugin:import/typescript',
 		'plugin:jsx-a11y/recommended',
 		'prettier',
-		'plugin:prettier/recommended',
+		'plugin:prettier/recommended'
 	],
 	rules: {
 		'no-unused-vars': 'off',
@@ -28,5 +28,6 @@ module.exports = {
 		'react/jsx-uses-react': 'off',
 		'react/react-in-jsx-scope': 'off',
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
-	},
+		'jsx-a11y/no-autofocus': 'off'
+	}
 };

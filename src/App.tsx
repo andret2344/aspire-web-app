@@ -28,7 +28,7 @@ export const App: React.FC = (): React.ReactElement => {
 		<ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
 			<IconButton
 				color={'warning'}
-				sx={{position: 'fixed', top: '5px', right: '5px'}}
+				sx={{position: 'absolute', top: '5px', right: '5px'}}
 				onClick={toggleDarkMode}
 			>
 				{darkMode ? <LightModeIcon /> : <DarkModeIcon />}

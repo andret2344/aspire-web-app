@@ -44,6 +44,39 @@ export const addWishlist = async (name: string): Promise<WishList | null> => {
 	}
 };
 
+export const removeWishlist = async (id?: number): Promise<void> => {
+	if (id) {
+		try {
+			await apiInstance.delete(`/wishlist/${id}`);
+		} catch (err) {
+			if (isAxiosError(err)) {
+				console.error(err.response);
+			}
+		}
+	}
+};
+
+export const updateWishlistName = async (
+	id?: number,
+	name?: string
+): Promise<WishList | null> => {
+	if (!(id || name)) {
+		return null;
+	}
+	try {
+		const result = await apiInstance.put(`/wishlist/${id}`, {
+			name
+		});
+
+		return result.data;
+	} catch (err) {
+		if (isAxiosError(err)) {
+			console.error(err.response);
+		}
+	}
+	return null;
+};
+
 const mapWishlist = (wishlist: WishListDto): WishList => {
 	return {
 		...wishlist,
