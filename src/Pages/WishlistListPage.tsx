@@ -10,6 +10,7 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
+	TextField,
 	Typography
 } from '@mui/material';
 import React from 'react';
@@ -17,13 +18,17 @@ import '../../assets/fonts.css';
 import Grid from '@mui/material/Unstable_Grid2';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ShareIcon from '@mui/icons-material/Share';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {getThemeColor} from '../Styles/theme';
 import Row from '../Components/Row';
 import {WishList} from '../Entity/WishList';
 import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
-import {getWishlist, getWishlists} from '../Services/WishListService';
+import {
+	getWishlist,
+	getWishlists,
+	removeWishlist,
+	updateWishlistName
+} from '../Services/WishListService';
 import {WishlistModal} from '../Components/WishlistModal';
 import {useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
@@ -39,6 +44,36 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		React.useState<boolean>(false);
 	const [openAddWishlistItemModal, setOpenAddWishlistItemModal] =
 		React.useState<boolean>(false);
+	const [editedName, setEditedName] = React.useState<string | undefined>(
+		undefined
+	);
+
+	const handleNameClick = (): void => {
+		setEditedName(wishlist?.name ?? '');
+	};
+
+	const handleNameChange = (
+		event: React.ChangeEvent<HTMLInputElement>
+	): void => {
+		setEditedName(event.target.value);
+	};
+
+	const handleNameSubmit = async (): Promise<void> => {
+		if (editedName) {
+			const updatedWishlist = await updateWishlistName(
+				wishlist?.id,
+				editedName
+			);
+
+			if (updatedWishlist) {
+				if (wishlist) {
+					setWishlist({...wishlist, name: updatedWishlist?.name});
+				}
+				await fetchAndSetWishlists();
+			}
+		}
+		setEditedName(undefined);
+	};
 
 	const renderWishlistSidebarItems = (): React.ReactElement[] => {
 		return wishlists?.map((wishlist): React.ReactElement => {
@@ -56,6 +91,12 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 			...prevWishlists,
 			newWishlist
 		]);
+	};
+
+	const handleRemoveWishlistButton = async (): Promise<void> => {
+		await removeWishlist(wishlist?.id);
+		await fetchAndSetWishlists();
+		setWishlist(null);
 	};
 
 	const toggleWishlistModal = (): void => {
@@ -86,8 +127,12 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		});
 	};
 
+	const fetchAndSetWishlists = async (): Promise<void> => {
+		await fetchWishlists().then(setWishlists);
+	};
+
 	React.useEffect((): void => {
-		fetchWishlists().then(setWishlists);
+		fetchAndSetWishlists();
 
 		if (params.id) {
 			const paramId = parseInt(params.id);
@@ -116,6 +161,27 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		/>
 	);
 
+	const displayOrEditWishlistName = (): React.ReactElement => {
+		if (editedName === undefined) {
+			return (
+				<Typography
+					onClick={handleNameClick}
+					sx={{marginLeft: '50px'}}
+				>
+					{wishlist?.name}
+				</Typography>
+			);
+		}
+		return (
+			<TextField
+				value={editedName}
+				onChange={handleNameChange}
+				onBlur={handleNameSubmit}
+				autoFocus
+			/>
+		);
+	};
+
 	return (
 		<Box
 			sx={{
@@ -135,7 +201,6 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 					component='a'
 					href='/wishlists'
 					sx={{
-						display: 'flex',
 						fontFamily: 'Courgette',
 						fontWeight: 700,
 						fontSize: '35px',
@@ -184,108 +249,106 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						Add new wishlist
 					</Button>
 				</Grid>
-				<Grid
-					xs={12}
-					md={9}
-				>
-					<Box
-						sx={(
-							theme
-						): {
-							backgroundColor: string | undefined;
-							alignItems: 'center';
-							display: 'flex';
-							width: '100%';
-							borderTop: '2px #FFFFFF';
-							justifyContent: 'space-between';
-							height: '60px';
-						} => ({
-							height: '60px',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							width: '100%',
-							backgroundColor:
-								theme.palette.mode === 'dark'
-									? ''
-									: getThemeColor(theme, 'lightBlue'),
-							borderTop: '2px #FFFFFF'
-						})}
+				{wishlist && (
+					<Grid
+						xs={12}
+						md={9}
 					>
-						<Typography sx={{marginLeft: '50px'}}>
-							{wishlist?.name}
-						</Typography>
-						<Box sx={{display: 'flex', flexDirection: 'row'}}>
-							<IconButton
-								sx={{marginLeft: '15px'}}
-								aria-label={'share'}
-							>
-								<ShareIcon fontSize={'large'} />
-							</IconButton>
-							<IconButton
-								sx={{marginLeft: '15px'}}
-								aria-label={'share'}
-							>
-								<EditIcon fontSize={'large'} />
-							</IconButton>
-							<IconButton
-								sx={{marginLeft: '15px', marginRight: '20px'}}
-								aria-label={'share'}
-							>
-								<DeleteIcon fontSize={'large'} />
-							</IconButton>
+						<Box
+							sx={(
+								theme
+							): {
+								backgroundColor: string | undefined;
+								alignItems: 'center';
+								display: 'flex';
+								width: '100%';
+								borderTop: '2px #FFFFFF';
+								justifyContent: 'space-between';
+								height: '60px';
+							} => ({
+								height: '60px',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'space-between',
+								width: '100%',
+								backgroundColor:
+									theme.palette.mode === 'dark'
+										? ''
+										: getThemeColor(theme, 'lightBlue'),
+								borderTop: '2px #FFFFFF'
+							})}
+						>
+							{displayOrEditWishlistName()}
+							<Box sx={{display: 'flex', flexDirection: 'row'}}>
+								<IconButton
+									sx={{marginLeft: '15px'}}
+									aria-label={'share'}
+								>
+									<ShareIcon fontSize={'large'} />
+								</IconButton>
+								<IconButton
+									onClick={handleRemoveWishlistButton}
+									sx={{
+										marginLeft: '15px',
+										marginRight: '20px'
+									}}
+									aria-label={'delete'}
+								>
+									<DeleteIcon fontSize={'large'} />
+								</IconButton>
+							</Box>
 						</Box>
-					</Box>
-					<TableContainer component={Paper}>
-						<Table aria-label='collapsible table'>
-							<TableHead>
-								<TableRow>
-									<TableCell
-										width={'5%'}
-										align='left'
-									/>
-									<TableCell align='left'>Id</TableCell>
-									<TableCell align='left'>Name</TableCell>
-									<TableCell
-										width={'10%'}
-										align='center'
-									>
-										Priority
-									</TableCell>
-									<TableCell
-										width={'10%'}
-										align='center'
-									>
-										Action
-									</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{wishlist?.wishlistItems?.map(
-									renderWishlistItem
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-					<Box
-						sx={{
-							width: '100%',
-							display: 'flex',
-							flexDirection: 'row',
-							alignItems: 'flex-end',
-							justifyContent: 'flex-end'
-						}}
-					>
-						<IconButton
-							onClick={toggleWishlistItemModal}
+						<TableContainer component={Paper}>
+							<Table aria-label='collapsible table'>
+								<TableHead>
+									<TableRow>
+										<TableCell
+											width={'5%'}
+											align='left'
+										/>
+										<TableCell align='left'>Id</TableCell>
+										<TableCell align='left'>Name</TableCell>
+										<TableCell
+											width={'10%'}
+											align='center'
+										>
+											Priority
+										</TableCell>
+										<TableCell
+											width={'10%'}
+											align='center'
+										>
+											Action
+										</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{wishlist?.wishlistItems?.map(
+										renderWishlistItem
+									)}
+								</TableBody>
+							</Table>
+						</TableContainer>
+						<Box
 							sx={{
-								margin: '25px'
+								width: '100%',
+								display: 'flex',
+								flexDirection: 'row',
+								alignItems: 'flex-end',
+								justifyContent: 'flex-end'
 							}}
 						>
-							<AddCircleOutlineIcon fontSize={'large'} />
-						</IconButton>
-					</Box>
-				</Grid>
+							<IconButton
+								onClick={toggleWishlistItemModal}
+								sx={{
+									margin: '25px'
+								}}
+							>
+								<AddCircleOutlineIcon fontSize={'large'} />
+							</IconButton>
+						</Box>
+					</Grid>
+				)}
 			</Grid>
 			<WishlistModal
 				opened={openAddWishlistModal}
