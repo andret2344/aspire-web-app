@@ -74,6 +74,14 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		}
 		setEditedName(undefined);
 	};
+	const [editingWishlistItem, setEditingWishlistItem] = React.useState<
+		WishlistItem | undefined
+	>(undefined);
+
+	const openWishlistItemModalForEdit = (item: WishlistItem): void => {
+		setEditingWishlistItem(item);
+		setOpenAddWishlistItemModal(true);
+	};
 
 	const renderWishlistSidebarItems = (): React.ReactElement[] => {
 		return wishlists?.map((wishlist): React.ReactElement => {
@@ -104,6 +112,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	};
 
 	const toggleWishlistItemModal = (): void => {
+		setEditingWishlistItem(undefined);
 		setOpenAddWishlistItemModal((prev): boolean => !prev);
 	};
 
@@ -158,6 +167,9 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		<Row
 			key={wishlistItem?.id}
 			row={wishlistItem}
+			wishlistId={wishlist?.id}
+			onEdit={openWishlistItemModalForEdit}
+			onRemove={fetchAndSetWishlist}
 		/>
 	);
 
@@ -360,6 +372,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				opened={openAddWishlistItemModal}
 				toggleModal={toggleWishlistItemModal}
 				getWishlistAgain={fetchAndSetWishlist}
+				editingItem={editingWishlistItem}
 			/>
 		</Box>
 	);

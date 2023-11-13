@@ -8,19 +8,24 @@ import {
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {WishlistItem} from '../Entity/WishlistItem';
 import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
+import {removeWishlistItem} from '../Services/WishlistItemService';
+import {useSnackbar} from 'notistack';
 
 interface RowProps {
 	readonly row: WishlistItem;
+	readonly wishlistId?: number;
+	readonly onEdit: (item: WishlistItem) => void;
+	readonly onRemove: (id: number) => void;
 }
 
 const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState<boolean>(false);
+	const {enqueueSnackbar} = useSnackbar();
 
 	const handleToggleExpandButton = (): void => {
 		setOpen((prevOpen: boolean): boolean => !prevOpen);
@@ -31,6 +36,21 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 			return <KeyboardArrowUpIcon />;
 		}
 		return <KeyboardArrowDownIcon />;
+	};
+
+	const handleRemoveWishlistItemButton = async (): Promise<void> => {
+		if (props.wishlistId) {
+			await removeWishlistItem(props.wishlistId, props.row.id)
+				.then((): string | number =>
+					enqueueSnackbar('Successfully removed wishlist item.', {
+						variant: 'success'
+					})
+				)
+				.catch((): string | number =>
+					enqueueSnackbar('Something went wrong!', {variant: 'error'})
+				);
+			props.onRemove(props.wishlistId);
+		}
 	};
 
 	return (
@@ -63,19 +83,15 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 					<Box sx={{display: 'flex', flexDirection: 'row'}}>
 						<IconButton
 							sx={{marginLeft: '15px'}}
-							aria-label={'share'}
-						>
-							<ShareIcon fontSize={'large'} />
-						</IconButton>
-						<IconButton
-							sx={{marginLeft: '15px'}}
 							aria-label={'edit'}
+							onClick={(): void => props.onEdit(props.row)}
 						>
 							<EditIcon fontSize={'large'} />
 						</IconButton>
 						<IconButton
 							sx={{marginLeft: '15px', marginRight: '20px'}}
 							aria-label={'delete'}
+							onClick={handleRemoveWishlistItemButton}
 						>
 							<DeleteIcon fontSize={'large'} />
 						</IconButton>

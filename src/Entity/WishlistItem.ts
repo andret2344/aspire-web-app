@@ -8,7 +8,7 @@ export interface WishlistItem {
 
 export interface WishlistItemDto {
 	readonly id: number;
-	readonly wishlistId: number;
+	readonly wishlist_id: number;
 	readonly name: string;
 	readonly description: string;
 	readonly priority_id: number;
@@ -17,8 +17,10 @@ export interface WishlistItemDto {
 export const mapWishlistItem = (
 	wishlistItem: WishlistItemDto
 ): WishlistItem => {
+	const {priority_id, wishlist_id, ...rest} = wishlistItem;
 	return {
-		...wishlistItem,
-		priorityId: wishlistItem.priority_id
+		...rest,
+		wishlistId: wishlist_id,
+		priorityId: priority_id
 	};
 };

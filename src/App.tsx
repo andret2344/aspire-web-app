@@ -10,6 +10,7 @@ import {LoginPage} from './Pages/LoginPage';
 import {ErrorPage} from './Pages/ErrorPage';
 import {ProfilePage} from './Pages/ProfilePage';
 import {RegisterPage} from './Pages/RegisterPage';
+import {SnackbarProvider} from 'notistack';
 
 export const App: React.FC = (): React.ReactElement => {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
@@ -26,44 +27,49 @@ export const App: React.FC = (): React.ReactElement => {
 
 	return (
 		<ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-			<IconButton
-				color={'warning'}
-				sx={{position: 'absolute', top: '5px', right: '5px'}}
-				onClick={toggleDarkMode}
+			<SnackbarProvider
+				autoHideDuration={2000}
+				maxSnack={4}
 			>
-				{darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-			</IconButton>
-			<CssBaseline />
-			<Routes>
-				<Route
-					path={'/'}
-					element={<LoginPage />}
-				/>
-				<Route
-					path={'register'}
-					element={<RegisterPage />}
-				/>
-				<Route
-					path={'wishlists'}
-					element={<WishlistListPage />}
-				/>
-				<Route
-					path={'wishlists/:id'}
-					element={<WishlistListPage />}
-				/>
-				<Route
-					path={'profile'}
-					element={<ProfilePage />}
-				/>
-				<Route
-					path={'*'}
-					element={<ErrorPage />}
-				/>
-				<Route
-					path={'error'}
-					element={<ErrorPage />}
-				/>
-			</Routes>
+				<IconButton
+					color={'warning'}
+					sx={{position: 'absolute', top: '5px', right: '5px'}}
+					onClick={toggleDarkMode}
+				>
+					{darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+				</IconButton>
+				<CssBaseline />
+				<Routes>
+					<Route
+						path={'/'}
+						element={<LoginPage />}
+					/>
+					<Route
+						path={'register'}
+						element={<RegisterPage />}
+					/>
+					<Route
+						path={'wishlists'}
+						element={<WishlistListPage />}
+					/>
+					<Route
+						path={'wishlists/:id'}
+						element={<WishlistListPage />}
+					/>
+					<Route
+						path={'profile'}
+						element={<ProfilePage />}
+					/>
+					<Route
+						path={'*'}
+						element={<ErrorPage />}
+					/>
+					<Route
+						path={'error'}
+						element={<ErrorPage />}
+					/>
+				</Routes>
+			</SnackbarProvider>
 		</ThemeProvider>
 	);
 };
