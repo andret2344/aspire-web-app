@@ -13,14 +13,19 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import {addWishlistItem} from '../Services/WishlistItemService';
+import {
+	addWishlistItem,
+	editWishlistItem
+} from '../Services/WishlistItemService';
 import {getAllPriorities, Priority} from '../Entity/Priority';
+import {WishlistItem} from '../Entity/WishlistItem';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
 	readonly opened: boolean;
 	readonly toggleModal: () => void;
 	readonly getWishlistAgain: (id: number) => void;
+	readonly editingItem?: WishlistItem;
 }
 
 export const WishlistItemModal = (
@@ -32,10 +37,22 @@ export const WishlistItemModal = (
 	const inputRefName = React.useRef<HTMLInputElement>(null);
 	const inputRefDescription = React.useRef<HTMLInputElement>(null);
 
+	React.useEffect((): void => {
+		if (props.editingItem) {
+			setPriority(props.editingItem.priorityId);
+			if (inputRefName.current) {
+				inputRefName.current.value = props.editingItem.name;
+			}
+			if (inputRefDescription.current) {
+				inputRefDescription.current.value =
+					props.editingItem.description;
+			}
+		}
+	}, [props.editingItem]);
+
 	const handleChangePriority = (
 		event: SelectChangeEvent<typeof priority>
 	): void => {
-		console.log('event.target.value = ', event.target.value);
 		setPriority(event.target.value as number);
 	};
 
@@ -54,19 +71,33 @@ export const WishlistItemModal = (
 		const wishlistItemName = inputRefName.current?.value;
 		const wishlistItemDescription = inputRefDescription.current?.value;
 		if (props.wishlistId && wishlistItemName && wishlistItemDescription) {
-			if (priority) {
-				setPriority(1);
-			}
+			if (props.editingItem) {
+				const updatedWishlistItem = await editWishlistItem(
+					props.wishlistId,
+					props.editingItem.id,
+					wishlistItemName,
+					wishlistItemDescription,
+					priority
+				);
+				if (updatedWishlistItem) {
+					props.getWishlistAgain(props.wishlistId);
+					toggleModalAndClearFields();
+				}
+			} else {
+				if (priority) {
+					setPriority(1);
+				}
 
-			const newWishlistItem = await addWishlistItem(
-				props.wishlistId,
-				wishlistItemName,
-				wishlistItemDescription,
-				priority
-			);
-			if (newWishlistItem) {
-				props.getWishlistAgain(props.wishlistId);
-				toggleModalAndClearFields();
+				const newWishlistItem = await addWishlistItem(
+					props.wishlistId,
+					wishlistItemName,
+					wishlistItemDescription,
+					priority
+				);
+				if (newWishlistItem) {
+					props.getWishlistAgain(props.wishlistId);
+					toggleModalAndClearFields();
+				}
 			}
 		}
 	};
@@ -94,7 +125,10 @@ export const WishlistItemModal = (
 				<TextField
 					hiddenLabel
 					variant={'filled'}
-					placeholder={'Type here your wish'}
+					placeholder={
+						props.editingItem?.name || 'Type here your wish'
+					}
+					defaultValue={props.editingItem?.name || ''}
 					inputRef={inputRefName}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
@@ -142,6 +176,7 @@ export const WishlistItemModal = (
 					<TextField
 						hiddenLabel
 						variant={'filled'}
+						defaultValue={props.editingItem?.description || ''}
 						multiline
 						maxRows={5}
 						inputRef={inputRefDescription}
@@ -176,7 +211,7 @@ export const WishlistItemModal = (
 							marginTop: '10px'
 						}}
 					>
-						Add
+						Confirm
 					</Button>
 				</Box>
 			</Paper>

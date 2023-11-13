@@ -78,8 +78,9 @@ export const updateWishlistName = async (
 };
 
 const mapWishlist = (wishlist: WishListDto): WishList => {
+	const {wishlist_items, ...rest} = wishlist;
 	return {
-		...wishlist,
-		wishlistItems: wishlist.wishlist_items.map(mapWishlistItem)
+		...rest,
+		wishlistItems: wishlist_items.map(mapWishlistItem)
 	};
 };
