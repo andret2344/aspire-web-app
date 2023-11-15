@@ -1,7 +1,6 @@
 import {
 	Box,
 	Button,
-	Container,
 	IconButton,
 	Paper,
 	Table,
@@ -33,6 +32,7 @@ import {WishlistModal} from '../Components/WishlistModal';
 import {useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {WishlistItemModal} from '../Components/WishlistItemModal';
+import {Header} from '../Components/Header';
 
 export const WishlistListPage: React.FC = (): React.ReactElement => {
 	type Params = {id?: string};
@@ -195,35 +195,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	};
 
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				minHeight: '100vh',
-				padding: '0px'
-			}}
-		>
-			<Container
-				maxWidth={false}
-				sx={{backgroundColor: 'primary.main'}}
-			>
-				<Typography
-					variant='h6'
-					noWrap
-					component='a'
-					href='/wishlists'
-					sx={{
-						fontFamily: 'Courgette',
-						fontWeight: 700,
-						fontSize: '35px',
-						letterSpacing: '.3rem',
-						color: 'white',
-						textDecoration: 'none'
-					}}
-				>
-					wishlist
-				</Typography>
-			</Container>
+		<Header>
 			<Grid
 				sx={{flexGrow: 1}}
 				disableEqualOverflow={true}
@@ -374,6 +346,6 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				getWishlistAgain={fetchAndSetWishlist}
 				editingItem={editingWishlistItem}
 			/>
-		</Box>
+		</Header>
 	);
 };

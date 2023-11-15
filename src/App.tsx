@@ -33,7 +33,7 @@ export const App: React.FC = (): React.ReactElement => {
 			>
 				<IconButton
 					color={'warning'}
-					sx={{position: 'absolute', top: '5px', right: '5px'}}
+					sx={{position: 'absolute', top: '8px', right: '5px'}}
 					onClick={toggleDarkMode}
 				>
 					{darkMode ? <LightModeIcon /> : <DarkModeIcon />}

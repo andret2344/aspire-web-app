@@ -49,6 +49,11 @@ export const signUp = async (
 	);
 };
 
+export const logout = (): void => {
+	localStorage.removeItem(ACCESS_TOKEN);
+	Cookies.remove(REFRESH_TOKEN);
+};
+
 export const saveAccessTokenInLocalStorage = (accessToken: string): void => {
 	localStorage.setItem(ACCESS_TOKEN, accessToken);
 };
