@@ -1,46 +1,11 @@
-import {
-	Box,
-	Button,
-	Container,
-	Paper,
-	TextField,
-	Typography
-} from '@mui/material';
+import {Box, Button, Paper, TextField, Typography} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import React from 'react';
+import {Header} from '../Components/Header';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				minHeight: '100vh',
-				padding: '0px'
-			}}
-		>
-			<Container
-				maxWidth={false}
-				sx={{backgroundColor: 'primary.main'}}
-			>
-				<Typography
-					variant='h6'
-					noWrap
-					component='a'
-					href='/'
-					sx={{
-						display: 'flex',
-						fontFamily: 'Courgette',
-						fontWeight: 700,
-						fontSize: '35px',
-						letterSpacing: '.3rem',
-						color: 'white',
-						textDecoration: 'none'
-					}}
-				>
-					wishlist
-				</Typography>
-			</Container>
+		<Header>
 			<Grid
 				sx={{flexGrow: 1}}
 				disableEqualOverflow={true}
@@ -131,6 +96,6 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 					</Paper>
 				</Grid>
 			</Grid>
-		</Box>
+		</Header>
 	);
 };
