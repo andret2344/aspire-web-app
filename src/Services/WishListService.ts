@@ -30,6 +30,21 @@ export const getWishlist = async (id: number): Promise<WishList | null> => {
 	}
 };
 
+export const getReadonlyWishlistByUUID = async (
+	uuid: string
+): Promise<WishList | null> => {
+	try {
+		const result: AxiosResponse<WishListDto> =
+			await apiInstance.get<WishListDto>(`/wishlist/by_uuid/${uuid}`);
+		return mapWishlist(result.data);
+	} catch (err) {
+		if (isAxiosError(err)) {
+			console.error(err.response);
+		}
+		return null;
+	}
+};
+
 export const addWishlist = async (name: string): Promise<WishList | null> => {
 	try {
 		const result = await apiInstance.post('/wishlist', {

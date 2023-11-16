@@ -33,6 +33,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {WishlistItemModal} from '../Components/WishlistItemModal';
 import {Header} from '../Components/Header';
+import {useSnackbar} from 'notistack';
 
 export const WishlistListPage: React.FC = (): React.ReactElement => {
 	type Params = {id?: string};
@@ -47,6 +48,10 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const [editedName, setEditedName] = React.useState<string | undefined>(
 		undefined
 	);
+	const [editingWishlistItem, setEditingWishlistItem] = React.useState<
+		WishlistItem | undefined
+	>(undefined);
+	const {enqueueSnackbar} = useSnackbar();
 
 	const handleNameClick = (): void => {
 		setEditedName(wishlist?.name ?? '');
@@ -74,9 +79,6 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		}
 		setEditedName(undefined);
 	};
-	const [editingWishlistItem, setEditingWishlistItem] = React.useState<
-		WishlistItem | undefined
-	>(undefined);
 
 	const openWishlistItemModalForEdit = (item: WishlistItem): void => {
 		setEditingWishlistItem(item);
@@ -194,6 +196,19 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		);
 	};
 
+	const addShareUrlToClipboard = (): void => {
+		navigator.clipboard
+			.writeText(`${window.location.host}/wishlist/${wishlist?.uuid}`)
+			.then((): string | number =>
+				enqueueSnackbar('Share URL copied to clipboard.', {
+					variant: 'info'
+				})
+			)
+			.catch((): string | number =>
+				enqueueSnackbar('Something went wrong!', {variant: 'error'})
+			);
+	};
+
 	return (
 		<Header>
 			<Grid
@@ -247,6 +262,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 								display: 'flex';
 								width: '100%';
 								borderTop: '2px #FFFFFF';
+								paddingLeft: '10px';
 								justifyContent: 'space-between';
 								height: '60px';
 							} => ({
@@ -259,12 +275,14 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 									theme.palette.mode === 'dark'
 										? ''
 										: getThemeColor(theme, 'lightBlue'),
-								borderTop: '2px #FFFFFF'
+								borderTop: '2px #FFFFFF',
+								paddingLeft: '10px'
 							})}
 						>
 							{displayOrEditWishlistName()}
 							<Box sx={{display: 'flex', flexDirection: 'row'}}>
 								<IconButton
+									onClick={addShareUrlToClipboard}
 									sx={{marginLeft: '15px'}}
 									aria-label={'share'}
 								>
