@@ -11,6 +11,7 @@ import {ErrorPage} from './Pages/ErrorPage';
 import {ProfilePage} from './Pages/ProfilePage';
 import {RegisterPage} from './Pages/RegisterPage';
 import {SnackbarProvider} from 'notistack';
+import {ReadonlyWishtlistPage} from './Pages/ReadonlyWishtlistPage';
 
 export const App: React.FC = (): React.ReactElement => {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
@@ -55,6 +56,10 @@ export const App: React.FC = (): React.ReactElement => {
 					<Route
 						path={'wishlists/:id'}
 						element={<WishlistListPage />}
+					/>
+					<Route
+						path={'wishlist/:uuid'}
+						element={<ReadonlyWishtlistPage />}
 					/>
 					<Route
 						path={'profile'}

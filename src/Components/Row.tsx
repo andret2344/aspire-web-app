@@ -19,8 +19,8 @@ import {useSnackbar} from 'notistack';
 interface RowProps {
 	readonly row: WishlistItem;
 	readonly wishlistId?: number;
-	readonly onEdit: (item: WishlistItem) => void;
-	readonly onRemove: (id: number) => void;
+	readonly onEdit?: (item: WishlistItem) => void;
+	readonly onRemove?: (id: number) => void;
 }
 
 const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
@@ -49,7 +49,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 				.catch((): string | number =>
 					enqueueSnackbar('Something went wrong!', {variant: 'error'})
 				);
-			props.onRemove(props.wishlistId);
+			props.onRemove?.(props.wishlistId);
 		}
 	};
 
@@ -79,24 +79,26 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 						<PriorityBadge priorityId={props.row.priorityId} />
 					</Box>
 				</TableCell>
-				<TableCell>
-					<Box sx={{display: 'flex', flexDirection: 'row'}}>
-						<IconButton
-							sx={{marginLeft: '15px'}}
-							aria-label={'edit'}
-							onClick={(): void => props.onEdit(props.row)}
-						>
-							<EditIcon fontSize={'large'} />
-						</IconButton>
-						<IconButton
-							sx={{marginLeft: '15px', marginRight: '20px'}}
-							aria-label={'delete'}
-							onClick={handleRemoveWishlistItemButton}
-						>
-							<DeleteIcon fontSize={'large'} />
-						</IconButton>
-					</Box>
-				</TableCell>
+				{props.onRemove && props.onEdit && (
+					<TableCell>
+						<Box sx={{display: 'flex', flexDirection: 'row'}}>
+							<IconButton
+								sx={{marginLeft: '15px'}}
+								aria-label={'edit'}
+								onClick={(): void => props.onEdit?.(props.row)}
+							>
+								<EditIcon fontSize={'large'} />
+							</IconButton>
+							<IconButton
+								sx={{marginLeft: '15px', marginRight: '20px'}}
+								aria-label={'delete'}
+								onClick={handleRemoveWishlistItemButton}
+							>
+								<DeleteIcon fontSize={'large'} />
+							</IconButton>
+						</Box>
+					</TableCell>
+				)}
 			</TableRow>
 			<TableRow>
 				<TableCell

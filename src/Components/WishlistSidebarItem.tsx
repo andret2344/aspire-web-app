@@ -6,6 +6,7 @@ import {Link as Anchor} from 'react-router-dom';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
+	readonly readonly?: boolean;
 }
 
 export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
@@ -48,7 +49,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 				}
 			})}
 			component={Anchor}
-			to={`/wishlists/${props.wishlist.id}`}
+			to={props.readonly ? '' : `/wishlists/${props.wishlist.id}`}
 		>
 			<Box>
 				<Typography
