@@ -227,13 +227,23 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						borderRight: string;
 						display: 'flex';
 						justifyContent: 'flex-start';
+						overflowY: 'auto';
+						maxHeight: '100vh';
+						'&::-webkit-scrollbar': {
+							display: 'none';
+						};
 					} => ({
 						paddingBottom: '15px',
 						display: 'flex',
 						flexDirection: 'column',
 						justifyContent: 'flex-start',
 						alignItems: 'center',
-						borderRight: `2px solid ${theme.palette.divider}`
+						borderRight: `2px solid ${theme.palette.divider}`,
+						overflowY: 'auto',
+						maxHeight: '100vh',
+						'&::-webkit-scrollbar': {
+							display: 'none'
+						}
 					})}
 					xs={12}
 					md={3}
@@ -300,7 +310,13 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 								</IconButton>
 							</Box>
 						</Box>
-						<TableContainer component={Paper}>
+						<TableContainer
+							sx={{
+								maxHeight: '75vh',
+								overflowY: 'auto'
+							}}
+							component={Paper}
+						>
 							<Table aria-label='collapsible table'>
 								<TableHead>
 									<TableRow>
