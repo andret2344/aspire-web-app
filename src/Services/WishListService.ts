@@ -1,6 +1,6 @@
 import {WishList, WishListDto} from '../Entity/WishList';
-import {AxiosResponse, isAxiosError} from 'axios';
-import apiInstance from './ApiInstance';
+import axios, {AxiosResponse, isAxiosError} from 'axios';
+import apiInstance, {baseUrl} from './ApiInstance';
 import {mapWishlistItem} from '../Entity/WishlistItem';
 
 export const getWishlists = async (): Promise<WishList[]> => {
@@ -34,8 +34,9 @@ export const getReadonlyWishlistByUUID = async (
 	uuid: string
 ): Promise<WishList | null> => {
 	try {
-		const result: AxiosResponse<WishListDto> =
-			await apiInstance.get<WishListDto>(`/wishlist/by_uuid/${uuid}`);
+		const result: AxiosResponse<WishListDto> = await axios.get<WishListDto>(
+			`${baseUrl}/wishlist/by_uuid/${uuid}`
+		);
 		return mapWishlist(result.data);
 	} catch (err) {
 		if (isAxiosError(err)) {

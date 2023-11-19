@@ -12,7 +12,7 @@ import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Logout, Settings} from '@mui/icons-material';
 import {useNavigate} from 'react-router-dom';
-import {logout} from '../Services/AuthService';
+import {getToken, logout} from '../Services/AuthService';
 
 export const Header: React.FC<React.PropsWithChildren<None>> = (
 	props: React.PropsWithChildren<None>
@@ -29,6 +29,17 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 	const handleLogout = (): void => {
 		logout();
 		navigate('/');
+	};
+
+	const renderProfileIcon = (): React.ReactElement | undefined => {
+		if (!getToken()) {
+			return undefined;
+		}
+		return (
+			<IconButton onClick={handleClick}>
+				<AccountCircleOutlinedIcon fontSize={'large'} />
+			</IconButton>
+		);
 	};
 
 	return (
@@ -71,9 +82,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 					>
 						wishlist
 					</Typography>
-					<IconButton onClick={handleClick}>
-						<AccountCircleOutlinedIcon fontSize={'large'} />
-					</IconButton>
+					{renderProfileIcon()}
 					<Menu
 						id='menu'
 						anchorEl={anchorEl}

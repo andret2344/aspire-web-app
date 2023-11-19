@@ -252,7 +252,10 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 					<Button
 						onClick={toggleWishlistModal}
 						variant={'outlined'}
-						sx={{margin: '15px'}}
+						sx={{
+							margin: '15px',
+							marginBottom: '150px'
+						}}
 						startIcon={<AddCircleOutlineIcon />}
 					>
 						Add new wishlist
