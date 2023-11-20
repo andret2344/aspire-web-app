@@ -35,7 +35,7 @@ export const getReadonlyWishlistByUUID = async (
 ): Promise<WishList | null> => {
 	try {
 		const result: AxiosResponse<WishListDto> = await axios.get<WishListDto>(
-			`${baseUrl}/wishlist/by_uuid/${uuid}`
+			`${baseUrl}/api/wishlist/by_uuid/${uuid}`
 		);
 		return mapWishlist(result.data);
 	} catch (err) {
