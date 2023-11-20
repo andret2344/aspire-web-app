@@ -104,6 +104,7 @@ export const WishlistItemModal = (
 
 	return (
 		<Modal
+			onClose={props.toggleModal}
 			open={props.opened}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
