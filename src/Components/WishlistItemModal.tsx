@@ -179,6 +179,7 @@ export const WishlistItemModal = (
 						variant={'filled'}
 						defaultValue={props.editingItem?.description || ''}
 						multiline
+						rows={5}
 						maxRows={5}
 						inputRef={inputRefDescription}
 						size={isSmallerThan600 ? 'small' : 'medium'}
