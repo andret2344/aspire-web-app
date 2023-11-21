@@ -136,7 +136,13 @@ export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 						>
 							{wishlist?.name}
 						</Box>
-						<TableContainer component={Paper}>
+						<TableContainer
+							sx={{
+								maxHeight: '75vh',
+								overflowY: 'auto'
+							}}
+							component={Paper}
+						>
 							<Table aria-label='collapsible table'>
 								<TableHead>
 									<TableRow>
