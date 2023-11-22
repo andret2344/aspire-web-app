@@ -153,7 +153,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 									onClick={handleClickShowPasswordRepeat}
 								>
 									<RenderPasswordVisibilityIcon
-										showPassword={showPassword}
+										showPassword={showPasswordRepeat}
 									/>
 								</IconButton>
 							</InputAdornment>
