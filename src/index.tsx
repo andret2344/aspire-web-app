@@ -2,6 +2,7 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import {App} from './App';
 import {BrowserRouter} from 'react-router-dom';
+import {DarkModeProvider} from './Components/DarkModeContext';
 
 const container = document.getElementById('root');
 
@@ -10,7 +11,9 @@ if (container) {
 	root.render(
 		<React.StrictMode>
 			<BrowserRouter>
-				<App />
+				<DarkModeProvider>
+					<App />
+				</DarkModeProvider>
 			</BrowserRouter>
 		</React.StrictMode>
 	);

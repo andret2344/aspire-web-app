@@ -13,10 +13,13 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import {Logout, Settings} from '@mui/icons-material';
 import {useNavigate} from 'react-router-dom';
 import {getToken, logout} from '../Services/AuthService';
+import {useDarkMode} from './DarkModeContext';
+import {ToggleColorModeComponent} from './ToggleColorModeComponent';
 
 export const Header: React.FC<React.PropsWithChildren<None>> = (
 	props: React.PropsWithChildren<None>
 ): React.ReactElement => {
+	const {darkMode, toggleDarkMode} = useDarkMode();
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
@@ -36,7 +39,10 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 			return undefined;
 		}
 		return (
-			<IconButton onClick={handleClick}>
+			<IconButton
+				sx={{justifySelf: 'flex-end'}}
+				onClick={handleClick}
+			>
 				<AccountCircleOutlinedIcon fontSize={'large'} />
 			</IconButton>
 		);
@@ -60,17 +66,18 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 			>
 				<Box
 					sx={{
-						minWidth: '98%',
+						minWidth: '100%',
 						display: 'flex',
 						flexDirection: 'row',
-						justifyContent: 'space-between'
+						justifyContent: 'space-between',
+						alignItems: 'center'
 					}}
 				>
 					<Typography
 						variant='h6'
 						noWrap
 						component='a'
-						href='/'
+						href='/wishlists'
 						sx={{
 							fontFamily: 'Courgette',
 							fontWeight: 700,
@@ -82,35 +89,52 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 					>
 						wishlist
 					</Typography>
-					{renderProfileIcon()}
-					<Menu
-						id='menu'
-						anchorEl={anchorEl}
-						keepMounted
-						open={Boolean(anchorEl)}
-						onClose={handleClose}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'center'
-						}}
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'right'
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							alignItems: 'center'
 						}}
 					>
-						<MenuItem onClick={(): void => navigate('/profile')}>
-							<ListItemIcon>
-								<Settings fontSize='small' />
-							</ListItemIcon>
-							Settings
-						</MenuItem>
-						<MenuItem onClick={handleLogout}>
-							<ListItemIcon>
-								<Logout fontSize='small' />
-							</ListItemIcon>
-							Logout
-						</MenuItem>
-					</Menu>
+						{renderProfileIcon()}
+						<Menu
+							id='menu'
+							anchorEl={anchorEl}
+							keepMounted
+							open={Boolean(anchorEl)}
+							onClose={handleClose}
+							anchorOrigin={{
+								vertical: 'bottom',
+								horizontal: 'center'
+							}}
+							transformOrigin={{
+								vertical: 'top',
+								horizontal: 'right'
+							}}
+						>
+							<MenuItem
+								onClick={(): void => navigate('/profile')}
+							>
+								<ListItemIcon>
+									<Settings fontSize='small' />
+								</ListItemIcon>
+								Settings
+							</MenuItem>
+							<MenuItem onClick={handleLogout}>
+								<ListItemIcon>
+									<Logout fontSize='small' />
+								</ListItemIcon>
+								Logout
+							</MenuItem>
+						</Menu>
+						<Box sx={{justifySelf: 'flex-end'}}>
+							<ToggleColorModeComponent
+								darkMode={darkMode}
+								toggleDarkMode={toggleDarkMode}
+							/>
+						</Box>
+					</Box>
 				</Box>
 			</Container>
 			{props.children}
