@@ -17,6 +17,7 @@ import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon
 import {useNavigate} from 'react-router-dom';
 import {RegisterApiError, signUp} from '../Services/AuthService';
 import {AxiosError, AxiosResponse} from 'axios';
+import {Header} from '../Components/Header';
 
 interface IFormInput {
 	readonly email: string;
@@ -81,135 +82,137 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 	};
 
 	return (
-		<AuthComponent>
-			<form
-				style={{
-					width: '100%',
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					alignItems: 'center'
-				}}
-				className='loginForm'
-				onSubmit={handleSubmit(onSubmit)}
-			>
-				<TextField
-					required
-					hiddenLabel
-					variant={'filled'}
-					placeholder={'E-mail address'}
-					size={isSmallerThan600 ? 'small' : 'medium'}
-					sx={{
-						width: '200px',
-						marginTop: '5px'
+		<Header>
+			<AuthComponent>
+				<form
+					style={{
+						width: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'center'
 					}}
-					type={'email'}
-					error={!!errors.email}
-					helperText={errors.email?.message}
-					{...register('email', {required: true})}
-				/>
-				<TextField
-					type={showPassword ? 'text' : 'password'}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment
-								position='end'
-								sx={{margin: 0, padding: 0}}
-							>
-								<IconButton
-									sx={{margin: 0, padding: 0}}
-									onClick={handleClickShowPassword}
-								>
-									<RenderPasswordVisibilityIcon
-										showPassword={showPassword}
-									/>
-								</IconButton>
-							</InputAdornment>
-						)
-					}}
-					hiddenLabel
-					variant={'filled'}
-					placeholder={'Password'}
-					size={isSmallerThan600 ? 'small' : 'medium'}
-					sx={{
-						width: '200px',
-						marginTop: '5px'
-					}}
-					required
-					error={!!errors.password}
-					helperText={errors.password?.message}
-					{...register('password')}
-				/>
-				<TextField
-					type={showPasswordRepeat ? 'text' : 'password'}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment
-								position='end'
-								sx={{margin: 0, padding: 0}}
-							>
-								<IconButton
-									sx={{margin: 0, padding: 0}}
-									onClick={handleClickShowPasswordRepeat}
-								>
-									<RenderPasswordVisibilityIcon
-										showPassword={showPasswordRepeat}
-									/>
-								</IconButton>
-							</InputAdornment>
-						)
-					}}
-					hiddenLabel
-					variant={'filled'}
-					placeholder={'Repeat password'}
-					size={isSmallerThan600 ? 'small' : 'medium'}
-					sx={{
-						width: '200px',
-						marginTop: '5px'
-					}}
-					required
-					error={!!errors.passwordRepeat}
-					helperText={errors.passwordRepeat?.message}
-					{...register('passwordRepeat')}
-				/>
-				<Button
-					variant='contained'
-					sx={{
-						marginTop: '10px'
-					}}
-					type={'submit'}
+					className='loginForm'
+					onSubmit={handleSubmit(onSubmit)}
 				>
-					Register
-				</Button>
-				<Box
-					mt={'10px'}
-					display={'flex'}
-					alignItems={'center'}
-				>
-					<Typography
+					<TextField
+						required
+						hiddenLabel
+						variant={'filled'}
+						placeholder={'E-mail address'}
+						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
-							fontFamily: 'Montserrat',
-							marginRight: 0,
-							paddingRight: 0,
-							fontWeight: 400
+							width: '200px',
+							marginTop: '5px'
 						}}
-					>
-						Already have an account?
-					</Typography>
-					<Link
-						href='/'
+						type={'email'}
+						error={!!errors.email}
+						helperText={errors.email?.message}
+						{...register('email', {required: true})}
+					/>
+					<TextField
+						type={showPassword ? 'text' : 'password'}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment
+									position='end'
+									sx={{margin: 0, padding: 0}}
+								>
+									<IconButton
+										sx={{margin: 0, padding: 0}}
+										onClick={handleClickShowPassword}
+									>
+										<RenderPasswordVisibilityIcon
+											showPassword={showPassword}
+										/>
+									</IconButton>
+								</InputAdornment>
+							)
+						}}
+						hiddenLabel
+						variant={'filled'}
+						placeholder={'Password'}
+						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
-							paddingLeft: '3px',
-							fontFamily: 'Montserrat',
-							marginLeft: 0,
-							textDecoration: 'underline',
-							fontWeight: 400
+							width: '200px',
+							marginTop: '5px'
 						}}
+						required
+						error={!!errors.password}
+						helperText={errors.password?.message}
+						{...register('password')}
+					/>
+					<TextField
+						type={showPasswordRepeat ? 'text' : 'password'}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment
+									position='end'
+									sx={{margin: 0, padding: 0}}
+								>
+									<IconButton
+										sx={{margin: 0, padding: 0}}
+										onClick={handleClickShowPasswordRepeat}
+									>
+										<RenderPasswordVisibilityIcon
+											showPassword={showPasswordRepeat}
+										/>
+									</IconButton>
+								</InputAdornment>
+							)
+						}}
+						hiddenLabel
+						variant={'filled'}
+						placeholder={'Repeat password'}
+						size={isSmallerThan600 ? 'small' : 'medium'}
+						sx={{
+							width: '200px',
+							marginTop: '5px'
+						}}
+						required
+						error={!!errors.passwordRepeat}
+						helperText={errors.passwordRepeat?.message}
+						{...register('passwordRepeat')}
+					/>
+					<Button
+						variant='contained'
+						sx={{
+							marginTop: '10px'
+						}}
+						type={'submit'}
 					>
-						Sign in
-					</Link>
-				</Box>
-			</form>
-		</AuthComponent>
+						Register
+					</Button>
+					<Box
+						mt={'10px'}
+						display={'flex'}
+						alignItems={'center'}
+					>
+						<Typography
+							sx={{
+								fontFamily: 'Montserrat',
+								marginRight: 0,
+								paddingRight: 0,
+								fontWeight: 400
+							}}
+						>
+							Already have an account?
+						</Typography>
+						<Link
+							href='/'
+							sx={{
+								paddingLeft: '3px',
+								fontFamily: 'Montserrat',
+								marginLeft: 0,
+								textDecoration: 'underline',
+								fontWeight: 400
+							}}
+						>
+							Sign in
+						</Link>
+					</Box>
+				</form>
+			</AuthComponent>
+		</Header>
 	);
 };
