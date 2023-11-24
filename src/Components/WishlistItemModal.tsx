@@ -19,6 +19,7 @@ import {
 } from '../Services/WishlistItemService';
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishlistItem} from '../Entity/WishlistItem';
+import {useSnackbar} from 'notistack';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
@@ -36,6 +37,7 @@ export const WishlistItemModal = (
 	const [priority, setPriority] = React.useState<number>(1);
 	const inputRefName = React.useRef<HTMLInputElement>(null);
 	const inputRefDescription = React.useRef<HTMLInputElement>(null);
+	const {enqueueSnackbar} = useSnackbar();
 
 	React.useEffect((): void => {
 		if (props.editingItem) {
@@ -99,6 +101,9 @@ export const WishlistItemModal = (
 					toggleModalAndClearFields();
 				}
 			}
+			enqueueSnackbar('Successfully saved wishlist item.', {
+				variant: 'success'
+			});
 		}
 	};
 

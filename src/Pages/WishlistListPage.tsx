@@ -74,7 +74,11 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				if (wishlist) {
 					setWishlist({...wishlist, name: updatedWishlist?.name});
 				}
-				await fetchAndSetWishlists();
+				await fetchAndSetWishlists().then((): void => {
+					enqueueSnackbar('Wishlist name changed successfully.', {
+						variant: 'success'
+					});
+				});
 			}
 		}
 		setEditedName(undefined);
@@ -101,10 +105,19 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 			...prevWishlists,
 			newWishlist
 		]);
+		enqueueSnackbar('Wishlist created.', {variant: 'success'});
 	};
 
 	const handleRemoveWishlistButton = async (): Promise<void> => {
-		await removeWishlist(wishlist?.id);
+		await removeWishlist(wishlist?.id)
+			.then((): void => {
+				enqueueSnackbar('Wishlist removed successfully.', {
+					variant: 'success'
+				});
+			})
+			.catch((): void => {
+				enqueueSnackbar('Something went wrong!', {variant: 'error'});
+			});
 		await fetchAndSetWishlists();
 		setWishlist(null);
 	};
