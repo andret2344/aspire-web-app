@@ -1,6 +1,7 @@
 import axios, {AxiosResponse, isAxiosError} from 'axios';
 import Cookies from 'js-cookie';
 import apiInstance, {baseUrl} from './ApiInstance';
+import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 const ACCESS_TOKEN: string = 'accessToken';
 const REFRESH_TOKEN: string = 'refreshToken';
@@ -22,10 +23,14 @@ export const logIn = async (
 		return 401;
 	}
 	try {
-		const result = await apiInstance.post(`/account/login`, {
-			email,
-			password
-		});
+		const result = await axios.post(
+			`${baseUrl}/api/account/login`,
+			{
+				email,
+				password
+			},
+			headers
+		);
 
 		saveAccessTokenInLocalStorage(result.data.access);
 		saveRefreshTokenInCookies(result.data.refresh);
@@ -88,4 +93,20 @@ export const refreshToken = async (): Promise<string | undefined> => {
 
 export const getItemFromStorage = (key: string): string | null => {
 	return localStorage.getItem(key);
+};
+
+export const isTokenValid = (): boolean => {
+	const token = getToken();
+
+	if (!token) {
+		return false;
+	}
+
+	const decodedToken = jwtDecode<JwtPayload>(token);
+	if (!decodedToken.exp) {
+		return false;
+	}
+
+	const currentTime = Date.now() / 1000;
+	return decodedToken.exp > currentTime;
 };

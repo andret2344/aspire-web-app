@@ -12,7 +12,7 @@ import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Logout, Settings} from '@mui/icons-material';
 import {useNavigate} from 'react-router-dom';
-import {getToken, logout} from '../Services/AuthService';
+import {isTokenValid, logout} from '../Services/AuthService';
 import {useDarkMode} from './DarkModeContext';
 import {ToggleColorModeComponent} from './ToggleColorModeComponent';
 
@@ -35,7 +35,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 	};
 
 	const renderProfileIcon = (): React.ReactElement | undefined => {
-		if (!getToken()) {
+		if (!isTokenValid()) {
 			return undefined;
 		}
 		return (
@@ -43,7 +43,10 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 				sx={{justifySelf: 'flex-end'}}
 				onClick={handleClick}
 			>
-				<AccountCircleOutlinedIcon fontSize={'large'} />
+				<AccountCircleOutlinedIcon
+					sx={{color: 'white'}}
+					fontSize={'large'}
+				/>
 			</IconButton>
 		);
 	};

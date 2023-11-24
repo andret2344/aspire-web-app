@@ -17,12 +17,14 @@ import {logIn} from '../Services/AuthService';
 import {useNavigate} from 'react-router-dom';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {Header} from '../Components/Header';
+import {useSnackbar} from 'notistack';
 
 export const LoginPage: React.FC = (): React.ReactElement => {
 	const navigate = useNavigate();
 	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
+	const {enqueueSnackbar} = useSnackbar();
 
 	const handleClickShowPassword = (): void => {
 		setShowPassword((prev: boolean): boolean => !prev);
@@ -35,10 +37,17 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 			(response: number): void => {
 				if ([200, 201].includes(response)) {
 					navigate('/wishlists');
+					enqueueSnackbar('Successfully logged in', {
+						variant: 'info'
+					});
+				} else if ([401].includes(response)) {
+					enqueueSnackbar('Wrong login or password. Try again!', {
+						variant: 'warning'
+					});
 				} else {
-					console.error(
-						`Wrong username or password, to do in feature with modal :)`
-					);
+					enqueueSnackbar('Something went wrong. Try again later.', {
+						variant: 'error'
+					});
 				}
 			}
 		);

@@ -18,6 +18,7 @@ import {useNavigate} from 'react-router-dom';
 import {RegisterApiError, signUp} from '../Services/AuthService';
 import {AxiosError, AxiosResponse} from 'axios';
 import {Header} from '../Components/Header';
+import {useSnackbar} from 'notistack';
 
 interface IFormInput {
 	readonly email: string;
@@ -32,6 +33,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 	const [showPasswordRepeat, setShowPasswordRepeat] =
 		React.useState<boolean>(false);
 	const navigate = useNavigate();
+	const {enqueueSnackbar} = useSnackbar();
 
 	const handleClickShowPassword = (): void => {
 		setShowPassword((prev: boolean): boolean => !prev);
@@ -62,6 +64,9 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 			.then((response: AxiosResponse): void => {
 				if ([200, 201].includes(response?.status || -1)) {
 					navigate('/');
+					enqueueSnackbar('Successfully created an account!', {
+						variant: 'success'
+					});
 				}
 			})
 			.catch((response: AxiosError<RegisterApiError>): void => {
