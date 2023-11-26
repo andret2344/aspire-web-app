@@ -1,0 +1,3 @@
+window.appConfig = {
+	REACT_APP_API: 'http://localhost:8082'
+};
