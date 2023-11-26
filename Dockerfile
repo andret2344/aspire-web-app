@@ -8,6 +8,9 @@ RUN yarn
 
 COPY . .
 
+ARG REACT_APP_API
+ENV REACT_APP_API $REACT_APP_API
+
 RUN yarn build
 
 FROM nginx:mainline-alpine3.18-slim

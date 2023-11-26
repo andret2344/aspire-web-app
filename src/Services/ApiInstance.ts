@@ -10,7 +10,7 @@ import axios, {
 	InternalAxiosRequestConfig
 } from 'axios';
 
-export const baseUrl: string | undefined = process.env.REACT_APP_API_URL;
+export const baseUrl: string | undefined = process.env.REACT_APP_API;
 
 const apiInstance: AxiosInstance = axios.create({
 	baseURL: `${baseUrl}/api`,
