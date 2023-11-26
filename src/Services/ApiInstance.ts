@@ -9,8 +9,12 @@ import axios, {
 	AxiosResponse,
 	InternalAxiosRequestConfig
 } from 'axios';
+import '../config.js';
 
-export const baseUrl: string | undefined = process.env.REACT_APP_API;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// prettier-ignore
+export const baseUrl: string | undefined = window.appConfig.REACT_APP_API;
 
 const apiInstance: AxiosInstance = axios.create({
 	baseURL: `${baseUrl}/api`,
