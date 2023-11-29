@@ -4,8 +4,9 @@ services:
   - docker:dind
 
 variables:
-  DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: ""
+  DOCKER_TLS_CERTDIR: "/certs"
+  CONTAINER_TEST_IMAGE: $CI_CONTAINER_IMAGE
+  CONTAINER_RELEASE_IMAGE: $CI_CONTAINER_IMAGE
 
 stages:
   - install
@@ -36,7 +37,7 @@ build:
 release-image:
   stage: release
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
+    - docker build -t $CONTAINER_RELEASE_IMAGE .
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
