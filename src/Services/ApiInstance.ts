@@ -9,23 +9,29 @@ import axios, {
 	AxiosResponse,
 	InternalAxiosRequestConfig
 } from 'axios';
+import {Config} from './EnvironmentHelper';
 
-let baseUrl = '/';
+let urlConfig: Config = {
+	backend: process.env.REACT_API_URL ?? 'localhost:8080',
+	frontend: 'localhost:3000'
+};
+
+export const getBackendUrl = (): string => urlConfig.backend;
+
+export const getFrontendUrl = (): string => urlConfig.frontend;
 
 const apiInstance: AxiosInstance = axios.create({
-	baseURL: `${baseUrl}`,
+	baseURL: `${getBackendUrl()}`,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json'
 	}
 });
 
-export const getBaseUrl = (): string => baseUrl;
-
-export const setBaseUrl = (url: string | undefined): void => {
-	if (url) {
-		baseUrl = url;
-		apiInstance.defaults.baseURL = url;
+export const setConfig = (config: Config | undefined): void => {
+	if (config) {
+		urlConfig = config;
+		apiInstance.defaults.baseURL = config.backend;
 	}
 };
 

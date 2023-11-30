@@ -1,6 +1,6 @@
 import axios, {AxiosResponse, isAxiosError} from 'axios';
 import Cookies from 'js-cookie';
-import apiInstance, {getBaseUrl} from './ApiInstance';
+import apiInstance, {getBackendUrl} from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 const ACCESS_TOKEN: string = 'accessToken';
@@ -23,7 +23,7 @@ export const logIn = async (
 		return 401;
 	}
 	try {
-		const baseUrl = getBaseUrl();
+		const baseUrl = getBackendUrl();
 		const result = await axios.post(
 			`${baseUrl}/account/login`,
 			{
@@ -45,7 +45,7 @@ export const signUp = async (
 	email: string,
 	password: string
 ): Promise<AxiosResponse> => {
-	const baseUrl = getBaseUrl();
+	const baseUrl = getBackendUrl();
 	return await axios.post(
 		`${baseUrl}/account/register`,
 		{
