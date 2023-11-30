@@ -1,4 +1,4 @@
-FROM node:lts-alpine as build-deps
+FROM --platform=linux/amd64 node:lts-alpine3.18 as build-deps
 LABEL author="Mytthew"
 WORKDIR /app
 
