@@ -34,6 +34,7 @@ import {WishlistItem} from '../Entity/WishlistItem';
 import {WishlistItemModal} from '../Components/WishlistItemModal';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
+import {getFrontendUrl} from '../Services/ApiInstance';
 
 export const WishlistListPage: React.FC = (): React.ReactElement => {
 	type Params = {id?: string};
@@ -210,8 +211,16 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	};
 
 	const addShareUrlToClipboard = (): void => {
+		if (!wishlist) {
+			enqueueSnackbar('Something went wrong!', {variant: 'error'});
+			return;
+		}
 		navigator.clipboard
-			.writeText(`${window.location.host}/wishlist/${wishlist?.uuid}`)
+			.writeText(
+				`${window.location.protocol}//${getFrontendUrl()}/wishlist/${
+					wishlist.uuid
+				}`
+			)
 			.then((): string | number =>
 				enqueueSnackbar('Share URL copied to clipboard.', {
 					variant: 'info'
