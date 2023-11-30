@@ -13,7 +13,7 @@ export const getConfig = async (): Promise<string | undefined> => {
 		const response = await axios.get<{wishlist: Config}>(
 			'https://data.andret.eu'
 		);
-		return `https://${response.data.wishlist.backend}`;
+		return `https://${response.data.wishlist.backend}/api`;
 	} catch (error) {
 		console.error('Error fetching production config:', error);
 		return process.env.REACT_API_URL;
