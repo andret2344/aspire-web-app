@@ -9,8 +9,18 @@ import {ProfilePage} from './Pages/ProfilePage';
 import {RegisterPage} from './Pages/RegisterPage';
 import {SnackbarProvider} from 'notistack';
 import {ReadonlyWishtlistPage} from './Pages/ReadonlyWishtlistPage';
+import {getConfig} from './Services/EnvironmentHelper';
+import {setBaseUrl} from './Services/ApiInstance';
 
 export const App: React.FC = (): React.ReactElement => {
+	const fetchBaseUrl = async (): Promise<string | undefined> => {
+		return await getConfig();
+	};
+
+	React.useEffect((): void => {
+		fetchBaseUrl().then(setBaseUrl);
+	}, []);
+
 	return (
 		<SnackbarProvider
 			autoHideDuration={2000}
