@@ -1,25 +1,21 @@
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 
-export interface Config {
-	readonly frontend: string;
+interface Config {
 	readonly backend: string;
 }
 
-type ConfigResponse = {
-	wishlist: Config;
-};
-
-export const getConfig = async (): Promise<Config | undefined> => {
+export const getConfig = async (): Promise<string | undefined> => {
 	if (process.env.NODE_ENV !== 'production') {
-		return undefined;
+		return process.env.REACT_API_URL;
 	}
 
 	try {
-		const response: AxiosResponse<ConfigResponse> =
-			await axios.get<ConfigResponse>('https://data.andret.eu');
-		return response.data.wishlist;
+		const response = await axios.get<{wishlist: Config}>(
+			'https://data.andret.eu'
+		);
+		return `https://${response.data.wishlist.backend}/api`;
 	} catch (error) {
 		console.error('Error fetching production config:', error);
-		return undefined;
+		return process.env.REACT_API_URL;
 	}
 };

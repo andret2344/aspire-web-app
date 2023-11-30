@@ -5,7 +5,8 @@ import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 const ACCESS_TOKEN: string = 'accessToken';
 const REFRESH_TOKEN: string = 'refreshToken';
-const headers: {[key: string]: string} = {
+
+export const headers: {[key: string]: string} = {
 	Accept: 'application/json',
 	'Content-Type': 'application/json'
 };

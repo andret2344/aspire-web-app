@@ -216,11 +216,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 			return;
 		}
 		navigator.clipboard
-			.writeText(
-				`${window.location.protocol}//${getFrontendUrl()}/wishlist/${
-					wishlist.uuid
-				}`
-			)
+			.writeText(`${getFrontendUrl()}/wishlist/${wishlist.uuid}`)
 			.then((): string | number =>
 				enqueueSnackbar('Share URL copied to clipboard.', {
 					variant: 'info'
