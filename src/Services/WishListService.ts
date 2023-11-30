@@ -2,6 +2,7 @@ import {WishList, WishListDto} from '../Entity/WishList';
 import axios, {AxiosResponse, isAxiosError} from 'axios';
 import apiInstance, {getBackendUrl} from './ApiInstance';
 import {mapWishlistItem} from '../Entity/WishlistItem';
+import {headers} from './AuthService';
 
 export const getWishlists = async (): Promise<WishList[]> => {
 	try {
@@ -36,7 +37,8 @@ export const getReadonlyWishlistByUUID = async (
 	try {
 		const baseUrl = getBackendUrl();
 		const result: AxiosResponse<WishListDto> = await axios.get<WishListDto>(
-			`${baseUrl}/wishlist/by_uuid/${uuid}`
+			`${baseUrl}/wishlist/by_uuid/${uuid}`,
+			{headers}
 		);
 		return mapWishlist(result.data);
 	} catch (err) {

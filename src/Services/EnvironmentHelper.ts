@@ -10,9 +10,9 @@ type ConfigResponse = {
 };
 
 export const getConfig = async (): Promise<Config | undefined> => {
-	if (process.env.NODE_ENV !== 'production') {
-		return undefined;
-	}
+	// if (process.env.NODE_ENV !== 'production') {
+	// 	return undefined;
+	// }
 
 	try {
 		const response: AxiosResponse<ConfigResponse> =
