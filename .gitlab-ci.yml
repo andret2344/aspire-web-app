@@ -4,9 +4,10 @@ services:
   - docker:dind
 
 variables:
+  version: 0.1.0
   DOCKER_TLS_CERTDIR: "/certs"
-  CONTAINER_TEST_IMAGE: $CI_CONTAINER_IMAGE
-  CONTAINER_RELEASE_IMAGE: $CI_CONTAINER_IMAGE
+  CONTAINER_RELEASE_IMAGE_VERSION: $CI_CONTAINER_IMAGE:v$version
+  CONTAINER_RELEASE_IMAGE_LATEST: $CI_CONTAINER_IMAGE:latest
 
 stages:
   - install
@@ -37,8 +38,9 @@ build:
 release-image:
   stage: release
   script:
-    - docker build -t $CONTAINER_RELEASE_IMAGE .
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
+    - docker build -t $CONTAINER_RELEASE_IMAGE_VERSION .
+    - docker tag $CONTAINER_RELEASE_IMAGE_VERSION $CONTAINER_RELEASE_IMAGE_VERSION
+    - docker push $CONTAINER_RELEASE_IMAGE_VERSION
+    - docker push $CONTAINER_RELEASE_IMAGE_LATEST
   only:
     - main
