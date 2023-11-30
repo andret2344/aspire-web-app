@@ -25,7 +25,7 @@ export const logIn = async (
 	try {
 		const baseUrl = getBaseUrl();
 		const result = await axios.post(
-			`${baseUrl}/api/account/login`,
+			`${baseUrl}/account/login`,
 			{
 				email,
 				password
@@ -47,7 +47,7 @@ export const signUp = async (
 ): Promise<AxiosResponse> => {
 	const baseUrl = getBaseUrl();
 	return await axios.post(
-		`${baseUrl}/api/account/register`,
+		`${baseUrl}/account/register`,
 		{
 			email,
 			password
