@@ -101,6 +101,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<TextField
+						autoComplete={'new-password'}
 						required
 						hiddenLabel
 						variant={'filled'}
@@ -117,6 +118,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					/>
 					<TextField
 						type={showPassword ? 'text' : 'password'}
+						autoComplete={'new-password'}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment
@@ -149,6 +151,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					/>
 					<TextField
 						type={showPasswordRepeat ? 'text' : 'password'}
+						autoComplete={'new-password'}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment

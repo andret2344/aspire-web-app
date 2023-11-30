@@ -68,6 +68,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<TextField
+						autoComplete={'new-password'}
 						hiddenLabel
 						variant={'filled'}
 						placeholder={'Login'}
@@ -81,6 +82,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 					/>
 					<TextField
 						type={showPassword ? 'text' : 'password'}
+						autoComplete={'new-password'}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment

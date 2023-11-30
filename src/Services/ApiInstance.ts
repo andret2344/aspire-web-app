@@ -9,20 +9,25 @@ import axios, {
 	AxiosResponse,
 	InternalAxiosRequestConfig
 } from 'axios';
-import '../config.js';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// prettier-ignore
-export const baseUrl: string | undefined = window.appConfig.REACT_APP_API;
+let baseUrl = '/';
 
 const apiInstance: AxiosInstance = axios.create({
-	baseURL: `${baseUrl}/api`,
+	baseURL: `${baseUrl}`,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json'
 	}
 });
+
+export const getBaseUrl = (): string => baseUrl;
+
+export const setBaseUrl = (url: string | undefined): void => {
+	if (url) {
+		baseUrl = url;
+		apiInstance.defaults.baseURL = url;
+	}
+};
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 apiInstance.interceptors.request.use(
