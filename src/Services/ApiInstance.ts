@@ -13,7 +13,7 @@ import {Config} from './EnvironmentHelper';
 
 let urlConfig: Config = {
 	backend: process.env.REACT_API_URL ?? 'localhost:8080',
-	frontend: 'localhost:3000'
+	frontend: `${window.location.protocol}//${window.location.host}`
 };
 
 export const getBackendUrl = (): string => urlConfig.backend;
