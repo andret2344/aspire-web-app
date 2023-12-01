@@ -27,6 +27,7 @@ export const getWishlist = async (id: number): Promise<WishList | null> => {
 		if (isAxiosError(err)) {
 			console.error(err.response);
 		}
+		console.error(err);
 		return null;
 	}
 };
@@ -45,6 +46,7 @@ export const getReadonlyWishlistByUUID = async (
 		if (isAxiosError(err)) {
 			console.error(err.response);
 		}
+		console.error(err);
 		return null;
 	}
 };
@@ -59,6 +61,7 @@ export const addWishlist = async (name: string): Promise<WishList | null> => {
 		if (isAxiosError(err)) {
 			console.error(err.response);
 		}
+		console.error(err);
 		return null;
 	}
 };
@@ -71,6 +74,7 @@ export const removeWishlist = async (id?: number): Promise<void> => {
 			if (isAxiosError(err)) {
 				console.error(err.response);
 			}
+			console.error(err);
 		}
 	}
 };
@@ -92,6 +96,7 @@ export const updateWishlistName = async (
 		if (isAxiosError(err)) {
 			console.error(err.response);
 		}
+		console.error(err);
 	}
 	return null;
 };
