@@ -13,13 +13,20 @@ import {Config, getConfig} from './Services/EnvironmentHelper';
 import {setConfig} from './Services/ApiInstance';
 
 export const App: React.FC = (): React.ReactElement => {
+	const [loaded, setLoaded] = React.useState<boolean>(false);
 	const fetchBaseUrl = async (): Promise<Config | undefined> => {
 		return await getConfig();
 	};
 
 	React.useEffect((): void => {
-		fetchBaseUrl().then(setConfig);
+		fetchBaseUrl()
+			.then(setConfig)
+			.then((): void => setLoaded(true));
 	}, []);
+
+	if (!loaded) {
+		return <></>;
+	}
 
 	return (
 		<SnackbarProvider
