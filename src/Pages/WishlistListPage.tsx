@@ -178,11 +178,13 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	}, [params.id]);
 
 	const renderWishlistItem = (
-		wishlistItem: WishlistItem
+		wishlistItem: WishlistItem,
+		index: number
 	): React.ReactElement => (
 		<Row
 			key={wishlistItem?.id}
 			row={wishlistItem}
+			position={index + 1}
 			wishlistId={wishlist?.id}
 			onEdit={openWishlistItemModalForEdit}
 			onRemove={fetchAndSetWishlist}
@@ -345,7 +347,9 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 											width={'5%'}
 											align='left'
 										/>
-										<TableCell align='left'>Id</TableCell>
+										<TableCell align='left'>
+											Item No.
+										</TableCell>
 										<TableCell align='left'>Name</TableCell>
 										<TableCell
 											width={'10%'}

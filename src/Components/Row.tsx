@@ -19,6 +19,7 @@ import {useSnackbar} from 'notistack';
 interface RowProps {
 	readonly row: WishlistItem;
 	readonly wishlistId?: number;
+	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
 	readonly onRemove?: (id: number) => void;
 }
@@ -65,7 +66,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 						{renderExpandButton()}
 					</IconButton>
 				</TableCell>
-				<TableCell align='left'>{props.row.id}</TableCell>
+				<TableCell align='left'>{props.position}</TableCell>
 				<TableCell align='left'>{props.row.name}</TableCell>
 				<TableCell align='center'>
 					<Box
