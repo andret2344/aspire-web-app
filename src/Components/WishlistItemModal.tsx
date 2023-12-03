@@ -96,14 +96,19 @@ export const WishlistItemModal = (
 					wishlistItemDescription,
 					priority
 				);
+
 				if (newWishlistItem) {
 					props.getWishlistAgain(props.wishlistId);
 					toggleModalAndClearFields();
+					enqueueSnackbar('Successfully saved wishlist item.', {
+						variant: 'success'
+					});
+				} else {
+					enqueueSnackbar('Too long name or description.', {
+						variant: 'error'
+					});
 				}
 			}
-			enqueueSnackbar('Successfully saved wishlist item.', {
-				variant: 'success'
-			});
 		}
 	};
 
@@ -185,7 +190,6 @@ export const WishlistItemModal = (
 						defaultValue={props.editingItem?.description || ''}
 						multiline
 						rows={5}
-						maxRows={5}
 						inputRef={inputRefDescription}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
