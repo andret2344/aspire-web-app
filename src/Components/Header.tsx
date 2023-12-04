@@ -1,12 +1,4 @@
-import {
-	Box,
-	Container,
-	IconButton,
-	ListItemIcon,
-	Menu,
-	MenuItem,
-	Typography
-} from '@mui/material';
+import {Box, Container, IconButton, ListItemIcon, Menu, MenuItem, Typography} from '@mui/material';
 import React from 'react';
 import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -90,7 +82,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 							textDecoration: 'none'
 						}}
 					>
-						wishlist
+						Aspire
 					</Typography>
 					<Box
 						sx={{

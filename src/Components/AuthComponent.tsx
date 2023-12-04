@@ -66,7 +66,24 @@ export const AuthComponent: React.FC<React.PropsWithChildren<None>> = (
 						textDecoration: 'none'
 					}}
 				>
-					wishlist
+					Aspire
+				</Typography>
+				<Typography
+					variant='h6'
+					noWrap
+					component='a'
+					href='/'
+					sx={{
+						display: 'flex',
+						fontFamily: 'Courgette',
+						fontWeight: 700,
+						fontSize: '24px',
+						letterSpacing: '.2rem',
+						color: 'primary.main',
+						textDecoration: 'none'
+					}}
+				>
+					The Aspiration Abyss
 				</Typography>
 				{props.children}
 			</Paper>
