@@ -1,6 +1,6 @@
 ## Open project dir
 
-cd wishlistapp
+cd aspire-web-app
 
 ## Install dependencies
 

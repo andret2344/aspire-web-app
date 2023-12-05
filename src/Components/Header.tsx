@@ -90,7 +90,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 							textDecoration: 'none'
 						}}
 					>
-						wishlist
+						Aspire
 					</Typography>
 					<Box
 						sx={{

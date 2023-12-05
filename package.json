@@ -1,7 +1,7 @@
 {
-	"name": "wishlist-frontend",
+	"name": "aspire-web-app",
 	"version": "0.1.0",
-	"description": "Wishlist frontend application",
+	"description": "The Aspiration Abyss",
 	"scripts": {
 		"start": "webpack serve --config webpack/webpack.config.js --env env=dev",
 		"build": "webpack --config webpack/webpack.config.js --env env=prod",
@@ -15,7 +15,7 @@
 		"TypeScript",
 		"Webpack 5",
 		"Frontend",
-		"Wishlist"
+		"Aspire"
 	],
 	"author": "Mytthew",
 	"license": "MIT",
