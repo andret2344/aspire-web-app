@@ -1,4 +1,12 @@
-import {Box, Container, IconButton, ListItemIcon, Menu, MenuItem, Typography} from '@mui/material';
+import {
+	Box,
+	Container,
+	IconButton,
+	ListItemIcon,
+	Menu,
+	MenuItem,
+	Typography
+} from '@mui/material';
 import React from 'react';
 import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
