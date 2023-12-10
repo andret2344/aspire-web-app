@@ -12,6 +12,7 @@ variables:
 stages:
   - install
   - build
+  - test
   - release
 
 before_script:
@@ -32,6 +33,13 @@ build:
   stage: build
   script:
     - yarn build
+  dependencies:
+    - install
+
+test:
+  stage: test
+  script:
+    - yarn test
   dependencies:
     - install
 
