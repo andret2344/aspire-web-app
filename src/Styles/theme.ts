@@ -13,19 +13,22 @@ const priorityColors: {[key: number]: string} = {
 interface Colors {
 	blue: string;
 	lightBlue?: string;
+	activeBlue?: string;
 	red: string;
 }
 
 const lightColors: Colors = {
 	blue: 'rgba(0, 109, 209, 0.17)',
 	red: '#670303',
-	lightBlue: '#D9E6F7'
+	lightBlue: '#D9E6F7',
+	activeBlue: 'rgba(0, 109, 209, 0.4)'
 };
 
 const darkColors: Colors = {
 	blue: '#026DD1',
 	red: '#e08888',
-	lightBlue: '#D9E6F7'
+	lightBlue: '#D9E6F7',
+	activeBlue: 'rgba(0, 109, 209, 0.4)'
 };
 
 export const lightTheme = createTheme({

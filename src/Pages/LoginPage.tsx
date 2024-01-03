@@ -37,7 +37,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 			(response: number): void => {
 				if ([200, 201].includes(response)) {
 					navigate('/wishlists');
-					enqueueSnackbar('Successfully logged in', {
+					enqueueSnackbar('Successfully logged in.', {
 						variant: 'info'
 					});
 				} else if ([401].includes(response)) {

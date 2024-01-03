@@ -9,16 +9,14 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
-	TextField,
+	Input,
 	Typography
 } from '@mui/material';
 import React from 'react';
 import '../../assets/fonts.css';
 import Grid from '@mui/material/Unstable_Grid2';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import ShareIcon from '@mui/icons-material/Share';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {getThemeColor} from '../Styles/theme';
+import EditIcon from '@mui/icons-material/Edit';
 import Row from '../Components/Row';
 import {WishList} from '../Entity/WishList';
 import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
@@ -41,7 +39,9 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const params: Params = useParams<Params>();
 	const navigate = useNavigate();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	const [wishlist, setWishlist] = React.useState<WishList | null>(null);
+	const [activeWishlist, setActiveWishlist] = React.useState<WishList | null>(
+		null
+	);
 	const [openAddWishlistModal, setOpenAddWishlistModal] =
 		React.useState<boolean>(false);
 	const [openAddWishlistItemModal, setOpenAddWishlistItemModal] =
@@ -55,7 +55,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const {enqueueSnackbar} = useSnackbar();
 
 	const handleNameClick = (): void => {
-		setEditedName(wishlist?.name ?? '');
+		setEditedName(activeWishlist?.name ?? '');
 	};
 
 	const handleNameChange = (
@@ -67,13 +67,16 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const handleNameSubmit = async (): Promise<void> => {
 		if (editedName) {
 			const updatedWishlist = await updateWishlistName(
-				wishlist?.id,
+				activeWishlist?.id,
 				editedName
 			);
 
 			if (updatedWishlist) {
-				if (wishlist) {
-					setWishlist({...wishlist, name: updatedWishlist?.name});
+				if (activeWishlist) {
+					setActiveWishlist({
+						...activeWishlist,
+						name: updatedWishlist?.name
+					});
 				}
 				await fetchAndSetWishlists().then((): void => {
 					enqueueSnackbar('Wishlist name changed successfully.', {
@@ -96,6 +99,12 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				<WishlistSidebarItem
 					key={wishlist.id}
 					wishlist={wishlist}
+					active={activeWishlist?.id === wishlist.id}
+					onShare={addShareUrlToClipboard}
+					onRemove={handleRemoveWishlistButton}
+					onDisplay={(): React.ReactElement =>
+						displayOrEditWishlistName(wishlist.name)
+					}
 				/>
 			);
 		});
@@ -110,7 +119,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	};
 
 	const handleRemoveWishlistButton = async (): Promise<void> => {
-		await removeWishlist(wishlist?.id)
+		await removeWishlist(activeWishlist?.id)
 			.then((): void => {
 				enqueueSnackbar('Wishlist removed successfully.', {
 					variant: 'success'
@@ -120,7 +129,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				enqueueSnackbar('Something went wrong!', {variant: 'error'});
 			});
 		await fetchAndSetWishlists();
-		setWishlist(null);
+		setActiveWishlist(null);
 	};
 
 	const toggleWishlistModal = (): void => {
@@ -145,7 +154,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const fetchAndSetWishlist = async (id: number): Promise<void> => {
 		await getWishlist(id).then((wishlist): void => {
 			if (wishlist) {
-				setWishlist(wishlist);
+				setActiveWishlist(wishlist);
 			} else {
 				navigate('/error');
 			}
@@ -164,7 +173,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 			fetchSelectedWishlist(paramId)
 				.then((wishlist): void => {
 					if (wishlist) {
-						setWishlist(wishlist);
+						setActiveWishlist(wishlist);
 					} else {
 						navigate('/error');
 					}
@@ -173,7 +182,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 					navigate('error');
 				});
 		} else {
-			setWishlist(null);
+			setActiveWishlist(null);
 		}
 	}, [params.id]);
 
@@ -185,40 +194,70 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 			key={wishlistItem?.id}
 			row={wishlistItem}
 			position={index + 1}
-			wishlistId={wishlist?.id}
+			wishlistId={activeWishlist?.id}
 			onEdit={openWishlistItemModalForEdit}
 			onRemove={fetchAndSetWishlist}
 		/>
 	);
 
-	const displayOrEditWishlistName = (): React.ReactElement => {
+	const displayOrEditWishlistName = (name: string): React.ReactElement => {
 		if (editedName === undefined) {
 			return (
 				<Typography
 					onClick={handleNameClick}
-					sx={{marginLeft: '50px'}}
+					sx={{
+						textAlign: 'center',
+						textDecoration: 'none',
+						fontFamily: 'Montserrat',
+						fontSize: '25px',
+						fontWeight: 500
+					}}
 				>
-					{wishlist?.name}
+					{name}
+					<EditIcon
+						fontSize={'medium'}
+						sx={{marginLeft: '10px'}}
+					/>
 				</Typography>
 			);
 		}
 		return (
-			<TextField
-				value={editedName}
-				onChange={handleNameChange}
-				onBlur={handleNameSubmit}
-				autoFocus
-			/>
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center'
+				}}
+			>
+				<Input
+					placeholder={editedName}
+					onChange={handleNameChange}
+					onBlur={handleNameSubmit}
+					autoFocus
+					sx={{
+						textAlign: 'center',
+						marginBottom: '10px',
+						textDecoration: 'none',
+						fontFamily: 'Montserrat',
+						fontSize: '25px',
+						fontWeight: 500
+					}}
+				/>
+				<EditIcon
+					fontSize={'medium'}
+					sx={{marginLeft: '10px'}}
+				/>
+			</Box>
 		);
 	};
 
 	const addShareUrlToClipboard = (): void => {
-		if (!wishlist) {
+		if (!activeWishlist) {
 			enqueueSnackbar('Something went wrong!', {variant: 'error'});
 			return;
 		}
 		navigator.clipboard
-			.writeText(`${getFrontendUrl()}/wishlist/${wishlist.uuid}`)
+			.writeText(`${getFrontendUrl()}/wishlist/${activeWishlist.uuid}`)
 			.then((): string | number =>
 				enqueueSnackbar('Share URL copied to clipboard.', {
 					variant: 'info'
@@ -235,7 +274,6 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				sx={{flexGrow: 1}}
 				disableEqualOverflow={true}
 				container
-				columnSpacing={2}
 			>
 				<Grid
 					sx={(
@@ -281,58 +319,11 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						Add new wishlist
 					</Button>
 				</Grid>
-				{wishlist && (
+				{activeWishlist && (
 					<Grid
 						xs={12}
 						md={9}
 					>
-						<Box
-							sx={(
-								theme
-							): {
-								backgroundColor: string | undefined;
-								alignItems: 'center';
-								display: 'flex';
-								width: '100%';
-								borderTop: '2px #FFFFFF';
-								paddingLeft: '10px';
-								justifyContent: 'space-between';
-								height: '60px';
-							} => ({
-								height: '60px',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'space-between',
-								width: '100%',
-								backgroundColor:
-									theme.palette.mode === 'dark'
-										? ''
-										: getThemeColor(theme, 'lightBlue'),
-								borderTop: '2px #FFFFFF',
-								paddingLeft: '10px'
-							})}
-						>
-							{displayOrEditWishlistName()}
-							<Box sx={{display: 'flex', flexDirection: 'row'}}>
-								<IconButton
-									onClick={addShareUrlToClipboard}
-									sx={{marginLeft: '15px'}}
-									aria-label={'share'}
-								>
-									<ShareIcon fontSize={'large'} />
-								</IconButton>
-								<IconButton
-									onClick={handleRemoveWishlistButton}
-									sx={{
-										marginLeft: '15px',
-										marginRight: '20px'
-									}}
-									aria-label={'delete'}
-								>
-									<DeleteIcon fontSize={'large'} />
-								</IconButton>
-							</Box>
-						</Box>
 						<TableContainer
 							sx={{
 								maxHeight: '75vh',
@@ -366,7 +357,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{wishlist?.wishlistItems?.map(
+									{activeWishlist?.wishlistItems?.map(
 										renderWishlistItem
 									)}
 								</TableBody>
@@ -399,7 +390,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				addNewWishlist={addNewWishlist}
 			/>
 			<WishlistItemModal
-				wishlistId={wishlist?.id}
+				wishlistId={activeWishlist?.id}
 				opened={openAddWishlistItemModal}
 				toggleModal={toggleWishlistItemModal}
 				getWishlistAgain={fetchAndSetWishlist}
