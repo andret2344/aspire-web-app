@@ -1,17 +1,101 @@
 import React from 'react';
-import {Box, Link, Typography} from '@mui/material';
+import {Box, Link, Typography, IconButton} from '@mui/material';
+import ShareIcon from '@mui/icons-material/Share';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {Link as Anchor} from 'react-router-dom';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
-	readonly readonly?: boolean;
+	readonly active: boolean;
+	readonly onShare: () => void;
+	readonly onRemove: () => void;
+	readonly onDisplay: () => React.ReactElement;
 }
 
 export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 	props: WishlistSidebarItemProps
 ): React.ReactElement => {
+	if (props.active) {
+		return (
+			<Link
+				sx={(
+					theme
+				): {
+					cursor: 'pointer';
+					backgroundColor: string | undefined;
+					color: 'inherit';
+					alignItems: 'center';
+					borderRadius: '10px';
+					flexDirection: 'column';
+					display: 'flex';
+					width: {md: string; xs: string};
+					textDecoration: 'none';
+					'&:hover': {backgroundColor: string};
+					justifyContent: 'center';
+					marginTop: '15px';
+				} => ({
+					color: 'inherit',
+					textDecoration: 'none',
+					cursor: 'pointer',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center',
+					borderRadius: '10px',
+					backgroundColor: getThemeColor(theme, 'activeBlue'),
+					marginTop: '15px',
+					width: {
+						xs: '100%',
+						md: '80%'
+					},
+					'&:hover': {
+						backgroundColor: '#3f91de'
+					}
+				})}
+				component={Anchor}
+				to={`/wishlists/${props.wishlist.id}`}
+			>
+				<Box
+					sx={{
+						textAlign: 'center',
+						textDecoration: 'none',
+						padding: '10px',
+						fontFamily: 'Montserrat',
+						fontSize: '25px',
+						fontWeight: 500
+					}}
+				>
+					{props.onDisplay()}
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'center'
+						}}
+					>
+						<IconButton
+							onClick={props.onShare}
+							sx={{marginLeft: '15px'}}
+							aria-label={'share'}
+						>
+							<ShareIcon fontSize={'large'} />
+						</IconButton>
+						<IconButton
+							onClick={props.onRemove}
+							sx={{
+								marginLeft: '15px',
+								marginRight: '20px'
+							}}
+							aria-label={'delete'}
+						>
+							<DeleteIcon fontSize={'large'} />
+						</IconButton>
+					</Box>
+				</Box>
+			</Link>
+		);
+	}
 	return (
 		<Link
 			sx={(
@@ -45,15 +129,16 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 					md: '80%'
 				},
 				'&:hover': {
-					backgroundColor: 'rgba(0, 109, 209, 0.4)'
+					backgroundColor: '#3f91de'
 				}
 			})}
 			component={Anchor}
-			to={props.readonly ? '' : `/wishlists/${props.wishlist.id}`}
+			to={`/wishlists/${props.wishlist.id}`}
 		>
 			<Box>
 				<Typography
 					sx={{
+						textAlign: 'center',
 						textDecoration: 'none',
 						margin: '10px',
 						fontFamily: 'Montserrat',

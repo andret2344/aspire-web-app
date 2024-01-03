@@ -15,7 +15,6 @@ import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
 import Row from '../Components/Row';
-import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
 import {getReadonlyWishlistByUUID} from '../Services/WishListService';
 import {useNavigate, useParams} from 'react-router-dom';
 
@@ -61,19 +60,6 @@ export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 		/>
 	);
 
-	const renderWishlistSidebarItem = (): React.ReactElement => {
-		if (wishlist) {
-			return (
-				<WishlistSidebarItem
-					key={wishlist.id}
-					wishlist={wishlist}
-					readonly={true}
-				/>
-			);
-		}
-		return <></>;
-	};
-
 	return (
 		<Header>
 			<Grid
@@ -82,34 +68,8 @@ export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 				container
 				columnSpacing={2}
 			>
-				<Grid
-					sx={(
-						theme
-					): {
-						paddingBottom: '15px';
-						alignItems: 'center';
-						flexDirection: 'column';
-						borderRight: string;
-						display: 'flex';
-						justifyContent: 'flex-start';
-					} => ({
-						paddingBottom: '15px',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'flex-start',
-						alignItems: 'center',
-						borderRight: `2px solid ${theme.palette.divider}`
-					})}
-					xs={12}
-					md={3}
-				>
-					{renderWishlistSidebarItem()}
-				</Grid>
 				{wishlist && (
-					<Grid
-						xs={12}
-						md={9}
-					>
+					<Grid xs={12}>
 						<Box
 							sx={(
 								theme
