@@ -56,12 +56,15 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 
 	return (
 		<React.Fragment>
-			<TableRow sx={{borderBottom: 'unset'}}>
+			<TableRow
+				sx={{borderBottom: 'unset'}}
+				style={{cursor: 'pointer'}}
+				onClick={handleToggleExpandButton}
+			>
 				<TableCell>
 					<IconButton
 						aria-label='expand row'
 						size='small'
-						onClick={handleToggleExpandButton}
 					>
 						{renderExpandButton()}
 					</IconButton>

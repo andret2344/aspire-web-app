@@ -8,7 +8,8 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import React from 'react';
+import React, {KeyboardEvent} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {addWishlist} from '../Services/WishListService';
 import {WishList} from '../Entity/WishList';
 
@@ -22,8 +23,15 @@ export const WishlistModal = (
 	props: WishlistModalProps
 ): React.ReactElement => {
 	const theme = useTheme();
+	const navigate = useNavigate();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const inputRef = React.useRef<HTMLInputElement>(null);
+
+	const handleSaveOnKeyDown = (event: KeyboardEvent) => {
+		if (event.key === 'Enter') {
+			handleSaveButton();
+		}
+	};
 
 	const handleSaveButton = async (): Promise<void> => {
 		const wishlistName = inputRef.current?.value;
@@ -32,6 +40,7 @@ export const WishlistModal = (
 			if (newWishlist) {
 				props.addNewWishlist(newWishlist);
 				props.toggleModal();
+				navigate(`/wishlists/${newWishlist?.id}`)
 				if (inputRef.current) {
 					inputRef.current.value = '';
 				}
@@ -41,6 +50,7 @@ export const WishlistModal = (
 
 	return (
 		<Modal
+			onKeyDown={handleSaveOnKeyDown}
 			onClose={props.toggleModal}
 			open={props.opened}
 			aria-labelledby='modal-modal-title'
