@@ -29,6 +29,7 @@ import {
 import {WishlistModal} from '../Components/WishlistModal';
 import {useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
+import {WishlistConfirmationModal} from '../Components/WishlistConfirmationModal';
 import {WishlistItemModal} from '../Components/WishlistItemModal';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
@@ -43,6 +44,8 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 		null
 	);
 	const [openAddWishlistModal, setOpenAddWishlistModal] =
+		React.useState<boolean>(false);
+	const [openConfWishlistModal, setOpenConfWishlistModal] =
 		React.useState<boolean>(false);
 	const [openAddWishlistItemModal, setOpenAddWishlistItemModal] =
 		React.useState<boolean>(false);
@@ -101,7 +104,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 					wishlist={wishlist}
 					active={activeWishlist?.id === wishlist.id}
 					onShare={addShareUrlToClipboard}
-					onRemove={handleRemoveWishlistButton}
+					onRemove={toggleWishlistConfirmationModal}
 					onDisplay={(): React.ReactElement =>
 						displayOrEditWishlistName(wishlist.name)
 					}
@@ -130,10 +133,15 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 			});
 		await fetchAndSetWishlists();
 		setActiveWishlist(null);
+		setOpenConfWishlistModal(false);
 	};
 
 	const toggleWishlistModal = (): void => {
 		setOpenAddWishlistModal((prev): boolean => !prev);
+	};
+
+	const toggleWishlistConfirmationModal = (): void => {
+		setOpenConfWishlistModal((prev): boolean => !prev);
 	};
 
 	const toggleWishlistItemModal = (): void => {
@@ -388,6 +396,12 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				opened={openAddWishlistModal}
 				toggleModal={toggleWishlistModal}
 				addNewWishlist={addNewWishlist}
+			/>
+			<WishlistConfirmationModal
+				opened={openConfWishlistModal}
+				toggleModal={toggleWishlistConfirmationModal}
+				onRemove={handleRemoveWishlistButton}
+				wishlistName={activeWishlist?.name}
 			/>
 			<WishlistItemModal
 				wishlistId={activeWishlist?.id}
