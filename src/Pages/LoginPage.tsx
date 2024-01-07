@@ -10,7 +10,7 @@ import {
 	useTheme
 } from '@mui/material';
 import {FieldValues, useForm} from 'react-hook-form';
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../../assets/fonts.css';
 import {AuthComponent} from '../Components/AuthComponent';
 import {logIn} from '../Services/AuthService';
@@ -31,6 +31,12 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 	};
 
 	const {register, handleSubmit} = useForm();
+
+	React.useEffect((): void => {
+		if (localStorage.getItem('accessToken')) {
+			navigate(`wishlists/`);
+		}
+	}, []);
 
 	const onSubmit = async (data: FieldValues): Promise<void> => {
 		await logIn(data.email, data.password).then(
