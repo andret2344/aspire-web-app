@@ -57,7 +57,9 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 	return (
 		<React.Fragment>
 			<TableRow
-				sx={{borderBottom: 'unset'}}
+				sx={{
+					borderBottom: 'unset'
+				}}
 				style={{cursor: 'pointer'}}
 				onClick={handleToggleExpandButton}
 			>
@@ -70,7 +72,17 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 					</IconButton>
 				</TableCell>
 				<TableCell align='left'>{props.position}</TableCell>
-				<TableCell align='left'>{props.row.name}</TableCell>
+				<TableCell
+					align='left'
+					sx={{
+						maxWidth: '150px',
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis'
+					}}
+				>
+					{props.row.name}
+				</TableCell>
 				<TableCell align='center'>
 					<Box
 						sx={{
@@ -87,18 +99,44 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 					<TableCell>
 						<Box sx={{display: 'flex', flexDirection: 'row'}}>
 							<IconButton
-								sx={{marginLeft: '15px'}}
+								sx={{
+									marginLeft: {
+										xs: '0',
+										md: '15px'
+									}
+								}}
 								aria-label={'edit'}
+								size='large'
 								onClick={(): void => props.onEdit?.(props.row)}
 							>
-								<EditIcon fontSize={'large'} />
+								<EditIcon
+									sx={{
+										fontSize: {
+											xs: '25px',
+											md: '35px'
+										}
+									}}
+								/>
 							</IconButton>
 							<IconButton
-								sx={{marginLeft: '15px', marginRight: '20px'}}
+								sx={{
+									margin: {
+										xs: '0',
+										md: '0 15px'
+									}
+								}}
+								size='large'
 								aria-label={'delete'}
 								onClick={handleRemoveWishlistItemButton}
 							>
-								<DeleteIcon fontSize={'large'} />
+								<DeleteIcon
+									sx={{
+										fontSize: {
+											xs: '25px',
+											md: '35px'
+										}
+									}}
+								/>
 							</IconButton>
 						</Box>
 					</TableCell>

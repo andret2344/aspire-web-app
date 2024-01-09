@@ -10,7 +10,7 @@ import {
 	useTheme
 } from '@mui/material';
 import {FieldValues, useForm} from 'react-hook-form';
-import React, {useEffect} from 'react';
+import React from 'react';
 import '../../assets/fonts.css';
 import {AuthComponent} from '../Components/AuthComponent';
 import {logIn} from '../Services/AuthService';

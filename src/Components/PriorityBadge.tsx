@@ -22,8 +22,14 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = (
 					sx={{
 						backgroundColor: priority.color,
 						borderRadius: '50%',
-						width: '40px',
-						height: '40px',
+						width: {
+							xs: '30px',
+							md: '40px'
+						},
+						height: {
+							xs: '30px',
+							md: '40px'
+						},
 						display: 'flex',
 						flexDirection: 'row',
 						justifyContent: 'center',

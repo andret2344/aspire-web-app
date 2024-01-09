@@ -40,7 +40,7 @@ export const WishlistModal = (
 			if (newWishlist) {
 				props.addNewWishlist(newWishlist);
 				props.toggleModal();
-				navigate(`/wishlists/${newWishlist?.id}`)
+				navigate(`/wishlists/${newWishlist?.id}`);
 				if (inputRef.current) {
 					inputRef.current.value = '';
 				}

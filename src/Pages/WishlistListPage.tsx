@@ -222,10 +222,12 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 					}}
 				>
 					{name}
-					<EditIcon
-						fontSize={'medium'}
-						sx={{marginLeft: '10px'}}
-					/>
+					<IconButton
+						size='small'
+						sx={{marginLeft: '5px'}}
+					>
+						<EditIcon />
+					</IconButton>
 				</Typography>
 			);
 		}
@@ -279,7 +281,18 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	return (
 		<Header>
 			<Grid
-				sx={{flexGrow: 1}}
+				sx={{
+					paddingBottom: 'auto',
+					flexGrow: 1,
+					maxHeight: {
+						xs: '100vh',
+						md: 'none'
+					},
+					overflowY: {
+						xs: 'auto',
+						md: 'none'
+					}
+				}}
 				disableEqualOverflow={true}
 				container
 			>
@@ -293,8 +306,14 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						borderRight: string;
 						display: 'flex';
 						justifyContent: 'flex-start';
-						overflowY: 'auto';
-						maxHeight: '100vh';
+						overflowY: {
+							xs: 'none';
+							md: 'auto';
+						};
+						maxHeight: {
+							xs: 'none';
+							md: '100vh';
+						};
 						'&::-webkit-scrollbar': {
 							display: 'none';
 						};
@@ -305,8 +324,14 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						justifyContent: 'flex-start',
 						alignItems: 'center',
 						borderRight: `2px solid ${theme.palette.divider}`,
-						overflowY: 'auto',
-						maxHeight: '100vh',
+						overflowY: {
+							xs: 'none',
+							md: 'auto'
+						},
+						maxHeight: {
+							xs: 'none',
+							md: '100vh'
+						},
 						'&::-webkit-scrollbar': {
 							display: 'none'
 						}
@@ -320,7 +345,10 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						variant={'outlined'}
 						sx={{
 							margin: '15px',
-							marginBottom: '150px'
+							marginBottom: {
+								xs: '0px',
+								md: '50px'
+							}
 						}}
 						startIcon={<AddCircleOutlineIcon />}
 					>
@@ -329,16 +357,21 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 				</Grid>
 				{activeWishlist && (
 					<Grid
+						sx={{
+							paddingBottom: '50px',
+							maxHeight: {
+								xs: 'none',
+								md: '100vh'
+							},
+							overflowY: {
+								xs: 'none',
+								md: 'auto'
+							}
+						}}
 						xs={12}
 						md={9}
 					>
-						<TableContainer
-							sx={{
-								maxHeight: '75vh',
-								overflowY: 'auto'
-							}}
-							component={Paper}
-						>
+						<TableContainer component={Paper}>
 							<Table aria-label='collapsible table'>
 								<TableHead>
 									<TableRow>
@@ -382,9 +415,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						>
 							<IconButton
 								onClick={toggleWishlistItemModal}
-								sx={{
-									margin: '25px'
-								}}
+								sx={{margin: '25px', padding: '25px'}}
 							>
 								<AddCircleOutlineIcon fontSize={'large'} />
 							</IconButton>
