@@ -30,7 +30,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 					borderRadius: '10px';
 					flexDirection: 'column';
 					display: 'flex';
-					width: {md: string; xs: string};
+					width: string;
 					textDecoration: 'none';
 					'&:hover': {backgroundColor: string};
 					justifyContent: 'center';
@@ -46,10 +46,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 					borderRadius: '10px',
 					backgroundColor: getThemeColor(theme, 'activeBlue'),
 					marginTop: '15px',
-					width: {
-						xs: '100%',
-						md: '80%'
-					},
+					width: '80%',
 					'&:hover': {
 						backgroundColor: '#3f91de'
 					}
@@ -59,12 +56,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 			>
 				<Box
 					sx={{
-						textAlign: 'center',
-						textDecoration: 'none',
-						padding: '10px',
-						fontFamily: 'Montserrat',
-						fontSize: '25px',
-						fontWeight: 500
+						padding: '10px'
 					}}
 				>
 					{props.onDisplay()}
@@ -77,9 +69,10 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 						<IconButton
 							onClick={props.onShare}
 							sx={{marginLeft: '15px'}}
+							size='large'
 							aria-label={'share'}
 						>
-							<ShareIcon fontSize={'large'} />
+							<ShareIcon />
 						</IconButton>
 						<IconButton
 							onClick={props.onRemove}
@@ -87,9 +80,10 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 								marginLeft: '15px',
 								marginRight: '20px'
 							}}
+							size='large'
 							aria-label={'delete'}
 						>
-							<DeleteIcon fontSize={'large'} />
+							<DeleteIcon />
 						</IconButton>
 					</Box>
 				</Box>
@@ -108,7 +102,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 				borderRadius: '10px';
 				flexDirection: 'column';
 				display: 'flex';
-				width: {md: string; xs: string};
+				width: string;
 				textDecoration: 'none';
 				'&:hover': {backgroundColor: string};
 				justifyContent: 'center';
@@ -124,10 +118,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 				borderRadius: '10px',
 				backgroundColor: getThemeColor(theme, 'blue'),
 				marginTop: '15px',
-				width: {
-					xs: '100%',
-					md: '80%'
-				},
+				width: '80%',
 				'&:hover': {
 					backgroundColor: '#3f91de'
 				}
@@ -142,7 +133,10 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 						textDecoration: 'none',
 						margin: '10px',
 						fontFamily: 'Montserrat',
-						fontSize: '25px',
+						fontSize: {
+							xs: '20px',
+							md: '25px'
+						},
 						fontWeight: 500
 					}}
 				>
