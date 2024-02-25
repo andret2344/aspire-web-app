@@ -1,15 +1,32 @@
-## Open project dir
+# Aspire Web App
 
-cd aspire-web-app
+This is the frontend part of Aspire, The Aspiration Abyss.
 
-## Install dependencies
+## Table of contents
 
-yarn
+[[_TOC_]]
 
-## Run dev server
+## Prepare for development
 
-yarn start
+### Open project dir
 
-## Build
+    cd aspire-web-app
 
-yarn build
+### Install dependencies
+
+    yarn
+
+### Prepare environment
+
+1. Make a copy of `.env` file and name it `.env.dev`.
+2. In the newly created file use the backend address you want to reach. Remember to put `/api` at the end.
+
+### Run dev server
+
+    yarn start
+
+## Production
+
+### Build the production version
+
+    yarn build
