@@ -15,10 +15,11 @@ import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
 import {removeWishlistItem} from '../Services/WishlistItemService';
 import {useSnackbar} from 'notistack';
+import Linkify from 'react-linkify';
 
 interface RowProps {
 	readonly row: WishlistItem;
-	readonly wishlistId?: number;
+	readonly wishlistId: number;
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
 	readonly onRemove?: (id: number) => void;
@@ -40,19 +41,32 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 	};
 
 	const handleRemoveWishlistItemButton = async (): Promise<void> => {
-		if (props.wishlistId) {
-			await removeWishlistItem(props.wishlistId, props.row.id)
-				.then((): string | number =>
-					enqueueSnackbar('Successfully removed wishlist item.', {
-						variant: 'success'
-					})
-				)
-				.catch((): string | number =>
-					enqueueSnackbar('Something went wrong!', {variant: 'error'})
-				);
-			props.onRemove?.(props.wishlistId);
-		}
+		await removeWishlistItem(props.wishlistId, props.row.id)
+			.then((): string | number =>
+				enqueueSnackbar('Successfully removed wishlist item.', {
+					variant: 'success'
+				})
+			)
+			.catch((): string | number =>
+				enqueueSnackbar('Something went wrong!', {variant: 'error'})
+			);
+		props.onRemove?.(props.wishlistId);
 	};
+
+	const getComponentDecorator = (
+		decoratedHref: string,
+		decoratedText: string,
+		key: number
+	): React.ReactElement => (
+		<a
+			target='_blank'
+			rel='noopener noreferrer'
+			href={decoratedHref}
+			key={key}
+		>
+			{decoratedText}
+		</a>
+	);
 
 	return (
 		<React.Fragment>
@@ -154,7 +168,11 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 					>
 						<Box sx={{margin: 1}}>
 							<Typography component='div'>
-								{props.row.description}
+								<Linkify
+									componentDecorator={getComponentDecorator}
+								>
+									{props.row.description}
+								</Linkify>
 							</Typography>
 						</Box>
 					</Collapse>

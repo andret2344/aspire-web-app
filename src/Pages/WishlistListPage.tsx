@@ -197,16 +197,21 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const renderWishlistItem = (
 		wishlistItem: WishlistItem,
 		index: number
-	): React.ReactElement => (
-		<Row
-			key={wishlistItem?.id}
-			row={wishlistItem}
-			position={index + 1}
-			wishlistId={activeWishlist?.id}
-			onEdit={openWishlistItemModalForEdit}
-			onRemove={fetchAndSetWishlist}
-		/>
-	);
+	): React.ReactElement => {
+		if (!activeWishlist) {
+			return <></>;
+		}
+		return (
+			<Row
+				key={wishlistItem?.id}
+				row={wishlistItem}
+				position={index + 1}
+				wishlistId={activeWishlist.id}
+				onEdit={openWishlistItemModalForEdit}
+				onRemove={fetchAndSetWishlist}
+			/>
+		);
+	};
 
 	const displayOrEditWishlistName = (name: string): React.ReactElement => {
 		if (editedName === undefined) {
