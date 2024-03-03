@@ -1,0 +1,166 @@
+import MockAdapter from 'axios-mock-adapter';
+import apiInstance from '../../Services/ApiInstance';
+import {waitFor} from '@testing-library/react';
+import {WishlistItem} from '../../Entity/WishlistItem';
+import {
+	addWishlistItem,
+	editWishlistItem,
+	removeWishlistItem
+} from '../../Services/WishlistItemService';
+
+describe('WishListItemService', (): void => {
+	beforeEach((): void => localStorage.clear());
+
+	const mockWishlistItem: WishlistItem = {
+		id: 1,
+		wishlistId: 1,
+		description: 'test description',
+		name: 'Item 1',
+		priorityId: 3
+	};
+
+	const mockUpdatedWishlistItem: WishlistItem = {
+		id: 1,
+		wishlistId: 1,
+		description: 'updated test description',
+		name: 'updated',
+		priorityId: 3
+	};
+
+	test('add wishlist item', async (): Promise<void> => {
+		// arrange
+		const mock = new MockAdapter(apiInstance);
+		const wishlistId = 1;
+		const name = 'test name';
+		const description = 'test description';
+		const priorityId = 1;
+		mock.onPost(`/${wishlistId}/wishlistitem`).reply(200, mockWishlistItem);
+
+		// act
+		await waitFor(
+			(): Promise<WishlistItem | null> =>
+				addWishlistItem(wishlistId, name, description, priorityId)
+		).then((wishlistItem: WishlistItem | null): void => {
+			// assert
+			expect(wishlistItem).toStrictEqual(mockWishlistItem);
+		});
+	});
+
+	test('add wishlist item rejected', async (): Promise<void> => {
+		// arrange
+		const mock = new MockAdapter(apiInstance);
+		const wishlistId = 1;
+		const name = 'test name';
+		const description = 'test description';
+		const priorityId = 1;
+		mock.onPost(`/${wishlistId}/wishlistitem`).reply(500);
+
+		// act
+		await waitFor(
+			(): Promise<WishlistItem | null> =>
+				addWishlistItem(wishlistId, name, description, priorityId)
+		).then((): void => {
+			// assert
+			// TODO: Fill in after implementation
+		});
+	});
+
+	test('edit wishlist item', async (): Promise<void> => {
+		// arrange
+		const mock = new MockAdapter(apiInstance);
+		const wishlistId = 1;
+		const wishlistItemId = 1;
+		const name = 'test name';
+		const description = 'test description';
+		const priorityId = 1;
+		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
+			200,
+			mockUpdatedWishlistItem
+		);
+
+		// act
+		await waitFor(
+			(): Promise<WishlistItem | null> =>
+				editWishlistItem(
+					wishlistId,
+					wishlistItemId,
+					name,
+					description,
+					priorityId
+				)
+		).then((wishlistItem: WishlistItem | null): void => {
+			// assert
+			expect(wishlistItem).toStrictEqual(mockUpdatedWishlistItem);
+		});
+	});
+
+	test('edit wishlist item rejected', async (): Promise<void> => {
+		// arrange
+		const mock = new MockAdapter(apiInstance);
+		const wishlistId = 1;
+		const wishlistItemId = 1;
+		const name = 'test name';
+		const description = 'test description';
+		const priorityId = 1;
+		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
+			500,
+			mockUpdatedWishlistItem
+		);
+		const logSpy = jest.spyOn(console, 'error');
+
+		// act
+		await waitFor(
+			(): Promise<WishlistItem | null> =>
+				editWishlistItem(
+					wishlistId,
+					wishlistItemId,
+					name,
+					description,
+					priorityId
+				)
+		).then((): void => {
+			// assert
+			expect(logSpy).toHaveBeenCalled();
+		});
+	});
+
+	test('remove wishlist item', async (): Promise<void> => {
+		// arrange
+		const mock = new MockAdapter(apiInstance);
+		const wishlistId = 1;
+		const wishlistItemId = 1;
+		mock.onDelete(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
+			200
+		);
+
+		// act
+		await waitFor(
+			(): Promise<void> => removeWishlistItem(wishlistId, wishlistItemId)
+		).then((): void => {
+			// assert
+			expect(mock.history.delete.length).toBe(1);
+			expect(mock.history.delete[0].url).toEqual(
+				`/${wishlistId}/wishlistitem/${wishlistItemId}`
+			);
+		});
+	});
+
+	test('remove wishlist item rejected', async (): Promise<void> => {
+		// arrange
+		const mock = new MockAdapter(apiInstance);
+		const wishlistId = 1;
+		const wishlistItemId = 1;
+		mock.onDelete(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
+			500
+		);
+		const logSpy = jest.spyOn(console, 'error');
+
+		// act
+		await waitFor(
+			(): Promise<void> => removeWishlistItem(wishlistId, wishlistItemId)
+		).then((): void => {
+			// assert
+			expect(logSpy).toHaveBeenCalled();
+		});
+	});
+});

@@ -1,10 +1,11 @@
 import React from 'react';
-import {Box, Link, Typography, IconButton} from '@mui/material';
+import {Box, Link, Typography, IconButton, Theme} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {Link as Anchor} from 'react-router-dom';
+import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
@@ -20,22 +21,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 	if (props.active) {
 		return (
 			<Link
-				sx={(
-					theme
-				): {
-					cursor: 'pointer';
-					backgroundColor: string | undefined;
-					color: 'inherit';
-					alignItems: 'center';
-					borderRadius: '10px';
-					flexDirection: 'column';
-					display: 'flex';
-					width: string;
-					textDecoration: 'none';
-					'&:hover': {backgroundColor: string};
-					justifyContent: 'center';
-					marginTop: '15px';
-				} => ({
+				sx={(theme: Theme): SystemStyleObject<Theme> => ({
 					color: 'inherit',
 					textDecoration: 'none',
 					cursor: 'pointer',
@@ -67,6 +53,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 						}}
 					>
 						<IconButton
+							data-testid={`shareIcon-${props.wishlist.id}`}
 							onClick={props.onShare}
 							sx={{marginLeft: '15px'}}
 							size='large'
@@ -81,7 +68,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 								marginRight: '20px'
 							}}
 							size='large'
-							aria-label={'delete'}
+							aria-label={`delete-wishlist-${props.wishlist.id}`}
 						>
 							<DeleteIcon />
 						</IconButton>
@@ -92,22 +79,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 	}
 	return (
 		<Link
-			sx={(
-				theme
-			): {
-				cursor: 'pointer';
-				backgroundColor: string | undefined;
-				color: 'inherit';
-				alignItems: 'center';
-				borderRadius: '10px';
-				flexDirection: 'column';
-				display: 'flex';
-				width: string;
-				textDecoration: 'none';
-				'&:hover': {backgroundColor: string};
-				justifyContent: 'center';
-				marginTop: '15px';
-			} => ({
+			sx={(theme: Theme): SystemStyleObject<Theme> => ({
 				color: 'inherit',
 				textDecoration: 'none',
 				cursor: 'pointer',

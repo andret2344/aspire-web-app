@@ -39,7 +39,13 @@ build:
 test:
   stage: test
   script:
-    - yarn test
+    - yarn test:ci
+  artifacts:
+    paths:
+      - coverage/
+    reports:
+      junit: coverage/reports/junit.xml
+  coverage: '/All files.*?\s+(\d+.\d+)/'
   dependencies:
     - install
 

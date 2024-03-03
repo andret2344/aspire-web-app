@@ -126,6 +126,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 									sx={{margin: 0, padding: 0}}
 								>
 									<IconButton
+										data-testid={'visibilityIconPassword'}
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPassword}
 									>
@@ -159,6 +160,9 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 									sx={{margin: 0, padding: 0}}
 								>
 									<IconButton
+										data-testid={
+											'visibilityIconRepeatPassword'
+										}
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPasswordRepeat}
 									>

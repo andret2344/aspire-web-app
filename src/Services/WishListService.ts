@@ -1,107 +1,55 @@
 import {WishList, WishListDto} from '../Entity/WishList';
-import axios, {AxiosResponse, isAxiosError} from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import apiInstance, {getBackendUrl} from './ApiInstance';
 import {mapWishlistItem} from '../Entity/WishlistItem';
-import {headers} from './AuthService';
+import {requestConfig} from './AuthService';
 
 export const getWishlists = async (): Promise<WishList[]> => {
-	try {
-		const result: AxiosResponse<WishListDto[]> =
-			await apiInstance.get<WishListDto[]>('/wishlist');
-		return result.data.map(mapWishlist);
-	} catch (err) {
-		if (isAxiosError(err)) {
-			console.error(err.response);
-		}
-		console.error(err);
-		return [];
-	}
+	const result: AxiosResponse<WishListDto[]> =
+		await apiInstance.get<WishListDto[]>('/wishlist');
+	return result.data.map(mapWishlist);
 };
 
-export const getWishlist = async (id: number): Promise<WishList | null> => {
-	try {
-		const result: AxiosResponse<WishListDto> =
-			await apiInstance.get<WishListDto>(`/wishlist/${id}`);
-		return mapWishlist(result.data);
-	} catch (err) {
-		if (isAxiosError(err)) {
-			console.error(err.response);
-		}
-		console.error(err);
-		return null;
-	}
+export const getWishlist = async (id: number): Promise<WishList> => {
+	const result: AxiosResponse<WishListDto> =
+		await apiInstance.get<WishListDto>(`/wishlist/${id}`);
+	return mapWishlist(result.data);
 };
 
 export const getReadonlyWishlistByUUID = async (
 	uuid: string
-): Promise<WishList | null> => {
-	try {
-		const baseUrl = getBackendUrl();
-		const result: AxiosResponse<WishListDto> = await axios.get<WishListDto>(
-			`${baseUrl}/wishlist/by_uuid/${uuid}`,
-			{headers}
-		);
-		return mapWishlist(result.data);
-	} catch (err) {
-		if (isAxiosError(err)) {
-			console.error(err.response);
-		}
-		console.error(err);
-		return null;
-	}
+): Promise<WishList> => {
+	const baseUrl = getBackendUrl();
+	const result: AxiosResponse<WishListDto> = await axios.get<WishListDto>(
+		`${baseUrl}/wishlist/by_uuid/${uuid}`,
+		requestConfig
+	);
+	return mapWishlist(result.data);
 };
 
-export const addWishlist = async (name: string): Promise<WishList | null> => {
-	try {
-		const result = await apiInstance.post('/wishlist', {
-			name
-		});
-		return result.data;
-	} catch (err) {
-		if (isAxiosError(err)) {
-			console.error(err.response);
-		}
-		console.error(err);
-		return null;
-	}
+export const addWishlist = async (name: string): Promise<WishList> => {
+	const result = await apiInstance.post('/wishlist', {
+		name
+	});
+	return result.data;
 };
 
-export const removeWishlist = async (id?: number): Promise<void> => {
-	if (id) {
-		try {
-			await apiInstance.delete(`/wishlist/${id}`);
-		} catch (err) {
-			if (isAxiosError(err)) {
-				console.error(err.response);
-			}
-			console.error(err);
-		}
-	}
+export const removeWishlist = async (id: number): Promise<void> => {
+	await apiInstance.delete(`/wishlist/${id}`);
 };
 
 export const updateWishlistName = async (
-	id?: number,
-	name?: string
+	id: number,
+	name: string
 ): Promise<WishList | null> => {
-	if (!(id || name)) {
-		return null;
-	}
-	try {
-		const result = await apiInstance.put(`/wishlist/${id}`, {
-			name
-		});
+	const result = await apiInstance.put(`/wishlist/${id}`, {
+		name
+	});
 
-		return result.data;
-	} catch (err) {
-		if (isAxiosError(err)) {
-			console.error(err.response);
-		}
-		console.error(err);
-	}
-	return null;
+	return result.data;
 };
 
-const mapWishlist = (wishlist: WishListDto): WishList => {
+export const mapWishlist = (wishlist: WishListDto): WishList => {
 	const {wishlist_items, ...rest} = wishlist;
 	return {
 		...rest,

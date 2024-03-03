@@ -71,6 +71,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 	return (
 		<React.Fragment>
 			<TableRow
+				data-testid='uniqueTestIdForRow'
 				sx={{
 					borderBottom: 'unset'
 				}}
@@ -133,6 +134,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 								/>
 							</IconButton>
 							<IconButton
+								data-testid={'removeWishlistItem'}
 								sx={{
 									margin: {
 										xs: '0',

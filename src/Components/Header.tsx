@@ -40,10 +40,12 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 		}
 		return (
 			<IconButton
+				data-testid={'account-icon-button'}
 				sx={{justifySelf: 'flex-end'}}
 				onClick={handleClick}
 			>
 				<AccountCircleOutlinedIcon
+					data-testid={'account-icon'}
 					sx={{color: 'white'}}
 					fontSize={'large'}
 				/>
@@ -61,6 +63,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 			}}
 		>
 			<Container
+				aria-label={'header-container'}
 				maxWidth={false}
 				sx={{
 					backgroundColor: 'primary.main',
@@ -102,9 +105,9 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 					>
 						{renderProfileIcon()}
 						<Menu
+							data-testid={'menu'}
 							id='menu'
 							anchorEl={anchorEl}
-							keepMounted
 							open={Boolean(anchorEl)}
 							onClose={handleClose}
 							anchorOrigin={{
@@ -117,6 +120,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 							}}
 						>
 							<MenuItem
+								data-testid={'menuitem-profile'}
 								onClick={(): void => navigate('/profile')}
 							>
 								<ListItemIcon>
@@ -124,7 +128,10 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 								</ListItemIcon>
 								Settings
 							</MenuItem>
-							<MenuItem onClick={handleLogout}>
+							<MenuItem
+								data-testid={'menuitem-logout'}
+								onClick={handleLogout}
+							>
 								<ListItemIcon>
 									<Logout fontSize='small' />
 								</ListItemIcon>

@@ -37,7 +37,12 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = (
 					}}
 					title={priority.description}
 				>
-					<Typography color={'black'}>{priority.value}</Typography>
+					<Typography
+						data-testid={'priority-number'}
+						color={'black'}
+					>
+						{priority.value}
+					</Typography>
 				</Box>
 			</div>
 		</Tooltip>

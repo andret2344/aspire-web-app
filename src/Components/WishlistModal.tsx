@@ -50,6 +50,7 @@ export const WishlistModal = (
 
 	return (
 		<Modal
+			data-testid='addWishlistModal'
 			onKeyDown={handleSaveOnKeyDown}
 			onClose={props.toggleModal}
 			open={props.opened}

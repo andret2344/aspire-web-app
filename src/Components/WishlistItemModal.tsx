@@ -185,6 +185,7 @@ export const WishlistItemModal = (
 						Description
 					</Typography>
 					<TextField
+						aria-label={'wishlist item description'}
 						hiddenLabel
 						variant={'filled'}
 						defaultValue={props.editingItem?.description || ''}
