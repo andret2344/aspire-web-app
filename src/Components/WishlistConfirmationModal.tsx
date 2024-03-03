@@ -1,7 +1,7 @@
 import {Box, Button, Modal, Paper, Typography} from '@mui/material';
 import React, {KeyboardEvent} from 'react';
 
-interface WishlistModalProps {
+interface WishlistConfirmationModalProps {
 	readonly opened: boolean;
 	readonly wishlistName?: string;
 	readonly toggleModal: () => void;
@@ -9,9 +9,9 @@ interface WishlistModalProps {
 }
 
 export const WishlistConfirmationModal = (
-	props: WishlistModalProps
+	props: WishlistConfirmationModalProps
 ): React.ReactElement => {
-	const handleDeleteOnKeyDown = (event: KeyboardEvent) => {
+	const handleDeleteOnKeyDown = (event: KeyboardEvent): void => {
 		if (event.key === 'Enter') {
 			props.onRemove();
 		}
@@ -19,6 +19,7 @@ export const WishlistConfirmationModal = (
 
 	return (
 		<Modal
+			data-testid={'wishlistConfModal'}
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -64,6 +65,7 @@ export const WishlistConfirmationModal = (
 						cancel
 					</Button>
 					<Button
+						data-testid={'button-ok'}
 						onClick={props.onRemove}
 						variant='contained'
 					>

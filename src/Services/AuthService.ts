@@ -1,4 +1,4 @@
-import axios, {AxiosResponse, isAxiosError} from 'axios';
+import axios, {AxiosRequestConfig, AxiosResponse, isAxiosError} from 'axios';
 import Cookies from 'js-cookie';
 import apiInstance, {getBackendUrl} from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
@@ -9,6 +9,10 @@ const REFRESH_TOKEN: string = 'refreshToken';
 export const headers: {[key: string]: string} = {
 	Accept: 'application/json',
 	'Content-Type': 'application/json'
+};
+
+export const requestConfig: AxiosRequestConfig = {
+	headers
 };
 
 export interface RegisterApiError {
@@ -31,13 +35,14 @@ export const logIn = async (
 				email,
 				password
 			},
-			headers
+			requestConfig
 		);
 
 		saveAccessTokenInLocalStorage(result.data.access);
 		saveRefreshTokenInCookies(result.data.refresh);
 		return result.status;
 	} catch (err) {
+		console.log(err);
 		return 401;
 	}
 };
@@ -53,7 +58,7 @@ export const signUp = async (
 			email,
 			password
 		},
-		{headers}
+		requestConfig
 	);
 };
 
@@ -70,7 +75,7 @@ const saveRefreshTokenInCookies = (refreshToken: string): void => {
 	Cookies.set(REFRESH_TOKEN, refreshToken);
 };
 
-const getRefreshTokenFromCookies = (): string | undefined => {
+export const getRefreshTokenFromCookies = (): string | undefined => {
 	return Cookies.get(REFRESH_TOKEN);
 };
 

@@ -96,6 +96,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 									sx={{margin: 0, padding: 0}}
 								>
 									<IconButton
+										data-testid={'visibilityIcon'}
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPassword}
 									>

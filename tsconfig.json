@@ -9,7 +9,10 @@
 		/* Type declaration files to be included in compilation. */,
 		"lib": [
 			"DOM",
-			"ESNext"
+			"ESNext",
+			"es6",
+			"dom.iterable",
+			"scripthost"
 		]
 		/* Specify library files to be included in the compilation. */,
 		"jsx": "react-jsx"

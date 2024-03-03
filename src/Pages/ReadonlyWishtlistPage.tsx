@@ -9,7 +9,8 @@ import {
 	TableCell,
 	TableContainer,
 	TableHead,
-	TableRow
+	TableRow,
+	Theme
 } from '@mui/material';
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
@@ -17,6 +18,7 @@ import {WishlistItem} from '../Entity/WishlistItem';
 import Row from '../Components/Row';
 import {getReadonlyWishlistByUUID} from '../Services/WishListService';
 import {useNavigate, useParams} from 'react-router-dom';
+import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 
 export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 	type Params = {uuid?: string};
@@ -40,7 +42,7 @@ export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 		} else {
 			setWishlist(null);
 		}
-	}, [params.uuid]);
+	}, [navigate, params.uuid]);
 
 	const fetchSelectedWishlist = async (
 		uuid: string
@@ -50,15 +52,23 @@ export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 
 	const renderWishlistItem = (
 		wishlistItem: WishlistItem,
-		index: number
+		index: number,
+		currentWishlist: WishList
 	): React.ReactElement => (
 		<Row
-			key={wishlistItem?.id}
+			key={wishlistItem.id}
 			row={wishlistItem}
 			position={index + 1}
-			wishlistId={wishlist?.id}
+			wishlistId={currentWishlist.id}
 		/>
 	);
+
+	const renderItems = (): React.ReactNode[] | undefined => {
+		return wishlist?.wishlistItems.map(
+			(item: WishlistItem, index: number): React.ReactNode =>
+				renderWishlistItem(item, index, wishlist)
+		);
+	};
 
 	return (
 		<Header>
@@ -71,18 +81,7 @@ export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 				{wishlist && (
 					<Grid xs={12}>
 						<Box
-							sx={(
-								theme
-							): {
-								backgroundColor: string | undefined;
-								alignItems: 'center';
-								display: 'flex';
-								width: '100%';
-								borderTop: '2px #FFFFFF';
-								paddingLeft: '10px';
-								justifyContent: 'space-between';
-								height: '60px';
-							} => ({
+							sx={(theme: Theme): SystemStyleObject<Theme> => ({
 								height: '60px',
 								display: 'flex',
 								alignItems: 'center',
@@ -96,7 +95,7 @@ export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 								paddingLeft: '10px'
 							})}
 						>
-							{wishlist?.name}
+							{wishlist.name}
 						</Box>
 						<TableContainer
 							sx={{
@@ -124,11 +123,7 @@ export const ReadonlyWishtlistPage: React.FC = (): React.ReactElement => {
 										</TableCell>
 									</TableRow>
 								</TableHead>
-								<TableBody>
-									{wishlist?.wishlistItems?.map(
-										renderWishlistItem
-									)}
-								</TableBody>
+								<TableBody>{renderItems()}</TableBody>
 							</Table>
 						</TableContainer>
 					</Grid>

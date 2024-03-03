@@ -30,3 +30,13 @@ This is the frontend part of Aspire, The Aspiration Abyss.
 ### Build the production version
 
     yarn build
+
+## Tests
+
+### Run tests
+
+yarn test
+
+### Run tests with coverage
+
+yarn test:ci

@@ -1,12 +1,12 @@
 import axios, {AxiosResponse} from 'axios';
 
 export interface Config {
+	readonly backend?: string;
 	readonly frontend: string;
-	readonly backend: string;
 }
 
 type ConfigResponse = {
-	wishlist: Config;
+	readonly wishlist: Config;
 };
 
 export const getConfig = async (): Promise<Config | undefined> => {

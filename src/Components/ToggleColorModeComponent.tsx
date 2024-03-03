@@ -13,13 +13,14 @@ export const ToggleColorModeComponent = (
 ): React.ReactElement => {
 	const renderIcon = (): React.ReactElement => {
 		if (props.darkMode) {
-			return <LightModeIcon />;
+			return <LightModeIcon data-testid={'icon-light'} />;
 		}
-		return <DarkModeIcon />;
+		return <DarkModeIcon data-testid={'icon-dark'} />;
 	};
 
 	return (
 		<IconButton
+			data-testid={'icon-button'}
 			color={'warning'}
 			onClick={props.toggleDarkMode}
 		>

@@ -12,11 +12,12 @@ import axios, {
 import {Config} from './EnvironmentHelper';
 
 let urlConfig: Config = {
-	backend: process.env.REACT_API_URL ?? 'localhost:8080',
+	backend: process.env.REACT_API_URL,
 	frontend: `${window.location.protocol}//${window.location.host}`
 };
 
-export const getBackendUrl = (): string => urlConfig.backend;
+export const getBackendUrl = (): string =>
+	urlConfig.backend || 'localhost:8080';
 
 export const getFrontendUrl = (): string => urlConfig.frontend;
 
