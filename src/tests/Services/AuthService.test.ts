@@ -8,7 +8,10 @@ import {
 	logIn,
 	logout,
 	refreshToken,
-	signUp
+	signUp,
+	requestResetPassword,
+	resetPassword,
+	changePassword
 } from '../../Services/AuthService';
 import {waitFor} from '@testing-library/react';
 import Cookies from 'js-cookie';
@@ -58,7 +61,7 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(200);
 	});
 
-	test('try to login and handle error', async () => {
+	test('Handle error when login is not successful', async () => {
 		// arrange
 		const email = 'test@example.com';
 		const password = 'Testowe123!';
@@ -144,6 +147,75 @@ describe('AuthService', (): void => {
 
 		// assert
 		expect(result).toEqual('existing-refresh-token');
+	});
+
+	test('try to request to reset password', async () => {
+		// arrange
+		const email = 'test@example.com';
+		const mock = new MockAdapter(axios);
+		const baseUrl = getBackendUrl();
+		const url = `http://localhost/new-password`;
+		mock.onPost(
+			`${baseUrl}/account/password_reset`,
+			{
+				email,
+				url
+			},
+			headers
+		).reply(200);
+
+		// act
+		const response = await requestResetPassword(email);
+
+		// assert
+		expect(response.status).toEqual(200);
+	});
+
+	test('Successful reset password', async () => {
+		// arrange
+		const mock = new MockAdapter(axios);
+		const password = 'Testowe123!';
+		const passwordRepeat = 'Testowe123!';
+		const token = 'accessToken';
+		const baseUrl = getBackendUrl();
+		mock.onPost(
+			`${baseUrl}/account/password_reset/confirm`,
+			{
+				password,
+				token,
+				password_confirmation: passwordRepeat
+			},
+			headers
+		).reply(200);
+
+		// act
+		const response = await resetPassword(password, token, passwordRepeat);
+
+		// assert
+		expect(response).toEqual(200);
+	});
+
+	test('Successful change password', async () => {
+		// arrange
+		const mock = new MockAdapter(axios);
+		const newPassword = 'Testowe123!';
+		const oldPassword = 'Testowe456!';
+		const baseUrl = getBackendUrl();
+		mock.onPost(
+			`${baseUrl}/account/change_password`,
+			{
+				old_password: oldPassword,
+				password: newPassword,
+				password_confirmation: newPassword
+			},
+			headers
+		).reply(200);
+
+		// act
+		const response = await changePassword(oldPassword, newPassword);
+
+		// assert
+		expect(response.status).toEqual(200);
 	});
 
 	test('refresh token', async (): Promise<void> => {

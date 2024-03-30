@@ -36,9 +36,10 @@ import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
 import {getFrontendUrl} from '../Services/ApiInstance';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
+import {isTokenValid} from '../Services/AuthService';
 
 export const WishlistListPage: React.FC = (): React.ReactElement => {
-	type Params = {id?: string};
+	type Params = {readonly id?: string};
 	const params: Params = useParams<Params>();
 	const navigate = useNavigate();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
@@ -167,6 +168,10 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	};
 
 	React.useEffect((): void => {
+		if (!isTokenValid()) {
+			navigate('/');
+			return;
+		}
 		fetchAndSetWishlists().catch((): string | number =>
 			enqueueSnackbar('Something went wrong!', {variant: 'error'})
 		);
@@ -396,11 +401,6 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 								<AddCircleOutlineIcon fontSize={'large'} />
 							</IconButton>
 						</Box>
-						<WishlistModal
-							opened={openAddWishlistModal}
-							toggleModal={toggleWishlistModal}
-							addNewWishlist={addNewWishlist}
-						/>
 						<WishlistConfirmationModal
 							opened={openConfWishlistModal}
 							toggleModal={toggleWishlistConfirmationModal}
@@ -419,6 +419,11 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 					</Grid>
 				)}
 			</Grid>
+			<WishlistModal
+				opened={openAddWishlistModal}
+				toggleModal={toggleWishlistModal}
+				addNewWishlist={addNewWishlist}
+			/>
 		</Header>
 	);
 };

@@ -13,8 +13,8 @@ import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
 import '../../assets/fonts.css';
 import {AuthComponent} from '../Components/AuthComponent';
-import {logIn} from '../Services/AuthService';
-import {useNavigate} from 'react-router-dom';
+import {isTokenValid, logIn} from '../Services/AuthService';
+import {useNavigate, Link as Anchor} from 'react-router-dom';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
@@ -33,7 +33,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 	const {register, handleSubmit} = useForm();
 
 	React.useEffect((): void => {
-		if (localStorage.getItem('accessToken')) {
+		if (isTokenValid()) {
 			navigate(`wishlists/`);
 		}
 	}, []);
@@ -128,7 +128,8 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 						Login
 					</Button>
 					<Link
-						href='#'
+						component={Anchor}
+						to={'/reset-password'}
 						sx={{
 							marginTop: '10px',
 							fontFamily: 'Montserrat',
@@ -154,7 +155,8 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 							Don&apos;t have an account?
 						</Typography>
 						<Link
-							href='register'
+							component={Anchor}
+							to={'/register'}
 							sx={{
 								paddingLeft: '3px',
 								fontFamily: 'Montserrat',

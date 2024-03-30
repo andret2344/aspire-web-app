@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse, isAxiosError} from 'axios';
 import Cookies from 'js-cookie';
-import apiInstance, {getBackendUrl} from './ApiInstance';
+import apiInstance, {getBackendUrl, getFrontendUrl} from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 const ACCESS_TOKEN: string = 'accessToken';
@@ -57,6 +57,55 @@ export const signUp = async (
 		{
 			email,
 			password
+		},
+		requestConfig
+	);
+};
+
+export const requestResetPassword = async (
+	email: string
+): Promise<AxiosResponse> => {
+	const baseUrl = getBackendUrl();
+	const url = `${getFrontendUrl()}/new-password`;
+	return await axios.post(
+		`${baseUrl}/account/password_reset`,
+		{
+			email,
+			url
+		},
+		requestConfig
+	);
+};
+
+export const resetPassword = async (
+	password: string,
+	token: string,
+	passwordRepeat: string
+): Promise<number> => {
+	const baseUrl = getBackendUrl();
+	const response = await axios.post(
+		`${baseUrl}/account/password_reset/confirm`,
+		{
+			password,
+			token,
+			password_confirmation: passwordRepeat
+		},
+		requestConfig
+	);
+	return response.status;
+};
+
+export const changePassword = async (
+	oldPassword: string,
+	newPassword: string
+): Promise<AxiosResponse> => {
+	const baseUrl = getBackendUrl();
+	return await axios.post(
+		`${baseUrl}/account/change_password`,
+		{
+			old_password: oldPassword,
+			password: newPassword,
+			password_confirmation: newPassword
 		},
 		requestConfig
 	);

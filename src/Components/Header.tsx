@@ -2,6 +2,7 @@ import {
 	Box,
 	Container,
 	IconButton,
+	Link,
 	ListItemIcon,
 	Menu,
 	MenuItem,
@@ -11,7 +12,7 @@ import React from 'react';
 import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Logout, Settings} from '@mui/icons-material';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link as Anchor} from 'react-router-dom';
 import {isTokenValid, logout} from '../Services/AuthService';
 import {useDarkMode} from './DarkModeContext';
 import {ToggleColorModeComponent} from './ToggleColorModeComponent';
@@ -82,18 +83,21 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 					<Typography
 						variant='h6'
 						noWrap
-						component='a'
-						href='/wishlists'
-						sx={{
-							fontFamily: 'Courgette',
-							fontWeight: 700,
-							fontSize: '35px',
-							letterSpacing: '.3rem',
-							color: 'white',
-							textDecoration: 'none'
-						}}
 					>
-						Aspire
+						<Link
+							component={Anchor}
+							to={'/'}
+							sx={{
+								fontFamily: 'Courgette',
+								fontWeight: 700,
+								fontSize: '35px',
+								letterSpacing: '.3rem',
+								color: 'white',
+								textDecoration: 'none'
+							}}
+						>
+							Aspire
+						</Link>
 					</Typography>
 					<Box
 						sx={{

@@ -1,8 +1,5 @@
-import {
-	mockedJwtDecode,
-	mockedUseNavigate
-} from '../__mocks__/MockCommonService';
-import {mockedLogIn} from '../__mocks__/MockAuthService';
+import {mockedUseNavigate} from '../__mocks__/MockCommonService';
+import {mockedIsTokenValid, mockedLogIn} from '../__mocks__/MockAuthService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -172,18 +169,7 @@ describe('login page', (): void => {
 
 	test('redirect successfully to wishlist page if already logged in and user enters to login page', async (): Promise<void> => {
 		// arrange
-		const mockedHeader = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
-		const mockedPayload = btoa(
-			JSON.stringify({
-				sub: '1234567890',
-				name: 'John Doe',
-				iat: 1516239022
-			})
-		);
-		const mockedSignature = btoa('signature');
-		const mockedToken = `${mockedHeader}.${mockedPayload}.${mockedSignature}`;
-		localStorage.setItem('accessToken', mockedToken);
-		mockedJwtDecode.mockReturnValue('valid.token');
+		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
 		renderForTest(<LoginPage />);

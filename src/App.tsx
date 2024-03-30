@@ -11,6 +11,8 @@ import {SnackbarProvider} from 'notistack';
 import {ReadonlyWishtlistPage} from './Pages/ReadonlyWishtlistPage';
 import {Config, getConfig} from './Services/EnvironmentHelper';
 import {setConfig} from './Services/ApiInstance';
+import {PasswordReminderPage} from './Pages/PasswordReminderPage';
+import {NewPasswordPage} from './Pages/NewPasswordPage';
 
 export const App: React.FC = (): React.ReactElement => {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -66,6 +68,14 @@ export const App: React.FC = (): React.ReactElement => {
 				<Route
 					path={'error'}
 					element={<ErrorPage />}
+				/>
+				<Route
+					path={'reset-password'}
+					element={<PasswordReminderPage />}
+				/>
+				<Route
+					path={'new-password/:token'}
+					element={<NewPasswordPage />}
 				/>
 			</Routes>
 		</SnackbarProvider>
