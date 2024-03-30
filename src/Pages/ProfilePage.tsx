@@ -2,8 +2,17 @@ import {Box, Button, Paper, TextField, Typography} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import React from 'react';
 import {Header} from '../Components/Header';
+import {isTokenValid} from '../Services/AuthService';
+import {useNavigate} from 'react-router-dom';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
+	const navigate = useNavigate();
+
+	React.useEffect((): void => {
+		if (!isTokenValid()) {
+			navigate('/');
+		}
+	});
 	return (
 		<Header>
 			<Grid
@@ -66,7 +75,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 								sx={{width: '50%', marginBottom: '20px'}}
 								id={'email'}
 								label={'E-mail address'}
-								defaultValue={'Andret2344@gmail.com'}
+								defaultValue={''}
 							/>
 							<TextField
 								sx={{width: '50%', marginBottom: '20px'}}
