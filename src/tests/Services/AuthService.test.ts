@@ -197,14 +197,15 @@ describe('AuthService', (): void => {
 
 	test('Successful change password', async () => {
 		// arrange
-		const mock = new MockAdapter(axios);
+		const mock = new MockAdapter(apiInstance);
 		const newPassword = 'Testowe123!';
-		const oldPassword = 'Testowe456!';
+		const newPasswordConfirm = 'Testowe123!';
+		const currentPassword = 'Testowe456!';
 		const baseUrl = getBackendUrl();
 		mock.onPost(
 			`${baseUrl}/account/change_password`,
 			{
-				old_password: oldPassword,
+				old_password: currentPassword,
 				password: newPassword,
 				password_confirmation: newPassword
 			},
@@ -212,10 +213,14 @@ describe('AuthService', (): void => {
 		).reply(200);
 
 		// act
-		const response = await changePassword(oldPassword, newPassword);
+		const response = await changePassword(
+			currentPassword,
+			newPassword,
+			newPasswordConfirm
+		);
 
 		// assert
-		expect(response.status).toEqual(200);
+		expect(response).toEqual(200);
 	});
 
 	test('refresh token', async (): Promise<void> => {
