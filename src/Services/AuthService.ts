@@ -92,23 +92,27 @@ export const resetPassword = async (
 		},
 		requestConfig
 	);
+
 	return response.status;
 };
 
 export const changePassword = async (
-	oldPassword: string,
-	newPassword: string
-): Promise<AxiosResponse> => {
+	currentPassword: string,
+	newPassword: string,
+	newPasswordConfirm: string
+): Promise<number> => {
 	const baseUrl = getBackendUrl();
-	return await axios.post(
+	const response = await apiInstance.post(
 		`${baseUrl}/account/change_password`,
 		{
-			old_password: oldPassword,
+			old_password: currentPassword,
 			password: newPassword,
-			password_confirmation: newPassword
+			password_confirmation: newPasswordConfirm
 		},
 		requestConfig
 	);
+
+	return response.status;
 };
 
 export const logout = (): void => {

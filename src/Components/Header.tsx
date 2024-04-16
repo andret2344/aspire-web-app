@@ -14,13 +14,10 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import {Logout, Settings} from '@mui/icons-material';
 import {useNavigate, Link as Anchor} from 'react-router-dom';
 import {isTokenValid, logout} from '../Services/AuthService';
-import {useDarkMode} from './DarkModeContext';
-import {ToggleColorModeComponent} from './ToggleColorModeComponent';
 
 export const Header: React.FC<React.PropsWithChildren<None>> = (
 	props: React.PropsWithChildren<None>
 ): React.ReactElement => {
-	const {darkMode, toggleDarkMode} = useDarkMode();
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
@@ -142,12 +139,6 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 								Logout
 							</MenuItem>
 						</Menu>
-						<Box sx={{justifySelf: 'flex-end'}}>
-							<ToggleColorModeComponent
-								darkMode={darkMode}
-								toggleDarkMode={toggleDarkMode}
-							/>
-						</Box>
 					</Box>
 				</Box>
 			</Container>
