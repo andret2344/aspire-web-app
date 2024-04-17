@@ -37,11 +37,13 @@ import {useSnackbar} from 'notistack';
 import {getFrontendUrl} from '../Services/ApiInstance';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {isTokenValid} from '../Services/AuthService';
+import {useTranslation} from 'react-i18next';
 
 export const WishlistListPage: React.FC = (): React.ReactElement => {
 	type Params = {readonly id?: string};
 	const params: Params = useParams<Params>();
 	const navigate = useNavigate();
+	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
 	const [activeWishlist, setActiveWishlist] = React.useState<WishList | null>(
 		null
@@ -335,7 +337,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						}}
 						startIcon={<AddCircleOutlineIcon />}
 					>
-						Add new wishlist
+						{t('Add new wishlist')}
 					</Button>
 				</Grid>
 				{activeWishlist && (
@@ -363,20 +365,22 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 											align='left'
 										/>
 										<TableCell align='left'>
-											Item No.
+											{t('Item No.')}
 										</TableCell>
-										<TableCell align='left'>Name</TableCell>
-										<TableCell
-											width={'10%'}
-											align='center'
-										>
-											Priority
+										<TableCell align='left'>
+											{t('name')}
 										</TableCell>
 										<TableCell
 											width={'10%'}
 											align='center'
 										>
-											Action
+											{t('Priority')}
+										</TableCell>
+										<TableCell
+											width={'10%'}
+											align='center'
+										>
+											{t('Action')}
 										</TableCell>
 									</TableRow>
 								</TableHead>

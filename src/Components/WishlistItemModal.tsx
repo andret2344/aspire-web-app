@@ -20,6 +20,7 @@ import {
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
@@ -37,6 +38,7 @@ export const WishlistItemModal = (
 	const [priority, setPriority] = React.useState<number>(1);
 	const inputRefName = React.useRef<HTMLInputElement>(null);
 	const inputRefDescription = React.useRef<HTMLInputElement>(null);
+	const {t} = useTranslation();
 	const {enqueueSnackbar} = useSnackbar();
 
 	React.useEffect((): void => {
@@ -182,7 +184,7 @@ export const WishlistItemModal = (
 						component='h2'
 						sx={{alignSelf: 'flex-start'}}
 					>
-						Description
+						{t('Description')}
 					</Typography>
 					<TextField
 						aria-label={'wishlist item description'}
@@ -214,7 +216,7 @@ export const WishlistItemModal = (
 						}}
 						onClick={toggleModalAndClearFields}
 					>
-						Cancel
+						{t('Cancel')}
 					</Button>
 					<Button
 						onClick={handleSaveButton}
@@ -223,7 +225,7 @@ export const WishlistItemModal = (
 							marginTop: '10px'
 						}}
 					>
-						Confirm
+						{t('Confirm')}
 					</Button>
 				</Box>
 			</Paper>

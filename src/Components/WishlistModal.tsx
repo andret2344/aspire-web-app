@@ -12,7 +12,7 @@ import React, {KeyboardEvent} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {addWishlist} from '../Services/WishListService';
 import {WishList} from '../Entity/WishList';
-
+import {useTranslation} from 'react-i18next';
 interface WishlistModalProps {
 	readonly opened: boolean;
 	readonly toggleModal: () => void;
@@ -24,6 +24,7 @@ export const WishlistModal = (
 ): React.ReactElement => {
 	const theme = useTheme();
 	const navigate = useNavigate();
+	const {t} = useTranslation();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -76,12 +77,12 @@ export const WishlistModal = (
 					variant='h5'
 					component='h2'
 				>
-					Type a name of your new wishlist
+					{t('Type a name of your new wishlist')}
 				</Typography>
 				<TextField
 					hiddenLabel
 					variant={'filled'}
-					placeholder={'Name'}
+					placeholder={`${t('Name')}`}
 					inputRef={inputRef}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
@@ -105,7 +106,7 @@ export const WishlistModal = (
 						}}
 						onClick={props.toggleModal}
 					>
-						Cancel
+						{t('Cancel')}
 					</Button>
 					<Button
 						onClick={handleSaveButton}
@@ -114,7 +115,7 @@ export const WishlistModal = (
 							marginTop: '10px'
 						}}
 					>
-						Save
+						{t('Save')}
 					</Button>
 				</Box>
 			</Paper>

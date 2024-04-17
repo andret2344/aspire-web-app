@@ -3,10 +3,12 @@ import {AuthComponent} from '../Components/AuthComponent';
 import {Box, Button, Link, Typography} from '@mui/material';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import {VerifyEmailTypography} from '../Components/VerifyEmailTypography';
+import {useTranslation} from 'react-i18next';
 
 export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 	const emailPlaceholder: string = 'andret@wishlist.com';
 	const handleClick = (): void => console.log('Resend');
+	const {t} = useTranslation();
 
 	return (
 		<AuthComponent>
@@ -20,10 +22,10 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 			>
 				<EmailOutlinedIcon sx={{fontSize: '74px'}} />
 				<VerifyEmailTypography>
-					Please verify your e-mail.
+					{t('Please verify your e-mail.')}
 				</VerifyEmailTypography>
 				<VerifyEmailTypography>
-					We sent an email to:
+					{t('We sent an email to')}:
 				</VerifyEmailTypography>
 				<VerifyEmailTypography
 					sx={{
@@ -33,12 +35,10 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 					{emailPlaceholder}
 				</VerifyEmailTypography>
 				<VerifyEmailTypography>
-					Just click on the link in that email to complete your
-					register. If you don’t see it, you may check your spam
-					folder
+					{t('Just click on the link in that email to complete your')}
 				</VerifyEmailTypography>
 				<VerifyEmailTypography>
-					Didn&apos;t receive the email?
+					{t("Didn't receive the email?")}
 				</VerifyEmailTypography>
 			</Box>
 			<Button
@@ -49,7 +49,7 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 				}}
 				type={'submit'}
 			>
-				Resend Verification E-mail
+				{t('Resend Verification E-mail')}
 			</Button>
 			<Box
 				mt={'10px'}
@@ -65,7 +65,7 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 						fontWeight: 400
 					}}
 				>
-					Already verified?
+					{t('Already verified?')}
 				</Typography>
 				<Link
 					href='#'
@@ -77,7 +77,7 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 						fontWeight: 400
 					}}
 				>
-					Sign in
+					{t('Sign in')}
 				</Link>
 			</Box>
 		</AuthComponent>

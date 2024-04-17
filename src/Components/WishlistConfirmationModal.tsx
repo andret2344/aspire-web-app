@@ -1,6 +1,6 @@
 import {Box, Button, Modal, Paper, Typography} from '@mui/material';
 import React, {KeyboardEvent} from 'react';
-
+import {useTranslation} from 'react-i18next';
 interface WishlistConfirmationModalProps {
 	readonly opened: boolean;
 	readonly wishlistName?: string;
@@ -11,6 +11,7 @@ interface WishlistConfirmationModalProps {
 export const WishlistConfirmationModal = (
 	props: WishlistConfirmationModalProps
 ): React.ReactElement => {
+	const {t} = useTranslation();
 	const handleDeleteOnKeyDown = (event: KeyboardEvent): void => {
 		if (event.key === 'Enter') {
 			props.onRemove();
@@ -46,8 +47,8 @@ export const WishlistConfirmationModal = (
 					variant='h5'
 					component='h2'
 				>
-					Are you sure you want to delete the{' '}
-					<strong>{props.wishlistName}</strong> wishlist?
+					{t('Are you sure you want to delete the')}
+					<strong>{props.wishlistName}</strong> {t('wishlist')}?
 				</Typography>
 				<Box
 					sx={{
@@ -62,7 +63,7 @@ export const WishlistConfirmationModal = (
 						onClick={props.toggleModal}
 						variant='outlined'
 					>
-						cancel
+						{t('cancel')}
 					</Button>
 					<Button
 						data-testid={'button-ok'}

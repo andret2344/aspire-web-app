@@ -13,6 +13,7 @@ import {Config, getConfig} from './Services/EnvironmentHelper';
 import {setConfig} from './Services/ApiInstance';
 import {PasswordReminderPage} from './Pages/PasswordReminderPage';
 import {NewPasswordPage} from './Pages/NewPasswordPage';
+import './i18n';
 
 export const App: React.FC = (): React.ReactElement => {
 	const [loaded, setLoaded] = React.useState<boolean>(false);

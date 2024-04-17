@@ -14,12 +14,15 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import {Logout, Settings} from '@mui/icons-material';
 import {useNavigate, Link as Anchor} from 'react-router-dom';
 import {isTokenValid, logout} from '../Services/AuthService';
+import {Languages} from './languages/Languages';
+import {useTranslation} from 'react-i18next';
 
 export const Header: React.FC<React.PropsWithChildren<None>> = (
 	props: React.PropsWithChildren<None>
 ): React.ReactElement => {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+	const {t} = useTranslation();
 	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -127,7 +130,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 								<ListItemIcon>
 									<Settings fontSize='small' />
 								</ListItemIcon>
-								Settings
+								{t('Settings')}
 							</MenuItem>
 							<MenuItem
 								data-testid={'menuitem-logout'}
@@ -136,10 +139,11 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 								<ListItemIcon>
 									<Logout fontSize='small' />
 								</ListItemIcon>
-								Logout
+								{t('Logout')}
 							</MenuItem>
 						</Menu>
 					</Box>
+					<Languages />
 				</Box>
 			</Container>
 			{props.children}

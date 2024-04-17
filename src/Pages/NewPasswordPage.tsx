@@ -15,6 +15,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {resetPassword} from '../Services/AuthService';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
+import {t} from 'i18next';
 
 export const NewPasswordPage: React.FC = (): React.ReactElement => {
 	type Inputs = {readonly password: string; readonly passwordRepeat: string};
@@ -105,7 +106,7 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 						}}
 						hiddenLabel
 						variant={'filled'}
-						placeholder={'Password'}
+						placeholder={t('Password')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -141,7 +142,7 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 						}}
 						hiddenLabel
 						variant={'filled'}
-						placeholder={'Repeat password'}
+						placeholder={t('Repeat password')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -159,7 +160,7 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 						}}
 						type={'submit'}
 					>
-						change password
+						{t('change password')}
 					</Button>
 				</form>
 			</AuthComponent>

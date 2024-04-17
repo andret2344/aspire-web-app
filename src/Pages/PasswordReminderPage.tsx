@@ -14,12 +14,14 @@ import {useForm} from 'react-hook-form';
 import {requestResetPassword} from '../Services/AuthService';
 import {useSnackbar} from 'notistack';
 import {Link as Anchor, useNavigate} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 	type Inputs = {
 		readonly email: string;
 	};
 	const navigate = useNavigate();
+	const {t} = useTranslation();
 	const theme = useTheme();
 	const {enqueueSnackbar} = useSnackbar();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
@@ -56,8 +58,9 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 							fontWeight: 400
 						}}
 					>
-						Enter your e-mail and we&apos;ll send you a link to
-						reset your password
+						{t(
+							"Enter your e-mail and we'll send you a link to reset your password"
+						)}
 					</Typography>
 				</Box>
 				<form
@@ -74,7 +77,7 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 					<TextField
 						hiddenLabel
 						variant={'filled'}
-						placeholder={'E-mail address'}
+						placeholder={t('E-mail address')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -90,7 +93,7 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 						}}
 						type={'submit'}
 					>
-						send
+						{t('send')}
 					</Button>
 					<Box
 						mt={'10px'}
@@ -105,7 +108,7 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Back to
+							{t('Back to')}
 						</Typography>
 						<Link
 							href='/'
@@ -117,7 +120,7 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Log in
+							{t('Log in')}
 						</Link>
 					</Box>
 					<Box
@@ -133,7 +136,7 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Don&apos;t have an account?
+							{t("Don't have an account?")}
 						</Typography>
 						<Link
 							component={Anchor}
@@ -146,7 +149,7 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Sign up
+							{t('Sign up')}
 						</Link>
 					</Box>
 				</form>

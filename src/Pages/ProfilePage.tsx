@@ -17,6 +17,7 @@ import {useSnackbar} from 'notistack';
 import {useDarkMode} from '../Components/DarkModeContext';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '../Components/ToggleColorModeComponent';
+import {t} from 'i18next';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
 	type Inputs = {
@@ -68,7 +69,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 		)
 			.then((response: number): void => {
 				if ([200, 201].includes(response || -1)) {
-					enqueueSnackbar('Successfully changed password!', {
+					enqueueSnackbar(`${t('Successfully changed password!')}`, {
 						variant: 'success'
 					});
 					reset();
@@ -76,7 +77,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 			})
 			.catch((): void => {
 				enqueueSnackbar(
-					'Some error occurred! Probably your current password is not valid.',
+					`${t('Some error occurred! Probably your current password is not valid.')}`,
 					{
 						variant: 'error'
 					}
@@ -135,7 +136,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 									}}
 								>
 									<Typography sx={{fontFamily: 'Montserrat'}}>
-										Password settings
+										{t('Password settings')}
 									</Typography>
 								</Box>
 							</Box>
@@ -159,7 +160,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 									<TextField
 										sx={{marginBottom: '20px'}}
 										id={'password'}
-										placeholder={'Current password'}
+										placeholder={t('Current password')}
 										type={
 											showPassword ? 'text' : 'password'
 										}
@@ -198,7 +199,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 											marginBottom: '20px'
 										}}
 										id={'new-password'}
-										placeholder={'New password'}
+										placeholder={t('New password')}
 										type={
 											showPasswordRepeat
 												? 'text'
@@ -243,7 +244,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 											marginBottom: '20px'
 										}}
 										id={'confirm-password'}
-										placeholder={'Confirm password'}
+										placeholder={t('Confirm password')}
 										type={
 											showPasswordRepeatConfirmation
 												? 'text'
@@ -289,7 +290,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 										variant='contained'
 										type={'submit'}
 									>
-										change password
+										{t('change password')}
 									</Button>
 								</form>
 							</Box>
@@ -311,7 +312,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 									}}
 								>
 									<Typography sx={{fontFamily: 'Montserrat'}}>
-										Theme settings
+										{t('Theme settings')}
 									</Typography>
 								</Box>
 							</Box>
@@ -325,7 +326,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 								}}
 							>
 								<Typography sx={{fontFamily: 'Montserrat'}}>
-									Change theme color:
+									{t('Change theme color')}:
 									<ToggleColorModeComponent
 										darkMode={darkMode}
 										toggleDarkMode={toggleDarkMode}

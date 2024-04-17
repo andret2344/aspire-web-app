@@ -19,6 +19,7 @@ import {RegisterApiError, signUp} from '../Services/AuthService';
 import {AxiosError, AxiosResponse} from 'axios';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
 
 interface IFormInput {
 	readonly email: string;
@@ -30,6 +31,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
+	const {t} = useTranslation();
 	const [showPasswordRepeat, setShowPasswordRepeat] =
 		React.useState<boolean>(false);
 	const navigate = useNavigate();
@@ -105,7 +107,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						required
 						hiddenLabel
 						variant={'filled'}
-						placeholder={'E-mail address'}
+						placeholder={`${t('E-mail address')}`}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -139,7 +141,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						}}
 						hiddenLabel
 						variant={'filled'}
-						placeholder={'Password'}
+						placeholder={`${t('Password')}`}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -175,7 +177,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						}}
 						hiddenLabel
 						variant={'filled'}
-						placeholder={'Repeat password'}
+						placeholder={`${t('Repeat password')}`}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -193,7 +195,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						}}
 						type={'submit'}
 					>
-						Register
+						{t('Register')}
 					</Button>
 					<Box
 						mt={'10px'}
@@ -208,7 +210,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Already have an account?
+							{t('Already have an account?')}
 						</Typography>
 						<Link
 							href='/'
@@ -220,7 +222,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Sign in
+							{t('Sign in')}
 						</Link>
 					</Box>
 				</form>

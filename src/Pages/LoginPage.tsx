@@ -18,6 +18,7 @@ import {useNavigate, Link as Anchor} from 'react-router-dom';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
 
 export const LoginPage: React.FC = (): React.ReactElement => {
 	const navigate = useNavigate();
@@ -25,6 +26,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
+	const {t} = useTranslation();
 
 	const handleClickShowPassword = (): void => {
 		setShowPassword((prev: boolean): boolean => !prev);
@@ -43,17 +45,23 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 			(response: number): void => {
 				if ([200, 201].includes(response)) {
 					navigate('/wishlists');
-					enqueueSnackbar('Successfully logged in.', {
+					enqueueSnackbar(`${t('Successfully logged in.')}`, {
 						variant: 'info'
 					});
 				} else if ([401].includes(response)) {
-					enqueueSnackbar('Wrong login or password. Try again!', {
-						variant: 'warning'
-					});
+					enqueueSnackbar(
+						`${t('Wrong login or password. Try again!')}`,
+						{
+							variant: 'warning'
+						}
+					);
 				} else {
-					enqueueSnackbar('Something went wrong. Try again later.', {
-						variant: 'error'
-					});
+					enqueueSnackbar(
+						`${t('Something went wrong. Try again later.')}`,
+						{
+							variant: 'error'
+						}
+					);
 				}
 			}
 		);
@@ -77,7 +85,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 						autoComplete={'new-password'}
 						hiddenLabel
 						variant={'filled'}
-						placeholder={'Login'}
+						placeholder={t('Login')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -109,7 +117,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 						}}
 						hiddenLabel
 						variant={'filled'}
-						placeholder={'Password'}
+						placeholder={t('Password')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -125,7 +133,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 						}}
 						type={'submit'}
 					>
-						Login
+						{t('Login')}
 					</Button>
 					<Link
 						component={Anchor}
@@ -137,7 +145,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 							fontWeight: 400
 						}}
 					>
-						Forgot password?
+						{t('Forgot password?')}
 					</Link>
 					<Box
 						mt={'10px'}
@@ -152,7 +160,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Don&apos;t have an account?
+							{t("Don't have an account?")}
 						</Typography>
 						<Link
 							component={Anchor}
@@ -165,7 +173,7 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Sign up
+							{t('Sign up')}
 						</Link>
 					</Box>
 				</form>
