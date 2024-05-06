@@ -16,6 +16,7 @@ import {PriorityBadge} from './PriorityBadge';
 import {removeWishlistItem} from '../Services/WishlistItemService';
 import {useSnackbar} from 'notistack';
 import Linkify from 'react-linkify';
+import parse from 'html-react-parser';
 
 interface RowProps {
 	readonly row: WishlistItem;
@@ -173,7 +174,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 								<Linkify
 									componentDecorator={getComponentDecorator}
 								>
-									{props.row.description}
+									{parse(props.row.description)}
 								</Linkify>
 							</Typography>
 						</Box>
