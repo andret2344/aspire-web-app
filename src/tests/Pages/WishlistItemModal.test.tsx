@@ -119,9 +119,9 @@ describe('WishlistItemModal', (): void => {
 		const inputName = screen.getByPlaceholderText(
 			'Type here your wish'
 		) as HTMLInputElement;
-		const descriptionInput = screen.getByLabelText(
-			/wishlist item description/i
-		).children[0] as HTMLInputElement;
+		const descriptionInput = screen
+			.getByTestId('test-quill')
+			.querySelector('.ql-editor') as HTMLInputElement;
 		const prioritySelect = screen.getByRole(
 			'combobox'
 		) as HTMLSelectElement;
@@ -159,9 +159,9 @@ describe('WishlistItemModal', (): void => {
 		const inputName = screen.getByPlaceholderText(
 			'Type here your wish'
 		) as HTMLInputElement;
-		const descriptionInput = screen.getByLabelText(
-			/wishlist item description/i
-		).children[0] as HTMLInputElement;
+		const descriptionInput = screen
+			.getByTestId('test-quill')
+			.querySelector('.ql-editor') as HTMLInputElement;
 		const prioritySelect = screen.getByRole(
 			'combobox'
 		) as HTMLSelectElement;
@@ -206,10 +206,8 @@ describe('WishlistItemModal', (): void => {
 
 	test('updates inputs and priority on editingItem prop change', (): void => {
 		const mockInputRefName = {current: {value: ''}};
-		const mockInputRefDescription = {current: {value: ''}};
-		jest.spyOn(React, 'useRef')
-			.mockReturnValueOnce(mockInputRefName)
-			.mockReturnValueOnce(mockInputRefDescription);
+
+		jest.spyOn(React, 'useRef').mockReturnValueOnce(mockInputRefName);
 
 		const setPriority = jest.fn();
 		React.useState = jest.fn().mockReturnValue([1, setPriority]);
@@ -226,9 +224,6 @@ describe('WishlistItemModal', (): void => {
 
 		expect(mockInputRefName.current.value).toBe(
 			mockWishlistData.wishlistItems[0].name
-		);
-		expect(mockInputRefDescription.current.value).toBe(
-			mockWishlistData.wishlistItems[0].description
 		);
 	});
 });
