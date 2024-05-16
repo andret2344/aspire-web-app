@@ -1,11 +1,21 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 
-*, *::before, *::after {
-    box-sizing: inherit;
+.ql-bubble.ql-container {
+	background: rgba(0, 0, 0, 0.111);
+}
+::-webkit-scrollbar {
+	display: none;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
 }

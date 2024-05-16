@@ -20,6 +20,9 @@ import {
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 import {useTranslation} from 'react-i18next';
 
 interface WishlistItemModalProps {
@@ -34,12 +37,30 @@ export const WishlistItemModal = (
 	props: WishlistItemModalProps
 ): React.ReactElement => {
 	const theme = useTheme();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
+	const [description, setDescription] = React.useState<string | undefined>(
+		props.editingItem?.description
+	);
 	const inputRefName = React.useRef<HTMLInputElement>(null);
 	const inputRefDescription = React.useRef<HTMLInputElement>(null);
-	const {t} = useTranslation();
 	const {enqueueSnackbar} = useSnackbar();
+	const modules = {
+		toolbar: [
+			[{header: [1, 2, 3, 4, 5, 6, false]}],
+			[{font: []}],
+			[{size: []}],
+			['bold', 'italic', 'underline', 'strike', 'blockquote'],
+			[
+				{list: 'ordered'},
+				{List: 'bullet'},
+				{indent: '-1'},
+				{indent: '+1'}
+			],
+
+			['link', 'image', 'video']
+		]
+	};
 
 	React.useEffect((): void => {
 		if (props.editingItem) {
@@ -47,10 +68,8 @@ export const WishlistItemModal = (
 			if (inputRefName.current) {
 				inputRefName.current.value = props.editingItem.name;
 			}
-			if (inputRefDescription.current) {
-				inputRefDescription.current.value =
-					props.editingItem.description;
-			}
+
+			setDescription(props.editingItem.description);
 		}
 	}, [props.editingItem]);
 
@@ -66,14 +85,12 @@ export const WishlistItemModal = (
 		if (inputRefName.current) {
 			inputRefName.current.value = '';
 		}
-		if (inputRefDescription.current) {
-			inputRefDescription.current.value = '';
-		}
+		setDescription('');
 	};
 
 	const handleSaveButton = async (): Promise<void> => {
 		const wishlistItemName = inputRefName.current?.value;
-		const wishlistItemDescription = inputRefDescription.current?.value;
+		const wishlistItemDescription = description;
 		if (props.wishlistId && wishlistItemName && wishlistItemDescription) {
 			if (props.editingItem) {
 				const updatedWishlistItem = await editWishlistItem(
@@ -120,21 +137,37 @@ export const WishlistItemModal = (
 			open={props.opened}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				margin: {
+					xs: '0',
+					md: '30px 0'
+				}
+			}}
 		>
 			<Paper
 				sx={{
-					width: '400px',
-					height: '550px',
-					position: 'fixed',
-					top: '50%',
-					left: '50%',
-					transform: 'translate(-50%, -50%)',
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					justifyContent: 'space-evenly'
+					padding: '30px 0',
+					width: {
+						xs: '100%',
+						md: '80%'
+					},
+					height: {
+						xs: '100%',
+						md: 'auto'
+					}
 				}}
 			>
+				<Typography>
+					{props.editingItem?.description
+						? 'Edit wish'
+						: 'Add new wish'}
+				</Typography>
 				<TextField
 					hiddenLabel
 					variant={'filled'}
@@ -143,13 +176,24 @@ export const WishlistItemModal = (
 					}
 					defaultValue={props.editingItem?.name || ''}
 					inputRef={inputRefName}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isSmallerThan900 ? 'small' : 'medium'}
 					sx={{
-						width: '300px',
+						width: {
+							xs: '95%',
+							md: '80%'
+						},
 						marginTop: '15px'
 					}}
 				/>
-				<FormControl sx={{m: 1, width: '300px'}}>
+				<FormControl
+					sx={{
+						m: 3,
+						width: {
+							xs: '95%',
+							md: '80%'
+						}
+					}}
+				>
 					<Select
 						labelId='demo-simple-select-autowidth-label'
 						id='demo-simple-select-autowidth'
@@ -184,7 +228,7 @@ export const WishlistItemModal = (
 						component='h2'
 						sx={{alignSelf: 'flex-start'}}
 					>
-						{t('Description')}
+						Description
 					</Typography>
 					<TextField
 						aria-label={'wishlist item description'}
@@ -216,7 +260,7 @@ export const WishlistItemModal = (
 						}}
 						onClick={toggleModalAndClearFields}
 					>
-						{t('Cancel')}
+						Cancel
 					</Button>
 					<Button
 						onClick={handleSaveButton}
@@ -225,7 +269,7 @@ export const WishlistItemModal = (
 							marginTop: '10px'
 						}}
 					>
-						{t('Confirm')}
+						Confirm
 					</Button>
 				</Box>
 			</Paper>
