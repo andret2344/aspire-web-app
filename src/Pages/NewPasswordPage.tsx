@@ -15,11 +15,12 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {resetPassword} from '../Services/AuthService';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
-import {t} from 'i18next';
+import {useTranslation} from 'react-i18next';
 
 export const NewPasswordPage: React.FC = (): React.ReactElement => {
 	type Inputs = {readonly password: string; readonly passwordRepeat: string};
 	type Params = {readonly token?: string};
+	const {t} = useTranslation();
 	const params: Params = useParams<Params>();
 	const navigate = useNavigate();
 	const theme = useTheme();

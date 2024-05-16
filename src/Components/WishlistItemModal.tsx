@@ -20,10 +20,9 @@ import {
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
-import ReactQuill from 'react-quill';
+
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
-import {useTranslation} from 'react-i18next';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
@@ -45,22 +44,6 @@ export const WishlistItemModal = (
 	const inputRefName = React.useRef<HTMLInputElement>(null);
 	const inputRefDescription = React.useRef<HTMLInputElement>(null);
 	const {enqueueSnackbar} = useSnackbar();
-	const modules = {
-		toolbar: [
-			[{header: [1, 2, 3, 4, 5, 6, false]}],
-			[{font: []}],
-			[{size: []}],
-			['bold', 'italic', 'underline', 'strike', 'blockquote'],
-			[
-				{list: 'ordered'},
-				{List: 'bullet'},
-				{indent: '-1'},
-				{indent: '+1'}
-			],
-
-			['link', 'image', 'video']
-		]
-	};
 
 	React.useEffect((): void => {
 		if (props.editingItem) {

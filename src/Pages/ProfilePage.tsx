@@ -17,7 +17,7 @@ import {useSnackbar} from 'notistack';
 import {useDarkMode} from '../Components/DarkModeContext';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '../Components/ToggleColorModeComponent';
-import {t} from 'i18next';
+import {useTranslation} from 'react-i18next';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
 	type Inputs = {
@@ -40,6 +40,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 		setError,
 		formState: {errors}
 	} = useForm<Inputs>();
+	const {t} = useTranslation();
 
 	const handleClickShowPassword = (): void => {
 		setShowPassword((prev: boolean): boolean => !prev);
