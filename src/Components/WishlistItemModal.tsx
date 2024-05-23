@@ -23,6 +23,7 @@ import {useSnackbar} from 'notistack';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
+import {AccessCodeModal} from './AccessCodeModal';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
@@ -38,6 +39,8 @@ export const WishlistItemModal = (
 	const theme = useTheme();
 	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
+	const [openHideWishlistItemModal, setHideWishlistItemModal] =
+		React.useState<boolean>(false);
 	const [description, setDescription] = React.useState<string | undefined>(
 		props.editingItem?.description
 	);
@@ -211,6 +214,21 @@ export const WishlistItemModal = (
 							)
 						)}
 					</Select>
+					<Box>
+						<Button
+							variant='text'
+							sx={{
+								margin: '10px'
+							}}
+							onClick={() =>
+								setHideWishlistItemModal(
+									(prev): boolean => !prev
+								)
+							}
+						>
+							set code for hide this wish
+						</Button>
+					</Box>
 				</FormControl>
 				<Box
 					sx={{
@@ -227,7 +245,7 @@ export const WishlistItemModal = (
 					<Box
 						sx={{
 							width: '100%',
-							margin: '20px 0'
+							marginBottom: '20px'
 						}}
 					>
 						<Typography
@@ -293,6 +311,7 @@ export const WishlistItemModal = (
 						</Button>
 					</Box>
 				</Box>
+				<AccessCodeModal opened={openHideWishlistItemModal} />
 			</Paper>
 		</Modal>
 	);
