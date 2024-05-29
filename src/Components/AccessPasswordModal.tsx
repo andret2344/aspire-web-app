@@ -1,12 +1,12 @@
 import {Modal, Paper, Typography, TextField} from '@mui/material';
 import React from 'react';
 
-interface AccessCodeModalProps {
+interface AccessPasswordModalProps {
 	readonly opened: boolean;
 }
 
-export const AccessCodeModal = (
-	props: AccessCodeModalProps
+export const AccessPasswordModal = (
+	props: AccessPasswordModalProps
 ): React.ReactElement => {
 	return (
 		<Modal
@@ -39,9 +39,9 @@ export const AccessCodeModal = (
 					}
 				}}
 			>
-				<Typography>Set code</Typography>
+				<Typography>Set Password</Typography>
 				<TextField
-					placeholder='Start typing code on keyboard'
+					placeholder='Start typing Password on keyboard'
 					sx={{
 						width: {
 							xs: '95%',

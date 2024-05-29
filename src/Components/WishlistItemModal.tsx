@@ -23,7 +23,7 @@ import {useSnackbar} from 'notistack';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
-import {AccessCodeModal} from './AccessCodeModal';
+import {AccessPasswordModal} from './AccessPasswordModal';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
@@ -311,7 +311,7 @@ export const WishlistItemModal = (
 						</Button>
 					</Box>
 				</Box>
-				<AccessCodeModal opened={openHideWishlistItemModal} />
+				<AccessPasswordModal opened={openHideWishlistItemModal} />
 			</Paper>
 		</Modal>
 	);
