@@ -39,9 +39,9 @@ export const AccessPasswordModal = (
 					}
 				}}
 			>
-				<Typography>Set Password</Typography>
+				<Typography>Set password</Typography>
 				<TextField
-					placeholder='Start typing Password on keyboard'
+					placeholder='Type password'
 					sx={{
 						width: {
 							xs: '95%',
