@@ -11,6 +11,7 @@ import {
 import React from 'react';
 import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import {Logout, Settings} from '@mui/icons-material';
 import {useNavigate, Link as Anchor} from 'react-router-dom';
 import {isTokenValid, logout} from '../Services/AuthService';
@@ -32,22 +33,29 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 		navigate('/');
 	};
 
-	const renderProfileIcon = (): React.ReactElement | undefined => {
+	const renderUserIcons = (): React.ReactElement | undefined => {
 		if (!isTokenValid()) {
 			return undefined;
 		}
 		return (
-			<IconButton
-				data-testid={'account-icon-button'}
-				sx={{justifySelf: 'flex-end'}}
-				onClick={handleClick}
-			>
-				<AccountCircleOutlinedIcon
-					data-testid={'account-icon'}
-					sx={{color: 'white'}}
-					fontSize={'large'}
-				/>
-			</IconButton>
+			<Box sx={{justifySelf: 'flex-end'}}>
+				<IconButton data-testid={'hidden-items-icon-button'}>
+					<VisibilityRoundedIcon
+						sx={{color: 'white'}}
+						fontSize={'large'}
+					/>
+				</IconButton>
+				<IconButton
+					data-testid={'account-icon-button'}
+					onClick={handleClick}
+				>
+					<AccountCircleOutlinedIcon
+						data-testid={'account-icon'}
+						sx={{color: 'white'}}
+						fontSize={'large'}
+					/>
+				</IconButton>
+			</Box>
 		);
 	};
 
@@ -104,7 +112,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 							alignItems: 'center'
 						}}
 					>
-						{renderProfileIcon()}
+						{renderUserIcons()}
 						<Menu
 							data-testid={'menu'}
 							id='menu'
