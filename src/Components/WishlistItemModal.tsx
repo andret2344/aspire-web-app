@@ -226,7 +226,7 @@ export const WishlistItemModal = (
 								)
 							}
 						>
-							set code for hide this wish
+							hide this wish
 						</Button>
 					</Box>
 				</FormControl>
@@ -311,7 +311,10 @@ export const WishlistItemModal = (
 						</Button>
 					</Box>
 				</Box>
-				<AccessPasswordModal opened={openHideWishlistItemModal} />
+				<AccessPasswordModal
+					setNewPassOpened={openHideWishlistItemModal}
+					typePassOpened={false}
+				/>
 			</Paper>
 		</Modal>
 	);

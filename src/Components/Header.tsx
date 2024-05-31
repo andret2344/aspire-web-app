@@ -15,12 +15,15 @@ import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import {Logout, Settings} from '@mui/icons-material';
 import {useNavigate, Link as Anchor} from 'react-router-dom';
 import {isTokenValid, logout} from '../Services/AuthService';
+import {AccessPasswordModal} from './AccessPasswordModal';
 
 export const Header: React.FC<React.PropsWithChildren<None>> = (
 	props: React.PropsWithChildren<None>
 ): React.ReactElement => {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+	const [openTypePassModal, setOpenTypePassModal] =
+		React.useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -41,6 +44,9 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 			<Box sx={{justifySelf: 'flex-end'}}>
 				<IconButton data-testid={'hidden-items-icon-button'}>
 					<VisibilityRoundedIcon
+						onClick={() =>
+							setOpenTypePassModal((prev): boolean => !prev)
+						}
 						sx={{color: 'white'}}
 						fontSize={'large'}
 					/>
@@ -151,6 +157,10 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 				</Box>
 			</Container>
 			{props.children}
+			<AccessPasswordModal
+				setNewPassOpened={false}
+				typePassOpened={openTypePassModal}
+			/>
 		</Box>
 	);
 };
