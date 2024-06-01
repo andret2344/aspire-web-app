@@ -1,4 +1,4 @@
-import {Modal, Paper, Typography, TextField} from '@mui/material';
+import {Modal, Paper, Typography, TextField, Button, Box} from '@mui/material';
 import React from 'react';
 
 interface AccessPasswordModalProps {
@@ -30,13 +30,14 @@ export const AccessPasswordModal = (
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
+						justifyContent: 'center',
 						padding: '30px 0',
 						width: {
 							xs: '100%',
 							md: '40%'
 						},
 						height: {
-							xs: '100%',
+							xs: '25%',
 							md: 'auto'
 						}
 					}}
@@ -48,12 +49,38 @@ export const AccessPasswordModal = (
 						placeholder='Type password'
 						sx={{
 							width: {
-								xs: '95%',
-								md: '80%'
+								xs: '55%',
+								md: '70%'
 							},
-							marginTop: '15px'
+							margin: '10px 0'
 						}}
 					></TextField>
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							alignItems: 'center',
+							width: '80%'
+						}}
+					>
+						<Button
+							variant='contained'
+							sx={{
+								margin: '10px'
+							}}
+						>
+							Cancel
+						</Button>
+						<Button
+							variant='contained'
+							sx={{
+								margin: '10px'
+							}}
+						>
+							Confirm
+						</Button>
+					</Box>
 				</Paper>
 			</Modal>
 		);
@@ -78,13 +105,14 @@ export const AccessPasswordModal = (
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
+					justifyContent: 'center',
 					padding: '30px 0',
 					width: {
 						xs: '100%',
-						md: '40%'
+						md: '35%'
 					},
 					height: {
-						xs: '100%',
+						xs: '25%',
 						md: 'auto'
 					}
 				}}
@@ -94,12 +122,38 @@ export const AccessPasswordModal = (
 					placeholder='Type password'
 					sx={{
 						width: {
-							xs: '95%',
-							md: '80%'
+							xs: '55%',
+							md: '70%'
 						},
-						marginTop: '15px'
+						margin: '10px 0'
 					}}
 				></TextField>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'center',
+						alignItems: 'center',
+						width: '80%'
+					}}
+				>
+					<Button
+						variant='contained'
+						sx={{
+							margin: '10px'
+						}}
+					>
+						Cancel
+					</Button>
+					<Button
+						variant='contained'
+						sx={{
+							margin: '10px'
+						}}
+					>
+						Confirm
+					</Button>
+				</Box>
 			</Paper>
 		</Modal>
 	);
