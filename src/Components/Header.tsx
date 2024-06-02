@@ -22,7 +22,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 ): React.ReactElement => {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-	const [openTypePassModal, setOpenTypePassModal] =
+	const [revealPassModalOpened, setRevealPassModalOpened] =
 		React.useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
 		setAnchorEl(event.currentTarget);
@@ -36,6 +36,10 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 		navigate('/');
 	};
 
+	const toggleRevealPassModal = () => {
+		setRevealPassModalOpened((prev): boolean => !prev);
+	};
+
 	const renderUserIcons = (): React.ReactElement | undefined => {
 		if (!isTokenValid()) {
 			return undefined;
@@ -45,7 +49,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 				<IconButton data-testid={'hidden-items-icon-button'}>
 					<VisibilityRoundedIcon
 						onClick={() =>
-							setOpenTypePassModal((prev): boolean => !prev)
+							setRevealPassModalOpened((prev): boolean => !prev)
 						}
 						sx={{color: 'white'}}
 						fontSize={'large'}
@@ -158,8 +162,10 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 			</Container>
 			{props.children}
 			<AccessPasswordModal
-				setNewPassOpened={false}
-				typePassOpened={openTypePassModal}
+				setHidePassModalOpened={() => undefined}
+				hidePassModalOpened={false}
+				setRevealPassModalOpened={toggleRevealPassModal}
+				revealPassModalOpened={revealPassModalOpened}
 			/>
 		</Box>
 	);

@@ -2,17 +2,22 @@ import {Modal, Paper, Typography, TextField, Button, Box} from '@mui/material';
 import React from 'react';
 
 interface AccessPasswordModalProps {
-	readonly setNewPassOpened: boolean;
-	readonly typePassOpened: boolean;
+	readonly setHidePassModalOpened: () => void;
+	readonly setRevealPassModalOpened: () => void;
+	readonly hidePassModalOpened: boolean;
+	readonly revealPassModalOpened: boolean;
 }
 
 export const AccessPasswordModal = (
 	props: AccessPasswordModalProps
 ): React.ReactElement => {
-	if (props.typePassOpened) {
+	const [hideItemPass, setHideItemPass] = React.useState<string>('');
+	const [revealItemPass, setRevealItemPass] = React.useState<string>('');
+
+	if (props.revealPassModalOpened) {
 		return (
 			<Modal
-				open={props.typePassOpened}
+				open={props.revealPassModalOpened}
 				aria-labelledby='modal-modal-title'
 				aria-describedby='modal-modal-description'
 				sx={{
@@ -46,6 +51,10 @@ export const AccessPasswordModal = (
 						Type password of wish you want to reveal
 					</Typography>
 					<TextField
+						onChange={(e) => {
+							setRevealItemPass(e.currentTarget.value);
+							console.log(revealItemPass);
+						}}
 						placeholder='Type password'
 						sx={{
 							width: {
@@ -65,6 +74,10 @@ export const AccessPasswordModal = (
 						}}
 					>
 						<Button
+							onClick={() => {
+								props.setRevealPassModalOpened();
+								setRevealItemPass('');
+							}}
 							variant='contained'
 							sx={{
 								margin: '10px'
@@ -87,7 +100,7 @@ export const AccessPasswordModal = (
 	}
 	return (
 		<Modal
-			open={props.setNewPassOpened}
+			open={props.hidePassModalOpened}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
 			sx={{
@@ -119,6 +132,10 @@ export const AccessPasswordModal = (
 			>
 				<Typography>Set password for this wish</Typography>
 				<TextField
+					onChange={(e) => {
+						setHideItemPass(e.currentTarget.value);
+						console.log(hideItemPass);
+					}}
 					placeholder='Type password'
 					sx={{
 						width: {
@@ -138,6 +155,10 @@ export const AccessPasswordModal = (
 					}}
 				>
 					<Button
+						onClick={() => {
+							props.setHidePassModalOpened();
+							setHideItemPass('');
+						}}
 						variant='contained'
 						sx={{
 							margin: '10px'

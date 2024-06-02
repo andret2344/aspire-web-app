@@ -39,7 +39,7 @@ export const WishlistItemModal = (
 	const theme = useTheme();
 	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
-	const [openHideWishlistItemModal, setHideWishlistItemModal] =
+	const [hidePassModalOpened, setHidePassModalOpened] =
 		React.useState<boolean>(false);
 	const [description, setDescription] = React.useState<string | undefined>(
 		props.editingItem?.description
@@ -73,6 +73,10 @@ export const WishlistItemModal = (
 			setDescription(props.editingItem.description);
 		}
 	}, [props.editingItem]);
+
+	const toggleHidePassModal = () => {
+		setHidePassModalOpened((prev): boolean => !prev);
+	};
 
 	const handleChangePriority = (
 		event: SelectChangeEvent<typeof priority>
@@ -220,11 +224,7 @@ export const WishlistItemModal = (
 							sx={{
 								margin: '10px'
 							}}
-							onClick={() =>
-								setHideWishlistItemModal(
-									(prev): boolean => !prev
-								)
-							}
+							onClick={() => toggleHidePassModal()}
 						>
 							hide this wish
 						</Button>
@@ -312,8 +312,10 @@ export const WishlistItemModal = (
 					</Box>
 				</Box>
 				<AccessPasswordModal
-					setNewPassOpened={openHideWishlistItemModal}
-					typePassOpened={false}
+					setHidePassModalOpened={toggleHidePassModal}
+					hidePassModalOpened={hidePassModalOpened}
+					setRevealPassModalOpened={() => undefined}
+					revealPassModalOpened={false}
 				/>
 			</Paper>
 		</Modal>
