@@ -1,4 +1,14 @@
-import {Modal, Paper, Typography, TextField, Button, Box} from '@mui/material';
+import {
+	Modal,
+	Paper,
+	Typography,
+	TextField,
+	Button,
+	Box,
+	InputAdornment,
+	IconButton
+} from '@mui/material';
+import {RenderPasswordVisibilityIcon} from './PasswordVisibilityIcon';
 import React from 'react';
 
 interface AccessPasswordModalProps {
@@ -13,6 +23,11 @@ export const AccessPasswordModal = (
 ): React.ReactElement => {
 	const [hideItemPass, setHideItemPass] = React.useState<string>('');
 	const [revealItemPass, setRevealItemPass] = React.useState<string>('');
+	const [showPassword, setShowPassword] = React.useState<boolean>(false);
+
+	const handleClickShowPassword = (): void => {
+		setShowPassword((prev: boolean): boolean => !prev);
+	};
 
 	if (props.revealPassModalOpened) {
 		return (
@@ -51,11 +66,34 @@ export const AccessPasswordModal = (
 						Type password of wish you want to reveal
 					</Typography>
 					<TextField
+						type={showPassword ? 'text' : 'password'}
+						autoComplete={'new-password'}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment
+									position='end'
+									sx={{margin: 0, padding: 0}}
+								>
+									<IconButton
+										data-testid={'visibilityIcon'}
+										sx={{margin: 0, padding: 0}}
+										onClick={handleClickShowPassword}
+									>
+										<RenderPasswordVisibilityIcon
+											showPassword={showPassword}
+										/>
+									</IconButton>
+								</InputAdornment>
+							)
+						}}
+						hiddenLabel
+						variant={'filled'}
+						placeholder={'Password'}
 						onChange={(e) => {
 							setRevealItemPass(e.currentTarget.value);
 							console.log(revealItemPass);
 						}}
-						placeholder='Type password'
+						// size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: {
 								xs: '55%',
@@ -63,7 +101,9 @@ export const AccessPasswordModal = (
 							},
 							margin: '10px 0'
 						}}
-					></TextField>
+						required
+					/>
+
 					<Box
 						sx={{
 							display: 'flex',
@@ -132,11 +172,34 @@ export const AccessPasswordModal = (
 			>
 				<Typography>Set password for this wish</Typography>
 				<TextField
+					type={showPassword ? 'text' : 'password'}
+					autoComplete={'new-password'}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment
+								position='end'
+								sx={{margin: 0, padding: 0}}
+							>
+								<IconButton
+									data-testid={'visibilityIcon'}
+									sx={{margin: 0, padding: 0}}
+									onClick={handleClickShowPassword}
+								>
+									<RenderPasswordVisibilityIcon
+										showPassword={showPassword}
+									/>
+								</IconButton>
+							</InputAdornment>
+						)
+					}}
+					hiddenLabel
+					variant={'filled'}
+					placeholder={'Password'}
 					onChange={(e) => {
 						setHideItemPass(e.currentTarget.value);
 						console.log(hideItemPass);
 					}}
-					placeholder='Type password'
+					// size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: {
 							xs: '55%',
@@ -144,7 +207,9 @@ export const AccessPasswordModal = (
 						},
 						margin: '10px 0'
 					}}
-				></TextField>
+					required
+				/>
+
 				<Box
 					sx={{
 						display: 'flex',
