@@ -93,7 +93,6 @@ export const AccessPasswordModal = (
 							setRevealItemPass(e.currentTarget.value);
 							console.log(revealItemPass);
 						}}
-						// size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: {
 								xs: '55%',
@@ -199,7 +198,6 @@ export const AccessPasswordModal = (
 						setHideItemPass(e.currentTarget.value);
 						console.log(hideItemPass);
 					}}
-					// size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: {
 							xs: '55%',
