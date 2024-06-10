@@ -74,7 +74,7 @@ export const WishlistItemModal = (
 		}
 	}, [props.editingItem]);
 
-	const toggleHidePassModal = () => {
+	const toggleHidePassModal = (): void => {
 		setHidePassModalOpened((prev): boolean => !prev);
 	};
 
@@ -224,7 +224,7 @@ export const WishlistItemModal = (
 							sx={{
 								margin: '10px'
 							}}
-							onClick={() => toggleHidePassModal()}
+							onClick={toggleHidePassModal}
 						>
 							hide this wish
 						</Button>

@@ -103,6 +103,28 @@ describe('WishlistItemModal', (): void => {
 		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(1);
 	});
 
+	test('hide pass modal toggle work', (): void => {
+		//arrange
+		user.setup();
+		renderForTest(
+			<WishlistItemModal
+				wishlistId={mockWishlistData.id}
+				opened={true}
+				toggleModal={(): void => undefined}
+				getWishlistAgain={(): void => undefined}
+				editingItem={mockWishlistData.wishlistItems[0]}
+			/>
+		);
+
+		//act
+		const hidePassModalBtn = screen.getByRole('button', {
+			name: /hide this wish/i
+		});
+
+		//assert
+		user.click(hidePassModalBtn);
+	});
+
 	test('add new item', async (): Promise<void> => {
 		// arrange
 		mockedAddWishlistItem.mockReturnValue(newMockWishlistItem);

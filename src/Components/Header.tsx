@@ -36,7 +36,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 		navigate('/');
 	};
 
-	const toggleRevealPassModal = () => {
+	const toggleRevealPassModal = (): void => {
 		setRevealPassModalOpened((prev): boolean => !prev);
 	};
 
@@ -46,11 +46,10 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 		}
 		return (
 			<Box sx={{justifySelf: 'flex-end'}}>
-				<IconButton data-testid={'hidden-items-icon-button'}>
+				<IconButton>
 					<VisibilityRoundedIcon
-						onClick={() =>
-							setRevealPassModalOpened((prev): boolean => !prev)
-						}
+						data-testid={'hidden-items-icon-button'}
+						onClick={toggleRevealPassModal}
 						sx={{color: 'white'}}
 						fontSize={'large'}
 					/>
