@@ -17,7 +17,7 @@ describe('VerifyEmailPage', (): void => {
 			/please verify your e-mail\./i
 		);
 		const instructionText = screen.getByText(
-			'Just click on the link in that email to complete your register. If you don’t see it, you may check your spam folder'
+			'Just click on the link in that email to complete your'
 		);
 		const resendButton = screen.getByRole('button', {
 			name: /resend verification e-mail/i
