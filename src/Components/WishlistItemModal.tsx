@@ -20,9 +20,11 @@ import {
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
+import ReactQuill from 'react-quill';
 
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
+import {StringMap} from 'quill';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
@@ -42,8 +44,22 @@ export const WishlistItemModal = (
 		props.editingItem?.description
 	);
 	const inputRefName = React.useRef<HTMLInputElement>(null);
-	const inputRefDescription = React.useRef<HTMLInputElement>(null);
 	const {enqueueSnackbar} = useSnackbar();
+	const modules: StringMap = {
+		toolbar: [
+			[{header: [1, 2, 3, 4, 5, 6, false]}],
+			[{font: []}],
+			[{size: []}],
+			['bold', 'italic', 'underline', 'strike', 'blockquote'],
+			[
+				{list: 'ordered'},
+				{List: 'bullet'},
+				{indent: '-1'},
+				{indent: '+1'}
+			],
+			['link', 'image', 'video']
+		]
+	};
 
 	React.useEffect((): void => {
 		if (props.editingItem) {
@@ -155,9 +171,9 @@ export const WishlistItemModal = (
 					hiddenLabel
 					variant={'filled'}
 					placeholder={
-						props.editingItem?.name || 'Type here your wish'
+						props.editingItem?.name ?? 'Type here your wish'
 					}
-					defaultValue={props.editingItem?.name || ''}
+					defaultValue={props.editingItem?.name ?? ''}
 					inputRef={inputRefName}
 					size={isSmallerThan900 ? 'small' : 'medium'}
 					sx={{
@@ -202,58 +218,80 @@ export const WishlistItemModal = (
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
-						width: '300px'
-					}}
-				>
-					<Typography
-						id='modal-modal-title'
-						variant='h6'
-						component='h2'
-						sx={{alignSelf: 'flex-start'}}
-					>
-						Description
-					</Typography>
-					<TextField
-						aria-label={'wishlist item description'}
-						hiddenLabel
-						variant={'filled'}
-						defaultValue={props.editingItem?.description || ''}
-						multiline
-						rows={5}
-						inputRef={inputRefDescription}
-						size={isSmallerThan600 ? 'small' : 'medium'}
-						sx={{
-							width: '300px'
-						}}
-					/>
-				</Box>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
 						justifyContent: 'space-between',
-						width: '80%',
-						alignItems: 'center'
+						width: {
+							xs: '95%',
+							md: '80%'
+						}
 					}}
 				>
-					<Button
-						variant='contained'
+					<Box
 						sx={{
-							marginTop: '10px'
-						}}
-						onClick={toggleModalAndClearFields}
-					>
-						Cancel
-					</Button>
-					<Button
-						onClick={handleSaveButton}
-						variant='contained'
-						sx={{
-							marginTop: '10px'
+							width: '100%',
+							margin: '20px 0'
 						}}
 					>
-						Confirm
-					</Button>
+						<Typography
+							id='modal-modal-title'
+							variant='h6'
+							component='h2'
+							sx={{alignSelf: 'flex-start'}}
+						>
+							Description
+						</Typography>
+						<Box
+							sx={{
+								paddingBottom: '10px',
+								height: {
+									xs: '450px',
+									md: '300px'
+								}
+							}}
+							data-testid='test-quill'
+						>
+							<ReactQuill
+								style={{
+									height: isSmallerThan900
+										? '250px'
+										: '450px',
+									scrollbarWidth: 'none'
+								}}
+								theme={isSmallerThan900 ? 'snow' : 'bubble'}
+								value={description}
+								onChange={setDescription}
+								modules={modules}
+								placeholder='Type here your description'
+							/>
+						</Box>
+					</Box>
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							width: '80%',
+							alignItems: 'center'
+						}}
+					>
+						<Button
+							variant='contained'
+							sx={{
+								marginTop: '10px'
+							}}
+							onClick={toggleModalAndClearFields}
+						>
+							Cancel
+						</Button>
+						<Button
+							onClick={handleSaveButton}
+							variant='contained'
+							sx={{
+								marginTop: '10px'
+							}}
+						>
+							Confirm
+						</Button>
+					</Box>
 				</Box>
 			</Paper>
 		</Modal>
