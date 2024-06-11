@@ -57,6 +57,7 @@ export const WishlistItemModal = (
 				{indent: '-1'},
 				{indent: '+1'}
 			],
+
 			['link', 'image', 'video']
 		]
 	};
@@ -264,19 +265,20 @@ export const WishlistItemModal = (
 							/>
 						</Box>
 					</Box>
+
 					<Box
 						sx={{
 							display: 'flex',
 							flexDirection: 'row',
-							justifyContent: 'space-between',
-							width: '80%',
-							alignItems: 'center'
+							justifyContent: 'space-around',
+							alignItems: 'center',
+							width: '80%'
 						}}
 					>
 						<Button
 							variant='contained'
 							sx={{
-								marginTop: '10px'
+								margin: '10px'
 							}}
 							onClick={toggleModalAndClearFields}
 						>
@@ -286,7 +288,7 @@ export const WishlistItemModal = (
 							onClick={handleSaveButton}
 							variant='contained'
 							sx={{
-								marginTop: '10px'
+								margin: '10px'
 							}}
 						>
 							Confirm
