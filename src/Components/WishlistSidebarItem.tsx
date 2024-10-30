@@ -2,10 +2,12 @@ import React from 'react';
 import {Box, Link, Typography, IconButton, Theme} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {Link as Anchor} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
+import {AccessPasswordModal} from './AccessPasswordModal';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
@@ -18,6 +20,12 @@ interface WishlistSidebarItemProps {
 export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 	props: WishlistSidebarItemProps
 ): React.ReactElement => {
+	const [revealPassModalOpened, setRevealPassModalOpened] =
+		React.useState<boolean>(false);
+	const toggleRevealPassModal = (): void => {
+		setRevealPassModalOpened((prev): boolean => !prev);
+	};
+
 	if (props.active) {
 		return (
 			<Link
@@ -55,18 +63,21 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 						<IconButton
 							data-testid={`shareIcon-${props.wishlist.id}`}
 							onClick={props.onShare}
-							sx={{marginLeft: '15px'}}
 							size='large'
 							aria-label={'share'}
 						>
 							<ShareIcon />
 						</IconButton>
 						<IconButton
+							data-testid={'hidden-items-icon-button'}
+							onClick={toggleRevealPassModal}
+							size='large'
+							aria-label={'access-password-modal'}
+						>
+							<VisibilityRoundedIcon />
+						</IconButton>
+						<IconButton
 							onClick={props.onRemove}
-							sx={{
-								marginLeft: '15px',
-								marginRight: '20px'
-							}}
 							size='large'
 							aria-label={`delete-wishlist-${props.wishlist.id}`}
 						>
@@ -74,6 +85,12 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 						</IconButton>
 					</Box>
 				</Box>
+				<AccessPasswordModal
+					setHidePassModalOpened={() => undefined}
+					hidePassModalOpened={false}
+					setRevealPassModalOpened={toggleRevealPassModal}
+					revealPassModalOpened={revealPassModalOpened}
+				/>
 			</Link>
 		);
 	}

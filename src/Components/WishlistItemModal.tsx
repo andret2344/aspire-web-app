@@ -1,13 +1,17 @@
 import {
 	Box,
 	Button,
+	Checkbox,
+	ClickAwayListener,
 	FormControl,
+	FormControlLabel,
 	MenuItem,
 	Modal,
 	Paper,
 	Select,
 	SelectChangeEvent,
 	TextField,
+	Tooltip,
 	Typography,
 	useMediaQuery,
 	useTheme
@@ -23,7 +27,6 @@ import {useSnackbar} from 'notistack';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
-import {AccessPasswordModal} from './AccessPasswordModal';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
@@ -39,8 +42,8 @@ export const WishlistItemModal = (
 	const theme = useTheme();
 	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
-	const [hidePassModalOpened, setHidePassModalOpened] =
-		React.useState<boolean>(false);
+	const [hideItem, setHideItem] = React.useState<boolean>(false);
+	const [open, setOpen] = React.useState<boolean>(false);
 	const [description, setDescription] = React.useState<string | undefined>(
 		props.editingItem?.description
 	);
@@ -74,14 +77,18 @@ export const WishlistItemModal = (
 		}
 	}, [props.editingItem]);
 
-	const toggleHidePassModal = (): void => {
-		setHidePassModalOpened((prev): boolean => !prev);
-	};
-
 	const handleChangePriority = (
 		event: SelectChangeEvent<typeof priority>
 	): void => {
 		setPriority(event.target.value as number);
+	};
+
+	const handleTooltipClose = () => {
+		setOpen(false);
+	};
+
+	const handleTooltipOpen = () => {
+		setOpen(true);
 	};
 
 	const toggleModalAndClearFields = (): void => {
@@ -219,15 +226,30 @@ export const WishlistItemModal = (
 						)}
 					</Select>
 					<Box>
-						<Button
-							variant='text'
-							sx={{
-								margin: '10px'
-							}}
-							onClick={toggleHidePassModal}
-						>
-							hide this wish
-						</Button>
+						<ClickAwayListener onClickAway={handleTooltipClose}>
+							<Tooltip
+								title='If you want to hide this wish, set a password for the wishlist'
+								placement='right'
+								PopperProps={{
+									disablePortal: true
+								}}
+								open={open}
+								disableFocusListener
+								disableHoverListener
+								disableTouchListener
+							>
+								<FormControlLabel
+									onClick={() => {
+										setHideItem((prev): boolean => !prev);
+										console.log(hideItem);
+										handleTooltipOpen();
+									}}
+									disabled
+									control={<Checkbox />}
+									label='Hide this wish'
+								/>
+							</Tooltip>
+						</ClickAwayListener>
 					</Box>
 				</FormControl>
 				<Box
@@ -311,12 +333,6 @@ export const WishlistItemModal = (
 						</Button>
 					</Box>
 				</Box>
-				<AccessPasswordModal
-					setHidePassModalOpened={toggleHidePassModal}
-					hidePassModalOpened={hidePassModalOpened}
-					setRevealPassModalOpened={() => undefined}
-					revealPassModalOpened={false}
-				/>
 			</Paper>
 		</Modal>
 	);

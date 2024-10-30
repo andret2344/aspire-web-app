@@ -11,19 +11,15 @@ import {
 import React from 'react';
 import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import {Logout, Settings} from '@mui/icons-material';
 import {useNavigate, Link as Anchor} from 'react-router-dom';
 import {isTokenValid, logout} from '../Services/AuthService';
-import {AccessPasswordModal} from './AccessPasswordModal';
 
 export const Header: React.FC<React.PropsWithChildren<None>> = (
 	props: React.PropsWithChildren<None>
 ): React.ReactElement => {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-	const [revealPassModalOpened, setRevealPassModalOpened] =
-		React.useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -36,24 +32,12 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 		navigate('/');
 	};
 
-	const toggleRevealPassModal = (): void => {
-		setRevealPassModalOpened((prev): boolean => !prev);
-	};
-
 	const renderUserIcons = (): React.ReactElement | undefined => {
 		if (!isTokenValid()) {
 			return undefined;
 		}
 		return (
 			<Box sx={{justifySelf: 'flex-end'}}>
-				<IconButton>
-					<VisibilityRoundedIcon
-						data-testid={'hidden-items-icon-button'}
-						onClick={toggleRevealPassModal}
-						sx={{color: 'white'}}
-						fontSize={'large'}
-					/>
-				</IconButton>
 				<IconButton
 					data-testid={'account-icon-button'}
 					onClick={handleClick}
@@ -160,12 +144,6 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 				</Box>
 			</Container>
 			{props.children}
-			<AccessPasswordModal
-				setHidePassModalOpened={() => undefined}
-				hidePassModalOpened={false}
-				setRevealPassModalOpened={toggleRevealPassModal}
-				revealPassModalOpened={revealPassModalOpened}
-			/>
 		</Box>
 	);
 };

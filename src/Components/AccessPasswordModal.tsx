@@ -63,7 +63,7 @@ export const AccessPasswordModal = (
 					}}
 				>
 					<Typography>
-						Type password of wish you want to reveal
+						Enter the password for this wishlist below
 					</Typography>
 					<TextField
 						type={showPassword ? 'text' : 'password'}
