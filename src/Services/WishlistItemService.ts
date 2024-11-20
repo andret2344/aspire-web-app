@@ -1,18 +1,29 @@
 import apiInstance from './ApiInstance';
 import {WishlistItem} from '../Entity/WishlistItem';
-import {isAxiosError} from 'axios';
+import {AxiosResponse, isAxiosError} from 'axios';
+
+export const getWishlistHiddenItems = async (
+	id: number
+): Promise<WishlistItem[]> => {
+	const result: AxiosResponse<WishlistItem[]> = await apiInstance.get<
+		WishlistItem[]
+	>(`/wishlist/${id}/hidden_items`);
+	return result.data;
+};
 
 export const addWishlistItem = async (
 	wishlistId: number,
 	name: string,
 	description: string,
-	priorityId: number | string
+	priorityId: number | string,
+	hidden: boolean
 ): Promise<WishlistItem | null> => {
 	try {
 		const result = await apiInstance.post(`/${wishlistId}/wishlistitem`, {
 			name,
 			description,
-			priority_id: priorityId
+			priority_id: priorityId,
+			hidden
 		});
 		return result.data;
 	} catch (err) {
@@ -28,7 +39,8 @@ export const editWishlistItem = async (
 	wishlistItemId: number,
 	name: string,
 	description: string,
-	priorityId: number | string
+	priorityId: number | string,
+	hidden: boolean
 ): Promise<WishlistItem | null> => {
 	try {
 		const result = await apiInstance.put(
@@ -36,7 +48,8 @@ export const editWishlistItem = async (
 			{
 				name,
 				description,
-				priority_id: priorityId
+				priority_id: priorityId,
+				hidden
 			}
 		);
 		return result.data;

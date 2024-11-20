@@ -34,6 +34,16 @@ export const addWishlist = async (name: string): Promise<WishList> => {
 	return result.data;
 };
 
+export const setWishlistPassword = async (
+	id: number,
+	password: string
+): Promise<WishList> => {
+	const result = await apiInstance.post(`/wishlist/${id}/set_access_code`, {
+		access_code: password
+	});
+	return result.data;
+};
+
 export const removeWishlist = async (id: number): Promise<void> => {
 	await apiInstance.delete(`/wishlist/${id}`);
 };

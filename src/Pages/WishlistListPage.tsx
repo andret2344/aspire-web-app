@@ -37,6 +37,7 @@ import {useSnackbar} from 'notistack';
 import {getFrontendUrl} from '../Services/ApiInstance';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {isTokenValid} from '../Services/AuthService';
+import {getWishlistHiddenItems} from '../Services/WishlistItemService';
 
 export const WishlistListPage: React.FC = (): React.ReactElement => {
 	type Params = {readonly id?: string};
@@ -46,6 +47,8 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const [activeWishlist, setActiveWishlist] = React.useState<WishList | null>(
 		null
 	);
+	const [activeWishlistHiddenItems, setActiveWishlistHiddenItems] =
+		React.useState<WishlistItem[]>([]);
 	const [openAddWishlistModal, setOpenAddWishlistModal] =
 		React.useState<boolean>(false);
 	const [openConfWishlistModal, setOpenConfWishlistModal] =
@@ -111,6 +114,7 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 					onDisplay={(): React.ReactElement =>
 						displayOrEditWishlistName(wishlist.name)
 					}
+					getWishlistHiddenItems={fetchAndSetWishlistHiddenItems}
 				/>
 			)
 		);
@@ -157,7 +161,25 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 	const fetchAndSetWishlist = useCallback(
 		async (id: number): Promise<void> => {
 			await getWishlist(id)
-				.then(setActiveWishlist)
+				.then((data) =>
+					setActiveWishlist({
+						id: data.id,
+						uuid: data.uuid,
+						name: data.name,
+						wishlistItems: [
+							...data.wishlistItems,
+							...activeWishlistHiddenItems
+						]
+					})
+				)
+				.catch((): void => navigate('/error'));
+		},
+		[navigate, activeWishlistHiddenItems]
+	);
+	const fetchAndSetWishlistHiddenItems = useCallback(
+		async (id: number): Promise<void> => {
+			await getWishlistHiddenItems(id)
+				.then(setActiveWishlistHiddenItems)
 				.catch((): void => navigate('/error'));
 		},
 		[navigate]

@@ -4,6 +4,7 @@ export interface WishlistItem {
 	readonly name: string;
 	readonly description: string;
 	readonly priorityId: number;
+	readonly hidden: boolean;
 }
 
 export interface WishlistItemDto {
@@ -12,6 +13,7 @@ export interface WishlistItemDto {
 	readonly name: string;
 	readonly description: string;
 	readonly priority_id: number;
+	readonly hidden: boolean;
 }
 
 export const mapWishlistItem = (

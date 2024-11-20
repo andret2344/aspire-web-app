@@ -9,11 +9,15 @@ import {
 	IconButton
 } from '@mui/material';
 import {RenderPasswordVisibilityIcon} from './PasswordVisibilityIcon';
+import {setWishlistPassword} from '../Services/WishListService';
 import React from 'react';
+import {WishList} from '../Entity/WishList';
 
 interface AccessPasswordModalProps {
+	readonly wishlist: WishList;
 	readonly setHidePassModalOpened: () => void;
 	readonly setRevealPassModalOpened: () => void;
+	readonly getWishlistHiddenItems: (id: number) => void;
 	readonly hidePassModalOpened: boolean;
 	readonly revealPassModalOpened: boolean;
 }
@@ -22,14 +26,13 @@ export const AccessPasswordModal = (
 	props: AccessPasswordModalProps
 ): React.ReactElement => {
 	const [hideItemPass, setHideItemPass] = React.useState<string>('');
-	const [revealItemPass, setRevealItemPass] = React.useState<string>('');
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
 	const handleClickShowPassword = (): void => {
 		setShowPassword((prev: boolean): boolean => !prev);
 	};
 
-	if (props.revealPassModalOpened) {
+	if (props.revealPassModalOpened && props.wishlist.id) {
 		return (
 			<Modal
 				open={props.revealPassModalOpened}
@@ -62,9 +65,7 @@ export const AccessPasswordModal = (
 						}
 					}}
 				>
-					<Typography>
-						Enter the password for this wishlist below
-					</Typography>
+					<Typography>Enter password for this wishlist</Typography>
 					<TextField
 						type={showPassword ? 'text' : 'password'}
 						autoComplete={'new-password'}
@@ -90,8 +91,7 @@ export const AccessPasswordModal = (
 						variant={'filled'}
 						placeholder={'Password'}
 						onChange={(e) => {
-							setRevealItemPass(e.currentTarget.value);
-							console.log(revealItemPass);
+							setHideItemPass(e.currentTarget.value);
 						}}
 						sx={{
 							width: {
@@ -115,7 +115,7 @@ export const AccessPasswordModal = (
 						<Button
 							onClick={() => {
 								props.setRevealPassModalOpened();
-								setRevealItemPass('');
+								setHideItemPass('');
 							}}
 							variant='contained'
 							sx={{
@@ -125,6 +125,14 @@ export const AccessPasswordModal = (
 							Cancel
 						</Button>
 						<Button
+							onClick={() => {
+								setWishlistPassword(
+									props.wishlist.id,
+									hideItemPass
+								);
+								props.setRevealPassModalOpened();
+								setHideItemPass('');
+							}}
 							variant='contained'
 							sx={{
 								margin: '10px'
@@ -169,7 +177,9 @@ export const AccessPasswordModal = (
 					}
 				}}
 			>
-				<Typography>Set password for this wish</Typography>
+				<Typography>
+					Enter password to reveal hidden wishlists
+				</Typography>
 				<TextField
 					type={showPassword ? 'text' : 'password'}
 					autoComplete={'new-password'}
@@ -230,6 +240,9 @@ export const AccessPasswordModal = (
 						Cancel
 					</Button>
 					<Button
+						onClick={() =>
+							props.getWishlistHiddenItems(props.wishlist.id)
+						}
 						variant='contained'
 						sx={{
 							margin: '10px'

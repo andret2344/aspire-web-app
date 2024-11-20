@@ -15,6 +15,7 @@ interface WishlistSidebarItemProps {
 	readonly onShare: () => void;
 	readonly onRemove: () => void;
 	readonly onDisplay: () => React.ReactElement;
+	readonly getWishlistHiddenItems: (id: number) => void;
 }
 
 export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
@@ -24,6 +25,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 		React.useState<boolean>(false);
 	const toggleRevealPassModal = (): void => {
 		setRevealPassModalOpened((prev): boolean => !prev);
+		console.log(props.wishlist);
 	};
 
 	if (props.active) {
@@ -86,10 +88,12 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 					</Box>
 				</Box>
 				<AccessPasswordModal
+					wishlist={props.wishlist}
 					setHidePassModalOpened={() => undefined}
 					hidePassModalOpened={false}
 					setRevealPassModalOpened={toggleRevealPassModal}
 					revealPassModalOpened={revealPassModalOpened}
+					getWishlistHiddenItems={props.getWishlistHiddenItems}
 				/>
 			</Link>
 		);

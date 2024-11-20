@@ -19,6 +19,9 @@ let urlConfig: Config = {
 export const getBackendUrl = (): string =>
 	urlConfig.backend || 'localhost:8080';
 
+export const getAuthUrl = (): string =>
+	process.env.REACT_AUTH_URL || 'localhost:8080';
+
 export const getFrontendUrl = (): string => urlConfig.frontend;
 
 const apiInstance: AxiosInstance = axios.create({
@@ -44,6 +47,7 @@ apiInstance.interceptors.request.use(
 		const token = getToken();
 		if (token) {
 			config.headers['Authorization'] = `Bearer ${token}`;
+			console.log(token);
 		}
 		return config;
 	}

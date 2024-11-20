@@ -42,7 +42,7 @@ export const WishlistItemModal = (
 	const theme = useTheme();
 	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
-	const [hideItem, setHideItem] = React.useState<boolean>(false);
+	const [hidden, setHidden] = React.useState<boolean>(false);
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [description, setDescription] = React.useState<string | undefined>(
 		props.editingItem?.description
@@ -110,7 +110,8 @@ export const WishlistItemModal = (
 					props.editingItem.id,
 					wishlistItemName,
 					wishlistItemDescription,
-					priority
+					priority,
+					hidden
 				);
 				if (updatedWishlistItem) {
 					props.getWishlistAgain(props.wishlistId);
@@ -125,7 +126,8 @@ export const WishlistItemModal = (
 					props.wishlistId,
 					wishlistItemName,
 					wishlistItemDescription,
-					priority
+					priority,
+					hidden
 				);
 
 				if (newWishlistItem) {
@@ -240,8 +242,8 @@ export const WishlistItemModal = (
 							>
 								<FormControlLabel
 									onClick={() => {
-										setHideItem((prev): boolean => !prev);
-										console.log(hideItem);
+										setHidden((prev): boolean => !prev);
+										console.log(hidden);
 										handleTooltipOpen();
 									}}
 									disabled

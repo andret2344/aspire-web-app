@@ -1,6 +1,10 @@
 import axios, {AxiosRequestConfig, AxiosResponse, isAxiosError} from 'axios';
 import Cookies from 'js-cookie';
-import apiInstance, {getBackendUrl, getFrontendUrl} from './ApiInstance';
+import apiInstance, {
+	getBackendUrl,
+	getFrontendUrl,
+	getAuthUrl
+} from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 const ACCESS_TOKEN: string = 'accessToken';
@@ -28,9 +32,9 @@ export const logIn = async (
 		return 401;
 	}
 	try {
-		const baseUrl = getBackendUrl();
+		const baseUrl = getAuthUrl();
 		const result = await axios.post(
-			`${baseUrl}/account/login`,
+			`${baseUrl}/firebase/login`,
 			{
 				email,
 				password
@@ -51,9 +55,9 @@ export const signUp = async (
 	email: string,
 	password: string
 ): Promise<AxiosResponse> => {
-	const baseUrl = getBackendUrl();
+	const baseUrl = getAuthUrl();
 	return await axios.post(
-		`${baseUrl}/account/register`,
+		`${baseUrl}/firebase/register`,
 		{
 			email,
 			password
@@ -122,6 +126,7 @@ export const logout = (): void => {
 
 export const saveAccessTokenInLocalStorage = (accessToken: string): void => {
 	localStorage.setItem(ACCESS_TOKEN, accessToken);
+	console.log(accessToken);
 };
 
 const saveRefreshTokenInCookies = (refreshToken: string): void => {
