@@ -3,7 +3,8 @@ import Cookies from 'js-cookie';
 import apiInstance, {
 	getBackendUrl,
 	getFrontendUrl,
-	getAuthUrl
+	getAuthUrl,
+	authApiInstance
 } from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
@@ -42,8 +43,8 @@ export const logIn = async (
 			requestConfig
 		);
 
-		saveAccessTokenInLocalStorage(result.data.access);
-		saveRefreshTokenInCookies(result.data.refresh);
+		saveAccessTokenInLocalStorage(result.data.accessToken);
+		saveRefreshTokenInCookies(result.data.refreshToken);
 		return result.status;
 	} catch (err) {
 		console.log(err);
@@ -126,7 +127,6 @@ export const logout = (): void => {
 
 export const saveAccessTokenInLocalStorage = (accessToken: string): void => {
 	localStorage.setItem(ACCESS_TOKEN, accessToken);
-	console.log(accessToken);
 };
 
 const saveRefreshTokenInCookies = (refreshToken: string): void => {
@@ -143,12 +143,12 @@ export const getToken = (): string | null => {
 
 export const refreshToken = async (): Promise<string | undefined> => {
 	try {
-		const result = await apiInstance.post('/account/login/refresh', {
-			refresh: getRefreshTokenFromCookies()
+		const result = await authApiInstance.post(`/firebase/refresh`, {
+			refreshToken: getRefreshTokenFromCookies()
 		});
 
-		saveAccessTokenInLocalStorage(result.data.access);
-		return result.data.access;
+		saveAccessTokenInLocalStorage(result.data.accessToken);
+		return result.data.accessToken;
 	} catch (err) {
 		if (isAxiosError(err)) {
 			console.error(err.response);

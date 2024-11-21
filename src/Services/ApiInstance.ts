@@ -31,6 +31,13 @@ const apiInstance: AxiosInstance = axios.create({
 		'Content-Type': 'application/json'
 	}
 });
+export const authApiInstance: AxiosInstance = axios.create({
+	baseURL: `${getAuthUrl()}`,
+	headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json'
+	}
+});
 
 export const setConfig = (config: Config | undefined): void => {
 	if (config) {
@@ -47,7 +54,6 @@ apiInstance.interceptors.request.use(
 		const token = getToken();
 		if (token) {
 			config.headers['Authorization'] = `Bearer ${token}`;
-			console.log(token);
 		}
 		return config;
 	}
@@ -63,7 +69,7 @@ apiInstance.interceptors.response.use(
 			const newToken = await refreshToken();
 			if (newToken) {
 				saveAccessTokenInLocalStorage(newToken);
-				return apiInstance(originalRequest);
+				return authApiInstance(originalRequest);
 			}
 		}
 		return Promise.reject(error);
