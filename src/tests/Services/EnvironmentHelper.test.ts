@@ -14,13 +14,16 @@ describe('EnvironmentHelper', (): void => {
 	test('get config from server', async (): Promise<void> => {
 		// arrange
 		const mockConfig = {
-			frontend: 'https://frontend.example.com',
-			backend: 'https://backend.example.com'
+			data: {
+				frontend: 'https://frontend.example.com',
+				backend: 'https://backend.example.com'
+			}
 		};
+
 		const mock = new MockAdapter(axios);
-		mock.onGet('https://data.andret.eu').reply(200, {
-			wishlist: mockConfig
-		});
+		const uuidRegex = /^https:\/\/discovery\.andret\.eu\?uuid=[a-z0-9-]+$/i;
+		mock.onGet(uuidRegex).reply(200, {data: mockConfig});
+
 		process.env.NODE_ENV = 'production';
 
 		// act
