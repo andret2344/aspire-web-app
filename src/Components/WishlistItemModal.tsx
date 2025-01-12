@@ -21,10 +21,10 @@ import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import ReactQuill from 'react-quill';
-
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 import {StringMap} from 'quill';
+import {useTranslation} from 'react-i18next';
 
 interface WishlistItemModalProps {
 	readonly wishlistId?: number;
@@ -34,15 +34,16 @@ interface WishlistItemModalProps {
 	readonly editingItem?: WishlistItem;
 }
 
-export const WishlistItemModal = (
+export function WishlistItemModal(
 	props: WishlistItemModalProps
-): React.ReactElement => {
+): React.ReactElement {
 	const theme = useTheme();
 	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
 	const [description, setDescription] = React.useState<string | undefined>(
 		props.editingItem?.description
 	);
+	const {t} = useTranslation();
 	const inputRefName = React.useRef<HTMLInputElement>(null);
 	const {enqueueSnackbar} = useSnackbar();
 	const modules: StringMap = {
@@ -73,33 +74,33 @@ export const WishlistItemModal = (
 		}
 	}, [props.editingItem]);
 
-	const handleChangePriority = (
-		event: SelectChangeEvent<typeof priority>
-	): void => {
-		setPriority(event.target.value as number);
-	};
+	function handleChangePriority(event: SelectChangeEvent<number>): void {
+		setPriority(+event.target.value);
+	}
 
-	const toggleModalAndClearFields = (): void => {
+	function toggleModalAndClearFields(): void {
 		props.toggleModal();
 		setPriority(1);
 		if (inputRefName.current) {
 			inputRefName.current.value = '';
 		}
 		setDescription('');
-	};
+	}
 
-	const handleSaveButton = async (): Promise<void> => {
-		const wishlistItemName = inputRefName.current?.value;
-		const wishlistItemDescription = description;
+	async function handleSaveButton(): Promise<void> {
+		const wishlistItemName: string | undefined =
+			inputRefName.current?.value;
+		const wishlistItemDescription: string | undefined = description;
 		if (props.wishlistId && wishlistItemName && wishlistItemDescription) {
 			if (props.editingItem) {
-				const updatedWishlistItem = await editWishlistItem(
-					props.wishlistId,
-					props.editingItem.id,
-					wishlistItemName,
-					wishlistItemDescription,
-					priority
-				);
+				const updatedWishlistItem: WishlistItem | null =
+					await editWishlistItem(
+						props.wishlistId,
+						props.editingItem.id,
+						wishlistItemName,
+						wishlistItemDescription,
+						priority
+					);
 				if (updatedWishlistItem) {
 					props.getWishlistAgain(props.wishlistId);
 					toggleModalAndClearFields();
@@ -119,17 +120,13 @@ export const WishlistItemModal = (
 				if (newWishlistItem) {
 					props.getWishlistAgain(props.wishlistId);
 					toggleModalAndClearFields();
-					enqueueSnackbar('Successfully saved wishlist item.', {
-						variant: 'success'
-					});
+					enqueueSnackbar(t('saved'), {variant: 'success'});
 				} else {
-					enqueueSnackbar('Too long name or description.', {
-						variant: 'error'
-					});
+					enqueueSnackbar(t('too-long'), {variant: 'error'});
 				}
 			}
 		}
-	};
+	}
 
 	return (
 		<Modal
@@ -165,15 +162,13 @@ export const WishlistItemModal = (
 			>
 				<Typography>
 					{props.editingItem?.description
-						? 'Edit wish'
-						: 'Add new wish'}
+						? t('edit-item')
+						: t('new-item')}
 				</Typography>
 				<TextField
 					hiddenLabel
-					variant={'filled'}
-					placeholder={
-						props.editingItem?.name ?? 'Type here your wish'
-					}
+					variant='filled'
+					placeholder={props.editingItem?.name ?? t('enter-item')}
 					defaultValue={props.editingItem?.name ?? ''}
 					inputRef={inputRefName}
 					size={isSmallerThan900 ? 'small' : 'medium'}
@@ -282,7 +277,7 @@ export const WishlistItemModal = (
 							}}
 							onClick={toggleModalAndClearFields}
 						>
-							Cancel
+							{t('cancel')}
 						</Button>
 						<Button
 							onClick={handleSaveButton}
@@ -291,11 +286,11 @@ export const WishlistItemModal = (
 								margin: '10px'
 							}}
 						>
-							Confirm
+							{t('confirm')}
 						</Button>
 					</Box>
 				</Box>
 			</Paper>
 		</Modal>
 	);
-};
+}

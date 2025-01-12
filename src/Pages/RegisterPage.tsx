@@ -10,11 +10,11 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import {SubmitHandler, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import '../../assets/fonts.css';
 import {AuthComponent} from '../Components/AuthComponent';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
-import {useNavigate} from 'react-router-dom';
+import {Link as Anchor, useNavigate} from 'react-router-dom';
 import {RegisterApiError, signUp} from '../Services/AuthService';
 import {AxiosError, AxiosResponse} from 'axios';
 import {Header} from '../Components/Header';
@@ -27,7 +27,7 @@ interface IFormInput {
 	readonly passwordRepeat: string;
 }
 
-export const RegisterPage: React.FC = (): React.ReactElement => {
+export function RegisterPage(): React.ReactElement {
 	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -37,14 +37,6 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 	const navigate = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
 
-	const handleClickShowPassword = (): void => {
-		setShowPassword((prev: boolean): boolean => !prev);
-	};
-
-	const handleClickShowPasswordRepeat = (): void => {
-		setShowPasswordRepeat((prev: boolean): boolean => !prev);
-	};
-
 	const {
 		register,
 		setError,
@@ -52,7 +44,15 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 		handleSubmit
 	} = useForm<IFormInput>();
 
-	const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput): void => {
+	function handleClickShowPassword(): void {
+		setShowPassword((prev: boolean): boolean => !prev);
+	}
+
+	function handleClickShowPasswordRepeat(): void {
+		setShowPasswordRepeat((prev: boolean): boolean => !prev);
+	}
+
+	function onSubmit(data: IFormInput): void {
 		if (data.password !== data.passwordRepeat) {
 			setError('passwordRepeat', {
 				type: 'manual',
@@ -66,9 +66,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 			.then((response: AxiosResponse): void => {
 				if ([200, 201].includes(response?.status || -1)) {
 					navigate('/');
-					enqueueSnackbar('Successfully created an account!', {
-						variant: 'success'
-					});
+					enqueueSnackbar(t('account-created'), {variant: 'success'});
 				}
 			})
 			.catch((response: AxiosError<RegisterApiError>): void => {
@@ -86,7 +84,7 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					});
 				}
 			});
-	};
+	}
 
 	return (
 		<Header>
@@ -103,45 +101,49 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<TextField
-						autoComplete={'new-password'}
+						autoComplete='new-password'
 						required
 						hiddenLabel
-						variant={'filled'}
-						placeholder={`${t('E-mail address')}`}
+						variant='filled'
+						placeholder={`${t('email-address')}`}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
 							marginTop: '5px'
 						}}
-						type={'email'}
+						type='email'
 						error={!!errors.email}
 						helperText={errors.email?.message}
 						{...register('email', {required: true})}
 					/>
 					<TextField
 						type={showPassword ? 'text' : 'password'}
-						autoComplete={'new-password'}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment
-									position='end'
-									sx={{margin: 0, padding: 0}}
-								>
-									<IconButton
-										data-testid={'visibilityIconPassword'}
+						autoComplete='new-password'
+						slotProps={{
+							input: {
+								endAdornment: (
+									<InputAdornment
+										position='end'
 										sx={{margin: 0, padding: 0}}
-										onClick={handleClickShowPassword}
 									>
-										<RenderPasswordVisibilityIcon
-											showPassword={showPassword}
-										/>
-									</IconButton>
-								</InputAdornment>
-							)
+										<IconButton
+											data-testid={
+												'visibilityIconPassword'
+											}
+											sx={{margin: 0, padding: 0}}
+											onClick={handleClickShowPassword}
+										>
+											<RenderPasswordVisibilityIcon
+												showPassword={showPassword}
+											/>
+										</IconButton>
+									</InputAdornment>
+								)
+							}
 						}}
 						hiddenLabel
-						variant={'filled'}
-						placeholder={`${t('Password')}`}
+						variant='filled'
+						placeholder={`${t('password')}`}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -154,30 +156,36 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 					/>
 					<TextField
 						type={showPasswordRepeat ? 'text' : 'password'}
-						autoComplete={'new-password'}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment
-									position='end'
-									sx={{margin: 0, padding: 0}}
-								>
-									<IconButton
-										data-testid={
-											'visibilityIconRepeatPassword'
-										}
+						autoComplete='new-password'
+						slotProps={{
+							input: {
+								endAdornment: (
+									<InputAdornment
+										position='end'
 										sx={{margin: 0, padding: 0}}
-										onClick={handleClickShowPasswordRepeat}
 									>
-										<RenderPasswordVisibilityIcon
-											showPassword={showPasswordRepeat}
-										/>
-									</IconButton>
-								</InputAdornment>
-							)
+										<IconButton
+											data-testid={
+												'visibilityIconRepeatPassword'
+											}
+											sx={{margin: 0, padding: 0}}
+											onClick={
+												handleClickShowPasswordRepeat
+											}
+										>
+											<RenderPasswordVisibilityIcon
+												showPassword={
+													showPasswordRepeat
+												}
+											/>
+										</IconButton>
+									</InputAdornment>
+								)
+							}
 						}}
 						hiddenLabel
-						variant={'filled'}
-						placeholder={`${t('Repeat password')}`}
+						variant='filled'
+						placeholder={`${t('repeat-password')}`}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -193,14 +201,14 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 						sx={{
 							marginTop: '10px'
 						}}
-						type={'submit'}
+						type='submit'
 					>
-						{t('Register')}
+						{t('create-account')}
 					</Button>
 					<Box
-						mt={'10px'}
-						display={'flex'}
-						alignItems={'center'}
+						mt='10px'
+						display='flex'
+						alignItems='center'
 					>
 						<Typography
 							sx={{
@@ -210,23 +218,24 @@ export const RegisterPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							{t('Already have an account?')}
+							{t('already-have-account')}
 						</Typography>
 						<Link
-							href='/'
-							sx={{
-								paddingLeft: '3px',
-								fontFamily: 'Montserrat',
-								marginLeft: 0,
-								textDecoration: 'underline',
-								fontWeight: 400
+							component={Anchor}
+							to='/'
+							paddingLeft='3px'
+							fontFamily='Montserrat'
+							marginLeft={0}
+							fontWeight={400}
+							style={{
+								textDecoration: 'underline'
 							}}
 						>
-							{t('Sign in')}
+							{t('sign-in')}
 						</Link>
 					</Box>
 				</form>
 			</AuthComponent>
 		</Header>
 	);
-};
+}

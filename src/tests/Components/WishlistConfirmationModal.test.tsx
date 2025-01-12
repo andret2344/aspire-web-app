@@ -18,10 +18,11 @@ describe('WishlistConfirmationModal', (): void => {
 		);
 
 		// act
-		const errorText = screen.getByText('test wishlist name');
+		const dialog: HTMLElement = screen.getByTestId('delete-confirmation');
 
 		// assert
-		expect(errorText).toBeInTheDocument();
+		expect(dialog).toBeInTheDocument();
+		expect(dialog).toHaveTextContent('delete-confirmation');
 	});
 
 	test('handles remove click', (): void => {
@@ -37,7 +38,7 @@ describe('WishlistConfirmationModal', (): void => {
 				toggleModal={(): void => undefined}
 			/>
 		);
-		const buttonOk = screen.getByTestId('button-ok');
+		const buttonOk: HTMLElement = screen.getByTestId('button-ok');
 		fireEvent.click(buttonOk);
 
 		// assert
@@ -57,7 +58,7 @@ describe('WishlistConfirmationModal', (): void => {
 				toggleModal={(): void => undefined}
 			/>
 		);
-		const modal = screen.getByTestId('wishlistConfModal');
+		const modal: HTMLElement = screen.getByTestId('wishlistConfModal');
 		fireEvent.keyDown(modal, {
 			key: 'Enter'
 		});
@@ -79,7 +80,7 @@ describe('WishlistConfirmationModal', (): void => {
 				toggleModal={(): void => undefined}
 			/>
 		);
-		const modal = screen.getByTestId('wishlistConfModal');
+		const modal: HTMLElement = screen.getByTestId('wishlistConfModal');
 		fireEvent.keyDown(modal, {
 			key: 'A'
 		});

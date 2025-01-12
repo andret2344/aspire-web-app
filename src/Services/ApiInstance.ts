@@ -16,10 +16,13 @@ let urlConfig: Config = {
 	frontend: `${window.location.protocol}//${window.location.host}`
 };
 
-export const getBackendUrl = (): string =>
-	urlConfig.backend || 'localhost:8080';
+export function getBackendUrl(): string {
+	return urlConfig.backend ?? 'localhost:8080';
+}
 
-export const getFrontendUrl = (): string => urlConfig.frontend;
+export function getFrontendUrl(): string {
+	return urlConfig.frontend;
+}
 
 const apiInstance: AxiosInstance = axios.create({
 	baseURL: `${getBackendUrl()}`,
@@ -29,12 +32,12 @@ const apiInstance: AxiosInstance = axios.create({
 	}
 });
 
-export const setConfig = (config: Config | undefined): void => {
+export function setConfig(config: Config | undefined): void {
 	if (config) {
 		urlConfig = config;
 		apiInstance.defaults.baseURL = config.backend;
 	}
-};
+}
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 apiInstance.interceptors.request.use(

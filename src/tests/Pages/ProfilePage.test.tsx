@@ -1,7 +1,7 @@
 import {mockedUseNavigate} from '../__mocks__/MockCommonService';
 import {
-	mockedIsTokenValid,
-	mockedChangePassword
+	mockedChangePassword,
+	mockedIsTokenValid
 } from '../__mocks__/MockAuthService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
@@ -17,9 +17,10 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		// act
-		const passwordSettingsText = screen.getByText('Password settings');
-		const saveButton = screen.getByRole('button', {
-			name: 'change password'
+		const passwordSettingsText: HTMLElement =
+			screen.getByText('password-settings');
+		const saveButton: HTMLElement = screen.getByRole('button', {
+			name: 'change-password'
 		});
 
 		// assert
@@ -43,19 +44,20 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		//act
-		const changePasswordButton = screen.getByRole('button', {
-			name: /change password/i
+		const changePasswordButton: HTMLElement = screen.getByRole('button', {
+			name: /change-password/i
 		});
-		const currentPasswordInput =
-			screen.getByPlaceholderText('Current password');
-		const newPasswordInput = screen.getByPlaceholderText('New password');
-		const confirmPasswordInput =
-			screen.getByPlaceholderText('Confirm password');
+		const currentPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('current-password');
+		const newPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('new-password');
+		const confirmPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe1234!Edit');
 		await user.type(confirmPasswordInput, 'Testowe1234!Edit1');
 		await user.click(changePasswordButton);
-		const errorSnackbars = await screen.getAllByText(
+		const errorSnackbars: HTMLElement[] = await screen.getAllByText(
 			'Passwords are not equal.'
 		);
 
@@ -72,23 +74,24 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		//act
-		const changePasswordButton = screen.getByRole('button', {
-			name: /change password/i
+		const changePasswordButton: HTMLElement = screen.getByRole('button', {
+			name: /change-password/i
 		});
-		const currentPasswordInput =
-			screen.getByPlaceholderText('Current password');
-		const newPasswordInput = screen.getByPlaceholderText('New password');
-		const confirmPasswordInput =
-			screen.getByPlaceholderText('Confirm password');
+		const currentPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('current-password');
+		const newPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('new-password');
+		const confirmPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe1234!Edit');
 		await user.type(confirmPasswordInput, 'Testowe1234!Edit');
 		await user.click(changePasswordButton);
-		const errorSnackbar = await screen.findByRole('alert');
+		const errorSnackbar: HTMLElement = await screen.findByRole('alert');
 
 		//assert
 		await waitFor((): void => {
-			expect(errorSnackbar).toHaveTextContent('Some error occurred!');
+			expect(errorSnackbar).toHaveTextContent('password-invalid');
 		});
 	});
 
@@ -99,14 +102,15 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		//act
-		const changePasswordButton = screen.getByRole('button', {
-			name: /change password/i
+		const changePasswordButton: HTMLElement = screen.getByRole('button', {
+			name: /change-password/i
 		});
-		const currentPasswordInput =
-			screen.getByPlaceholderText('Current password');
-		const newPasswordInput = screen.getByPlaceholderText('New password');
-		const confirmPasswordInput =
-			screen.getByPlaceholderText('Confirm password');
+		const currentPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('current-password');
+		const newPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('new-password');
+		const confirmPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe123!Edit');
 		await user.type(confirmPasswordInput, 'Testowe123!Edit');
@@ -129,11 +133,13 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		//act
-		const showPasswordButton = screen.getByTestId('visibilityIconPassword');
-		const showPasswordRepeatButton = screen.getByTestId(
+		const showPasswordButton: HTMLElement = screen.getByTestId(
+			'visibilityIconPassword'
+		);
+		const showPasswordRepeatButton: HTMLElement = screen.getByTestId(
 			'visibilityIconRepeatPassword'
 		);
-		const showPasswordRepeatConfButton = screen.getByTestId(
+		const showPasswordRepeatConfButton: HTMLElement = screen.getByTestId(
 			'visibilityIconRepeatPasswordConfirmation'
 		);
 		await user.click(showPasswordButton);

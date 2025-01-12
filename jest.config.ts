@@ -4,7 +4,10 @@ module.exports = {
 	testEnvironment: 'jsdom',
 	resetMocks: true,
 	clearMocks: true,
-	setupFilesAfterEnv: ['@testing-library/jest-dom'],
+	setupFilesAfterEnv: [
+		'@testing-library/jest-dom',
+		'<rootDir>/jest.setup.js'
+	],
 	transform: {
 		'^.+\\.(ts|tsx)$': 'ts-jest',
 		'^.+\\.css$': '<rootDir>/cssTransform.js'

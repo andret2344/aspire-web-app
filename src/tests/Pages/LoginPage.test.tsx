@@ -16,9 +16,9 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// assert
-		expect(screen.getByText('Login')).toBeInTheDocument();
-		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-		expect(screen.getByText('Login')).toBeInTheDocument();
+		expect(screen.getByText('log-in')).toBeInTheDocument();
+		expect(screen.getByPlaceholderText('password')).toBeInTheDocument();
+		expect(screen.getByText('log-in')).toBeInTheDocument();
 	});
 
 	test('renders correctly on small screen', (): void => {
@@ -27,9 +27,9 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// assert
-		expect(screen.getByText('Login')).toBeInTheDocument();
-		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-		expect(screen.getByText('Login')).toBeInTheDocument();
+		expect(screen.getByText('log-in')).toBeInTheDocument();
+		expect(screen.getByPlaceholderText('password')).toBeInTheDocument();
+		expect(screen.getByText('log-in')).toBeInTheDocument();
 	});
 
 	test('login button is clickable', (): void => {
@@ -37,7 +37,9 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// assert
-		const loginButton = screen.getByRole('button', {name: 'Login'});
+		const loginButton: HTMLElement = screen.getByRole('button', {
+			name: 'log-in'
+		});
 		expect(loginButton).toBeEnabled();
 	});
 
@@ -46,7 +48,7 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// assert
-		const emailInput = screen.getByPlaceholderText('Login');
+		const emailInput: HTMLElement = screen.getByPlaceholderText('login');
 		fireEvent.change(emailInput, {target: {value: 'test@example.com'}});
 		expect((emailInput as HTMLInputElement).value).toBe('test@example.com');
 	});
@@ -56,8 +58,9 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// act
-		const passwordInput = screen.getByPlaceholderText('Password');
-		const toggleButton = screen.getByTestId('visibilityIcon');
+		const passwordInput: HTMLElement =
+			screen.getByPlaceholderText('password');
+		const toggleButton: HTMLElement = screen.getByTestId('visibilityIcon');
 
 		// assert
 		expect(passwordInput).toHaveAttribute('type', 'password');
@@ -71,13 +74,13 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('Login'), {
+		fireEvent.change(screen.getByPlaceholderText('login'), {
 			target: {value: 'test@example.com'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.click(screen.getByRole('button', {name: 'Login'}));
+		fireEvent.click(screen.getByRole('button', {name: 'log-in'}));
 
 		// assert
 		await waitFor((): void => {
@@ -88,13 +91,14 @@ describe('login page', (): void => {
 		});
 	});
 
-	test('navigates to forgot password and sign up pages', (): void => {
+	test('navigates to forgot password and sign-up pages', (): void => {
 		// arrange
 		renderForTest(<LoginPage />);
 
 		// act
-		const forgotPasswordLink = screen.getByText('Forgot password?');
-		const signUpLink = screen.getByText('Sign up');
+		const forgotPasswordLink: HTMLElement =
+			screen.getByText('forgot-password');
+		const signUpLink: HTMLElement = screen.getByText('sign-up');
 
 		// assert
 		expect(forgotPasswordLink).toBeInTheDocument();
@@ -107,18 +111,18 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('Login'), {
+		fireEvent.change(screen.getByPlaceholderText('login'), {
 			target: {value: 'test@example.com'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.click(screen.getByRole('button', {name: 'Login'}));
+		fireEvent.click(screen.getByRole('button', {name: 'log-in'}));
 
 		// assert
 		await waitFor((): void =>
 			expect(
-				screen.getByText('Successfully logged in.')
+				screen.getByText('successfully-logged-in')
 			).toBeInTheDocument()
 		);
 	});
@@ -129,18 +133,18 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('Login'), {
+		fireEvent.change(screen.getByPlaceholderText('login'), {
 			target: {value: 'test@example.com'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.click(screen.getByRole('button', {name: 'Login'}));
+		fireEvent.click(screen.getByRole('button', {name: 'log-in'}));
 
 		// assert
 		await waitFor((): void =>
 			expect(
-				screen.getByText('Wrong login or password. Try again!')
+				screen.getByText('wrong-login-or-password')
 			).toBeInTheDocument()
 		);
 	});
@@ -151,18 +155,18 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('Login'), {
+		fireEvent.change(screen.getByPlaceholderText('login'), {
 			target: {value: 'test@example.com'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.click(screen.getByRole('button', {name: 'Login'}));
+		fireEvent.click(screen.getByRole('button', {name: 'log-in'}));
 
 		// assert
 		await waitFor((): void =>
 			expect(
-				screen.getByText('Something went wrong. Try again later.')
+				screen.getByText('Something went wrong.')
 			).toBeInTheDocument()
 		);
 	});

@@ -13,14 +13,10 @@ describe('VerifyEmailPage', (): void => {
 		renderForTest(<VerifyEmailPage />);
 
 		// act
-		const verifyEmailText = screen.getByText(
-			/please verify your e-mail\./i
-		);
-		const instructionText = screen.getByText(
-			'Just click on the link in that email to complete your'
-		);
-		const resendButton = screen.getByRole('button', {
-			name: /resend verification e-mail/i
+		const verifyEmailText: HTMLElement = screen.getByText('verify-email');
+		const instructionText: HTMLElement = screen.getByText('click-the-link');
+		const resendButton: HTMLElement = screen.getByRole('button', {
+			name: 'resend-email'
 		});
 
 		// assert
@@ -35,8 +31,8 @@ describe('VerifyEmailPage', (): void => {
 		renderForTest(<VerifyEmailPage />);
 
 		// act
-		const resendButton = screen.getByRole('button', {
-			name: /resend verification e-mail/i
+		const resendButton: HTMLElement = screen.getByRole('button', {
+			name: 'resend-email'
 		});
 		await user.click(resendButton);
 
