@@ -6,7 +6,7 @@ export interface Config {
 }
 
 type ConfigResponse = {
-	readonly wishlist: Config;
+	readonly data: Config;
 };
 
 export const getConfig = async (): Promise<Config | undefined> => {
@@ -15,9 +15,16 @@ export const getConfig = async (): Promise<Config | undefined> => {
 	}
 
 	try {
+		const token =
+			process.env.NODE_ENV === 'production'
+				? process.env.REACT_APP_API_TOKEN
+				: '';
+
 		const response: AxiosResponse<ConfigResponse> =
-			await axios.get<ConfigResponse>('https://data.andret.eu');
-		return response.data.wishlist;
+			await axios.get<ConfigResponse>(
+				`https://discovery.andret.eu?uuid=${token}`
+			);
+		return response.data.data;
 	} catch (error) {
 		console.error('Error fetching production config:', error);
 		return undefined;
