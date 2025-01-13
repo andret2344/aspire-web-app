@@ -5,6 +5,7 @@ export interface WishList {
 	readonly uuid: string;
 	readonly name: string;
 	readonly wishlistItems: WishlistItem[];
+	readonly has_hidden_items: boolean;
 }
 
 export interface WishListDto {
@@ -12,4 +13,5 @@ export interface WishListDto {
 	readonly uuid: string;
 	readonly name: string;
 	readonly wishlist_items: WishlistItemDto[];
+	readonly has_hidden_items: boolean;
 }

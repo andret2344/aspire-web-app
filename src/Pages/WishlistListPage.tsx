@@ -169,7 +169,8 @@ export const WishlistListPage: React.FC = (): React.ReactElement => {
 						wishlistItems: [
 							...data.wishlistItems,
 							...activeWishlistHiddenItems
-						]
+						],
+						has_hidden_items: data.has_hidden_items
 					})
 				)
 				.catch((): void => navigate('/error'));
