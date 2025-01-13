@@ -12,6 +12,7 @@ import React, {KeyboardEvent} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {addWishlist} from '../Services/WishListService';
 import {WishList} from '../Entity/WishList';
+import {useTranslation} from 'react-i18next';
 
 interface WishlistModalProps {
 	readonly opened: boolean;
@@ -19,34 +20,35 @@ interface WishlistModalProps {
 	readonly addNewWishlist: (newWishlist: WishList) => void;
 }
 
-export const WishlistModal = (
-	props: WishlistModalProps
-): React.ReactElement => {
+export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 	const theme = useTheme();
 	const navigate = useNavigate();
+	const {t} = useTranslation();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
-	const handleSaveOnKeyDown = (event: KeyboardEvent) => {
+	function handleSaveOnKeyDown(event: KeyboardEvent): void {
 		if (event.key === 'Enter') {
 			handleSaveButton();
 		}
-	};
+	}
 
-	const handleSaveButton = async (): Promise<void> => {
-		const wishlistName = inputRef.current?.value;
-		if (wishlistName) {
-			const newWishlist = await addWishlist(wishlistName);
-			if (newWishlist) {
-				props.addNewWishlist(newWishlist);
-				props.toggleModal();
-				navigate(`/wishlists/${newWishlist?.id}`);
-				if (inputRef.current) {
-					inputRef.current.value = '';
-				}
-			}
+	async function handleSaveButton(): Promise<void> {
+		const wishlistName: string | undefined = inputRef.current?.value;
+		if (!wishlistName) {
+			return;
 		}
-	};
+		const newWishlist: WishList = await addWishlist(wishlistName);
+		if (!newWishlist) {
+			return;
+		}
+		props.addNewWishlist(newWishlist);
+		props.toggleModal();
+		navigate(`/wishlists/${newWishlist?.id}`);
+		if (inputRef.current) {
+			inputRef.current.value = '';
+		}
+	}
 
 	return (
 		<Modal
@@ -76,12 +78,12 @@ export const WishlistModal = (
 					variant='h5'
 					component='h2'
 				>
-					Type a name of your new wishlist
+					{t('enter-wishlist-name')}
 				</Typography>
 				<TextField
 					hiddenLabel
-					variant={'filled'}
-					placeholder={'Name'}
+					variant='filled'
+					placeholder={t('name')}
 					inputRef={inputRef}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
@@ -105,7 +107,7 @@ export const WishlistModal = (
 						}}
 						onClick={props.toggleModal}
 					>
-						Cancel
+						{t('cancel')}
 					</Button>
 					<Button
 						onClick={handleSaveButton}
@@ -114,10 +116,10 @@ export const WishlistModal = (
 							marginTop: '10px'
 						}}
 					>
-						Save
+						{t('save')}
 					</Button>
 				</Box>
 			</Paper>
 		</Modal>
 	);
-};
+}

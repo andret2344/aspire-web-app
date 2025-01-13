@@ -3,6 +3,7 @@ import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {PriorityBadge} from '../../Components/PriorityBadge';
 import {renderForTest} from '../Utils/RenderForTest';
+import {RenderResult} from '@testing-library/react';
 
 describe('PriorityBadge', (): void => {
 	test('renders with correct id', (): void => {
@@ -10,7 +11,8 @@ describe('PriorityBadge', (): void => {
 		renderForTest(<PriorityBadge priorityId={1} />);
 
 		// act
-		const priorityNumber = screen.getByTestId('priority-number');
+		const priorityNumber: HTMLElement =
+			screen.getByTestId('priority-number');
 
 		// assert
 		expect(priorityNumber).toBeInTheDocument();
@@ -18,7 +20,9 @@ describe('PriorityBadge', (): void => {
 
 	test('renders with incorrect id', (): void => {
 		// arrange
-		const render = renderForTest(<PriorityBadge priorityId={-1} />);
+		const render: RenderResult = renderForTest(
+			<PriorityBadge priorityId={-1} />
+		);
 
 		// assert
 		expect(render.container).toBeEmptyDOMElement();

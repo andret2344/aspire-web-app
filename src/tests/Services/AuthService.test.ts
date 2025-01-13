@@ -2,16 +2,15 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import apiInstance, {getBackendUrl} from '../../Services/ApiInstance';
 import {
+	changePassword,
 	getRefreshTokenFromCookies,
-	headers,
 	isTokenValid,
 	logIn,
 	logout,
 	refreshToken,
-	signUp,
 	requestResetPassword,
 	resetPassword,
-	changePassword
+	signUp
 } from '../../Services/AuthService';
 import {waitFor} from '@testing-library/react';
 import Cookies from 'js-cookie';
@@ -45,14 +44,10 @@ describe('AuthService', (): void => {
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
 		const baseUrl = getBackendUrl();
-		mock.onPost(
-			`${baseUrl}/account/login`,
-			{
-				email,
-				password
-			},
-			headers
-		).reply(200, mockResponseData);
+		mock.onPost(`${baseUrl}/account/login`, {
+			email,
+			password
+		}).reply(200, mockResponseData);
 
 		// act
 		const response = await logIn(email, password);
@@ -67,14 +62,10 @@ describe('AuthService', (): void => {
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
 		const baseUrl = getBackendUrl();
-		mock.onPost(
-			`${baseUrl}/account/login`,
-			{
-				email,
-				password
-			},
-			headers
-		).reply(500);
+		mock.onPost(`${baseUrl}/account/login`, {
+			email,
+			password
+		}).reply(500);
 
 		// act
 		const response = await logIn(email, password);
@@ -83,20 +74,16 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(401);
 	});
 
-	test('successful sign up', async (): Promise<void> => {
+	test('successful sign-up', async (): Promise<void> => {
 		// arrange
 		const email = 'test@example.com';
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
 		const baseUrl = getBackendUrl();
-		mock.onPost(
-			`${baseUrl}/account/register`,
-			{
-				email,
-				password
-			},
-			headers
-		).reply(200);
+		mock.onPost(`${baseUrl}/account/register`, {
+			email,
+			password
+		}).reply(200);
 
 		// act
 		const response = await signUp(email, password);
@@ -155,14 +142,10 @@ describe('AuthService', (): void => {
 		const mock = new MockAdapter(axios);
 		const baseUrl = getBackendUrl();
 		const url = `http://localhost/new-password`;
-		mock.onPost(
-			`${baseUrl}/account/password_reset`,
-			{
-				email,
-				url
-			},
-			headers
-		).reply(200);
+		mock.onPost(`${baseUrl}/account/password_reset`, {
+			email,
+			url
+		}).reply(200);
 
 		// act
 		const response = await requestResetPassword(email);
@@ -178,15 +161,11 @@ describe('AuthService', (): void => {
 		const passwordRepeat = 'Testowe123!';
 		const token = 'accessToken';
 		const baseUrl = getBackendUrl();
-		mock.onPost(
-			`${baseUrl}/account/password_reset/confirm`,
-			{
-				password,
-				token,
-				password_confirmation: passwordRepeat
-			},
-			headers
-		).reply(200);
+		mock.onPost(`${baseUrl}/account/password_reset/confirm`, {
+			password,
+			token,
+			password_confirmation: passwordRepeat
+		}).reply(200);
 
 		// act
 		const response = await resetPassword(password, token, passwordRepeat);
@@ -195,22 +174,18 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(200);
 	});
 
-	test('Successful change password', async () => {
+	test('Successful change-password', async () => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const newPassword = 'Testowe123!';
 		const newPasswordConfirm = 'Testowe123!';
 		const currentPassword = 'Testowe456!';
 		const baseUrl = getBackendUrl();
-		mock.onPost(
-			`${baseUrl}/account/change_password`,
-			{
-				old_password: currentPassword,
-				password: newPassword,
-				password_confirmation: newPassword
-			},
-			headers
-		).reply(200);
+		mock.onPost(`${baseUrl}/account/change_password`, {
+			old_password: currentPassword,
+			password: newPassword,
+			password_confirmation: newPassword
+		}).reply(200);
 
 		// act
 		const response = await changePassword(

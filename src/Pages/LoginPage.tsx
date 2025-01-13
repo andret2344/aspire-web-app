@@ -14,50 +14,51 @@ import React from 'react';
 import '../../assets/fonts.css';
 import {AuthComponent} from '../Components/AuthComponent';
 import {isTokenValid, logIn} from '../Services/AuthService';
-import {useNavigate, Link as Anchor} from 'react-router-dom';
+import {Link as Anchor, useNavigate} from 'react-router-dom';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
 
-export const LoginPage: React.FC = (): React.ReactElement => {
+export function LoginPage(): React.ReactElement {
 	const navigate = useNavigate();
 	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
-
-	const handleClickShowPassword = (): void => {
-		setShowPassword((prev: boolean): boolean => !prev);
-	};
-
+	const {t} = useTranslation();
 	const {register, handleSubmit} = useForm();
 
 	React.useEffect((): void => {
 		if (isTokenValid()) {
 			navigate(`wishlists/`);
 		}
-	}, []);
+	}, [navigate]);
 
-	const onSubmit = async (data: FieldValues): Promise<void> => {
+	function handleClickShowPassword(): void {
+		setShowPassword((prev: boolean): boolean => !prev);
+	}
+
+	async function onSubmit(data: FieldValues): Promise<void> {
 		await logIn(data.email, data.password).then(
 			(response: number): void => {
 				if ([200, 201].includes(response)) {
 					navigate('/wishlists');
-					enqueueSnackbar('Successfully logged in.', {
+					enqueueSnackbar(`${t('successfully-logged-in')}`, {
 						variant: 'info'
 					});
 				} else if ([401].includes(response)) {
-					enqueueSnackbar('Wrong login or password. Try again!', {
+					enqueueSnackbar(`${t('wrong-login-or-password')}`, {
 						variant: 'warning'
 					});
 				} else {
-					enqueueSnackbar('Something went wrong. Try again later.', {
+					enqueueSnackbar(t('something-went-wrong'), {
 						variant: 'error'
 					});
 				}
 			}
 		);
-	};
+	}
 
 	return (
 		<Header>
@@ -74,42 +75,44 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<TextField
-						autoComplete={'new-password'}
+						autoComplete='new-password'
 						hiddenLabel
-						variant={'filled'}
-						placeholder={'Login'}
+						variant='filled'
+						placeholder={t('login')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
 							marginTop: '5px'
 						}}
-						type={'email'}
+						type='email'
 						{...register('email', {required: true})}
 					/>
 					<TextField
 						type={showPassword ? 'text' : 'password'}
-						autoComplete={'new-password'}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment
-									position='end'
-									sx={{margin: 0, padding: 0}}
-								>
-									<IconButton
-										data-testid={'visibilityIcon'}
+						autoComplete='new-password'
+						slotProps={{
+							input: {
+								endAdornment: (
+									<InputAdornment
+										position='end'
 										sx={{margin: 0, padding: 0}}
-										onClick={handleClickShowPassword}
 									>
-										<RenderPasswordVisibilityIcon
-											showPassword={showPassword}
-										/>
-									</IconButton>
-								</InputAdornment>
-							)
+										<IconButton
+											data-testid='visibilityIcon'
+											sx={{margin: 0, padding: 0}}
+											onClick={handleClickShowPassword}
+										>
+											<RenderPasswordVisibilityIcon
+												showPassword={showPassword}
+											/>
+										</IconButton>
+									</InputAdornment>
+								)
+							}
 						}}
 						hiddenLabel
-						variant={'filled'}
-						placeholder={'Password'}
+						variant='filled'
+						placeholder={t('password')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -123,26 +126,26 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 						sx={{
 							marginTop: '10px'
 						}}
-						type={'submit'}
+						type='submit'
 					>
-						Login
+						{t('log-in')}
 					</Button>
 					<Link
 						component={Anchor}
-						to={'/reset-password'}
-						sx={{
-							marginTop: '10px',
-							fontFamily: 'Montserrat',
-							textDecoration: 'underline',
-							fontWeight: 400
+						to='/reset-password'
+						marginTop='10px'
+						fontFamily='Montserrat'
+						fontWeight={400}
+						style={{
+							textDecoration: 'underline'
 						}}
 					>
-						Forgot password?
+						{t('forgot-password')}
 					</Link>
 					<Box
-						mt={'10px'}
-						display={'flex'}
-						alignItems={'center'}
+						mt='10px'
+						display='flex'
+						alignItems='center'
 					>
 						<Typography
 							sx={{
@@ -152,24 +155,24 @@ export const LoginPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Don&apos;t have an account?
+							{t('no-account')}
 						</Typography>
 						<Link
 							component={Anchor}
-							to={'/register'}
+							to='/register'
+							paddingLeft='3px'
+							fontFamily='Montserrat'
+							marginLeft={0}
+							fontWeight={400}
 							sx={{
-								paddingLeft: '3px',
-								fontFamily: 'Montserrat',
-								marginLeft: 0,
-								textDecoration: 'underline',
-								fontWeight: 400
+								textDecoration: 'underline'
 							}}
 						>
-							Sign up
+							{t('sign-up')}
 						</Link>
 					</Box>
 				</form>
 			</AuthComponent>
 		</Header>
 	);
-};
+}

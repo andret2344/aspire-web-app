@@ -3,27 +3,32 @@ import {AuthComponent} from '../Components/AuthComponent';
 import {Box, Button, Link, Typography} from '@mui/material';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import {VerifyEmailTypography} from '../Components/VerifyEmailTypography';
+import {useTranslation} from 'react-i18next';
 
-export const VerifyEmailPage: React.FC = (): React.ReactElement => {
+export function VerifyEmailPage(): React.ReactElement {
 	const emailPlaceholder: string = 'andret@wishlist.com';
-	const handleClick = (): void => console.log('Resend');
+	const {t} = useTranslation();
+
+	function handleClick(): void {
+		return console.log('Resend');
+	}
 
 	return (
 		<AuthComponent>
 			<Box
-				marginTop={'10px'}
-				marginX={'20px'}
-				marginBottom={'5px'}
-				display={'flex'}
-				alignItems={'center'}
-				flexDirection={'column'}
+				marginTop='10px'
+				marginX='20px'
+				marginBottom='5px'
+				display='flex'
+				alignItems='center'
+				flexDirection='column'
 			>
 				<EmailOutlinedIcon sx={{fontSize: '74px'}} />
 				<VerifyEmailTypography>
-					Please verify your e-mail.
+					{t('verify-email')}
 				</VerifyEmailTypography>
 				<VerifyEmailTypography>
-					We sent an email to:
+					{t('email-sent')}:
 				</VerifyEmailTypography>
 				<VerifyEmailTypography
 					sx={{
@@ -33,12 +38,10 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 					{emailPlaceholder}
 				</VerifyEmailTypography>
 				<VerifyEmailTypography>
-					Just click on the link in that email to complete your
-					register. If you don’t see it, you may check your spam
-					folder
+					{t('click-the-link')}
 				</VerifyEmailTypography>
 				<VerifyEmailTypography>
-					Didn&apos;t receive the email?
+					{t('no-email-received')}
 				</VerifyEmailTypography>
 			</Box>
 			<Button
@@ -47,15 +50,15 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 				sx={{
 					marginTop: '0px'
 				}}
-				type={'submit'}
+				type='submit'
 			>
-				Resend Verification E-mail
+				{t('resend-email')}
 			</Button>
 			<Box
-				mt={'10px'}
-				display={'flex'}
-				alignItems={'center'}
-				justifyContent={'center'}
+				mt='10px'
+				display='flex'
+				alignItems='center'
+				justifyContent='center'
 			>
 				<Typography
 					sx={{
@@ -65,7 +68,7 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 						fontWeight: 400
 					}}
 				>
-					Already verified?
+					{t('already-verified')}
 				</Typography>
 				<Link
 					href='#'
@@ -77,9 +80,9 @@ export const VerifyEmailPage: React.FC = (): React.ReactElement => {
 						fontWeight: 400
 					}}
 				>
-					Sign in
+					{t('sign-in')}
 				</Link>
 			</Box>
 		</AuthComponent>
 	);
-};
+}

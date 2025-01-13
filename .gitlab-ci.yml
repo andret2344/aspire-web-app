@@ -36,6 +36,13 @@ build:
   dependencies:
     - install
 
+lint:
+  stage: test
+  script:
+    - yarn lint
+  dependencies:
+    - install
+
 test:
   stage: test
   script:

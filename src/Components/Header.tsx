@@ -12,44 +12,49 @@ import React from 'react';
 import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Logout, Settings} from '@mui/icons-material';
-import {useNavigate, Link as Anchor} from 'react-router-dom';
+import {Link as Anchor, useNavigate} from 'react-router-dom';
 import {isTokenValid, logout} from '../Services/AuthService';
+import {LanguagePicker} from './LanguagePicker';
+import {useTranslation} from 'react-i18next';
 
-export const Header: React.FC<React.PropsWithChildren<None>> = (
+export function Header(
 	props: React.PropsWithChildren<None>
-): React.ReactElement => {
+): React.ReactElement {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+	const {t} = useTranslation();
+
 	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
 		setAnchorEl(event.currentTarget);
 	};
-	const handleClose = (): void => {
-		setAnchorEl(null);
-	};
 
-	const handleLogout = (): void => {
+	function handleClose(): void {
+		setAnchorEl(null);
+	}
+
+	function handleLogout(): void {
 		logout();
 		navigate('/');
-	};
+	}
 
-	const renderProfileIcon = (): React.ReactElement | undefined => {
+	function renderProfileIcon(): React.ReactElement | undefined {
 		if (!isTokenValid()) {
 			return undefined;
 		}
 		return (
 			<IconButton
-				data-testid={'account-icon-button'}
+				data-testid='account-icon-button'
 				sx={{justifySelf: 'flex-end'}}
 				onClick={handleClick}
 			>
 				<AccountCircleOutlinedIcon
-					data-testid={'account-icon'}
+					data-testid='account-icon'
 					sx={{color: 'white'}}
-					fontSize={'large'}
+					fontSize='large'
 				/>
 			</IconButton>
 		);
-	};
+	}
 
 	return (
 		<Box
@@ -61,7 +66,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 			}}
 		>
 			<Container
-				aria-label={'header-container'}
+				aria-label='header-container'
 				maxWidth={false}
 				sx={{
 					backgroundColor: 'primary.main',
@@ -83,7 +88,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 					>
 						<Link
 							component={Anchor}
-							to={'/'}
+							to='/'
 							sx={{
 								fontFamily: 'Courgette',
 								fontWeight: 700,
@@ -106,7 +111,7 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 					>
 						{renderProfileIcon()}
 						<Menu
-							data-testid={'menu'}
+							data-testid='menu'
 							id='menu'
 							anchorEl={anchorEl}
 							open={Boolean(anchorEl)}
@@ -121,28 +126,31 @@ export const Header: React.FC<React.PropsWithChildren<None>> = (
 							}}
 						>
 							<MenuItem
-								data-testid={'menuitem-profile'}
-								onClick={(): void => navigate('/profile')}
+								data-testid='menuitem-profile'
+								onClick={(): void | Promise<void> =>
+									navigate('/profile')
+								}
 							>
 								<ListItemIcon>
 									<Settings fontSize='small' />
 								</ListItemIcon>
-								Settings
+								{t('settings')}
 							</MenuItem>
 							<MenuItem
-								data-testid={'menuitem-logout'}
+								data-testid='menuitem-logout'
 								onClick={handleLogout}
 							>
 								<ListItemIcon>
 									<Logout fontSize='small' />
 								</ListItemIcon>
-								Logout
+								{t('log-out')}
 							</MenuItem>
 						</Menu>
 					</Box>
+					<LanguagePicker />
 				</Box>
 			</Container>
 			{props.children}
 		</Box>
 	);
-};
+}

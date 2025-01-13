@@ -4,7 +4,10 @@ module.exports = {
 	testEnvironment: 'jsdom',
 	resetMocks: true,
 	clearMocks: true,
-	setupFilesAfterEnv: ['@testing-library/jest-dom'],
+	setupFilesAfterEnv: [
+		'@testing-library/jest-dom',
+		'<rootDir>/jest.setup.js'
+	],
 	transform: {
 		'^.+\\.(ts|tsx)$': 'ts-jest',
 		'^.+\\.css$': '<rootDir>/cssTransform.js'
@@ -18,7 +21,8 @@ module.exports = {
 		}
 	},
 	moduleNameMapper: {
-		'\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+		'\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+		'^react-i18next$': '<rootDir>/src/tests/__mocks__/MockI18n.ts'
 	},
 	testMatch: ['**/?(*.)+(spec|test).(ts|tsx)'],
 	collectCoverage: true,

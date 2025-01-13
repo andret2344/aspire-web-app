@@ -9,7 +9,7 @@ type ConfigResponse = {
 	readonly data: Config;
 };
 
-export const getConfig = async (): Promise<Config | undefined> => {
+export async function getConfig(): Promise<Config | undefined> {
 	if (process.env.NODE_ENV !== 'production') {
 		return undefined;
 	}
@@ -29,4 +29,4 @@ export const getConfig = async (): Promise<Config | undefined> => {
 		console.error('Error fetching production config:', error);
 		return undefined;
 	}
-};
+}

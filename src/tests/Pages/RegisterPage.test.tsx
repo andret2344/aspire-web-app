@@ -17,11 +17,9 @@ describe('register page', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// assert
-		expect(screen.getByText('Register')).toBeInTheDocument();
-		expect(
-			screen.getByText('Already have an account?')
-		).toBeInTheDocument();
-		expect(screen.getByText('Sign in')).toBeInTheDocument();
+		expect(screen.getByText('create-account')).toBeInTheDocument();
+		expect(screen.getByText('already-have-account')).toBeInTheDocument();
+		expect(screen.getByText('sign-in')).toBeInTheDocument();
 	});
 
 	test('renders correctly on small screen', (): void => {
@@ -30,11 +28,9 @@ describe('register page', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// assert
-		expect(screen.getByText('Register')).toBeInTheDocument();
-		expect(
-			screen.getByText('Already have an account?')
-		).toBeInTheDocument();
-		expect(screen.getByText('Sign in')).toBeInTheDocument();
+		expect(screen.getByText('create-account')).toBeInTheDocument();
+		expect(screen.getByText('already-have-account')).toBeInTheDocument();
+		expect(screen.getByText('sign-in')).toBeInTheDocument();
 	});
 
 	test('register button is clickable', (): void => {
@@ -42,7 +38,9 @@ describe('register page', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		const registerButton = screen.getByRole('button', {name: 'Register'});
+		const registerButton: HTMLElement = screen.getByRole('button', {
+			name: 'create-account'
+		});
 
 		// assert
 		expect(registerButton).toBeEnabled();
@@ -53,7 +51,8 @@ describe('register page', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		const emailInput = screen.getByPlaceholderText('E-mail address');
+		const emailInput: HTMLElement =
+			screen.getByPlaceholderText('email-address');
 		fireEvent.change(emailInput, {target: {value: 'test@example.com'}});
 
 		// assert
@@ -65,10 +64,11 @@ describe('register page', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		const passwordInput = screen.getByPlaceholderText('Password');
-		const repeatPasswordInput =
-			screen.getByPlaceholderText('Repeat password');
-		const toggleShowPasswordButton = screen.getByTestId(
+		const passwordInput: HTMLElement =
+			screen.getByPlaceholderText('password');
+		const repeatPasswordInput: HTMLElement =
+			screen.getByPlaceholderText('repeat-password');
+		const toggleShowPasswordButton: HTMLElement = screen.getByTestId(
 			'visibilityIconPassword'
 		);
 		const toggleShowRepeatPasswordButton = screen.getByTestId(
@@ -89,65 +89,65 @@ describe('register page', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		const loginPageButton = screen.getByText('Already have an account?');
-		const signInLink = screen.getByText('Sign in');
+		const loginPageButton: HTMLElement = screen.getByText(
+			'already-have-account'
+		);
+		const signInLink: HTMLElement = screen.getByText('sign-in');
 
 		// assert
 		expect(loginPageButton).toBeInTheDocument();
 		expect(signInLink).toBeInTheDocument();
 	});
 
-	test('shows error and navigates to register page when passwords do not match', async () => {
+	test('shows error and navigates to register page when passwords do not match', async (): Promise<void> => {
 		// arrange
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('E-mail address'), {
+		fireEvent.change(screen.getByPlaceholderText('email-address'), {
 			target: {value: 'test@example.com'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Repeat password'), {
+		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
 			target: {value: 'differentPassword'}
 		});
 
-		fireEvent.click(screen.getByRole('button', {name: 'Register'}));
+		fireEvent.click(screen.getByRole('button', {name: 'create-account'}));
 
 		// assert
 		expect(
-			await screen.findByText('Passwords are not equal.')
+			await screen.findByText('passwords-not-equal')
 		).toBeInTheDocument();
 	});
 
-	test('navigates to home and shows success snackbar on successful registration', async () => {
+	test('navigates to home and shows success snackbar on successful registration', async (): Promise<void> => {
 		// arrange
 		mockedSignUp.mockResolvedValue({status: 200});
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('E-mail address'), {
+		fireEvent.change(screen.getByPlaceholderText('email-address'), {
 			target: {value: 'test@example.com'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Repeat password'), {
+		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
 			target: {value: 'password123'}
 		});
 
-		fireEvent.click(screen.getByRole('button', {name: 'Register'}));
+		fireEvent.click(screen.getByRole('button', {name: 'create-account'}));
 
 		// assert
 		await waitFor((): void => {
 			expect(mockedUseNavigate).toHaveBeenCalledWith('/');
-			expect(
-				screen.getByText('Successfully created an account!')
-			).toBeInTheDocument();
+			expect(screen.getByText('account-created')).toBeInTheDocument();
 		});
 	});
 
-	test('shows error messages on failed registration because of email already exists', async () => {
+	test('shows error messages on failed registration because of email already exists', async (): Promise<void> => {
 		// arrange
 		const mockError = {
 			response: {
@@ -160,16 +160,16 @@ describe('register page', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('E-mail address'), {
+		fireEvent.change(screen.getByPlaceholderText('email-address'), {
 			target: {value: 'test@example.com'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Repeat password'), {
+		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.click(screen.getByRole('button', {name: 'Register'}));
+		fireEvent.click(screen.getByRole('button', {name: 'create-account'}));
 
 		// assert
 		await waitFor((): void => {
@@ -179,7 +179,7 @@ describe('register page', (): void => {
 		});
 	});
 
-	test('shows error messages on failed registration because of password is too short', async () => {
+	test('shows error messages on failed registration because of password is too short', async (): Promise<void> => {
 		// arrange
 		const mockError = {
 			response: {
@@ -193,16 +193,16 @@ describe('register page', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('E-mail address'), {
+		fireEvent.change(screen.getByPlaceholderText('email-address'), {
 			target: {value: 'test@example.com'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.change(screen.getByPlaceholderText('Repeat password'), {
+		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
 			target: {value: 'password123'}
 		});
-		fireEvent.click(screen.getByRole('button', {name: 'Register'}));
+		fireEvent.click(screen.getByRole('button', {name: 'create-account'}));
 
 		// assert
 		await waitFor((): void => {

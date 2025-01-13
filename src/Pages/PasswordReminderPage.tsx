@@ -4,27 +4,28 @@ import {Header} from '../Components/Header';
 import {
 	Box,
 	Button,
+	Link,
 	TextField,
 	Typography,
 	useMediaQuery,
-	Link,
 	useTheme
 } from '@mui/material';
 import {useForm} from 'react-hook-form';
 import {requestResetPassword} from '../Services/AuthService';
 import {useSnackbar} from 'notistack';
 import {Link as Anchor, useNavigate} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
-export const PasswordReminderPage: React.FC = (): React.ReactElement => {
-	type Inputs = {
-		readonly email: string;
-	};
+export function PasswordReminderPage(): React.ReactElement {
+	type Inputs = {readonly email: string};
 	const navigate = useNavigate();
+	const {t} = useTranslation();
 	const theme = useTheme();
 	const {enqueueSnackbar} = useSnackbar();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const {register, handleSubmit} = useForm<Inputs>();
 
-	const onSubmit = (data: Inputs): void => {
+	function onSubmit(data: Inputs): void {
 		requestResetPassword(data.email)
 			.then((): void => {
 				enqueueSnackbar('Password reset link sent!', {
@@ -33,31 +34,28 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 				navigate('/');
 			})
 			.catch((): void => {
-				enqueueSnackbar('Some error occurred!', {
+				enqueueSnackbar('something-went-wrong', {
 					variant: 'error'
 				});
 			});
-	};
-
-	const {register, handleSubmit} = useForm<Inputs>();
+	}
 
 	return (
 		<Header>
 			<AuthComponent>
 				<Box
-					m={'5px'}
-					display={'flex'}
-					alignItems={'center'}
+					m='5px'
+					display='flex'
+					alignItems='center'
 				>
 					<Typography
-						align={'center'}
+						align='center'
 						sx={{
 							fontFamily: 'Montserrat',
 							fontWeight: 400
 						}}
 					>
-						Enter your e-mail and we&apos;ll send you a link to
-						reset your password
+						{t('enter-email')}
 					</Typography>
 				</Box>
 				<form
@@ -73,14 +71,14 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 				>
 					<TextField
 						hiddenLabel
-						variant={'filled'}
-						placeholder={'E-mail address'}
+						variant='filled'
+						placeholder={t('email-address')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
 							marginTop: '5px'
 						}}
-						type={'email'}
+						type='email'
 						{...register('email', {required: true})}
 					/>
 					<Button
@@ -88,14 +86,14 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 						sx={{
 							marginTop: '10px'
 						}}
-						type={'submit'}
+						type='submit'
 					>
-						send
+						{t('send')}
 					</Button>
 					<Box
-						mt={'10px'}
-						display={'flex'}
-						alignItems={'center'}
+						mt='10px'
+						display='flex'
+						alignItems='center'
 					>
 						<Typography
 							sx={{
@@ -105,39 +103,40 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Back to
-						</Typography>
-						<Link
-							href='/'
-							sx={{
-								paddingLeft: '3px',
-								fontFamily: 'Montserrat',
-								marginLeft: 0,
-								textDecoration: 'underline',
-								fontWeight: 400
-							}}
-						>
-							Log in
-						</Link>
-					</Box>
-					<Box
-						mt={'10px'}
-						display={'flex'}
-						alignItems={'center'}
-					>
-						<Typography
-							sx={{
-								fontFamily: 'Montserrat',
-								marginRight: 0,
-								paddingRight: 0,
-								fontWeight: 400
-							}}
-						>
-							Don&apos;t have an account?
+							{t('back-to')}
 						</Typography>
 						<Link
 							component={Anchor}
-							to={'/register'}
+							to='/'
+							paddingLeft='3px'
+							fontFamily='Montserrat'
+							marginLeft={0}
+							fontWeight={400}
+							style={{
+								textDecoration: 'underline'
+							}}
+						>
+							{t('log-in')}
+						</Link>
+					</Box>
+					<Box
+						mt='10px'
+						display='flex'
+						alignItems='center'
+					>
+						<Typography
+							sx={{
+								fontFamily: 'Montserrat',
+								marginRight: 0,
+								paddingRight: 0,
+								fontWeight: 400
+							}}
+						>
+							{t('no-account')}
+						</Typography>
+						<Link
+							component={Anchor}
+							to='/register'
 							sx={{
 								paddingLeft: '3px',
 								fontFamily: 'Montserrat',
@@ -146,11 +145,11 @@ export const PasswordReminderPage: React.FC = (): React.ReactElement => {
 								fontWeight: 400
 							}}
 						>
-							Sign up
+							{t('sign-up')}
 						</Link>
 					</Box>
 				</form>
 			</AuthComponent>
 		</Header>
 	);
-};
+}

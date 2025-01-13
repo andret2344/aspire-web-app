@@ -28,7 +28,9 @@ describe('WishlistModal', (): void => {
 		);
 
 		// act
-		const saveButton = screen.getByRole('button', {name: 'Save'});
+		const saveButton: HTMLElement = screen.getByRole('button', {
+			name: 'save'
+		});
 
 		// assert
 		expect(saveButton).toBeInTheDocument();
@@ -48,8 +50,8 @@ describe('WishlistModal', (): void => {
 				addNewWishlist={mockAdd}
 			/>
 		);
-		const modal = screen.getByTestId('addWishlistModal');
-		const input = screen.getByPlaceholderText(/name/i);
+		const modal: HTMLElement = screen.getByTestId('addWishlistModal');
+		const input: HTMLElement = screen.getByPlaceholderText(/name/i);
 
 		// assert
 		expect(modal).toBeInTheDocument();

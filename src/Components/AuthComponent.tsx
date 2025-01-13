@@ -3,9 +3,9 @@ import React from 'react';
 import '../../assets/fonts.css';
 import {None} from '../Types/None';
 
-export const AuthComponent: React.FC<React.PropsWithChildren<None>> = (
+export function AuthComponent(
 	props: React.PropsWithChildren<None>
-): React.ReactElement => {
+): React.ReactElement {
 	return (
 		<Container
 			sx={{
@@ -89,4 +89,4 @@ export const AuthComponent: React.FC<React.PropsWithChildren<None>> = (
 			</Paper>
 		</Container>
 	);
-};
+}
