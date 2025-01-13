@@ -82,7 +82,7 @@ describe('PasswordReminderPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(errorSnackbar).toHaveTextContent('Some error occurred!');
+			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
 		});
 	});
 });

@@ -47,5 +47,11 @@
 	"too-long": "Za długa nazwa lub opis.",
 	"edit-item": "Edytuj element",
 	"new-item": "Dodaj nowy element",
-	"enter-item": "Wpisz nazwę tutaj"
+	"enter-item": "Wpisz nazwę tutaj",
+	"wishlist-removed": "Usunięto listę życzeń",
+	"item-removed": "Usunięto element",
+	"url-copied": "Share URL copied to clipboard",
+	"passwords-not-equal": "Passwords are not equal",
+	"wishlist-renamed": "Wishlist name changed successfully",
+	"type-description-here": "Type description here"
 }

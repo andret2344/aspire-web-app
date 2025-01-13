@@ -64,7 +64,7 @@ export function ProfilePage(): React.ReactElement {
 		if (data.newPassword !== data.newPasswordConfirm) {
 			setError('newPasswordConfirm', {
 				type: 'manual',
-				message: 'Passwords are not equal.'
+				message: t('passwords-not-equal')
 			});
 			return;
 		}

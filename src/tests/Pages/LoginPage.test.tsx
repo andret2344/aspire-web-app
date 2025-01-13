@@ -165,9 +165,7 @@ describe('login page', (): void => {
 
 		// assert
 		await waitFor((): void =>
-			expect(
-				screen.getByText('Something went wrong.')
-			).toBeInTheDocument()
+			expect(screen.getByText('something-went-wrong')).toBeInTheDocument()
 		);
 	});
 

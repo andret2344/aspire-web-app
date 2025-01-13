@@ -88,7 +88,7 @@ export function WishlistListPage(): React.ReactElement {
 					});
 				}
 				await fetchAndSetWishlists().then((): void => {
-					enqueueSnackbar('Wishlist name changed successfully.', {
+					enqueueSnackbar('wishlist-renamed', {
 						variant: 'success'
 					});
 				});
@@ -132,9 +132,7 @@ export function WishlistListPage(): React.ReactElement {
 	): Promise<void> {
 		await removeWishlist(wishlist.id)
 			.then((): void => {
-				enqueueSnackbar('Wishlist removed successfully.', {
-					variant: 'success'
-				});
+				enqueueSnackbar(t('wishlist-removed'), {variant: 'success'});
 			})
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
@@ -273,9 +271,7 @@ export function WishlistListPage(): React.ReactElement {
 					`${getFrontendUrl()}/wishlist/${activeWishlist.uuid}`
 				)
 				.then((): string | number =>
-					enqueueSnackbar('Share URL copied to clipboard.', {
-						variant: 'info'
-					})
+					enqueueSnackbar(t('url-copied'), {variant: 'info'})
 				)
 				.catch((): string | number =>
 					enqueueSnackbar(t('something-went-wrong'), {

@@ -57,8 +57,8 @@ describe('ProfilePage', (): void => {
 		await user.type(newPasswordInput, 'Testowe1234!Edit');
 		await user.type(confirmPasswordInput, 'Testowe1234!Edit1');
 		await user.click(changePasswordButton);
-		const errorSnackbars: HTMLElement[] = await screen.getAllByText(
-			'Passwords are not equal.'
+		const errorSnackbars: HTMLElement[] = screen.getAllByText(
+			'passwords-not-equal'
 		);
 
 		//assert

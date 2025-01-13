@@ -47,7 +47,7 @@ export function Row(props: RowProps): React.ReactElement {
 		await removeWishlistItem(props.wishlistId, props.row.id)
 			.then((): void => {
 				props.onRemove?.(props.wishlistId);
-				enqueueSnackbar('Successfully removed wishlist item.', {
+				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
 			})

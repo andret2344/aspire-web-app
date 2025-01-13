@@ -83,7 +83,7 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 				<TextField
 					hiddenLabel
 					variant='filled'
-					placeholder={t('Name')}
+					placeholder={t('name')}
 					inputRef={inputRef}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{

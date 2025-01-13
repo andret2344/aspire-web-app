@@ -47,5 +47,11 @@
 	"too-long": "Too long name or description.",
 	"edit-item": "Edit item",
 	"new-item": "Add new item",
-	"enter-item": "Enter the item here"
+	"enter-item": "Enter the item here",
+	"wishlist-removed": "Wishlist removed successfully",
+	"item-removed": "Wishlist item removed successfully",
+	"url-copied": "Share URL copied to clipboard",
+	"passwords-not-equal": "Hasła są różne",
+	"wishlist-renamed": "Zmieniono nazwę listy życzeń",
+	"type-description-here": "Opis..."
 }

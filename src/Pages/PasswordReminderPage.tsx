@@ -34,7 +34,7 @@ export function PasswordReminderPage(): React.ReactElement {
 				navigate('/');
 			})
 			.catch((): void => {
-				enqueueSnackbar('Some error occurred!', {
+				enqueueSnackbar('something-went-wrong', {
 					variant: 'error'
 				});
 			});

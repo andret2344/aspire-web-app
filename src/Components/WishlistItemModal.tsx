@@ -256,7 +256,7 @@ export function WishlistItemModal(
 								value={description}
 								onChange={setDescription}
 								modules={modules}
-								placeholder='Type here your description'
+								placeholder={t('type-description-here')}
 							/>
 						</Box>
 					</Box>

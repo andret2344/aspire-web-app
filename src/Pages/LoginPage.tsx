@@ -52,7 +52,7 @@ export function LoginPage(): React.ReactElement {
 						variant: 'warning'
 					});
 				} else {
-					enqueueSnackbar(t('Something went wrong.'), {
+					enqueueSnackbar(t('something-went-wrong'), {
 						variant: 'error'
 					});
 				}

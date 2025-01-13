@@ -56,7 +56,7 @@ export function RegisterPage(): React.ReactElement {
 		if (data.password !== data.passwordRepeat) {
 			setError('passwordRepeat', {
 				type: 'manual',
-				message: 'Passwords are not equal.'
+				message: t('passwords-not-equal')
 			});
 			navigate('/register');
 			return;

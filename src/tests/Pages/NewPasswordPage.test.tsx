@@ -38,7 +38,7 @@ describe('NewPasswordPage', (): void => {
 		const changePasswordButton: HTMLElement = screen.getByRole('button', {
 			name: /change-password/i
 		});
-		const passwordInput = screen.getByPlaceholderText('Password');
+		const passwordInput = screen.getByPlaceholderText('password');
 		const passwordRepeatInput =
 			screen.getByPlaceholderText('repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
@@ -70,7 +70,7 @@ describe('NewPasswordPage', (): void => {
 			name: /change-password/i
 		});
 		const passwordInput: HTMLElement =
-			screen.getByPlaceholderText('Password');
+			screen.getByPlaceholderText('password');
 		const passwordRepeatInput: HTMLElement =
 			screen.getByPlaceholderText('repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
@@ -80,7 +80,7 @@ describe('NewPasswordPage', (): void => {
 
 		//assert
 		await waitFor((): void => {
-			expect(errorSnackbar).toHaveTextContent('Some error occurred!');
+			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
 		});
 	});
 
@@ -95,14 +95,14 @@ describe('NewPasswordPage', (): void => {
 			name: /change-password/i
 		});
 		const passwordInput: HTMLElement =
-			screen.getByPlaceholderText('Password');
+			screen.getByPlaceholderText('password');
 		const passwordRepeatInput: HTMLElement =
 			screen.getByPlaceholderText('repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
 		await user.type(passwordRepeatInput, 'Testowe1234!');
 		await user.click(changePasswordButton);
-		const errorSnackbar: HTMLElement = await screen.getByText(
-			'Passwords are not equal.'
+		const errorSnackbar: HTMLElement = screen.getByText(
+			'passwords-not-equal'
 		);
 
 		//assert

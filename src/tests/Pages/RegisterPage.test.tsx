@@ -118,7 +118,7 @@ describe('register page', (): void => {
 
 		// assert
 		expect(
-			await screen.findByText('Passwords are not equal.')
+			await screen.findByText('passwords-not-equal')
 		).toBeInTheDocument();
 	});
 

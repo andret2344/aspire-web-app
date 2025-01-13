@@ -21,7 +21,8 @@ module.exports = {
 		}
 	},
 	moduleNameMapper: {
-		'\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+		'\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+		'^react-i18next$': '<rootDir>/src/tests/__mocks__/MockI18n.ts'
 	},
 	testMatch: ['**/?(*.)+(spec|test).(ts|tsx)'],
 	collectCoverage: true,

@@ -49,7 +49,7 @@ export function NewPasswordPage(): React.ReactElement {
 		if (data.password !== data.passwordRepeat) {
 			setError('passwordRepeat', {
 				type: 'manual',
-				message: 'Passwords are not equal.'
+				message: t('passwords-not-equal')
 			});
 			return;
 		}
@@ -64,7 +64,7 @@ export function NewPasswordPage(): React.ReactElement {
 				}
 			})
 			.catch((): void => {
-				enqueueSnackbar('Some error occurred!', {
+				enqueueSnackbar('something-went-wrong', {
 					variant: 'error'
 				});
 			});
@@ -111,7 +111,7 @@ export function NewPasswordPage(): React.ReactElement {
 						}}
 						hiddenLabel
 						variant='filled'
-						placeholder={t('Password')}
+						placeholder={t('password')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
