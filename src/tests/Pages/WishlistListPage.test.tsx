@@ -139,7 +139,7 @@ describe('WishlistListPage', (): void => {
 		});
 	});
 
-	xtest('remove wishlist item correctly', async (): Promise<void> => {
+	test('remove wishlist item correctly', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({
@@ -151,7 +151,10 @@ describe('WishlistListPage', (): void => {
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
-		await act((): RenderResult => renderForTest(<WishlistListPage />));
+		await act(
+			async (): Promise<RenderResult> =>
+				renderForTest(<WishlistListPage />)
+		);
 		const removeItemButton: HTMLElement =
 			screen.getAllByTestId('removeWishlistItem')[0];
 		expect(removeItemButton).toBeInTheDocument();
@@ -362,17 +365,17 @@ describe('WishlistListPage', (): void => {
 		expect(screen.getByText('wishlist-renamed')).toBeInTheDocument();
 	});
 
-	xtest('add new wishlist', async (): Promise<void> => {
+	test('add new wishlist', async (): Promise<void> => {
 		// arrange
 		const newWishlist: WishList = {
-			id: 1,
-			uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
+			id: 2,
+			uuid: 'b838027b-9177-43d6-918e-67917f1d9b16',
 			name: 'New Mock Wishlist',
 			wishlistItems: []
 		};
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
+		mockedGetWishlists.mockResolvedValue([mockWishlistData, newWishlist]);
 		mockedGetWishlist.mockResolvedValue(mockWishlistData);
 		mockedAddWishlist.mockResolvedValue(newWishlist);
 		mockedIsTokenValid.mockReturnValue(true);
@@ -384,7 +387,7 @@ describe('WishlistListPage', (): void => {
 		const input = screen.getByPlaceholderText(/Name/i);
 		await user.type(input, newWishlist.name);
 		const saveButton = screen.getByRole('button', {name: 'save'});
-		await act((): Promise<void> => user.click(saveButton));
+		await user.click(saveButton);
 
 		// assert
 		await waitFor((): void =>
