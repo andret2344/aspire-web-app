@@ -7,7 +7,7 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import {SubmitHandler, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import '../../assets/fonts.css';
 import {AuthComponent} from '../Components/AuthComponent';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
@@ -15,10 +15,12 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {resetPassword} from '../Services/AuthService';
 import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
 
-export const NewPasswordPage: React.FC = (): React.ReactElement => {
+export function NewPasswordPage(): React.ReactElement {
 	type Inputs = {readonly password: string; readonly passwordRepeat: string};
 	type Params = {readonly token?: string};
+	const {t} = useTranslation();
 	const params: Params = useParams<Params>();
 	const navigate = useNavigate();
 	const theme = useTheme();
@@ -28,13 +30,13 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 		React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 
-	const handleClickShowPassword = (): void => {
+	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);
-	};
+	}
 
-	const handleClickShowPasswordRepeat = (): void => {
+	function handleClickShowPasswordRepeat(): void {
 		setShowPasswordRepeat((prev: boolean): boolean => !prev);
-	};
+	}
 
 	const {
 		register,
@@ -43,11 +45,11 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 		handleSubmit
 	} = useForm<Inputs>();
 
-	const onSubmit: SubmitHandler<Inputs> = (data: Inputs): void => {
+	function onSubmit(data: Inputs): void {
 		if (data.password !== data.passwordRepeat) {
 			setError('passwordRepeat', {
 				type: 'manual',
-				message: 'Passwords are not equal.'
+				message: t('passwords-not-equal')
 			});
 			return;
 		}
@@ -55,18 +57,18 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 		resetPassword(data.password, data.passwordRepeat, params.token ?? '')
 			.then((response: number): void => {
 				if ([200, 201].includes(response || -1)) {
-					enqueueSnackbar('Successfully changed password!', {
+					enqueueSnackbar('password-changed!', {
 						variant: 'success'
 					});
 					navigate('/');
 				}
 			})
 			.catch((): void => {
-				enqueueSnackbar('Some error occurred!', {
+				enqueueSnackbar('something-went-wrong', {
 					variant: 'error'
 				});
 			});
-	};
+	}
 
 	return (
 		<Header>
@@ -84,28 +86,32 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 				>
 					<TextField
 						type={showPassword ? 'text' : 'password'}
-						autoComplete={'new-password'}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment
-									position='end'
-									sx={{margin: 0, padding: 0}}
-								>
-									<IconButton
-										data-testid={'visibilityIconPassword'}
+						autoComplete='new-password'
+						slotProps={{
+							input: {
+								endAdornment: (
+									<InputAdornment
+										position='end'
 										sx={{margin: 0, padding: 0}}
-										onClick={handleClickShowPassword}
 									>
-										<RenderPasswordVisibilityIcon
-											showPassword={showPassword}
-										/>
-									</IconButton>
-								</InputAdornment>
-							)
+										<IconButton
+											data-testid={
+												'visibilityIconPassword'
+											}
+											sx={{margin: 0, padding: 0}}
+											onClick={handleClickShowPassword}
+										>
+											<RenderPasswordVisibilityIcon
+												showPassword={showPassword}
+											/>
+										</IconButton>
+									</InputAdornment>
+								)
+							}
 						}}
 						hiddenLabel
-						variant={'filled'}
-						placeholder={'Password'}
+						variant='filled'
+						placeholder={t('password')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -118,30 +124,36 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 					/>
 					<TextField
 						type={showPasswordRepeat ? 'text' : 'password'}
-						autoComplete={'new-password'}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment
-									position='end'
-									sx={{margin: 0, padding: 0}}
-								>
-									<IconButton
-										data-testid={
-											'visibilityIconRepeatPassword'
-										}
+						autoComplete='new-password'
+						slotProps={{
+							input: {
+								endAdornment: (
+									<InputAdornment
+										position='end'
 										sx={{margin: 0, padding: 0}}
-										onClick={handleClickShowPasswordRepeat}
 									>
-										<RenderPasswordVisibilityIcon
-											showPassword={showPasswordRepeat}
-										/>
-									</IconButton>
-								</InputAdornment>
-							)
+										<IconButton
+											data-testid={
+												'visibilityIconRepeatPassword'
+											}
+											sx={{margin: 0, padding: 0}}
+											onClick={
+												handleClickShowPasswordRepeat
+											}
+										>
+											<RenderPasswordVisibilityIcon
+												showPassword={
+													showPasswordRepeat
+												}
+											/>
+										</IconButton>
+									</InputAdornment>
+								)
+							}
 						}}
 						hiddenLabel
-						variant={'filled'}
-						placeholder={'Repeat password'}
+						variant='filled'
+						placeholder={t('repeat-password')}
 						size={isSmallerThan600 ? 'small' : 'medium'}
 						sx={{
 							width: '200px',
@@ -157,12 +169,12 @@ export const NewPasswordPage: React.FC = (): React.ReactElement => {
 						sx={{
 							marginTop: '10px'
 						}}
-						type={'submit'}
+						type='submit'
 					>
-						change password
+						{t('change-password')}
 					</Button>
 				</form>
 			</AuthComponent>
 		</Header>
 	);
-};
+}

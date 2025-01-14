@@ -14,13 +14,11 @@ export interface WishlistItemDto {
 	readonly priority_id: number;
 }
 
-export const mapWishlistItem = (
-	wishlistItem: WishlistItemDto
-): WishlistItem => {
+export function mapWishlistItem(wishlistItem: WishlistItemDto): WishlistItem {
 	const {priority_id, wishlist_id, ...rest} = wishlistItem;
 	return {
 		...rest,
 		wishlistId: wishlist_id,
 		priorityId: priority_id
 	};
-};
+}

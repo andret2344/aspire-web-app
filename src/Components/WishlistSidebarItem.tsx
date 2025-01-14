@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Link, Typography, IconButton, Theme} from '@mui/material';
+import {Box, IconButton, Link, Theme, Typography} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {getThemeColor} from '../Styles/theme';
@@ -15,9 +15,9 @@ interface WishlistSidebarItemProps {
 	readonly onDisplay: () => React.ReactElement;
 }
 
-export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
+export function WishlistSidebarItem(
 	props: WishlistSidebarItemProps
-): React.ReactElement => {
+): React.ReactElement {
 	if (props.active) {
 		return (
 			<Link
@@ -57,7 +57,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 							onClick={props.onShare}
 							sx={{marginLeft: '15px'}}
 							size='large'
-							aria-label={'share'}
+							aria-label='share'
 						>
 							<ShareIcon />
 						</IconButton>
@@ -117,4 +117,4 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 			</Box>
 		</Link>
 	);
-};
+}

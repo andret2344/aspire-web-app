@@ -14,9 +14,7 @@ describe('PasswordReminderPage', (): void => {
 		renderForTest(<PasswordReminderPage />);
 
 		// act
-		const errorText = screen.getByText(
-			`Enter your e-mail and we\'ll send you a link to reset your password`
-		);
+		const errorText: HTMLElement = screen.getByText('enter-email');
 
 		// assert
 		expect(errorText).toBeInTheDocument();
@@ -28,21 +26,19 @@ describe('PasswordReminderPage', (): void => {
 		renderForTest(<PasswordReminderPage />);
 
 		// act
-		const errorText = screen.getByText(
-			`Enter your e-mail and we\'ll send you a link to reset your password`
-		);
+		const errorText: HTMLElement = screen.getByText('enter-email');
 
 		// assert
 		expect(errorText).toBeInTheDocument();
 	});
 
-	test('navigates to log in and sign up pages', (): void => {
+	test('navigates to log in and sign-up pages', (): void => {
 		// arrange
 		renderForTest(<PasswordReminderPage />);
 
 		// act
-		const logInLink = screen.getByText('Log in');
-		const signUpLink = screen.getByText('Sign up');
+		const logInLink: HTMLElement = screen.getByText('log-in');
+		const signUpLink: HTMLElement = screen.getByText('sign-up');
 
 		// assert
 		expect(logInLink).toBeInTheDocument();
@@ -56,10 +52,10 @@ describe('PasswordReminderPage', (): void => {
 		renderForTest(<PasswordReminderPage />);
 
 		// act
-		const sendButton = screen.getByRole('button', {
+		const sendButton: HTMLElement = screen.getByRole('button', {
 			name: /send/i
 		});
-		const input = screen.getByPlaceholderText('E-mail address');
+		const input: HTMLElement = screen.getByPlaceholderText('email-address');
 		await user.type(input, 'test@example.com');
 		await user.click(sendButton);
 
@@ -76,17 +72,17 @@ describe('PasswordReminderPage', (): void => {
 		renderForTest(<PasswordReminderPage />);
 
 		//act
-		const sendButton = screen.getByRole('button', {
+		const sendButton: HTMLElement = screen.getByRole('button', {
 			name: /send/i
 		});
-		const input = screen.getByPlaceholderText('E-mail address');
+		const input: HTMLElement = screen.getByPlaceholderText('email-address');
 		await user.type(input, 'test@example.com');
 		await user.click(sendButton);
-		const errorSnackbar = await screen.findByRole('alert');
+		const errorSnackbar: HTMLElement = await screen.findByRole('alert');
 
 		// assert
 		await waitFor((): void => {
-			expect(errorSnackbar).toHaveTextContent('Some error occurred!');
+			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
 		});
 	});
 });

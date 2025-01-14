@@ -9,7 +9,7 @@ import {
 	renderForTestWithoutProvider
 } from '../Utils/RenderForTest';
 
-const TestComponent = (): React.ReactElement => {
+function TestComponent(): React.ReactElement {
 	const {darkMode, toggleDarkMode} = useDarkMode();
 	return (
 		<div>
@@ -17,7 +17,7 @@ const TestComponent = (): React.ReactElement => {
 			<button onClick={toggleDarkMode}>Toggle</button>
 		</div>
 	);
-};
+}
 
 describe('DarkModeProvider', (): void => {
 	test('render using provider', (): void => {
@@ -25,7 +25,7 @@ describe('DarkModeProvider', (): void => {
 		renderForTest(<TestComponent />);
 
 		// act
-		const text = screen.getByText('Dark mode is off');
+		const text: HTMLElement = screen.getByText('Dark mode is off');
 
 		// assert
 		expect(text).toBeInTheDocument();
@@ -34,11 +34,11 @@ describe('DarkModeProvider', (): void => {
 	test('turn dark mode on', async (): Promise<void> => {
 		// arrange
 		renderForTest(<TestComponent />);
-		const button = screen.getByText('Toggle');
+		const button: HTMLElement = screen.getByText('Toggle');
 		await user.click(button);
 
 		// act
-		const text = await waitFor(
+		const text: HTMLElement = await waitFor(
 			(): HTMLElement => screen.getByText('Dark mode is on')
 		);
 
@@ -66,8 +66,9 @@ describe('DarkModeProvider', (): void => {
 
 	it('should throw an error when used outside of DarkModeProvider', (): void => {
 		// act
-		const renderer = (): RenderResult =>
-			renderForTestWithoutProvider(<TestComponent />);
+		function renderer(): RenderResult {
+			return renderForTestWithoutProvider(<TestComponent />);
+		}
 
 		// assert
 		expect(renderer).toThrow(

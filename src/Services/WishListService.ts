@@ -4,55 +4,55 @@ import apiInstance, {getBackendUrl} from './ApiInstance';
 import {mapWishlistItem} from '../Entity/WishlistItem';
 import {requestConfig} from './AuthService';
 
-export const getWishlists = async (): Promise<WishList[]> => {
+export async function getWishlists(): Promise<WishList[]> {
 	const result: AxiosResponse<WishListDto[]> =
 		await apiInstance.get<WishListDto[]>('/wishlist');
 	return result.data.map(mapWishlist);
-};
+}
 
-export const getWishlist = async (id: number): Promise<WishList> => {
+export async function getWishlist(id: number): Promise<WishList> {
 	const result: AxiosResponse<WishListDto> =
 		await apiInstance.get<WishListDto>(`/wishlist/${id}`);
 	return mapWishlist(result.data);
-};
+}
 
-export const getReadonlyWishlistByUUID = async (
+export async function getReadonlyWishlistByUUID(
 	uuid: string
-): Promise<WishList> => {
+): Promise<WishList> {
 	const baseUrl = getBackendUrl();
 	const result: AxiosResponse<WishListDto> = await axios.get<WishListDto>(
 		`${baseUrl}/wishlist/by_uuid/${uuid}`,
 		requestConfig
 	);
 	return mapWishlist(result.data);
-};
+}
 
-export const addWishlist = async (name: string): Promise<WishList> => {
+export async function addWishlist(name: string): Promise<WishList> {
 	const result = await apiInstance.post('/wishlist', {
 		name
 	});
 	return result.data;
-};
+}
 
-export const removeWishlist = async (id: number): Promise<void> => {
+export async function removeWishlist(id: number): Promise<void> {
 	await apiInstance.delete(`/wishlist/${id}`);
-};
+}
 
-export const updateWishlistName = async (
+export async function updateWishlistName(
 	id: number,
 	name: string
-): Promise<WishList | null> => {
+): Promise<WishList | null> {
 	const result = await apiInstance.put(`/wishlist/${id}`, {
 		name
 	});
 
 	return result.data;
-};
+}
 
-export const mapWishlist = (wishlist: WishListDto): WishList => {
+export function mapWishlist(wishlist: WishListDto): WishList {
 	const {wishlist_items, ...rest} = wishlist;
 	return {
 		...rest,
 		wishlistItems: wishlist_items.map(mapWishlistItem)
 	};
-};
+}

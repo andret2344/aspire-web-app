@@ -1,19 +1,22 @@
 import apiInstance from './ApiInstance';
 import {WishlistItem} from '../Entity/WishlistItem';
-import {isAxiosError} from 'axios';
+import {AxiosResponse, isAxiosError} from 'axios';
 
-export const addWishlistItem = async (
+export async function addWishlistItem(
 	wishlistId: number,
 	name: string,
 	description: string,
 	priorityId: number | string
-): Promise<WishlistItem | null> => {
+): Promise<WishlistItem | null> {
 	try {
-		const result = await apiInstance.post(`/${wishlistId}/wishlistitem`, {
-			name,
-			description,
-			priority_id: priorityId
-		});
+		const result: AxiosResponse = await apiInstance.post(
+			`/${wishlistId}/wishlistitem`,
+			{
+				name,
+				description,
+				priority_id: priorityId
+			}
+		);
 		return result.data;
 	} catch (err) {
 		if (isAxiosError(err)) {
@@ -21,17 +24,17 @@ export const addWishlistItem = async (
 		}
 		return null;
 	}
-};
+}
 
-export const editWishlistItem = async (
+export async function editWishlistItem(
 	wishlistId: number,
 	wishlistItemId: number,
 	name: string,
 	description: string,
 	priorityId: number | string
-): Promise<WishlistItem | null> => {
+): Promise<WishlistItem | null> {
 	try {
-		const result = await apiInstance.put(
+		const result: AxiosResponse = await apiInstance.put(
 			`/${wishlistId}/wishlistitem/${wishlistItemId}`,
 			{
 				name,
@@ -46,12 +49,12 @@ export const editWishlistItem = async (
 		}
 		return null;
 	}
-};
+}
 
-export const removeWishlistItem = async (
+export async function removeWishlistItem(
 	wishlistId: number,
 	wishlistItemId: number
-): Promise<void> => {
+): Promise<void> {
 	try {
 		await apiInstance.delete(
 			`/${wishlistId}/wishlistitem/${wishlistItemId}`
@@ -61,4 +64,4 @@ export const removeWishlistItem = async (
 			console.error(err.response);
 		}
 	}
-};
+}

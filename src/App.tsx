@@ -8,13 +8,14 @@ import {ErrorPage} from './Pages/ErrorPage';
 import {ProfilePage} from './Pages/ProfilePage';
 import {RegisterPage} from './Pages/RegisterPage';
 import {SnackbarProvider} from 'notistack';
-import {ReadonlyWishtlistPage} from './Pages/ReadonlyWishtlistPage';
+import {ReadonlyWishlistPage} from './Pages/ReadonlyWishlistPage';
 import {Config, getConfig} from './Services/EnvironmentHelper';
 import {setConfig} from './Services/ApiInstance';
 import {PasswordReminderPage} from './Pages/PasswordReminderPage';
 import {NewPasswordPage} from './Pages/NewPasswordPage';
+import './i18n';
 
-export const App: React.FC = (): React.ReactElement => {
+export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
 	const fetchBaseUrl = async (): Promise<Config | undefined> => {
 		return await getConfig();
@@ -38,46 +39,46 @@ export const App: React.FC = (): React.ReactElement => {
 			<CssBaseline />
 			<Routes>
 				<Route
-					path={'/'}
+					path='/'
 					element={<LoginPage />}
 				/>
 				<Route
-					path={'register'}
+					path='register'
 					element={<RegisterPage />}
 				/>
 				<Route
-					path={'wishlists'}
+					path='wishlists'
 					element={<WishlistListPage />}
 				/>
 				<Route
-					path={'wishlists/:id'}
+					path='wishlists/:id'
 					element={<WishlistListPage />}
 				/>
 				<Route
-					path={'wishlist/:uuid'}
-					element={<ReadonlyWishtlistPage />}
+					path='wishlist/:uuid'
+					element={<ReadonlyWishlistPage />}
 				/>
 				<Route
-					path={'profile'}
+					path='profile'
 					element={<ProfilePage />}
 				/>
 				<Route
-					path={'*'}
+					path='*'
 					element={<ErrorPage />}
 				/>
 				<Route
-					path={'error'}
+					path='error'
 					element={<ErrorPage />}
 				/>
 				<Route
-					path={'reset-password'}
+					path='reset-password'
 					element={<PasswordReminderPage />}
 				/>
 				<Route
-					path={'new-password/:token'}
+					path='new-password/:token'
 					element={<NewPasswordPage />}
 				/>
 			</Routes>
 		</SnackbarProvider>
 	);
-};
+}

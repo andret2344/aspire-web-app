@@ -2,8 +2,8 @@ import {mockedAddWishlist} from '../__mocks__/MockWishlistService';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
-import {WishlistModal} from '../../Components/WishlistModal';
 import user from '@testing-library/user-event';
+import {WishlistModal} from '../../Components/WishlistModal';
 import {WishList} from '../../Entity/WishList';
 import {renderForTest} from '../Utils/RenderForTest';
 
@@ -28,7 +28,9 @@ describe('WishlistModal', (): void => {
 		);
 
 		// act
-		const saveButton = screen.getByRole('button', {name: 'Save'});
+		const saveButton: HTMLElement = screen.getByRole('button', {
+			name: 'save'
+		});
 
 		// assert
 		expect(saveButton).toBeInTheDocument();
@@ -48,8 +50,8 @@ describe('WishlistModal', (): void => {
 				addNewWishlist={mockAdd}
 			/>
 		);
-		const modal = screen.getByTestId('addWishlistModal');
-		const input = screen.getByPlaceholderText(/name/i);
+		const modal: HTMLElement = screen.getByTestId('addWishlistModal');
+		const input: HTMLElement = screen.getByPlaceholderText(/name/i);
 
 		// assert
 		expect(modal).toBeInTheDocument();
@@ -59,5 +61,26 @@ describe('WishlistModal', (): void => {
 		await user.keyboard('{enter}');
 
 		expect(mockAdd).toHaveBeenCalledTimes(1);
+	});
+
+	test('presses enter with empty input', async (): Promise<void> => {
+		// arrange
+		const mockAdd: jest.Mock = jest.fn();
+		user.setup();
+
+		// act
+		renderForTest(
+			<WishlistModal
+				opened={true}
+				toggleModal={(): void => undefined}
+				addNewWishlist={mockAdd}
+			/>
+		);
+		const input: HTMLElement = screen.getByPlaceholderText('name');
+		await user.clear(input);
+		await user.keyboard('{enter}');
+
+		// assert
+		expect(mockAdd).toHaveBeenCalledTimes(0);
 	});
 });

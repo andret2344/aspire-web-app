@@ -12,9 +12,9 @@ const DarkModeContext = createContext<DarkModeContextType | undefined>(
 	undefined
 );
 
-export const DarkModeProvider: React.FC<React.PropsWithChildren<None>> = (
+export function DarkModeProvider(
 	props: React.PropsWithChildren<None>
-): React.ReactElement => {
+): React.ReactElement {
 	const [darkMode, setDarkMode] = React.useState<boolean>(
 		localStorage.getItem('dark-mode') === 'true'
 	);
@@ -23,9 +23,9 @@ export const DarkModeProvider: React.FC<React.PropsWithChildren<None>> = (
 		localStorage.setItem('dark-mode', JSON.stringify(darkMode));
 	}, [darkMode]);
 
-	const toggleDarkMode = (): void => {
+	function toggleDarkMode(): void {
 		setDarkMode((prev: boolean): boolean => !prev);
-	};
+	}
 
 	return (
 		<DarkModeContext.Provider value={{darkMode, toggleDarkMode}}>
@@ -34,12 +34,12 @@ export const DarkModeProvider: React.FC<React.PropsWithChildren<None>> = (
 			</ThemeProvider>
 		</DarkModeContext.Provider>
 	);
-};
+}
 
-export const useDarkMode = (): DarkModeContextType => {
+export function useDarkMode(): DarkModeContextType {
 	const context = useContext(DarkModeContext);
 	if (!context) {
 		throw new Error('useDarkMode must be used within a DarkModeProvider');
 	}
 	return context;
-};
+}

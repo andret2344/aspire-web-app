@@ -7,7 +7,7 @@ import {renderForTest} from '../Utils/RenderForTest';
 describe('WishlistSidebarItem', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	const mockedOnShare = jest.fn();
+	const mockedOnShare: jest.Mock = jest.fn();
 
 	const mockWishlistData: WishList = {
 		id: 1,
@@ -35,7 +35,7 @@ describe('WishlistSidebarItem', (): void => {
 				onDisplay={mockedOnShare}
 			/>
 		);
-		const wishlistTitle = screen.getByText('Mock Wishlist');
+		const wishlistTitle: HTMLElement = screen.getByText('Mock Wishlist');
 
 		// assert
 		expect(wishlistTitle).toBeInTheDocument();

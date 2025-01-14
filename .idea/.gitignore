@@ -5,6 +5,7 @@
 /workspace.xml
 /discord.xml
 /modules.xml
+/git_toolbox_blame.xml
 /git_toolbox_prj.xml
 /php.xml
 *.iml
