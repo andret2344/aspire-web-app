@@ -32,7 +32,9 @@ module.exports = {
 		'!src/App.tsx',
 		'!src/index.{ts,tsx,html}',
 		'!src/Styles/**',
-		'!src/Types/**'
+		'!src/Types/**',
+		'!src/tests/Utils/**',
+		'!src/i18n.ts'
 	],
 	reporters: [
 		'default',

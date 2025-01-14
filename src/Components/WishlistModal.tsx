@@ -8,7 +8,7 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import React, {KeyboardEvent} from 'react';
+import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {addWishlist} from '../Services/WishListService';
 import {WishList} from '../Entity/WishList';
@@ -27,21 +27,15 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
-	function handleSaveOnKeyDown(event: KeyboardEvent): void {
-		if (event.key === 'Enter') {
-			handleSaveButton();
-		}
-	}
-
-	async function handleSaveButton(): Promise<void> {
+	async function handleSubmit(
+		e: React.FormEvent<HTMLFormElement>
+	): Promise<void> {
+		e.preventDefault();
 		const wishlistName: string | undefined = inputRef.current?.value;
 		if (!wishlistName) {
 			return;
 		}
 		const newWishlist: WishList = await addWishlist(wishlistName);
-		if (!newWishlist) {
-			return;
-		}
 		props.addNewWishlist(newWishlist);
 		props.toggleModal();
 		navigate(`/wishlists/${newWishlist?.id}`);
@@ -53,7 +47,6 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 	return (
 		<Modal
 			data-testid='addWishlistModal'
-			onKeyDown={handleSaveOnKeyDown}
 			onClose={props.toggleModal}
 			open={props.opened}
 			aria-labelledby='modal-modal-title'
@@ -72,6 +65,8 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 					alignItems: 'center',
 					justifyContent: 'space-evenly'
 				}}
+				component='form'
+				onSubmit={handleSubmit}
 			>
 				<Typography
 					id='modal-modal-title'
@@ -110,11 +105,11 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 						{t('cancel')}
 					</Button>
 					<Button
-						onClick={handleSaveButton}
 						variant='contained'
 						sx={{
 							marginTop: '10px'
 						}}
+						type='submit'
 					>
 						{t('save')}
 					</Button>

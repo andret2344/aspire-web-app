@@ -30,7 +30,7 @@ export function LanguagePicker(): React.ReactElement {
 				}}
 				onClick={(): void => {
 					i18n.changeLanguage(language.code);
-					setAnchorEl(null);
+					handleClose();
 				}}
 			>
 				<ReactCountryFlag
