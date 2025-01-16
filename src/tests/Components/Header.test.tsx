@@ -15,7 +15,7 @@ describe('Header', (): void => {
 		renderForTest(<Header />);
 
 		// act
-		const accountIcon = screen.getByTestId('account-icon');
+		const accountIcon: HTMLElement = screen.getByTestId('account-icon');
 
 		// assert
 		expect(accountIcon).toBeInTheDocument();
@@ -27,7 +27,8 @@ describe('Header', (): void => {
 		renderForTest(<Header />);
 
 		// act
-		const accountIcon = screen.queryByTestId('account-icon');
+		const accountIcon: HTMLElement | null =
+			screen.queryByTestId('account-icon');
 
 		// assert
 		expect(accountIcon).toBeNull();
@@ -39,9 +40,11 @@ describe('Header', (): void => {
 		renderForTest(<Header />);
 
 		// act
-		const accountIconButton = screen.getByTestId('account-icon-button');
+		const accountIconButton: HTMLElement = screen.getByTestId(
+			'account-icon-button'
+		);
 		await user.click(accountIconButton);
-		const menu = screen.getByTestId('menu');
+		const menu: HTMLElement = screen.getByTestId('menu');
 
 		// assert
 		expect(menu).toBeVisible();
@@ -53,11 +56,15 @@ describe('Header', (): void => {
 		await act((): RenderResult => renderForTest(<Header />));
 
 		// act
-		const accountIconButton = screen.getByTestId('account-icon-button');
+		const accountIconButton: HTMLElement = screen.getByTestId(
+			'account-icon-button'
+		);
 		await user.click(accountIconButton);
-		const menu = screen.getByTestId('menu');
+		const menu: HTMLElement = screen.getByTestId('menu');
 		expect(menu).toBeInTheDocument();
-		const toClick = menu.querySelector('#menu > div:nth-child(1)');
+		const toClick: Element | null = menu.querySelector(
+			'#menu > div:nth-child(1)'
+		);
 
 		if (toClick) {
 			// assert
@@ -73,11 +80,14 @@ describe('Header', (): void => {
 		renderForTest(<Header />);
 
 		// act
-		const accountIconButton = screen.getByTestId('account-icon-button');
+		const accountIconButton: HTMLElement = screen.getByTestId(
+			'account-icon-button'
+		);
 		await user.click(accountIconButton);
-		const menu = screen.getByTestId('menu');
+		const menu: HTMLElement = screen.getByTestId('menu');
 		await user.click(menu);
-		const menuItemLogout = screen.getByTestId('menuitem-logout');
+		const menuItemLogout: HTMLElement =
+			screen.getByTestId('menuitem-logout');
 		await user.click(menuItemLogout);
 
 		// assert

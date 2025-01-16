@@ -79,7 +79,9 @@ describe('WishlistItemModal', (): void => {
 
 		expect(prioritySelect).toBeInTheDocument();
 
-		const saveButton = screen.getByRole('button', {name: /confirm/i});
+		const saveButton: HTMLElement = screen.getByRole('button', {
+			name: /confirm/i
+		});
 
 		expect(inputName).toBeInTheDocument();
 		expect(inputName.value).toBe('Item 1');
@@ -90,7 +92,7 @@ describe('WishlistItemModal', (): void => {
 		expect(inputName.value).toBe('New name');
 		await user.click(prioritySelect);
 
-		const secondOptionPriority = await screen.findByText(
+		const secondOptionPriority: HTMLElement = await screen.findByText(
 			/Przydałoby mi się, gdyż często odczuwam brak./i
 		);
 
@@ -139,7 +141,7 @@ describe('WishlistItemModal', (): void => {
 		);
 
 		const inputName = screen.getByPlaceholderText(
-			'Type here your wish'
+			'enter-item'
 		) as HTMLInputElement;
 		const descriptionInput = screen
 			.getByTestId('test-quill')
@@ -157,7 +159,9 @@ describe('WishlistItemModal', (): void => {
 
 		await user.type(descriptionInput, 'New description');
 
-		const saveButton = screen.getByRole('button', {name: /confirm/i});
+		const saveButton: HTMLElement = screen.getByRole('button', {
+			name: /confirm/i
+		});
 
 		expect(saveButton).toBeInTheDocument();
 		await user.click(saveButton);
@@ -179,7 +183,7 @@ describe('WishlistItemModal', (): void => {
 		);
 
 		const inputName = screen.getByPlaceholderText(
-			'Type here your wish'
+			'enter-item'
 		) as HTMLInputElement;
 		const descriptionInput = screen
 			.getByTestId('test-quill')
@@ -197,14 +201,14 @@ describe('WishlistItemModal', (): void => {
 
 		await user.type(descriptionInput, 'New description');
 
-		const saveButton = screen.getByRole('button', {name: /confirm/i});
+		const saveButton: HTMLElement = screen.getByRole('button', {
+			name: /confirm/i
+		});
 
 		expect(saveButton).toBeInTheDocument();
 		await user.click(saveButton);
 
-		expect(
-			screen.getByText(/Too long name or description./i)
-		).toBeInTheDocument();
+		expect(screen.getByText('too-long')).toBeInTheDocument();
 	});
 
 	test('clicks cancel button', async (): Promise<void> => {
@@ -220,7 +224,9 @@ describe('WishlistItemModal', (): void => {
 			/>
 		);
 
-		const cancelButton = screen.getByRole('button', {name: /cancel/i});
+		const cancelButton: HTMLElement = screen.getByRole('button', {
+			name: /cancel/i
+		});
 
 		expect(cancelButton).toBeInTheDocument();
 		await user.click(cancelButton);
@@ -231,7 +237,7 @@ describe('WishlistItemModal', (): void => {
 
 		jest.spyOn(React, 'useRef').mockReturnValueOnce(mockInputRefName);
 
-		const setPriority = jest.fn();
+		const setPriority: jest.Mock = jest.fn();
 		React.useState = jest.fn().mockReturnValue([1, setPriority]);
 
 		render(

@@ -16,7 +16,7 @@ describe('ToggleColorModeComponent', (): void => {
 		);
 
 		// act
-		const iconLight = screen.getByTestId('icon-light');
+		const iconLight: HTMLElement = screen.getByTestId('icon-light');
 
 		// assert
 		expect(iconLight).toBeInTheDocument();
@@ -32,7 +32,7 @@ describe('ToggleColorModeComponent', (): void => {
 		);
 
 		// act
-		const iconDark = screen.getByTestId('icon-dark');
+		const iconDark: HTMLElement = screen.getByTestId('icon-dark');
 
 		// assert
 		expect(iconDark).toBeInTheDocument();
@@ -49,7 +49,7 @@ describe('ToggleColorModeComponent', (): void => {
 		);
 
 		// act
-		const iconButton = screen.getByTestId('icon-button');
+		const iconButton: HTMLElement = screen.getByTestId('icon-button');
 		await user.click(iconButton);
 
 		// assert

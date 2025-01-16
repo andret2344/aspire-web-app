@@ -2,10 +2,13 @@ import {Container, Paper, Typography} from '@mui/material';
 import React from 'react';
 import '../../assets/fonts.css';
 import {None} from '../Types/None';
+import {useTranslation} from 'react-i18next';
 
-export const AuthComponent: React.FC<React.PropsWithChildren<None>> = (
+export function AuthComponent(
 	props: React.PropsWithChildren<None>
-): React.ReactElement => {
+): React.ReactElement {
+	const {t} = useTranslation();
+
 	return (
 		<Container
 			sx={{
@@ -83,10 +86,10 @@ export const AuthComponent: React.FC<React.PropsWithChildren<None>> = (
 						textDecoration: 'none'
 					}}
 				>
-					The Aspiration Abyss
+					{t('subtitle')}
 				</Typography>
 				{props.children}
 			</Paper>
 		</Container>
 	);
-};
+}

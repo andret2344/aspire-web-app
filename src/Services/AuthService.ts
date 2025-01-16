@@ -1,11 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse, isAxiosError} from 'axios';
 import Cookies from 'js-cookie';
-import apiInstance, {
-	getBackendUrl,
-	getFrontendUrl,
-	getAuthUrl,
-	authApiInstance
-} from './ApiInstance';
+import apiInstance, {getBackendUrl, getFrontendUrl} from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 const ACCESS_TOKEN: string = 'accessToken';
@@ -25,38 +20,34 @@ export interface RegisterApiError {
 	readonly password?: string;
 }
 
-export const logIn = async (
-	email: string,
-	password: string
-): Promise<number> => {
+export async function logIn(email: string, password: string): Promise<number> {
 	if (!email || !password) {
 		return 401;
 	}
 	try {
-		const baseUrl = getAuthUrl();
-		const result = await axios.post(
-			`${baseUrl}/firebase/login`,
+		const baseUrl: string = getBackendUrl();
+		const result: AxiosResponse = await axios.post(
+			`${baseUrl}/account/login`,
 			{
 				email,
 				password
 			},
 			requestConfig
 		);
-
-		saveAccessTokenInLocalStorage(result.data.accessToken);
-		saveRefreshTokenInCookies(result.data.refreshToken);
+		saveAccessTokenInLocalStorage(result.data.access);
+		saveRefreshTokenInCookies(result.data.refresh);
 		return result.status;
 	} catch (err) {
 		console.log(err);
 		return 401;
 	}
-};
+}
 
-export const signUp = async (
+export async function signUp(
 	email: string,
 	password: string
-): Promise<AxiosResponse> => {
-	const baseUrl = getAuthUrl();
+): Promise<AxiosResponse> {
+	const baseUrl: string = getBackendUrl();
 	return await axios.post(
 		`${baseUrl}/firebase/register`,
 		{
@@ -65,13 +56,13 @@ export const signUp = async (
 		},
 		requestConfig
 	);
-};
+}
 
-export const requestResetPassword = async (
+export async function requestResetPassword(
 	email: string
-): Promise<AxiosResponse> => {
-	const baseUrl = getBackendUrl();
-	const url = `${getFrontendUrl()}/new-password`;
+): Promise<AxiosResponse> {
+	const baseUrl: string = getBackendUrl();
+	const url: string = `${getFrontendUrl()}/new-password`;
 	return await axios.post(
 		`${baseUrl}/account/password_reset`,
 		{
@@ -80,15 +71,15 @@ export const requestResetPassword = async (
 		},
 		requestConfig
 	);
-};
+}
 
-export const resetPassword = async (
+export async function resetPassword(
 	password: string,
 	token: string,
 	passwordRepeat: string
-): Promise<number> => {
-	const baseUrl = getBackendUrl();
-	const response = await axios.post(
+): Promise<number> {
+	const baseUrl: string = getBackendUrl();
+	const response: AxiosResponse = await axios.post(
 		`${baseUrl}/account/password_reset/confirm`,
 		{
 			password,
@@ -97,17 +88,16 @@ export const resetPassword = async (
 		},
 		requestConfig
 	);
-
 	return response.status;
-};
+}
 
-export const changePassword = async (
+export async function changePassword(
 	currentPassword: string,
 	newPassword: string,
 	newPasswordConfirm: string
-): Promise<number> => {
+): Promise<number> {
 	const baseUrl = getBackendUrl();
-	const response = await apiInstance.post(
+	const response: AxiosResponse = await apiInstance.post(
 		`${baseUrl}/account/change_password`,
 		{
 			old_password: currentPassword,
@@ -118,34 +108,37 @@ export const changePassword = async (
 	);
 
 	return response.status;
-};
+}
 
-export const logout = (): void => {
+export function logout(): void {
 	localStorage.removeItem(ACCESS_TOKEN);
 	Cookies.remove(REFRESH_TOKEN);
-};
+}
 
-export const saveAccessTokenInLocalStorage = (accessToken: string): void => {
+export function saveAccessTokenInLocalStorage(accessToken: string): void {
 	localStorage.setItem(ACCESS_TOKEN, accessToken);
-};
+}
 
-const saveRefreshTokenInCookies = (refreshToken: string): void => {
+function saveRefreshTokenInCookies(refreshToken: string): void {
 	Cookies.set(REFRESH_TOKEN, refreshToken);
-};
+}
 
-export const getRefreshTokenFromCookies = (): string | undefined => {
+export function getRefreshTokenFromCookies(): string | undefined {
 	return Cookies.get(REFRESH_TOKEN);
-};
+}
 
-export const getToken = (): string | null => {
+export function getToken(): string | null {
 	return getItemFromStorage(ACCESS_TOKEN);
-};
+}
 
-export const refreshToken = async (): Promise<string | undefined> => {
+export async function refreshToken(): Promise<string | undefined> {
 	try {
-		const result = await authApiInstance.post(`/firebase/refresh`, {
-			refreshToken: getRefreshTokenFromCookies()
-		});
+		const result: AxiosResponse = await apiInstance.post(
+			'/account/login/refresh',
+			{
+				refresh: getRefreshTokenFromCookies()
+			}
+		);
 
 		saveAccessTokenInLocalStorage(result.data.accessToken);
 		return result.data.accessToken;
@@ -155,24 +148,24 @@ export const refreshToken = async (): Promise<string | undefined> => {
 		}
 		console.error(err);
 	}
-};
+}
 
-export const getItemFromStorage = (key: string): string | null => {
+export function getItemFromStorage(key: string): string | null {
 	return localStorage.getItem(key);
-};
+}
 
-export const isTokenValid = (): boolean => {
-	const token = getToken();
+export function isTokenValid(): boolean {
+	const token: string | null = getToken();
 
 	if (!token) {
 		return false;
 	}
 
-	const decodedToken = jwtDecode<JwtPayload>(token);
+	const decodedToken: JwtPayload = jwtDecode<JwtPayload>(token);
 	if (!decodedToken.exp) {
 		return false;
 	}
 
-	const currentTime = Date.now() / 1000;
+	const currentTime: number = Date.now() / 1000;
 	return decodedToken.exp > currentTime;
-};
+}

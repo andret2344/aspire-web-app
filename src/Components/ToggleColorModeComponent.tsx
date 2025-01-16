@@ -8,23 +8,23 @@ interface ToggleColorModeComponentProps {
 	readonly toggleDarkMode: () => void;
 }
 
-export const ToggleColorModeComponent = (
+export function ToggleColorModeComponent(
 	props: ToggleColorModeComponentProps
-): React.ReactElement => {
-	const renderIcon = (): React.ReactElement => {
+): React.ReactElement {
+	function renderIcon(): React.ReactElement {
 		if (props.darkMode) {
-			return <LightModeIcon data-testid={'icon-light'} />;
+			return <LightModeIcon data-testid='icon-light' />;
 		}
-		return <DarkModeIcon data-testid={'icon-dark'} />;
-	};
+		return <DarkModeIcon data-testid='icon-dark' />;
+	}
 
 	return (
 		<IconButton
-			data-testid={'icon-button'}
-			color={'warning'}
+			data-testid='icon-button'
+			color='warning'
 			onClick={props.toggleDarkMode}
 		>
 			{renderIcon()}
 		</IconButton>
 	);
-};
+}

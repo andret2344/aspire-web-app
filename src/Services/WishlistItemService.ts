@@ -11,13 +11,13 @@ export const getWishlistHiddenItems = async (
 	return result.data;
 };
 
-export const addWishlistItem = async (
+export async function addWishlistItem(
 	wishlistId: number,
 	name: string,
 	description: string,
 	priorityId: number | string,
 	hidden: boolean
-): Promise<WishlistItem | null> => {
+): Promise<WishlistItem | null> {
 	try {
 		const result = await apiInstance.post(`/${wishlistId}/wishlistitem`, {
 			name,
@@ -32,18 +32,18 @@ export const addWishlistItem = async (
 		}
 		return null;
 	}
-};
+}
 
-export const editWishlistItem = async (
+export async function editWishlistItem(
 	wishlistId: number,
 	wishlistItemId: number,
 	name: string,
 	description: string,
 	priorityId: number | string,
 	hidden: boolean
-): Promise<WishlistItem | null> => {
+): Promise<WishlistItem | null> {
 	try {
-		const result = await apiInstance.put(
+		const result: AxiosResponse = await apiInstance.put(
 			`/${wishlistId}/wishlistitem/${wishlistItemId}`,
 			{
 				name,
@@ -59,12 +59,12 @@ export const editWishlistItem = async (
 		}
 		return null;
 	}
-};
+}
 
-export const removeWishlistItem = async (
+export async function removeWishlistItem(
 	wishlistId: number,
 	wishlistItemId: number
-): Promise<void> => {
+): Promise<void> {
 	try {
 		await apiInstance.delete(
 			`/${wishlistId}/wishlistitem/${wishlistItemId}`
@@ -74,4 +74,4 @@ export const removeWishlistItem = async (
 			console.error(err.response);
 		}
 	}
-};
+}

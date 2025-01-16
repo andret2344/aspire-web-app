@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Link, Typography, IconButton, Theme} from '@mui/material';
+import {Box, IconButton, Link, Theme, Typography} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
@@ -18,9 +18,9 @@ interface WishlistSidebarItemProps {
 	readonly getWishlistHiddenItems: (id: number) => void;
 }
 
-export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
+export function WishlistSidebarItem(
 	props: WishlistSidebarItemProps
-): React.ReactElement => {
+): React.ReactElement {
 	const [revealPassModalOpened, setRevealPassModalOpened] =
 		React.useState<boolean>(false);
 	const toggleRevealPassModal = (): void => {
@@ -66,7 +66,7 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 							data-testid={`shareIcon-${props.wishlist.id}`}
 							onClick={props.onShare}
 							size='large'
-							aria-label={'share'}
+							aria-label='share'
 						>
 							<ShareIcon />
 						</IconButton>
@@ -138,4 +138,4 @@ export const WishlistSidebarItem: React.FC<WishlistSidebarItemProps> = (
 			</Box>
 		</Link>
 	);
-};
+}
