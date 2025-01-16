@@ -8,7 +8,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
-import {ReadonlyWishtlistPage} from '../../Pages/ReadonlyWishtlistPage';
+import {ReadonlyWishlistPage} from '../../Pages/ReadonlyWishlistPage';
 import {renderForTest} from '../Utils/RenderForTest';
 
 describe('ReadonlyWishlistPage', (): void => {
@@ -52,7 +52,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(mockWishlistData);
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// assert
 		await waitFor((): void => {
@@ -65,7 +65,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		mockedUseParams.mockReturnValue({uuid: undefined});
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// assert
 		await waitFor((): void => {
@@ -81,7 +81,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		);
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// assert
 		await waitFor((): void => {
@@ -95,7 +95,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(mockWishlistData);
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// assert
 		await waitFor((): void => {
@@ -109,7 +109,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(null);
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// assert
 		await waitFor((): void => {
@@ -123,12 +123,12 @@ describe('ReadonlyWishlistPage', (): void => {
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(mockWishlistData);
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 		mockedUseParams.mockReturnValue({uuid: 'changed-uuid'});
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(
 			anotherMockWishlistData
 		);
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// assert
 		await waitFor((): void => {
@@ -144,7 +144,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(mockWishlistData);
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// arrange
 		await waitFor((): void => {
@@ -158,7 +158,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(null);
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// assert
 		await waitFor((): void => {
@@ -174,7 +174,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		);
 
 		// act
-		renderForTest(<ReadonlyWishtlistPage />);
+		renderForTest(<ReadonlyWishlistPage />);
 
 		// assert
 		await waitFor((): void => {

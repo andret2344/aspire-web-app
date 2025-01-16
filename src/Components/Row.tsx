@@ -15,8 +15,9 @@ import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
 import {removeWishlistItem} from '../Services/WishlistItemService';
 import {useSnackbar} from 'notistack';
-import Linkify from 'react-linkify';
+import Linkify from 'linkify-react';
 import parse from 'html-react-parser';
+import {useTranslation} from 'react-i18next';
 
 interface RowProps {
 	readonly row: WishlistItem;
@@ -26,48 +27,34 @@ interface RowProps {
 	readonly onRemove?: (id: number) => void;
 }
 
-const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
+export function Row(props: RowProps): React.ReactElement {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
+	const {t} = useTranslation();
 
-	const handleToggleExpandButton = (): void => {
+	function handleToggleExpandButton(): void {
 		setOpen((prevOpen: boolean): boolean => !prevOpen);
-	};
+	}
 
-	const renderExpandButton = (): React.ReactElement => {
+	function renderExpandButton(): React.ReactElement {
 		if (open) {
 			return <KeyboardArrowUpIcon />;
 		}
 		return <KeyboardArrowDownIcon />;
-	};
+	}
 
-	const handleRemoveWishlistItemButton = async (): Promise<void> => {
+	async function handleRemoveWishlistItemButton(): Promise<void> {
 		await removeWishlistItem(props.wishlistId, props.row.id)
-			.then((): string | number =>
-				enqueueSnackbar('Successfully removed wishlist item.', {
+			.then((): void => {
+				props.onRemove?.(props.wishlistId);
+				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
-				})
-			)
+				});
+			})
 			.catch((): string | number =>
-				enqueueSnackbar('Something went wrong!', {variant: 'error'})
+				enqueueSnackbar(t('something-went-wrong)'), {variant: 'error'})
 			);
-		props.onRemove?.(props.wishlistId);
-	};
-
-	const getComponentDecorator = (
-		decoratedHref: string,
-		decoratedText: string,
-		key: number
-	): React.ReactElement => (
-		<a
-			target='_blank'
-			rel='noopener noreferrer'
-			href={decoratedHref}
-			key={key}
-		>
-			{decoratedText}
-		</a>
-	);
+	}
 
 	return (
 		<React.Fragment>
@@ -121,7 +108,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 										md: '15px'
 									}
 								}}
-								aria-label={'edit'}
+								aria-label='edit'
 								size='large'
 								onClick={(): void => props.onEdit?.(props.row)}
 							>
@@ -135,7 +122,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 								/>
 							</IconButton>
 							<IconButton
-								data-testid={'removeWishlistItem'}
+								data-testid='removeWishlistItem'
 								sx={{
 									margin: {
 										xs: '0',
@@ -143,7 +130,7 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 									}
 								}}
 								size='large'
-								aria-label={'delete'}
+								aria-label='delete'
 								onClick={handleRemoveWishlistItemButton}
 							>
 								<DeleteIcon
@@ -172,7 +159,10 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 						<Box sx={{margin: 1}}>
 							<Typography component='div'>
 								<Linkify
-									componentDecorator={getComponentDecorator}
+									options={{
+										target: '_blank',
+										rel: 'noopener noreferrer'
+									}}
 								>
 									{parse(props.row.description)}
 								</Linkify>
@@ -183,6 +173,4 @@ const Row: React.FC<RowProps> = (props: RowProps): React.ReactElement => {
 			</TableRow>
 		</React.Fragment>
 	);
-};
-
-export default Row;
+}

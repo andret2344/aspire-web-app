@@ -1,24 +1,25 @@
 import {
 	Box,
 	Button,
+	Grid2,
+	IconButton,
+	InputAdornment,
 	Paper,
 	TextField,
-	Typography,
-	IconButton,
-	InputAdornment
+	Typography
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
 import React from 'react';
 import {Header} from '../Components/Header';
-import {isTokenValid, changePassword} from '../Services/AuthService';
+import {changePassword, isTokenValid} from '../Services/AuthService';
 import {useNavigate} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import {useSnackbar} from 'notistack';
 import {useDarkMode} from '../Components/DarkModeContext';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '../Components/ToggleColorModeComponent';
+import {useTranslation} from 'react-i18next';
 
-export const ProfilePage: React.FC = (): React.ReactElement => {
+export function ProfilePage(): React.ReactElement {
 	type Inputs = {
 		readonly currentPassword: string;
 		readonly newPassword: string;
@@ -39,24 +40,31 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 		setError,
 		formState: {errors}
 	} = useForm<Inputs>();
+	const {t} = useTranslation();
 
-	const handleClickShowPassword = (): void => {
+	React.useEffect((): void => {
+		if (!isTokenValid()) {
+			navigate('/');
+		}
+	});
+
+	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);
-	};
+	}
 
-	const handleClickShowPasswordRepeat = (): void => {
+	function handleClickShowPasswordRepeat(): void {
 		setShowPasswordRepeat((prev: boolean): boolean => !prev);
-	};
+	}
 
-	const handleClickShowPasswordRepeatConfirmation = (): void => {
+	function handleClickShowPasswordRepeatConfirmation(): void {
 		setShowPasswordRepeatConfirmation((prev: boolean): boolean => !prev);
-	};
+	}
 
-	const onSubmit = (data: Inputs): void => {
+	function onSubmit(data: Inputs): void {
 		if (data.newPassword !== data.newPasswordConfirm) {
 			setError('newPasswordConfirm', {
 				type: 'manual',
-				message: 'Passwords are not equal.'
+				message: t('passwords-not-equal')
 			});
 			return;
 		}
@@ -68,37 +76,26 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 		)
 			.then((response: number): void => {
 				if ([200, 201].includes(response || -1)) {
-					enqueueSnackbar('Successfully changed password!', {
+					enqueueSnackbar(`${t('password-changed!')}`, {
 						variant: 'success'
 					});
 					reset();
 				}
 			})
 			.catch((): void => {
-				enqueueSnackbar(
-					'Some error occurred! Probably your current password is not valid.',
-					{
-						variant: 'error'
-					}
-				);
+				enqueueSnackbar(t('password-invalid'), {variant: 'error'});
 			});
-	};
+	}
 
-	React.useEffect((): void => {
-		if (!isTokenValid()) {
-			navigate('/');
-		}
-	});
 	return (
 		<Header>
-			<Grid
-				sx={{flexGrow: 1}}
-				disableEqualOverflow={true}
+			<Grid2
+				flexGrow={{sx: 1}}
 				container
 				columnSpacing={2}
 			>
-				<Grid
-					xs={12}
+				<Grid2
+					size={{xs: 12}}
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -135,7 +132,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 									}}
 								>
 									<Typography sx={{fontFamily: 'Montserrat'}}>
-										Password settings
+										{t('password-settings')}
 									</Typography>
 								</Box>
 							</Box>
@@ -158,37 +155,42 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 								>
 									<TextField
 										sx={{marginBottom: '20px'}}
-										id={'password'}
-										placeholder={'Current password'}
+										id='password'
+										placeholder={t('current-password')}
 										type={
 											showPassword ? 'text' : 'password'
 										}
-										InputProps={{
-											endAdornment: (
-												<InputAdornment
-													position='end'
-													sx={{margin: 0, padding: 0}}
-												>
-													<IconButton
-														data-testid={
-															'visibilityIconPassword'
-														}
+										slotProps={{
+											input: {
+												endAdornment: (
+													<InputAdornment
+														position='end'
 														sx={{
 															margin: 0,
 															padding: 0
 														}}
-														onClick={
-															handleClickShowPassword
-														}
 													>
-														<RenderPasswordVisibilityIcon
-															showPassword={
-																showPassword
+														<IconButton
+															data-testid={
+																'visibilityIconPassword'
 															}
-														/>
-													</IconButton>
-												</InputAdornment>
-											)
+															sx={{
+																margin: 0,
+																padding: 0
+															}}
+															onClick={
+																handleClickShowPassword
+															}
+														>
+															<RenderPasswordVisibilityIcon
+																showPassword={
+																	showPassword
+																}
+															/>
+														</IconButton>
+													</InputAdornment>
+												)
+											}
 										}}
 										required
 										{...register('currentPassword')}
@@ -197,39 +199,44 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 										sx={{
 											marginBottom: '20px'
 										}}
-										id={'new-password'}
-										placeholder={'New password'}
+										id='new-password'
+										placeholder={t('new-password')}
 										type={
 											showPasswordRepeat
 												? 'text'
 												: 'password'
 										}
-										InputProps={{
-											endAdornment: (
-												<InputAdornment
-													position='end'
-													sx={{margin: 0, padding: 0}}
-												>
-													<IconButton
-														data-testid={
-															'visibilityIconRepeatPassword'
-														}
+										slotProps={{
+											input: {
+												endAdornment: (
+													<InputAdornment
+														position='end'
 														sx={{
 															margin: 0,
 															padding: 0
 														}}
-														onClick={
-															handleClickShowPasswordRepeat
-														}
 													>
-														<RenderPasswordVisibilityIcon
-															showPassword={
-																showPasswordRepeat
+														<IconButton
+															data-testid={
+																'visibilityIconRepeatPassword'
 															}
-														/>
-													</IconButton>
-												</InputAdornment>
-											)
+															sx={{
+																margin: 0,
+																padding: 0
+															}}
+															onClick={
+																handleClickShowPasswordRepeat
+															}
+														>
+															<RenderPasswordVisibilityIcon
+																showPassword={
+																	showPasswordRepeat
+																}
+															/>
+														</IconButton>
+													</InputAdornment>
+												)
+											}
 										}}
 										required
 										error={!!errors.newPasswordConfirm}
@@ -242,39 +249,44 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 										sx={{
 											marginBottom: '20px'
 										}}
-										id={'confirm-password'}
-										placeholder={'Confirm password'}
+										id='confirm-password'
+										placeholder={t('confirm-password')}
 										type={
 											showPasswordRepeatConfirmation
 												? 'text'
 												: 'password'
 										}
-										InputProps={{
-											endAdornment: (
-												<InputAdornment
-													position='end'
-													sx={{margin: 0, padding: 0}}
-												>
-													<IconButton
-														data-testid={
-															'visibilityIconRepeatPasswordConfirmation'
-														}
+										slotProps={{
+											input: {
+												endAdornment: (
+													<InputAdornment
+														position='end'
 														sx={{
 															margin: 0,
 															padding: 0
 														}}
-														onClick={
-															handleClickShowPasswordRepeatConfirmation
-														}
 													>
-														<RenderPasswordVisibilityIcon
-															showPassword={
-																showPasswordRepeatConfirmation
+														<IconButton
+															data-testid={
+																'visibilityIconRepeatPasswordConfirmation'
 															}
-														/>
-													</IconButton>
-												</InputAdornment>
-											)
+															sx={{
+																margin: 0,
+																padding: 0
+															}}
+															onClick={
+																handleClickShowPasswordRepeatConfirmation
+															}
+														>
+															<RenderPasswordVisibilityIcon
+																showPassword={
+																	showPasswordRepeatConfirmation
+																}
+															/>
+														</IconButton>
+													</InputAdornment>
+												)
+											}
 										}}
 										required
 										error={!!errors.newPasswordConfirm}
@@ -287,9 +299,9 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 									<Button
 										sx={{fontFamily: 'Montserrat'}}
 										variant='contained'
-										type={'submit'}
+										type='submit'
 									>
-										change password
+										{t('change-password')}
 									</Button>
 								</form>
 							</Box>
@@ -311,7 +323,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 									}}
 								>
 									<Typography sx={{fontFamily: 'Montserrat'}}>
-										Theme settings
+										{t('theme-settings')}
 									</Typography>
 								</Box>
 							</Box>
@@ -325,7 +337,7 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 								}}
 							>
 								<Typography sx={{fontFamily: 'Montserrat'}}>
-									Change theme color:
+									{t('change-theme-color')}:
 									<ToggleColorModeComponent
 										darkMode={darkMode}
 										toggleDarkMode={toggleDarkMode}
@@ -334,8 +346,8 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
 							</Box>
 						</Box>
 					</Paper>
-				</Grid>
-			</Grid>
+				</Grid2>
+			</Grid2>
 		</Header>
 	);
-};
+}

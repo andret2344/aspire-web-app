@@ -16,8 +16,8 @@ describe('NewPasswordPage', (): void => {
 		renderForTest(<NewPasswordPage />);
 
 		//act
-		const changePasswordButton = screen.getByRole('button', {
-			name: /change password/i
+		const changePasswordButton: HTMLElement = screen.getByRole('button', {
+			name: /change-password/i
 		});
 
 		//assert
@@ -35,12 +35,12 @@ describe('NewPasswordPage', (): void => {
 		renderForTest(<NewPasswordPage />);
 
 		//act
-		const changePasswordButton = screen.getByRole('button', {
-			name: /change password/i
+		const changePasswordButton: HTMLElement = screen.getByRole('button', {
+			name: /change-password/i
 		});
-		const passwordInput = screen.getByPlaceholderText('Password');
+		const passwordInput = screen.getByPlaceholderText('password');
 		const passwordRepeatInput =
-			screen.getByPlaceholderText('Repeat password');
+			screen.getByPlaceholderText('repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
 		await user.type(passwordRepeatInput, 'Testowe123!');
 		await user.click(changePasswordButton);
@@ -66,20 +66,21 @@ describe('NewPasswordPage', (): void => {
 		renderForTest(<NewPasswordPage />);
 
 		//act
-		const changePasswordButton = screen.getByRole('button', {
-			name: /change password/i
+		const changePasswordButton: HTMLElement = screen.getByRole('button', {
+			name: /change-password/i
 		});
-		const passwordInput = screen.getByPlaceholderText('Password');
-		const passwordRepeatInput =
-			screen.getByPlaceholderText('Repeat password');
+		const passwordInput: HTMLElement =
+			screen.getByPlaceholderText('password');
+		const passwordRepeatInput: HTMLElement =
+			screen.getByPlaceholderText('repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
 		await user.type(passwordRepeatInput, 'Testowe123!');
 		await user.click(changePasswordButton);
-		const errorSnackbar = await screen.findByRole('alert');
+		const errorSnackbar: HTMLElement = await screen.findByRole('alert');
 
 		//assert
 		await waitFor((): void => {
-			expect(errorSnackbar).toHaveTextContent('Some error occurred!');
+			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
 		});
 	});
 
@@ -90,17 +91,18 @@ describe('NewPasswordPage', (): void => {
 		renderForTest(<NewPasswordPage />);
 
 		//act
-		const changePasswordButton = screen.getByRole('button', {
-			name: /change password/i
+		const changePasswordButton: HTMLElement = screen.getByRole('button', {
+			name: /change-password/i
 		});
-		const passwordInput = screen.getByPlaceholderText('Password');
-		const passwordRepeatInput =
-			screen.getByPlaceholderText('Repeat password');
+		const passwordInput: HTMLElement =
+			screen.getByPlaceholderText('password');
+		const passwordRepeatInput: HTMLElement =
+			screen.getByPlaceholderText('repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
 		await user.type(passwordRepeatInput, 'Testowe1234!');
 		await user.click(changePasswordButton);
-		const errorSnackbar = await screen.getByText(
-			'Passwords are not equal.'
+		const errorSnackbar: HTMLElement = screen.getByText(
+			'passwords-not-equal'
 		);
 
 		//assert
@@ -115,14 +117,16 @@ describe('NewPasswordPage', (): void => {
 		renderForTest(<NewPasswordPage />);
 
 		//act
-		const showPasswordButton = screen.getByTestId('visibilityIconPassword');
-		const showPasswordRepeatButton = screen.getByTestId(
+		const showPasswordButton: HTMLElement = screen.getByTestId(
+			'visibilityIconPassword'
+		);
+		const showPasswordRepeatButton: HTMLElement = screen.getByTestId(
 			'visibilityIconRepeatPassword'
 		);
 		await user.click(showPasswordButton);
 		await user.click(showPasswordRepeatButton);
 
-		//asserrt
+		//assert
 		expect(showPasswordButton).toBeInTheDocument();
 		expect(showPasswordRepeatButton).toBeInTheDocument();
 	});

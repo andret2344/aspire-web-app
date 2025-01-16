@@ -19,7 +19,7 @@ import user from '@testing-library/user-event';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
-import {RenderResult, act, waitFor} from '@testing-library/react';
+import {act, RenderResult, waitFor} from '@testing-library/react';
 import {WishlistListPage} from '../../Pages/WishlistListPage';
 import {WishList} from '../../Entity/WishList';
 import {renderForTest} from '../Utils/RenderForTest';
@@ -151,8 +151,12 @@ describe('WishlistListPage', (): void => {
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
-		await act((): RenderResult => renderForTest(<WishlistListPage />));
-		const removeItemButton = screen.getAllByTestId('removeWishlistItem')[0];
+		await act(
+			async (): Promise<RenderResult> =>
+				renderForTest(<WishlistListPage />)
+		);
+		const removeItemButton: HTMLElement =
+			screen.getAllByTestId('removeWishlistItem')[0];
 		expect(removeItemButton).toBeInTheDocument();
 		await user.click(removeItemButton);
 
@@ -209,7 +213,7 @@ describe('WishlistListPage', (): void => {
 
 		// act
 		renderForTest(<WishlistListPage />);
-		const addNewWishlistButton = screen.getByText('Add new wishlist');
+		const addNewWishlistButton = screen.getByText('add-new-wishlist');
 
 		// assert
 		expect(addNewWishlistButton).toBeInTheDocument();
@@ -358,33 +362,31 @@ describe('WishlistListPage', (): void => {
 		await user.type(editWishlistName, ' updated');
 
 		// assert
-		expect(
-			screen.getByText('Wishlist name changed successfully.')
-		).toBeInTheDocument();
+		expect(screen.getByText('wishlist-renamed')).toBeInTheDocument();
 	});
 
 	test('add new wishlist', async (): Promise<void> => {
 		// arrange
 		const newWishlist: WishList = {
-			id: 1,
-			uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
+			id: 2,
+			uuid: 'b838027b-9177-43d6-918e-67917f1d9b16',
 			name: 'New Mock Wishlist',
 			wishlistItems: []
 		};
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
+		mockedGetWishlists.mockResolvedValue([mockWishlistData, newWishlist]);
 		mockedGetWishlist.mockResolvedValue(mockWishlistData);
 		mockedAddWishlist.mockResolvedValue(newWishlist);
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
 		await act((): RenderResult => renderForTest(<WishlistListPage />));
-		const addNewWishlistButton = screen.getByText(/add new wishlist/i);
+		const addNewWishlistButton = screen.getByText('add-new-wishlist');
 		await user.click(addNewWishlistButton);
 		const input = screen.getByPlaceholderText(/Name/i);
 		await user.type(input, newWishlist.name);
-		const saveButton = screen.getByRole('button', {name: 'Save'});
+		const saveButton = screen.getByRole('button', {name: 'save'});
 		await user.click(saveButton);
 
 		// assert
@@ -418,9 +420,7 @@ describe('WishlistListPage', (): void => {
 		expect(confirmationButton).toBeInTheDocument();
 
 		await user.click(confirmationButton);
-		expect(
-			screen.getByText(/wishlist removed successfully/i)
-		).toBeInTheDocument();
+		expect(screen.getByText('wishlist-removed')).toBeInTheDocument();
 		expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
 	});
 
@@ -445,7 +445,7 @@ describe('WishlistListPage', (): void => {
 		const confirmationButton = screen.getByRole('button', {name: 'ok'});
 		expect(confirmationButton).toBeInTheDocument();
 		await user.click(confirmationButton);
-		expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+		expect(screen.getByText(/something-went-wrong/i)).toBeInTheDocument();
 		expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
 	});
 
@@ -469,9 +469,7 @@ describe('WishlistListPage', (): void => {
 		expect(clipboardText).toBe(
 			'http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15'
 		);
-		expect(
-			screen.getByText(/Share URL copied to clipboard/i)
-		).toBeInTheDocument();
+		expect(screen.getByText('url-copied')).toBeInTheDocument();
 	});
 
 	test('addShareUrlToClipboard enters catch block on clipboard error', async (): Promise<void> => {
@@ -493,6 +491,6 @@ describe('WishlistListPage', (): void => {
 		await user.click(shareIcon);
 
 		// assert
-		expect(screen.getByText(/something went wrong!/i)).toBeInTheDocument();
+		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 	});
 });

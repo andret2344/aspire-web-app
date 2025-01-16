@@ -32,7 +32,7 @@
       <option name="SPACES_WITHIN_UNION_TYPES" value="false" />
       <option name="SPACES_WITHIN_OBJECT_TYPE_BRACES" value="false" />
     </JSCodeStyleSettings>
-    <SqlCodeStyleSettings version="6">
+    <SqlCodeStyleSettings version="7">
       <option name="KEYWORD_CASE" value="2" />
       <option name="IDENTIFIER_CASE" value="1" />
       <option name="TYPE_CASE" value="3" />
