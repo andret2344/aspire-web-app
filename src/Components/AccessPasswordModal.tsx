@@ -16,10 +16,8 @@ import {useSnackbar} from 'notistack';
 
 interface AccessPasswordModalProps {
 	readonly wishlist: WishList;
-	readonly setHidePassModalOpened: () => void;
 	readonly setRevealPassModalOpened: () => void;
 	readonly getWishlistHiddenItems: (id: number) => void;
-	readonly hidePassModalOpened: boolean;
 	readonly revealPassModalOpened: boolean;
 }
 
@@ -39,6 +37,7 @@ export const AccessPasswordModal = (
 			setWishlistPassword(props.wishlist.id, hideItemPass);
 			props.setRevealPassModalOpened();
 			setHideItemPass('');
+			props.getWishlistHiddenItems(props.wishlist.id);
 			enqueueSnackbar('OK', {
 				variant: 'success'
 			});

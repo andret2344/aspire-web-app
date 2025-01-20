@@ -89,8 +89,6 @@ export function WishlistSidebarItem(
 				</Box>
 				<AccessPasswordModal
 					wishlist={props.wishlist}
-					setHidePassModalOpened={() => undefined}
-					hidePassModalOpened={false}
 					setRevealPassModalOpened={toggleRevealPassModal}
 					revealPassModalOpened={revealPassModalOpened}
 					getWishlistHiddenItems={props.getWishlistHiddenItems}

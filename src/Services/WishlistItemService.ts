@@ -5,9 +5,9 @@ import {AxiosResponse, isAxiosError} from 'axios';
 export const getWishlistHiddenItems = async (
 	id: number
 ): Promise<WishlistItem[]> => {
-	const result: AxiosResponse<WishlistItem[]> = await apiInstance.get<
-		WishlistItem[]
-	>(`/wishlist/${id}/hidden_items`);
+	const result: AxiosResponse<WishlistItem[]> = await apiInstance.get(
+		`/wishlist/${id}/hidden_items`
+	);
 	return result.data;
 };
 

@@ -26,9 +26,11 @@ describe('WishListService', (): void => {
 				wishlist_id: 1,
 				description: 'test description',
 				name: 'Item 1',
-				priority_id: 3
+				priority_id: 3,
+				hidden: false
 			}
-		]
+		],
+		has_hidden_items: false
 	};
 
 	const mockWishlist: WishList = {
@@ -41,9 +43,11 @@ describe('WishListService', (): void => {
 				wishlistId: 1,
 				description: 'test description',
 				name: 'Item 1',
-				priorityId: 3
+				priorityId: 3,
+				hidden: false
 			}
-		]
+		],
+		has_hidden_items: false
 	};
 
 	test('get wishlists', async (): Promise<void> => {

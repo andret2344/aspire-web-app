@@ -14,7 +14,8 @@ describe('WishlistModal', (): void => {
 		id: 1,
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
 		name: 'Mock Wishlist',
-		wishlistItems: []
+		wishlistItems: [],
+		has_hidden_items: false
 	};
 
 	test('renders correctly', (): void => {

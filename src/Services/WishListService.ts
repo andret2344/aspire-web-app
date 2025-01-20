@@ -32,7 +32,7 @@ export async function addWishlist(name: string): Promise<WishList> {
 		name
 	});
 	return result.data;
-};
+}
 
 export const setWishlistPassword = async (
 	id: number,

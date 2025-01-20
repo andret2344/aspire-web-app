@@ -1,17 +1,26 @@
 import React from 'react';
-import {screen} from '@testing-library/dom';
+import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {AccessPasswordModal} from '../../Components/AccessPasswordModal';
 import {renderForTest} from '../Utils/RenderForTest';
 import {fireEvent} from '@testing-library/react';
+import {WishList} from '../../Entity/WishList';
+import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
 
 describe('AccessPasswordModal', (): void => {
+	const mockWishlistData: WishList = {
+		id: 1,
+		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
+		name: 'Mock Wishlist',
+		wishlistItems: [],
+		has_hidden_items: false
+	};
 	//arrange
 	test('renders reveal modal corretly', (): void => {
 		renderForTest(
 			<AccessPasswordModal
-				setHidePassModalOpened={() => undefined}
-				hidePassModalOpened={true}
+				wishlist={mockWishlistData}
+				getWishlistHiddenItems={() => undefined}
 				setRevealPassModalOpened={() => undefined}
 				revealPassModalOpened={true}
 			/>
@@ -20,23 +29,12 @@ describe('AccessPasswordModal', (): void => {
 		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument;
 	});
 
-	test('renders hide pass modal corretly', (): void => {
-		renderForTest(
-			<AccessPasswordModal
-				setHidePassModalOpened={() => undefined}
-				hidePassModalOpened={true}
-				setRevealPassModalOpened={() => undefined}
-				revealPassModalOpened={false}
-			/>
-		);
-		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument;
-	});
 	test('password visibility toggle works', (): void => {
 		// arrange
 		renderForTest(
 			<AccessPasswordModal
-				setHidePassModalOpened={() => undefined}
-				hidePassModalOpened={true}
+				wishlist={mockWishlistData}
+				getWishlistHiddenItems={() => undefined}
 				setRevealPassModalOpened={() => undefined}
 				revealPassModalOpened={true}
 			/>
@@ -51,36 +49,29 @@ describe('AccessPasswordModal', (): void => {
 		fireEvent.click(toggleButton);
 		expect(passwordInput).toHaveAttribute('type', 'text');
 	});
-	test('reveal modal works correctly with correct password', (): void => {
+	test('reveal modal works correctly with correct password', async (): Promise<void> => {
 		//arrange
+		mockedGetWishlistHiddenItems.mockResolvedValue(200);
 		renderForTest(
 			<AccessPasswordModal
-				setHidePassModalOpened={() => undefined}
-				hidePassModalOpened={false}
+				wishlist={mockWishlistData}
+				getWishlistHiddenItems={() => undefined}
 				setRevealPassModalOpened={() => undefined}
 				revealPassModalOpened={true}
 			/>
 		);
 
-		//assert
+		//act
 		fireEvent.change(screen.getByPlaceholderText('Password'), {
 			target: {value: 'password123'}
 		});
-	});
-	test('hide pass modal works correctly with correct password', (): void => {
-		//arrange
-		renderForTest(
-			<AccessPasswordModal
-				setHidePassModalOpened={() => undefined}
-				hidePassModalOpened={true}
-				setRevealPassModalOpened={() => undefined}
-				revealPassModalOpened={false}
-			/>
-		);
+		fireEvent.click(screen.getByRole('button', {name: 'Confirm'}));
 
 		//assert
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
-			target: {value: 'password123'}
+		await waitFor((): void => {
+			expect(mockedGetWishlistHiddenItems).toHaveBeenCalledWith(
+				'password123'
+			);
 		});
 	});
 
@@ -88,8 +79,8 @@ describe('AccessPasswordModal', (): void => {
 		//arrange
 		renderForTest(
 			<AccessPasswordModal
-				setHidePassModalOpened={() => undefined}
-				hidePassModalOpened={false}
+				wishlist={mockWishlistData}
+				getWishlistHiddenItems={() => undefined}
 				setRevealPassModalOpened={() => undefined}
 				revealPassModalOpened={true}
 			/>
@@ -98,18 +89,21 @@ describe('AccessPasswordModal', (): void => {
 		//assert
 		fireEvent.click(screen.getByRole('button', {name: 'Cancel'}));
 	});
-	test('cancel button is clickable in the hide pass modal', (): void => {
+	test('confirm button works properly', (): void => {
 		//arrange
 		renderForTest(
 			<AccessPasswordModal
-				setHidePassModalOpened={() => undefined}
-				hidePassModalOpened={true}
+				wishlist={mockWishlistData}
+				getWishlistHiddenItems={() => undefined}
 				setRevealPassModalOpened={() => undefined}
-				revealPassModalOpened={false}
+				revealPassModalOpened={true}
 			/>
 		);
+		//act
+		const cofirmBtn = screen.getByText('Confirm');
 
 		//assert
-		fireEvent.click(screen.getByRole('button', {name: 'Cancel'}));
+		// fireEvent.click(screen.getByRole('button', {: 'Confirm'}));
+		fireEvent.click(cofirmBtn);
 	});
 });

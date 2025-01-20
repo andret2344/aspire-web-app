@@ -16,7 +16,8 @@ describe('WishListItemService', (): void => {
 		wishlistId: 1,
 		description: 'test description',
 		name: 'Item 1',
-		priorityId: 3
+		priorityId: 3,
+		hidden: false
 	};
 
 	const mockUpdatedWishlistItem: WishlistItem = {
@@ -24,7 +25,8 @@ describe('WishListItemService', (): void => {
 		wishlistId: 1,
 		description: 'updated test description',
 		name: 'updated',
-		priorityId: 3
+		priorityId: 3,
+		hidden: false
 	};
 
 	test('add wishlist item', async (): Promise<void> => {
@@ -34,17 +36,37 @@ describe('WishListItemService', (): void => {
 		const name = 'test name';
 		const description = 'test description';
 		const priorityId = 1;
+		const hidden = false;
 		mock.onPost(`/${wishlistId}/wishlistitem`).reply(200, mockWishlistItem);
 
 		// act
 		await waitFor(
 			(): Promise<WishlistItem | null> =>
-				addWishlistItem(wishlistId, name, description, priorityId)
+				addWishlistItem(
+					wishlistId,
+					name,
+					description,
+					priorityId,
+					hidden
+				)
 		).then((wishlistItem: WishlistItem | null): void => {
 			// assert
 			expect(wishlistItem).toStrictEqual(mockWishlistItem);
 		});
 	});
+
+	// test('get wishlist hidden items', async (): Promise<void> => {
+	// 	// arrange
+	// 	const mock = new MockAdapter(apiInstance);
+	// 	// mock.onGet('/wishlist').reply(200, [mockWishlistItem]);
+	// 	mock.onGet(`/wishlist/1/hidden_items`).reply(200, []);
+
+	// 	// act
+	// 	await waitFor(getWishlists).then((wishlists: WishList[]): void =>
+	// 		// assert
+	// 		expect(wishlists).toStrictEqual([mockWishlist])
+	// 	);
+	// });
 
 	test('add wishlist item rejected', async (): Promise<void> => {
 		// arrange
@@ -53,12 +75,19 @@ describe('WishListItemService', (): void => {
 		const name = 'test name';
 		const description = 'test description';
 		const priorityId = 1;
+		const hidden = false;
 		mock.onPost(`/${wishlistId}/wishlistitem`).reply(500);
 
 		// act
 		await waitFor(
 			(): Promise<WishlistItem | null> =>
-				addWishlistItem(wishlistId, name, description, priorityId)
+				addWishlistItem(
+					wishlistId,
+					name,
+					description,
+					priorityId,
+					hidden
+				)
 		).then((): void => {
 			// assert
 			// TODO: Fill in after implementation
@@ -73,6 +102,7 @@ describe('WishListItemService', (): void => {
 		const name = 'test name';
 		const description = 'test description';
 		const priorityId = 1;
+		const hidden = false;
 		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			200,
 			mockUpdatedWishlistItem
@@ -86,7 +116,8 @@ describe('WishListItemService', (): void => {
 					wishlistItemId,
 					name,
 					description,
-					priorityId
+					priorityId,
+					hidden
 				)
 		).then((wishlistItem: WishlistItem | null): void => {
 			// assert
@@ -102,6 +133,7 @@ describe('WishListItemService', (): void => {
 		const name = 'test name';
 		const description = 'test description';
 		const priorityId = 1;
+		const hidden = false;
 		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			500,
 			mockUpdatedWishlistItem
@@ -116,7 +148,8 @@ describe('WishListItemService', (): void => {
 					wishlistItemId,
 					name,
 					description,
-					priorityId
+					priorityId,
+					hidden
 				)
 		).then((): void => {
 			// assert
