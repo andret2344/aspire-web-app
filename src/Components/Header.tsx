@@ -78,35 +78,35 @@ export function Header(
 					sx={{
 						minWidth: '100%',
 						display: 'flex',
-						flexDirection: 'row',
 						justifyContent: 'space-between',
 						alignItems: 'center'
 					}}
 				>
-					<Typography
-						variant='h6'
-						noWrap
-					>
-						<Link
-							component={Anchor}
-							to='/'
-							sx={{
-								fontFamily: 'Courgette',
-								fontWeight: 700,
-								fontSize: '35px',
-								letterSpacing: '.3rem',
-								color: 'white',
-								textDecoration: 'none'
-							}}
+					<Box>
+						<Typography
+							variant='h6'
+							noWrap
 						>
-							Aspire
-						</Link>
-					</Typography>
+							<Link
+								component={Anchor}
+								to='/'
+								sx={{
+									fontFamily: 'Courgette',
+									fontWeight: 700,
+									fontSize: '35px',
+									letterSpacing: '.3rem',
+									color: 'white',
+									textDecoration: 'none'
+								}}
+							>
+								Aspire
+							</Link>
+						</Typography>
+					</Box>
 					<Box
 						sx={{
 							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-between',
+							justifyContent: 'flex-end',
 							alignItems: 'center'
 						}}
 					>
@@ -147,8 +147,8 @@ export function Header(
 								{t('log-out')}
 							</MenuItem>
 						</Menu>
+						<LanguagePicker />
 					</Box>
-					<LanguagePicker />
 				</Box>
 			</Container>
 			{props.children}
