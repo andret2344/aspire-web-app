@@ -37,7 +37,7 @@ export async function addWishlist(name: string): Promise<WishList> {
 export const setWishlistPassword = async (
 	id: number,
 	password: string
-): Promise<WishList> => {
+): Promise<string> => {
 	const result = await apiInstance.post(`/wishlist/${id}/set_access_code`, {
 		access_code: password
 	});

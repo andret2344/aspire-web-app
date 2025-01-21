@@ -8,7 +8,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import {WishList} from '../../Entity/WishList';
 import {WishlistItemModal} from '../../Components/WishlistItemModal';
-import {screen} from '@testing-library/dom';
+import {fireEvent, screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {WishlistItem} from '../../Entity/WishlistItem';
 import {renderForTest} from '../Utils/RenderForTest';
@@ -110,31 +110,8 @@ describe('WishlistItemModal', (): void => {
 		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(1);
 	});
 
-	// test('hide pass modal toggle work', (): void => {
-	// 	//arrange
-	// 	user.setup();
-	// 	renderForTest(
-	// 		<WishlistItemModal
-	// 			wishlistId={mockWishlistData.id}
-	// 			opened={true}
-	// 			toggleModal={(): void => undefined}
-	// 			getWishlistAgain={(): void => undefined}
-	// 			editingItem={mockWishlistData.wishlistItems[0]}
-	// 		/>
-	// 	);
-
-	// 	//act
-	// 	const hidePassModalBtn = screen.getByRole('button', {
-	// 		name: /hide this wish/i
-	// 	});
-
-	// 	//assert
-	// 	user.click(hidePassModalBtn);
-	// });
-
 	test('tooltip works properly', (): void => {
 		//arrange
-		user.setup();
 		renderForTest(
 			<WishlistItemModal
 				wishlistId={mockWishlistData.id}
@@ -145,11 +122,8 @@ describe('WishlistItemModal', (): void => {
 			/>
 		);
 
-		//act
-		const hideItemCheckbox = screen.getByLabelText('Hide this wish');
-
 		//assert
-		user.click(hideItemCheckbox);
+		fireEvent.click(screen.getByTestId('tooltip-test'));
 	});
 
 	test('add new item', async (): Promise<void> => {

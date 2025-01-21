@@ -6,6 +6,7 @@ export const mockedGetWishlist = jest.fn();
 export const mockedUpdateWishlistName = jest.fn();
 export const mockedAddWishlist = jest.fn();
 export const mockedRemoveWishlist = jest.fn();
+export const mockedSetWishlistPassword = jest.fn();
 
 jest.mock('../../../src/Services/WishListService', () => ({
 	...jest.requireActual<typeof WishlistService>(
@@ -16,5 +17,6 @@ jest.mock('../../../src/Services/WishListService', () => ({
 	getWishlist: mockedGetWishlist,
 	updateWishlistName: mockedUpdateWishlistName,
 	addWishlist: mockedAddWishlist,
-	removeWishlist: mockedRemoveWishlist
+	removeWishlist: mockedRemoveWishlist,
+	setWishlistPassword: mockedSetWishlistPassword
 }));

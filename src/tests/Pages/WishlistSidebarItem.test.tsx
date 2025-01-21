@@ -1,6 +1,6 @@
 import {WishlistSidebarItem} from '../../Components/WishlistSidebarItem';
 import {WishList} from '../../Entity/WishList';
-import {screen} from '@testing-library/dom';
+import {fireEvent, screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../Utils/RenderForTest';
 import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
@@ -43,5 +43,25 @@ describe('WishlistSidebarItem', (): void => {
 
 		// assert
 		expect(wishlistTitle).toBeInTheDocument();
+	});
+	test('password modal opens correctly', (): void => {
+		// arrange && act
+		renderForTest(
+			<WishlistSidebarItem
+				wishlist={mockWishlistData}
+				active={true}
+				onShare={mockedOnShare}
+				onRemove={mockedOnShare}
+				onDisplay={mockedOnShare}
+				getWishlistHiddenItems={mockedGetWishlistHiddenItems}
+			/>
+		);
+		const modalBtn = screen.getByTestId('hidden-items-icon-button');
+
+		// assert
+		fireEvent.click(modalBtn);
+		expect(
+			screen.getByText('Enter password for this wishlist')
+		).toBeInTheDocument();
 	});
 });

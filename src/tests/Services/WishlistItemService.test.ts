@@ -5,6 +5,7 @@ import {WishlistItem} from '../../Entity/WishlistItem';
 import {
 	addWishlistItem,
 	editWishlistItem,
+	getWishlistHiddenItems,
 	removeWishlistItem
 } from '../../Services/WishlistItemService';
 
@@ -55,18 +56,20 @@ describe('WishListItemService', (): void => {
 		});
 	});
 
-	// test('get wishlist hidden items', async (): Promise<void> => {
-	// 	// arrange
-	// 	const mock = new MockAdapter(apiInstance);
-	// 	// mock.onGet('/wishlist').reply(200, [mockWishlistItem]);
-	// 	mock.onGet(`/wishlist/1/hidden_items`).reply(200, []);
+	test('get wishlist hidden items', async (): Promise<void> => {
+		// arrange
+		const mock = new MockAdapter(apiInstance);
+		const wishlistId = 1;
+		mock.onGet(`/wishlist/${wishlistId}/hidden_items`).reply(200, []);
 
-	// 	// act
-	// 	await waitFor(getWishlists).then((wishlists: WishList[]): void =>
-	// 		// assert
-	// 		expect(wishlists).toStrictEqual([mockWishlist])
-	// 	);
-	// });
+		// act
+		await waitFor(async (): Promise<void> => {
+			const result = await getWishlistHiddenItems(wishlistId);
+
+			// assert
+			expect(result).toEqual([]);
+		});
+	});
 
 	test('add wishlist item rejected', async (): Promise<void> => {
 		// arrange

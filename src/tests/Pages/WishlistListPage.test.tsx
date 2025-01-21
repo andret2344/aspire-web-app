@@ -15,7 +15,6 @@ import {
 } from '../__mocks__/MockCommonService';
 import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
 import user from '@testing-library/user-event';
-
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
@@ -45,9 +44,11 @@ describe('WishlistListPage', (): void => {
 				wishlistId: 1,
 				description: 'Check out this link: https://example.com',
 				name: 'Item 1',
-				priorityId: 3
+				priorityId: 3,
+				hidden: false
 			}
-		]
+		],
+		has_hidden_items: false
 	};
 
 	const updatedMockWishlistData: WishList = {
@@ -60,9 +61,11 @@ describe('WishlistListPage', (): void => {
 				wishlistId: 1,
 				description: 'updated test description',
 				name: 'Item 1 updated',
-				priorityId: 2
+				priorityId: 2,
+				hidden: false
 			}
-		]
+		],
+		has_hidden_items: false
 	};
 
 	const mockWishlistDataToFetchAgain: WishList = {
@@ -75,16 +78,19 @@ describe('WishlistListPage', (): void => {
 				wishlistId: 1,
 				description: 'test description',
 				name: 'Item 1',
-				priorityId: 3
+				priorityId: 3,
+				hidden: false
 			},
 			{
 				id: 2,
 				wishlistId: 1,
 				description: 'test description 2',
 				name: 'Item 2',
-				priorityId: 2
+				priorityId: 2,
+				hidden: false
 			}
-		]
+		],
+		has_hidden_items: false
 	};
 
 	test('renders correctly with wishlist data', async (): Promise<void> => {
@@ -341,9 +347,11 @@ describe('WishlistListPage', (): void => {
 					wishlistId: 1,
 					description: 'test description',
 					name: 'Item 1',
-					priorityId: 3
+					priorityId: 3,
+					hidden: false
 				}
-			]
+			],
+			has_hidden_items: false
 		};
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
@@ -371,7 +379,8 @@ describe('WishlistListPage', (): void => {
 			id: 2,
 			uuid: 'b838027b-9177-43d6-918e-67917f1d9b16',
 			name: 'New Mock Wishlist',
-			wishlistItems: []
+			wishlistItems: [],
+			has_hidden_items: false
 		};
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});

@@ -193,7 +193,7 @@ describe('AuthService', (): void => {
 			newPassword,
 			newPasswordConfirm
 		);
-
+		console.log(response);
 		// assert
 		expect(response).toEqual(200);
 	});

@@ -244,6 +244,7 @@ export function WishlistItemModal(
 									}}
 									disabled
 									control={<Checkbox />}
+									data-testid='tooltip-test'
 									label='Hide this wish'
 								/>
 							</Tooltip>

@@ -13,6 +13,7 @@ import {setWishlistPassword} from '../Services/WishListService';
 import React from 'react';
 import {WishList} from '../Entity/WishList';
 import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
 
 interface AccessPasswordModalProps {
 	readonly wishlist: WishList;
@@ -27,6 +28,7 @@ export const AccessPasswordModal = (
 	const [hideItemPass, setHideItemPass] = React.useState<string>('');
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
+	const {t} = useTranslation();
 
 	const handleClickShowPassword = (): void => {
 		setShowPassword((prev: boolean): boolean => !prev);
@@ -38,12 +40,8 @@ export const AccessPasswordModal = (
 			props.setRevealPassModalOpened();
 			setHideItemPass('');
 			props.getWishlistHiddenItems(props.wishlist.id);
-			enqueueSnackbar('OK', {
+			enqueueSnackbar(t('password-changed!'), {
 				variant: 'success'
-			});
-		} else {
-			enqueueSnackbar('NOT OK', {
-				variant: 'error'
 			});
 		}
 	}
@@ -141,7 +139,7 @@ export const AccessPasswordModal = (
 					</Button>
 					<Button
 						onClick={() => handleSubmitButton()}
-						hidden={!hideItemPass}
+						disabled={!hideItemPass}
 						variant='contained'
 						sx={{
 							margin: '10px'

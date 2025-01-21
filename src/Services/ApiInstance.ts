@@ -17,7 +17,7 @@ let urlConfig: Config = {
 };
 
 export function getBackendUrl(): string {
-	return urlConfig.backend ?? 'localhost:8080';
+	return urlConfig.backend ?? 'https://localhost:8080';
 }
 
 export function getFrontendUrl(): string {
