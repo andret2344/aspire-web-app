@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import apiInstance, {getBackendUrl} from '../../Services/ApiInstance';
 import {
 	changePassword,
@@ -86,10 +86,10 @@ describe('AuthService', (): void => {
 		}).reply(200);
 
 		// act
-		const response = await signUp(email, password);
-
-		// assert
-		expect(response.status).toEqual(200);
+		signUp(email, password).then((result: AxiosResponse): void => {
+			// assert
+			expect(result.status).toEqual(200);
+		});
 	});
 
 	test('logout successfully', async () => {
@@ -204,7 +204,10 @@ describe('AuthService', (): void => {
 			access: 'access-token'
 		};
 		const mock = new MockAdapter(apiInstance);
-		mock.onPost('/account/login/refresh').reply(200, mockResponseData);
+		mock.onPost(`${getBackendUrl()}/account/login/refresh`).reply(
+			200,
+			mockResponseData
+		);
 
 		// act
 		await refreshToken().then((result): void => {

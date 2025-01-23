@@ -113,6 +113,7 @@ describe('Header', (): void => {
 		expect(mockedUseNavigate).toHaveBeenCalledTimes(1);
 		expect(mockedUseNavigate).toHaveBeenCalledWith('/profile');
 	});
+
 	test('reveal modal toggle works', async (): Promise<void> => {
 		// arrange
 		mockedIsTokenValid.mockReturnValue(true);

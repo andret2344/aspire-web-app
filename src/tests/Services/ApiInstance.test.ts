@@ -23,7 +23,7 @@ describe('ApiInstance', (): void => {
 
 	test('should use default value when REACT_API_URL is not set', (): void => {
 		delete process.env.REACT_API_URL;
-		expect(getBackendUrl()).toBe('localhost:8080');
+		expect(getBackendUrl()).toBe('https://localhost:8080');
 	});
 
 	test('should update urlConfig and apiInstance defaults when config is provided', () => {

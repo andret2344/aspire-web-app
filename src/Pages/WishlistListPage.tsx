@@ -66,6 +66,53 @@ export function WishlistListPage(): React.ReactElement {
 	const {enqueueSnackbar} = useSnackbar();
 	const theme: Theme = useTheme();
 
+	const fetchAndSetWishlist = useCallback(
+		async (id: number): Promise<void> => {
+			await getWishlist(id)
+				.then((data) =>
+					setActiveWishlist({
+						id: data.id,
+						uuid: data.uuid,
+						name: data.name,
+						wishlistItems: [
+							...data.wishlistItems,
+							...activeWishlistHiddenItems
+						],
+						has_hidden_items: data.has_hidden_items
+					})
+				)
+				.catch((): void | Promise<void> => navigate('/error'));
+		},
+		[navigate, activeWishlistHiddenItems]
+	);
+
+	const fetchAndSetWishlistHiddenItems = useCallback(
+		async (id: number): Promise<void> => {
+			await getWishlistHiddenItems(id)
+				.then(setActiveWishlistHiddenItems)
+				.catch((): void | Promise<void> => navigate('/error'));
+		},
+		[navigate]
+	);
+
+	React.useEffect((): void => {
+		if (!isTokenValid()) {
+			navigate('/');
+			return;
+		}
+		fetchAndSetWishlists().catch((): string | number =>
+			enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
+		);
+
+		if (params.id) {
+			const paramId = parseInt(params.id);
+			fetchAndSetWishlist(paramId).then();
+		} else {
+			setActiveWishlist(null);
+		}
+		console.log('a5');
+	}, [params.id, enqueueSnackbar, fetchAndSetWishlist, navigate]);
+
 	function handleNameClick(): void {
 		setEditedName(activeWishlist?.name ?? '');
 	}
@@ -159,54 +206,9 @@ export function WishlistListPage(): React.ReactElement {
 		setOpenAddWishlistItemModal((prev: boolean): boolean => !prev);
 	}
 
-	const fetchAndSetWishlist = useCallback(
-		async (id: number): Promise<void> => {
-			await getWishlist(id)
-				.then((data) =>
-					setActiveWishlist({
-						id: data.id,
-						uuid: data.uuid,
-						name: data.name,
-						wishlistItems: [
-							...data.wishlistItems,
-							...activeWishlistHiddenItems
-						],
-						has_hidden_items: data.has_hidden_items
-					})
-				)
-				.catch((): void | Promise<void> => navigate('/error'));
-		},
-		[navigate, activeWishlistHiddenItems]
-	);
-	const fetchAndSetWishlistHiddenItems = useCallback(
-		async (id: number): Promise<void> => {
-			await getWishlistHiddenItems(id)
-				.then(setActiveWishlistHiddenItems)
-				.catch((): void | Promise<void> => navigate('/error'));
-		},
-		[navigate]
-	);
-
 	async function fetchAndSetWishlists(): Promise<void> {
 		await getWishlists().then(setWishlists);
 	}
-
-	React.useEffect((): void => {
-		if (!isTokenValid()) {
-			navigate('/');
-			return;
-		}
-		fetchAndSetWishlists().catch((): string | number =>
-			enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
-		);
-
-		if (params.id) {
-			const paramId = parseInt(params.id);
-			fetchAndSetWishlist(paramId).then();
-		} else {
-			setActiveWishlist(null);
-		}
-	}, [params.id, enqueueSnackbar, fetchAndSetWishlist, navigate, t]);
 
 	function renderWishlistItem(
 		wishlistItem: WishlistItem,
