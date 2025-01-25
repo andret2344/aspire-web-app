@@ -49,7 +49,7 @@ export async function signUp(
 ): Promise<AxiosResponse> {
 	const baseUrl: string = getBackendUrl();
 	return await axios.post(
-		`${baseUrl}/firebase/register`,
+		`${baseUrl}/account/register`,
 		{
 			email,
 			password
@@ -141,6 +141,7 @@ export async function refreshToken(): Promise<string | undefined> {
 		);
 
 		saveAccessTokenInLocalStorage(result.data.accessToken);
+		console.log(result.data.accessToken);
 		return result.data.accessToken;
 	} catch (err) {
 		if (isAxiosError(err)) {

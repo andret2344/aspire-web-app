@@ -90,7 +90,11 @@ export function WishlistListPage(): React.ReactElement {
 		async (id: number): Promise<void> => {
 			await getWishlistHiddenItems(id)
 				.then(setActiveWishlistHiddenItems)
-				.catch((): void | Promise<void> => navigate('/error'));
+				.catch((): string | number =>
+					enqueueSnackbar(t('something-went-wrong'), {
+						variant: 'error'
+					})
+				);
 		},
 		[navigate]
 	);

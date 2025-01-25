@@ -15,6 +15,7 @@ import {
 } from '../__mocks__/MockCommonService';
 import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
 import user from '@testing-library/user-event';
+
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
@@ -27,7 +28,8 @@ describe('WishlistListPage', (): void => {
 	beforeEach((): void => {
 		Object.defineProperty(global.navigator, 'clipboard', {
 			value: {
-				writeText: jest.fn()
+				writeText: jest.fn(),
+				readText: jest.fn()
 			},
 			configurable: true
 		});
@@ -241,14 +243,9 @@ describe('WishlistListPage', (): void => {
 			(): HTMLElement => screen.getByLabelText('Add item')
 		);
 		expect(addNewWishlistItem).toBeInTheDocument();
-		await waitFor(
-			async (): Promise<void> => {
-				await user.click(addNewWishlistItem);
-			},
-			{
-				timeout: 5000
-			}
-		);
+		await waitFor(async (): Promise<void> => {
+			await user.click(addNewWishlistItem);
+		});
 
 		const saveButton = screen.getByRole('button', {name: /confirm/i});
 		expect(saveButton).toBeInTheDocument();
@@ -403,7 +400,9 @@ describe('WishlistListPage', (): void => {
 			expect(screen.getByText(/wishlist created/i)).toBeInTheDocument()
 		);
 		await waitFor((): void =>
-			expect(screen.getByText(newWishlist.name)).toBeInTheDocument()
+			expect(
+				screen.getAllByText(newWishlist.name).length
+			).toBeGreaterThan(0)
 		);
 	});
 

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {act} from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {AccessPasswordModal} from '../../Components/AccessPasswordModal';
 import {renderForTest} from '../Utils/RenderForTest';
-import {fireEvent} from '@testing-library/react';
+import {fireEvent, RenderResult} from '@testing-library/react';
 import {WishList} from '../../Entity/WishList';
+import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
 
 describe('AccessPasswordModal', (): void => {
 	const mockWishlistData: WishList = {
@@ -52,6 +53,7 @@ describe('AccessPasswordModal', (): void => {
 
 	test('confirm button is clickable after filling password input', (): void => {
 		//arrange
+		mockedGetWishlistHiddenItems.mockResolvedValue([]);
 		renderForTest(
 			<AccessPasswordModal
 				wishlist={mockWishlistData}
@@ -86,4 +88,31 @@ describe('AccessPasswordModal', (): void => {
 		//assert & act
 		fireEvent.click(screen.getByRole('button', {name: 'Cancel'}));
 	});
+
+	// test('getWishlistHiddenItems throw error when no wishlist hidden items are returned', async (): Promise<void> => {
+	// 	// Arrange
+	// 	// user.setup();
+	// 	mockedGetWishlistHiddenItems.mockRejectedValue(new Error('Test error'));
+	// 	await act(
+	// 		(): RenderResult =>
+	// 			renderForTest(
+	// 				<AccessPasswordModal
+	// 					wishlist={mockWishlistData}
+	// 					getWishlistHiddenItems={() => undefined}
+	// 					setRevealPassModalOpened={() => undefined}
+	// 					revealPassModalOpened={true}
+	// 				/>
+	// 			)
+	// 	);
+
+	// 	//act
+	// 	const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
+	// 	fireEvent.change(screen.getByPlaceholderText('Password'), {
+	// 		target: {value: 'password123'}
+	// 	});
+
+	// 	// Assert
+	// 	expect(confirmBtn).toHaveProperty('disabled', false);
+	// 	fireEvent.click(confirmBtn);
+	// });
 });
