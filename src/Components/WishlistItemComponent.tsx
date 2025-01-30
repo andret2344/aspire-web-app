@@ -23,11 +23,11 @@ interface RowProps {
 	readonly row: WishlistItem;
 	readonly wishlistId: number;
 	readonly position: number;
-	readonly onEdit?: (item: WishlistItem) => void;
-	readonly onRemove?: (id: number) => void;
+	readonly onEdit: (item: WishlistItem) => void;
+	readonly onRemove: (id: number) => void;
 }
 
-export function Row(props: RowProps): React.ReactElement {
+export function WishlistItemComponent(props: RowProps): React.ReactElement {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
@@ -46,7 +46,7 @@ export function Row(props: RowProps): React.ReactElement {
 	async function handleRemoveWishlistItemButton(): Promise<void> {
 		await removeWishlistItem(props.wishlistId, props.row.id)
 			.then((): void => {
-				props.onRemove?.(props.wishlistId);
+				props.onRemove(props.wishlistId);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
@@ -59,7 +59,6 @@ export function Row(props: RowProps): React.ReactElement {
 	return (
 		<React.Fragment>
 			<TableRow
-				data-testid='uniqueTestIdForRow'
 				sx={{
 					borderBottom: 'unset'
 				}}
@@ -98,53 +97,51 @@ export function Row(props: RowProps): React.ReactElement {
 						<PriorityBadge priorityId={props.row.priorityId} />
 					</Box>
 				</TableCell>
-				{props.onRemove && props.onEdit && (
-					<TableCell>
-						<Box sx={{display: 'flex', flexDirection: 'row'}}>
-							<IconButton
+				<TableCell>
+					<Box sx={{display: 'flex', flexDirection: 'row'}}>
+						<IconButton
+							sx={{
+								marginLeft: {
+									xs: '0',
+									md: '15px'
+								}
+							}}
+							aria-label='edit'
+							size='large'
+							onClick={(): void => props.onEdit(props.row)}
+						>
+							<EditIcon
 								sx={{
-									marginLeft: {
-										xs: '0',
-										md: '15px'
+									fontSize: {
+										xs: '25px',
+										md: '35px'
 									}
 								}}
-								aria-label='edit'
-								size='large'
-								onClick={(): void => props.onEdit?.(props.row)}
-							>
-								<EditIcon
-									sx={{
-										fontSize: {
-											xs: '25px',
-											md: '35px'
-										}
-									}}
-								/>
-							</IconButton>
-							<IconButton
-								data-testid='removeWishlistItem'
+							/>
+						</IconButton>
+						<IconButton
+							data-testid='removeWishlistItem'
+							sx={{
+								margin: {
+									xs: '0',
+									md: '0 15px'
+								}
+							}}
+							size='large'
+							aria-label='delete'
+							onClick={handleRemoveWishlistItemButton}
+						>
+							<DeleteIcon
 								sx={{
-									margin: {
-										xs: '0',
-										md: '0 15px'
+									fontSize: {
+										xs: '25px',
+										md: '35px'
 									}
 								}}
-								size='large'
-								aria-label='delete'
-								onClick={handleRemoveWishlistItemButton}
-							>
-								<DeleteIcon
-									sx={{
-										fontSize: {
-											xs: '25px',
-											md: '35px'
-										}
-									}}
-								/>
-							</IconButton>
-						</Box>
-					</TableCell>
-				)}
+							/>
+						</IconButton>
+					</Box>
+				</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell

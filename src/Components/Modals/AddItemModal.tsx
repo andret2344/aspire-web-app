@@ -16,9 +16,9 @@ import React from 'react';
 import {
 	addWishlistItem,
 	editWishlistItem
-} from '../Services/WishlistItemService';
-import {getAllPriorities, Priority} from '../Entity/Priority';
-import {WishlistItem} from '../Entity/WishlistItem';
+} from '../../Services/WishlistItemService';
+import {getAllPriorities, Priority} from '../../Entity/Priority';
+import {WishlistItem} from '../../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -34,7 +34,7 @@ interface WishlistItemModalProps {
 	readonly editingItem?: WishlistItem;
 }
 
-export function WishlistItemModal(
+export function AddItemModal(
 	props: WishlistItemModalProps
 ): React.ReactElement {
 	const theme = useTheme();
@@ -132,8 +132,8 @@ export function WishlistItemModal(
 		<Modal
 			onClose={props.toggleModal}
 			open={props.opened}
-			aria-labelledby='modal-modal-title'
-			aria-describedby='modal-modal-description'
+			aria-labelledby='modal-title'
+			aria-describedby='modal-description'
 			sx={{
 				display: 'flex',
 				justifyContent: 'center',
@@ -228,7 +228,7 @@ export function WishlistItemModal(
 						}}
 					>
 						<Typography
-							id='modal-modal-title'
+							id='modal-title'
 							variant='h6'
 							component='h2'
 							sx={{alignSelf: 'flex-start'}}

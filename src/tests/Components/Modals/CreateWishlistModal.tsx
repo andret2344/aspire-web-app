@@ -1,11 +1,11 @@
-import {mockedAddWishlist} from '../__mocks__/MockWishlistService';
+import {mockedAddWishlist} from '../../__mocks__/MockWishlistService';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {WishlistModal} from '../../Components/WishlistModal';
-import {WishList} from '../../Entity/WishList';
-import {renderForTest} from '../Utils/RenderForTest';
+import {CreateWishlistModal} from '../../../Components/Modals/CreateWishlistModal';
+import {WishList} from '../../../Entity/WishList';
+import {renderForTest} from '../../Utils/RenderForTest';
 
 describe('WishlistModal', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -20,7 +20,7 @@ describe('WishlistModal', (): void => {
 	test('renders correctly', (): void => {
 		// arrange
 		renderForTest(
-			<WishlistModal
+			<CreateWishlistModal
 				opened={true}
 				toggleModal={(): void => undefined}
 				addNewWishlist={(): void => undefined}
@@ -44,13 +44,13 @@ describe('WishlistModal', (): void => {
 
 		// act
 		renderForTest(
-			<WishlistModal
+			<CreateWishlistModal
 				opened={true}
 				toggleModal={(): void => undefined}
 				addNewWishlist={mockAdd}
 			/>
 		);
-		const modal: HTMLElement = screen.getByTestId('addWishlistModal');
+		const modal: HTMLElement = screen.getByTestId('add-wishlist-modal');
 		const input: HTMLElement = screen.getByPlaceholderText(/name/i);
 
 		// assert
@@ -70,7 +70,7 @@ describe('WishlistModal', (): void => {
 
 		// act
 		renderForTest(
-			<WishlistModal
+			<CreateWishlistModal
 				opened={true}
 				toggleModal={(): void => undefined}
 				addNewWishlist={mockAdd}

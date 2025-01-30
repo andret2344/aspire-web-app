@@ -16,7 +16,7 @@ import {
 import React, {useCallback} from 'react';
 import '../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import {Row} from '../Components/Row';
+import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {WishList} from '../Entity/WishList';
 import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
 import {
@@ -24,11 +24,11 @@ import {
 	getWishlists,
 	removeWishlist
 } from '../Services/WishListService';
-import {WishlistModal} from '../Components/WishlistModal';
+import {CreateWishlistModal} from '../Components/Modals/CreateWishlistModal';
 import {useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
-import {DeleteWishlistConfirmationModal} from '../Components/DeleteWishlistConfirmationModal';
-import {WishlistItemModal} from '../Components/WishlistItemModal';
+import {DeleteWishlistModal} from '../Components/Modals/DeleteWishlistModal';
+import {AddItemModal} from '../Components/Modals/AddItemModal';
 import {useSnackbar} from 'notistack';
 import {isTokenValid} from '../Services/AuthService';
 import {useTranslation} from 'react-i18next';
@@ -155,7 +155,7 @@ export function WishlistListPage(): React.ReactElement {
 		currentWishlist: WishList
 	): React.ReactElement {
 		return (
-			<Row
+			<WishlistItemComponent
 				key={wishlistItem?.id}
 				row={wishlistItem}
 				position={index + 1}
@@ -276,7 +276,7 @@ export function WishlistListPage(): React.ReactElement {
 								<AddCircleOutlineIcon fontSize='large' />
 							</IconButton>
 						</Box>
-						<DeleteWishlistConfirmationModal
+						<DeleteWishlistModal
 							opened={openConfWishlistModal}
 							toggleModal={toggleWishlistConfirmationModal}
 							onRemove={(): Promise<void> =>
@@ -284,7 +284,7 @@ export function WishlistListPage(): React.ReactElement {
 							}
 							wishlistName={wishlists[activeWishlist]?.name}
 						/>
-						<WishlistItemModal
+						<AddItemModal
 							wishlistId={activeWishlist}
 							opened={openAddWishlistItemModal}
 							toggleModal={toggleWishlistItemModal}
@@ -294,7 +294,7 @@ export function WishlistListPage(): React.ReactElement {
 					</Grid2>
 				)}
 			</Grid2>
-			<WishlistModal
+			<CreateWishlistModal
 				opened={openAddWishlistModal}
 				toggleModal={toggleWishlistModal}
 				addNewWishlist={addNewWishlist}

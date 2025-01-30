@@ -10,8 +10,8 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {addWishlist} from '../Services/WishListService';
-import {WishList} from '../Entity/WishList';
+import {addWishlist} from '../../Services/WishListService';
+import {WishList} from '../../Entity/WishList';
 import {useTranslation} from 'react-i18next';
 
 interface WishlistModalProps {
@@ -20,7 +20,9 @@ interface WishlistModalProps {
 	readonly addNewWishlist: (newWishlist: WishList) => void;
 }
 
-export function WishlistModal(props: WishlistModalProps): React.ReactElement {
+export function CreateWishlistModal(
+	props: WishlistModalProps
+): React.ReactElement {
 	const theme = useTheme();
 	const navigate = useNavigate();
 	const {t} = useTranslation();
@@ -46,11 +48,11 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 
 	return (
 		<Modal
-			data-testid='addWishlistModal'
+			data-testid='add-wishlist-modal'
 			onClose={props.toggleModal}
 			open={props.opened}
-			aria-labelledby='modal-modal-title'
-			aria-describedby='modal-modal-description'
+			aria-labelledby='modal-title'
+			aria-describedby='modal-description'
 		>
 			<Paper
 				sx={{
@@ -69,9 +71,9 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 				onSubmit={handleSubmit}
 			>
 				<Typography
-					id='modal-modal-title'
+					id='modal-title'
 					variant='h5'
-					component='h2'
+					component='div'
 				>
 					{t('enter-wishlist-name')}
 				</Typography>
@@ -96,7 +98,8 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 					}}
 				>
 					<Button
-						variant='contained'
+						variant='outlined'
+						color='error'
 						sx={{
 							marginTop: '10px'
 						}}
@@ -105,6 +108,7 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 						{t('cancel')}
 					</Button>
 					<Button
+						color='primary'
 						variant='contained'
 						sx={{
 							marginTop: '10px'

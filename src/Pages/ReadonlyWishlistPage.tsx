@@ -14,7 +14,7 @@ import {
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
-import {Row} from '../Components/Row';
+import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {getReadonlyWishlistByUUID} from '../Services/WishListService';
 import {useNavigate, useParams} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
@@ -57,11 +57,13 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		currentWishlist: WishList
 	): React.ReactElement {
 		return (
-			<Row
+			<WishlistItemComponent
 				key={wishlistItem.id}
 				row={wishlistItem}
 				position={index + 1}
 				wishlistId={currentWishlist.id}
+				onEdit={jest.fn()}
+				onRemove={jest.fn()}
 			/>
 		);
 	}

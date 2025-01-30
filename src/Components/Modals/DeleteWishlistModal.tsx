@@ -1,5 +1,5 @@
 import {Box, Button, Modal, Paper, Typography} from '@mui/material';
-import React, {KeyboardEvent} from 'react';
+import React from 'react';
 import {Trans, useTranslation} from 'react-i18next';
 
 interface WishlistConfirmationModalProps {
@@ -9,45 +9,43 @@ interface WishlistConfirmationModalProps {
 	readonly onRemove: () => void;
 }
 
-export function DeleteWishlistConfirmationModal(
+export function DeleteWishlistModal(
 	props: WishlistConfirmationModalProps
 ): React.ReactElement {
 	const {t} = useTranslation();
 
-	function handleDeleteOnKeyDown(event: KeyboardEvent): void {
-		if (event.key === 'Enter') {
-			props.onRemove();
-		}
+	function handleSubmit(): void {
+		props.onRemove();
 	}
 
 	return (
 		<Modal
-			data-testid='wishlistConfModal'
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center'
-			}}
-			onKeyDown={handleDeleteOnKeyDown}
+			data-testid='delete-wishlist-modal'
 			onClose={props.toggleModal}
 			open={props.opened}
-			aria-labelledby='modal-modal-title'
-			aria-describedby='modal-modal-description'
+			aria-labelledby='modal-title'
+			aria-describedby='modal-description'
 		>
 			<Paper
 				sx={{
-					padding: '30px',
+					width: '400px',
+					height: '250px',
+					position: 'fixed',
+					top: '50%',
+					left: '50%',
+					transform: 'translate(-50%, -50%)',
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
 					justifyContent: 'space-evenly'
 				}}
+				component='form'
+				onSubmit={handleSubmit}
 			>
 				<Typography
-					id='modal-modal-title'
+					id='modal-title'
 					variant='h5'
-					component='h2'
+					component='div'
 					data-testid='delete-confirmation'
 				>
 					<Trans
@@ -61,24 +59,32 @@ export function DeleteWishlistConfirmationModal(
 				<Box
 					sx={{
 						display: 'flex',
-						justifyContent: 'space-evenly',
-						alignItems: 'center',
+						flexDirection: 'row',
+						justifyContent: 'space-between',
 						width: '80%',
-						marginTop: '20px'
+						alignItems: 'center'
 					}}
 				>
 					<Button
-						onClick={props.toggleModal}
 						variant='outlined'
+						color='primary'
+						sx={{
+							marginTop: '10px'
+						}}
+						onClick={props.toggleModal}
 					>
 						{t('cancel')}
 					</Button>
 					<Button
+						variant='contained'
+						color='error'
+						sx={{
+							marginTop: '10px'
+						}}
 						data-testid='button-ok'
 						onClick={props.onRemove}
-						variant='contained'
 					>
-						ok
+						{t('delete')}
 					</Button>
 				</Box>
 			</Paper>

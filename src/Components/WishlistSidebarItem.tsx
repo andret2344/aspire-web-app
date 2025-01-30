@@ -7,6 +7,7 @@ import {WishList} from '../Entity/WishList';
 import {Link as Anchor} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import EditIcon from '@mui/icons-material/Edit';
+import DoneIcon from '@mui/icons-material/Done';
 import {updateWishlistName} from '../Services/WishListService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
@@ -109,13 +110,12 @@ export function WishlistSidebarItem(
 				}}
 			>
 				<Input
-					data-testid='ActiveWishlistEditNameInput'
-					placeholder={editedName}
+					data-testid='wishlist-edit-name-input'
+					defaultValue={editedName}
 					onChange={handleNameChange}
 					onBlur={handleNameSubmit}
 					autoFocus
 					sx={{
-						textAlign: 'center',
 						marginBottom: '10px',
 						textDecoration: 'none',
 						fontFamily: 'Montserrat',
@@ -123,7 +123,7 @@ export function WishlistSidebarItem(
 						fontWeight: 500
 					}}
 				/>
-				<EditIcon
+				<DoneIcon
 					fontSize='medium'
 					sx={{marginLeft: '10px'}}
 				/>

@@ -2,14 +2,14 @@ import React from 'react';
 import {screen} from '@testing-library/dom';
 import {fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {DeleteWishlistConfirmationModal} from '../../Components/DeleteWishlistConfirmationModal';
-import {renderForTest} from '../Utils/RenderForTest';
+import {DeleteWishlistModal} from '../../../Components/Modals/DeleteWishlistModal';
+import {renderForTest} from '../../Utils/RenderForTest';
 
 describe('WishlistConfirmationModal', (): void => {
 	test('renders correctly', (): void => {
 		// arrange
 		renderForTest(
-			<DeleteWishlistConfirmationModal
+			<DeleteWishlistModal
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={(): void => undefined}
@@ -31,7 +31,7 @@ describe('WishlistConfirmationModal', (): void => {
 
 		// act
 		renderForTest(
-			<DeleteWishlistConfirmationModal
+			<DeleteWishlistModal
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
@@ -51,14 +51,14 @@ describe('WishlistConfirmationModal', (): void => {
 
 		// act
 		renderForTest(
-			<DeleteWishlistConfirmationModal
+			<DeleteWishlistModal
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
 				toggleModal={(): void => undefined}
 			/>
 		);
-		const modal: HTMLElement = screen.getByTestId('wishlistConfModal');
+		const modal: HTMLElement = screen.getByTestId('delete-wishlist-modal');
 		fireEvent.keyDown(modal, {
 			key: 'Enter'
 		});
@@ -73,14 +73,14 @@ describe('WishlistConfirmationModal', (): void => {
 
 		// act
 		renderForTest(
-			<DeleteWishlistConfirmationModal
+			<DeleteWishlistModal
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
 				toggleModal={(): void => undefined}
 			/>
 		);
-		const modal: HTMLElement = screen.getByTestId('wishlistConfModal');
+		const modal: HTMLElement = screen.getByTestId('delete-wishlist-modal');
 		fireEvent.keyDown(modal, {
 			key: 'A'
 		});
