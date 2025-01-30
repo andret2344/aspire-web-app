@@ -14,8 +14,8 @@ import {useForm} from 'react-hook-form';
 import '../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
-import {Link as Anchor, useNavigate} from 'react-router-dom';
-import {RegisterApiError, signUp} from '../Services/AuthService';
+import {Link as Anchor, Navigate, useNavigate} from 'react-router-dom';
+import {isTokenValid, RegisterApiError, signUp} from '../Services/AuthService';
 import {AxiosError, AxiosResponse} from 'axios';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
@@ -42,6 +42,10 @@ export function RegisterPage(): React.ReactElement {
 		formState: {errors},
 		handleSubmit
 	} = useForm<IFormInput>();
+
+	if (isTokenValid()) {
+		return <Navigate to='wishlists/' />;
+	}
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);

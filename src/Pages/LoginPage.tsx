@@ -14,7 +14,7 @@ import React from 'react';
 import '../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {isTokenValid, logIn} from '../Services/AuthService';
-import {Link as Anchor, useNavigate} from 'react-router-dom';
+import {Link as Anchor, Navigate, useNavigate} from 'react-router-dom';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
@@ -28,11 +28,9 @@ export function LoginPage(): React.ReactElement {
 	const {t} = useTranslation();
 	const {register, handleSubmit} = useForm();
 
-	React.useEffect((): void => {
-		if (isTokenValid()) {
-			navigate(`wishlists/`);
-		}
-	}, [navigate]);
+	if (isTokenValid()) {
+		return <Navigate to='wishlists/' />;
+	}
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);
