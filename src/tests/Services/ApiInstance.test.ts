@@ -1,8 +1,8 @@
 import MockAdapter from 'axios-mock-adapter';
 import {
-	mockedGetToken,
+	mockedGetAccessToken,
 	mockedRefreshToken,
-	mockedSaveAccessTokenInLocalStorage
+	mockedsaveAccessToken
 } from '../__mocks__/MockAuthService';
 import apiInstance, {
 	getBackendUrl,
@@ -44,7 +44,7 @@ describe('ApiInstance', (): void => {
 		// assert
 		const mock = new MockAdapter(apiInstance);
 		const token = 'test-token';
-		mockedGetToken.mockReturnValue(token);
+		mockedGetAccessToken.mockReturnValue(token);
 
 		let capturedConfig: AxiosRequestConfig | undefined;
 		mock.onPost('/test').reply((config) => {
@@ -67,10 +67,7 @@ describe('ApiInstance', (): void => {
 		const mock = new MockAdapter(apiInstance);
 		const originalRequestConfig = {url: '/test', method: 'get'};
 
-		jest.mock('js-cookie', () => ({
-			get: jest.fn().mockReturnValue('existing-refresh-token'),
-			set: jest.fn()
-		}));
+		localStorage.setItem('refreshToken', 'existing-refresh-token');
 
 		mock.onGet('/test').replyOnce(401);
 		mock.onGet('/test').reply(200, {data: 'success'});
@@ -82,9 +79,7 @@ describe('ApiInstance', (): void => {
 
 		// assert
 		expect(mockedRefreshToken).toHaveBeenCalledTimes(1);
-		expect(mockedSaveAccessTokenInLocalStorage).toHaveBeenCalledWith(
-			'new-token'
-		);
+		expect(mockedsaveAccessToken).toHaveBeenCalledWith('new-token');
 		expect(result).toHaveProperty('data', {data: 'success'});
 	});
 

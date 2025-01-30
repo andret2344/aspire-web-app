@@ -7,8 +7,6 @@ import {renderForTest} from '../Utils/RenderForTest';
 describe('WishlistSidebarItem', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	const mockedOnShare: jest.Mock = jest.fn();
-
 	const mockWishlistData: WishList = {
 		id: 1,
 		uuid: 'random uuid',
@@ -25,16 +23,17 @@ describe('WishlistSidebarItem', (): void => {
 	};
 
 	test('render correctly', (): void => {
-		// arrange && act
+		// arrange
 		renderForTest(
 			<WishlistSidebarItem
 				wishlist={mockWishlistData}
 				active={false}
-				onShare={mockedOnShare}
-				onRemove={mockedOnShare}
-				onDisplay={mockedOnShare}
+				onRemove={jest.fn()}
+				onNameEdit={jest.fn()}
 			/>
 		);
+
+		// act
 		const wishlistTitle: HTMLElement = screen.getByText('Mock Wishlist');
 
 		// assert

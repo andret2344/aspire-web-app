@@ -12,7 +12,7 @@
 	"settings": "Settings",
 	"log-out": "Log out",
 	"cancel": "Cancel",
-	"delete-confirmation": "Are you sure you want to delete the {{wishlist}} wishlist?",
+	"delete-confirmation": "Are you sure you want to delete the <strong>{{wishlist}}</strong> wishlist?",
 	"add-new-wishlist": "Add new wishlist",
 	"action": "Action",
 	"priority": "Priority",

@@ -2,14 +2,14 @@ import React from 'react';
 import {screen} from '@testing-library/dom';
 import {fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {WishlistConfirmationModal} from '../../Components/WishlistConfirmationModal';
+import {DeleteWishlistConfirmationModal} from '../../Components/DeleteWishlistConfirmationModal';
 import {renderForTest} from '../Utils/RenderForTest';
 
 describe('WishlistConfirmationModal', (): void => {
 	test('renders correctly', (): void => {
 		// arrange
 		renderForTest(
-			<WishlistConfirmationModal
+			<DeleteWishlistConfirmationModal
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={(): void => undefined}
@@ -31,7 +31,7 @@ describe('WishlistConfirmationModal', (): void => {
 
 		// act
 		renderForTest(
-			<WishlistConfirmationModal
+			<DeleteWishlistConfirmationModal
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
@@ -51,7 +51,7 @@ describe('WishlistConfirmationModal', (): void => {
 
 		// act
 		renderForTest(
-			<WishlistConfirmationModal
+			<DeleteWishlistConfirmationModal
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
@@ -73,7 +73,7 @@ describe('WishlistConfirmationModal', (): void => {
 
 		// act
 		renderForTest(
-			<WishlistConfirmationModal
+			<DeleteWishlistConfirmationModal
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}

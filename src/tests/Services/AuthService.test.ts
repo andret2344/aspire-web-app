@@ -3,7 +3,7 @@ import axios from 'axios';
 import apiInstance, {getBackendUrl} from '../../Services/ApiInstance';
 import {
 	changePassword,
-	getRefreshTokenFromCookies,
+	getRefreshToken,
 	isTokenValid,
 	logIn,
 	logout,
@@ -13,7 +13,6 @@ import {
 	signUp
 } from '../../Services/AuthService';
 import {waitFor} from '@testing-library/react';
-import Cookies from 'js-cookie';
 
 describe('AuthService', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -105,32 +104,32 @@ describe('AuthService', (): void => {
 		const mockedSignature = btoa('signature');
 		const mockedToken = `${mockedHeader}.${mockedPayload}.${mockedSignature}`;
 		localStorage.setItem('accessToken', mockedToken);
-		Cookies.set('refreshToken', 'existing-refresh-token');
-		const resultBefore = localStorage.getItem('accessToken');
-		const cookiesResultBefore = Cookies.get('refreshToken');
+		localStorage.setItem('refreshToken', 'existing-refresh-token');
+		const accessToken = localStorage.getItem('accessToken');
+		const refreshToken = localStorage.getItem('refreshToken');
 
 		// assert
 		await waitFor(() => {
-			expect(resultBefore).toBe(mockedToken);
-			expect(cookiesResultBefore).toBe('existing-refresh-token');
+			expect(accessToken).toBe(mockedToken);
+			expect(refreshToken).toBe('existing-refresh-token');
 		});
 
 		// act
 		logout();
 
 		// assert
-		const resultAfter = localStorage.getItem('accessToken');
-		expect(resultAfter).toBeNull();
-		const resultCookiesAfter = Cookies.get('refreshToken');
-		expect(resultCookiesAfter).toBeUndefined();
+		const resultAccessToken = localStorage.getItem('accessToken');
+		expect(resultAccessToken).toBeNull();
+		const resultRefreshToken = localStorage.getItem('refreshToken');
+		expect(resultRefreshToken).toBeNull();
 	});
 
 	test('get refresh token', () => {
 		// arrange
-		Cookies.set('refreshToken', 'existing-refresh-token');
+		localStorage.setItem('refreshToken', 'existing-refresh-token');
 
 		// act
-		const result = getRefreshTokenFromCookies();
+		const result = getRefreshToken();
 
 		// assert
 		expect(result).toEqual('existing-refresh-token');

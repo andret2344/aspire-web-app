@@ -12,11 +12,10 @@ import {
 import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
 import '../../assets/fonts.css';
-import {AuthComponent} from '../Components/AuthComponent';
+import {AuthContainer} from '../Components/AuthContainer';
 import {isTokenValid, logIn} from '../Services/AuthService';
 import {Link as Anchor, useNavigate} from 'react-router-dom';
 import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
-import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 
@@ -61,118 +60,116 @@ export function LoginPage(): React.ReactElement {
 	}
 
 	return (
-		<Header>
-			<AuthComponent>
-				<form
-					style={{
-						width: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center',
-						alignItems: 'center'
+		<AuthContainer>
+			<form
+				style={{
+					width: '100%',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+				className='loginForm'
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<TextField
+					autoComplete='new-password'
+					hiddenLabel
+					variant='filled'
+					placeholder={t('login')}
+					size={isSmallerThan600 ? 'small' : 'medium'}
+					sx={{
+						width: '200px',
+						marginTop: '5px'
 					}}
-					className='loginForm'
-					onSubmit={handleSubmit(onSubmit)}
-				>
-					<TextField
-						autoComplete='new-password'
-						hiddenLabel
-						variant='filled'
-						placeholder={t('login')}
-						size={isSmallerThan600 ? 'small' : 'medium'}
-						sx={{
-							width: '200px',
-							marginTop: '5px'
-						}}
-						type='email'
-						{...register('email', {required: true})}
-					/>
-					<TextField
-						type={showPassword ? 'text' : 'password'}
-						autoComplete='new-password'
-						slotProps={{
-							input: {
-								endAdornment: (
-									<InputAdornment
-										position='end'
+					type='email'
+					{...register('email', {required: true})}
+				/>
+				<TextField
+					type={showPassword ? 'text' : 'password'}
+					autoComplete='new-password'
+					slotProps={{
+						input: {
+							endAdornment: (
+								<InputAdornment
+									position='end'
+									sx={{margin: 0, padding: 0}}
+								>
+									<IconButton
+										data-testid='visibilityIcon'
 										sx={{margin: 0, padding: 0}}
+										onClick={handleClickShowPassword}
 									>
-										<IconButton
-											data-testid='visibilityIcon'
-											sx={{margin: 0, padding: 0}}
-											onClick={handleClickShowPassword}
-										>
-											<RenderPasswordVisibilityIcon
-												showPassword={showPassword}
-											/>
-										</IconButton>
-									</InputAdornment>
-								)
-							}
-						}}
-						hiddenLabel
-						variant='filled'
-						placeholder={t('password')}
-						size={isSmallerThan600 ? 'small' : 'medium'}
+										<RenderPasswordVisibilityIcon
+											showPassword={showPassword}
+										/>
+									</IconButton>
+								</InputAdornment>
+							)
+						}
+					}}
+					hiddenLabel
+					variant='filled'
+					placeholder={t('password')}
+					size={isSmallerThan600 ? 'small' : 'medium'}
+					sx={{
+						width: '200px',
+						marginTop: '5px'
+					}}
+					required
+					{...register('password')}
+				/>
+				<Button
+					variant='contained'
+					sx={{
+						marginTop: '10px'
+					}}
+					type='submit'
+				>
+					{t('log-in')}
+				</Button>
+				<Link
+					component={Anchor}
+					to='/reset-password'
+					marginTop='10px'
+					fontFamily='Montserrat'
+					fontWeight={400}
+					style={{
+						textDecoration: 'underline'
+					}}
+				>
+					{t('forgot-password')}
+				</Link>
+				<Box
+					mt='10px'
+					display='flex'
+					alignItems='center'
+				>
+					<Typography
 						sx={{
-							width: '200px',
-							marginTop: '5px'
+							fontFamily: 'Montserrat',
+							marginRight: 0,
+							paddingRight: 0,
+							fontWeight: 400
 						}}
-						required
-						{...register('password')}
-					/>
-					<Button
-						variant='contained'
-						sx={{
-							marginTop: '10px'
-						}}
-						type='submit'
 					>
-						{t('log-in')}
-					</Button>
+						{t('no-account')}
+					</Typography>
 					<Link
 						component={Anchor}
-						to='/reset-password'
-						marginTop='10px'
+						to='/register'
+						paddingLeft='3px'
 						fontFamily='Montserrat'
+						marginLeft={0}
 						fontWeight={400}
-						style={{
+						sx={{
 							textDecoration: 'underline'
 						}}
 					>
-						{t('forgot-password')}
+						{t('sign-up')}
 					</Link>
-					<Box
-						mt='10px'
-						display='flex'
-						alignItems='center'
-					>
-						<Typography
-							sx={{
-								fontFamily: 'Montserrat',
-								marginRight: 0,
-								paddingRight: 0,
-								fontWeight: 400
-							}}
-						>
-							{t('no-account')}
-						</Typography>
-						<Link
-							component={Anchor}
-							to='/register'
-							paddingLeft='3px'
-							fontFamily='Montserrat'
-							marginLeft={0}
-							fontWeight={400}
-							sx={{
-								textDecoration: 'underline'
-							}}
-						>
-							{t('sign-up')}
-						</Link>
-					</Box>
-				</form>
-			</AuthComponent>
-		</Header>
+				</Box>
+			</form>
+		</AuthContainer>
 	);
 }

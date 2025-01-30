@@ -1,8 +1,4 @@
-import {
-	getToken,
-	refreshToken,
-	saveAccessTokenInLocalStorage
-} from './AuthService';
+import {getAccessToken, refreshToken, saveAccessToken} from './AuthService';
 import axios, {
 	AxiosError,
 	AxiosInstance,
@@ -44,7 +40,7 @@ apiInstance.interceptors.request.use(
 	async (
 		config: InternalAxiosRequestConfig
 	): Promise<InternalAxiosRequestConfig<any>> => {
-		const token = getToken();
+		const token = getAccessToken();
 		if (token) {
 			config.headers['Authorization'] = `Bearer ${token}`;
 		}
@@ -61,7 +57,7 @@ apiInstance.interceptors.response.use(
 		if (error.response?.status === 401 && originalRequest) {
 			const newToken = await refreshToken();
 			if (newToken) {
-				saveAccessTokenInLocalStorage(newToken);
+				saveAccessToken(newToken);
 				return apiInstance(originalRequest);
 			}
 		}

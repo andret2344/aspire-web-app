@@ -61,7 +61,6 @@ export function Header(
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				minHeight: '100vh',
 				padding: '0px'
 			}}
 		>
