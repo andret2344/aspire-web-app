@@ -10,7 +10,7 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import '../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
-import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
+import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {useNavigate, useParams} from 'react-router-dom';
 import {resetPassword} from '../Services/AuthService';
 import {useSnackbar} from 'notistack';
@@ -97,8 +97,8 @@ export function NewPasswordPage(): React.ReactElement {
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPassword}
 									>
-										<RenderPasswordVisibilityIcon
-											showPassword={showPassword}
+										<PasswordVisibilityIcon
+											visible={showPassword}
 										/>
 									</IconButton>
 								</InputAdornment>
@@ -135,8 +135,8 @@ export function NewPasswordPage(): React.ReactElement {
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPasswordRepeat}
 									>
-										<RenderPasswordVisibilityIcon
-											showPassword={showPasswordRepeat}
+										<PasswordVisibilityIcon
+											visible={showPasswordRepeat}
 										/>
 									</IconButton>
 								</InputAdornment>

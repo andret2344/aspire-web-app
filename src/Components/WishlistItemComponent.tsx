@@ -19,15 +19,17 @@ import Linkify from 'linkify-react';
 import parse from 'html-react-parser';
 import {useTranslation} from 'react-i18next';
 
-interface RowProps {
-	readonly row: WishlistItem;
+interface WishlistItemComponentProps {
+	readonly item: WishlistItem;
 	readonly wishlistId: number;
 	readonly position: number;
-	readonly onEdit: (item: WishlistItem) => void;
-	readonly onRemove: (id: number) => void;
+	readonly onEditButtonClick: (item: WishlistItem) => void;
+	readonly onRemoveButtonClick: (id: number) => void;
 }
 
-export function WishlistItemComponent(props: RowProps): React.ReactElement {
+export function WishlistItemComponent(
+	props: WishlistItemComponentProps
+): React.ReactElement {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
@@ -43,10 +45,10 @@ export function WishlistItemComponent(props: RowProps): React.ReactElement {
 		return <KeyboardArrowDownIcon />;
 	}
 
-	async function handleRemoveWishlistItemButton(): Promise<void> {
-		await removeWishlistItem(props.wishlistId, props.row.id)
+	async function handleRemove(): Promise<void> {
+		await removeWishlistItem(props.wishlistId, props.item.id)
 			.then((): void => {
-				props.onRemove(props.wishlistId);
+				props.onRemoveButtonClick(props.wishlistId);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
@@ -83,7 +85,7 @@ export function WishlistItemComponent(props: RowProps): React.ReactElement {
 						textOverflow: 'ellipsis'
 					}}
 				>
-					{props.row.name}
+					{props.item.name}
 				</TableCell>
 				<TableCell align='center'>
 					<Box
@@ -94,7 +96,7 @@ export function WishlistItemComponent(props: RowProps): React.ReactElement {
 							alignItems: 'center'
 						}}
 					>
-						<PriorityBadge priorityId={props.row.priorityId} />
+						<PriorityBadge priorityId={props.item.priorityId} />
 					</Box>
 				</TableCell>
 				<TableCell>
@@ -108,7 +110,10 @@ export function WishlistItemComponent(props: RowProps): React.ReactElement {
 							}}
 							aria-label='edit'
 							size='large'
-							onClick={(): void => props.onEdit(props.row)}
+							onClick={(): void =>
+								props.onEditButtonClick(props.item)
+							}
+							data-testid='edit-wishlist-item'
 						>
 							<EditIcon
 								sx={{
@@ -120,7 +125,7 @@ export function WishlistItemComponent(props: RowProps): React.ReactElement {
 							/>
 						</IconButton>
 						<IconButton
-							data-testid='removeWishlistItem'
+							data-testid='remove-wishlist-item'
 							sx={{
 								margin: {
 									xs: '0',
@@ -129,7 +134,7 @@ export function WishlistItemComponent(props: RowProps): React.ReactElement {
 							}}
 							size='large'
 							aria-label='delete'
-							onClick={handleRemoveWishlistItemButton}
+							onClick={handleRemove}
 						>
 							<DeleteIcon
 								sx={{
@@ -161,7 +166,7 @@ export function WishlistItemComponent(props: RowProps): React.ReactElement {
 										rel: 'noopener noreferrer'
 									}}
 								>
-									{parse(props.row.description)}
+									{parse(props.item.description)}
 								</Linkify>
 							</Typography>
 						</Box>

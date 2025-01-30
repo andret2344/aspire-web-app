@@ -59,11 +59,11 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		return (
 			<WishlistItemComponent
 				key={wishlistItem.id}
-				row={wishlistItem}
+				item={wishlistItem}
 				position={index + 1}
 				wishlistId={currentWishlist.id}
-				onEdit={jest.fn()}
-				onRemove={jest.fn()}
+				onEditButtonClick={jest.fn()}
+				onRemoveButtonClick={jest.fn()}
 			/>
 		);
 	}

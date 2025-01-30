@@ -15,7 +15,7 @@ import '../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {isTokenValid, logIn} from '../Services/AuthService';
 import {Link as Anchor, Navigate, useNavigate} from 'react-router-dom';
-import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
+import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 
@@ -98,8 +98,8 @@ export function LoginPage(): React.ReactElement {
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPassword}
 									>
-										<RenderPasswordVisibilityIcon
-											showPassword={showPassword}
+										<PasswordVisibilityIcon
+											visible={showPassword}
 										/>
 									</IconButton>
 								</InputAdornment>

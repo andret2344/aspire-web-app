@@ -26,8 +26,6 @@ export function WishlistSidebarItem(
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 
-	console.log('render', props.wishlist.name);
-
 	const [editedName, setEditedName] = React.useState<string | undefined>(
 		undefined
 	);

@@ -14,7 +14,7 @@ import {useNavigate} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import {useSnackbar} from 'notistack';
 import {useDarkMode} from '../Components/DarkModeContext';
-import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
+import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '../Components/ToggleColorModeComponent';
 import {useTranslation} from 'react-i18next';
 
@@ -178,8 +178,8 @@ export function ProfilePage(): React.ReactElement {
 															handleClickShowPassword
 														}
 													>
-														<RenderPasswordVisibilityIcon
-															showPassword={
+														<PasswordVisibilityIcon
+															visible={
 																showPassword
 															}
 														/>
@@ -222,8 +222,8 @@ export function ProfilePage(): React.ReactElement {
 															handleClickShowPasswordRepeat
 														}
 													>
-														<RenderPasswordVisibilityIcon
-															showPassword={
+														<PasswordVisibilityIcon
+															visible={
 																showPasswordRepeat
 															}
 														/>
@@ -272,8 +272,8 @@ export function ProfilePage(): React.ReactElement {
 															handleClickShowPasswordRepeatConfirmation
 														}
 													>
-														<RenderPasswordVisibilityIcon
-															showPassword={
+														<PasswordVisibilityIcon
+															visible={
 																showPasswordRepeatConfirmation
 															}
 														/>

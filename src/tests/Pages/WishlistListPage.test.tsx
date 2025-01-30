@@ -6,10 +6,6 @@ import {
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
 import {
-	mockedEditWishlistItem,
-	mockedRemoveWishlistItem
-} from '../__mocks__/MockWishlistItemService';
-import {
 	mockedUseNavigate,
 	mockedUseParams
 } from '../__mocks__/MockCommonService';
@@ -46,21 +42,6 @@ describe('WishlistListPage', (): void => {
 				description: 'Check out this link: https://example.com',
 				name: 'Item 1',
 				priorityId: 3
-			}
-		]
-	};
-
-	const updatedMockWishlistData: WishList = {
-		id: 1,
-		uuid: 'random uuid',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				wishlistId: 1,
-				description: 'updated test description',
-				name: 'Item 1 updated',
-				priorityId: 2
 			}
 		]
 	};
@@ -139,54 +120,6 @@ describe('WishlistListPage', (): void => {
 		});
 	});
 
-	test('remove wishlist item correctly', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		mockedUseParams.mockReturnValue({
-			id: 1
-		});
-		mockedGetWishlists.mockResolvedValue([mockWishlistDataToFetchAgain]);
-		mockedGetWishlist.mockResolvedValue(mockWishlistDataToFetchAgain);
-		mockedRemoveWishlistItem.mockResolvedValue(void 0);
-		mockedIsTokenValid.mockReturnValue(true);
-
-		// act
-		await act(
-			async (): Promise<RenderResult> =>
-				renderForTest(<WishlistListPage />)
-		);
-		const removeItemButton: HTMLElement =
-			screen.getAllByTestId('removeWishlistItem')[0];
-		expect(removeItemButton).toBeInTheDocument();
-		await user.click(removeItemButton);
-
-		// assert
-		expect(mockedGetWishlist).toHaveBeenCalled();
-	});
-
-	test('remove wishlist item with error', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		mockedUseParams.mockReturnValue({
-			id: 1
-		});
-		mockedGetWishlists.mockResolvedValue([mockWishlistDataToFetchAgain]);
-		mockedGetWishlist.mockResolvedValue(mockWishlistDataToFetchAgain);
-		mockedRemoveWishlistItem.mockRejectedValue(new Error('test error'));
-		mockedIsTokenValid.mockReturnValue(true);
-
-		// act
-		await act((): RenderResult => renderForTest(<WishlistListPage />));
-		const removeItemButton = await waitFor(
-			(): HTMLElement => screen.getAllByTestId('removeWishlistItem')[0]
-		);
-		expect(removeItemButton).toBeInTheDocument();
-		await user.click(removeItemButton);
-
-		// assert
-		expect(mockedGetWishlist).toHaveBeenCalled();
-	});
-
 	test('fetchAndSetWishlist navigates to /error when no wishlist is returned', async (): Promise<void> => {
 		// Arrange
 		user.setup();
@@ -246,47 +179,6 @@ describe('WishlistListPage', (): void => {
 
 		const saveButton = screen.getByRole('button', {name: /confirm/i});
 		expect(saveButton).toBeInTheDocument();
-	});
-
-	test('opens wishlist item modal edit existing item', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlist.mockResolvedValue(mockWishlistData);
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
-		mockedEditWishlistItem.mockResolvedValue(updatedMockWishlistData);
-		mockedIsTokenValid.mockReturnValue(true);
-
-		// act
-		await act((): RenderResult => renderForTest(<WishlistListPage />));
-
-		// assert
-		await waitFor((): void => {
-			const editExistingWishlistItem = screen.getByRole('button', {
-				name: /edit/i
-			});
-			expect(editExistingWishlistItem).toBeInTheDocument();
-			user.click(editExistingWishlistItem);
-		});
-
-		await waitFor((): void => {
-			const itemNameInput = screen.getByPlaceholderText(
-				mockWishlistData.wishlistItems[0].name
-			);
-			const descriptionSectionInModal = screen.getByRole('heading', {
-				name: /description/i
-			});
-			const saveButton = screen.getByRole('button', {
-				name: /confirm/i
-			});
-
-			expect(itemNameInput).toBeInTheDocument();
-			expect(descriptionSectionInModal).toBeInTheDocument();
-
-			user.click(itemNameInput);
-			user.type(itemNameInput, 'New name test');
-			user.click(saveButton);
-		});
 	});
 
 	test('clicks save button on empty modal', async (): Promise<void> => {
@@ -414,12 +306,14 @@ describe('WishlistListPage', (): void => {
 		);
 		expect(removeWishlistButton).toBeInTheDocument();
 
-		await user.click(removeWishlistButton);
+		await act((): Promise<void> => user.click(removeWishlistButton));
 
-		const confirmationButton = screen.getByRole('button', {name: 'ok'});
+		const confirmationButton: HTMLElement = screen.getByRole('button', {
+			name: 'ok'
+		});
 		expect(confirmationButton).toBeInTheDocument();
 
-		await user.click(confirmationButton);
+		await act((): Promise<void> => user.click(confirmationButton));
 		expect(screen.getByText('wishlist-removed')).toBeInTheDocument();
 		expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
 	});

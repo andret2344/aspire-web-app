@@ -69,7 +69,6 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function renderWishlistSidebarItem(wishlist: WishList): React.ReactElement {
-		console.log('rendering', wishlist.name);
 		return (
 			<WishlistSidebarItem
 				key={wishlist.id}
@@ -157,11 +156,11 @@ export function WishlistListPage(): React.ReactElement {
 		return (
 			<WishlistItemComponent
 				key={wishlistItem?.id}
-				row={wishlistItem}
+				item={wishlistItem}
 				position={index + 1}
 				wishlistId={currentWishlist.id}
-				onEdit={openWishlistItemModalForEdit}
-				onRemove={fetchAndSetWishlist}
+				onEditButtonClick={openWishlistItemModalForEdit}
+				onRemoveButtonClick={fetchAndSetWishlist}
 			/>
 		);
 	}
@@ -220,7 +219,7 @@ export function WishlistListPage(): React.ReactElement {
 						{t('add-new-wishlist')}
 					</Button>
 				</Grid2>
-				{activeWishlist && (
+				{activeWishlist !== -1 && (
 					<Grid2
 						size={{xs: 12, md: 9}}
 						overflow={{xs: 'none', md: 'auto'}}

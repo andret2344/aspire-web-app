@@ -1,17 +1,17 @@
-import {mockedGetWishlist} from '../__mocks__/MockWishlistService';
+import {mockedGetWishlist} from '../../__mocks__/MockWishlistService';
 import {
 	mockedAddWishlistItem,
 	mockedEditWishlistItem
-} from '../__mocks__/MockWishlistItemService';
+} from '../../__mocks__/MockWishlistItemService';
 
 import '@testing-library/jest-dom';
 import React from 'react';
-import {WishList} from '../../Entity/WishList';
-import {AddItemModal} from '../../Components/Modals/AddItemModal';
+import {WishList} from '../../../Entity/WishList';
+import {AddItemModal} from '../../../Components/Modals/AddItemModal';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {WishlistItem} from '../../Entity/WishlistItem';
-import {renderForTest} from '../Utils/RenderForTest';
+import {WishlistItem} from '../../../Entity/WishlistItem';
+import {renderForTest} from '../../Utils/RenderForTest';
 import {render} from '@testing-library/react';
 
 describe('WishlistItemModal', (): void => {

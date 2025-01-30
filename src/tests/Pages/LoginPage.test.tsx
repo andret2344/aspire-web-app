@@ -1,5 +1,5 @@
-import {mockedUseNavigate} from '../__mocks__/MockCommonService';
 import {mockedIsTokenValid, mockedLogIn} from '../__mocks__/MockAuthService';
+import '../__mocks__/MockCommonService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -177,8 +177,8 @@ describe('login page', (): void => {
 		renderForTest(<LoginPage />);
 
 		// assert
-		await waitFor((): void => {
-			expect(mockedUseNavigate).toHaveBeenCalledWith('wishlists/');
-		});
+		expect(screen.getByTestId('login-navigate')).toHaveTextContent(
+			'wishlists/'
+		);
 	});
 });
