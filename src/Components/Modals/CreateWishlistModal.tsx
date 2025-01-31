@@ -31,13 +31,10 @@ export function CreateWishlistModal(
 		e: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
 		e.preventDefault();
-		console.log(1, wishlistName);
 		if (!wishlistName.trim()) {
 			return;
 		}
-		console.log(2);
 		const newWishlist: WishList = await addWishlist(wishlistName);
-		console.log(3, newWishlist);
 		props.onAddWishlist(newWishlist);
 		setWishlistName('');
 	}

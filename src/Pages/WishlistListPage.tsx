@@ -94,7 +94,6 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function addNewWishlist(newWishlist: WishList): void {
-		console.log('adding', newWishlist);
 		setWishlists((prevWishlists: WishList[]): WishList[] => [
 			...prevWishlists,
 			newWishlist
