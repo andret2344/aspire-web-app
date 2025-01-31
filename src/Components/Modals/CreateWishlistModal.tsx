@@ -25,22 +25,21 @@ export function CreateWishlistModal(
 	const theme = useTheme();
 	const {t} = useTranslation();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
-	const inputRef = React.useRef<HTMLInputElement>(null);
+	const [wishlistName, setWishlistName] = React.useState<string>('');
 
 	async function handleSubmit(
 		e: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
-		if (!inputRef.current) {
-			return;
-		}
 		e.preventDefault();
-		const wishlistName: string = inputRef.current.value;
-		if (!wishlistName) {
+		console.log(1, wishlistName);
+		if (!wishlistName.trim()) {
 			return;
 		}
+		console.log(2);
 		const newWishlist: WishList = await addWishlist(wishlistName);
+		console.log(3, newWishlist);
 		props.onAddWishlist(newWishlist);
-		inputRef.current.value = '';
+		setWishlistName('');
 	}
 
 	return (
@@ -75,10 +74,12 @@ export function CreateWishlistModal(
 					{t('enter-wishlist-name')}
 				</Typography>
 				<TextField
+					data-testid='input-wishlist-name'
 					hiddenLabel
 					variant='filled'
 					placeholder={t('name')}
-					inputRef={inputRef}
+					value={wishlistName}
+					onChange={(e) => setWishlistName(e.target.value)}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '300px',
@@ -105,6 +106,7 @@ export function CreateWishlistModal(
 						{t('cancel')}
 					</Button>
 					<Button
+						data-testid='button-save'
 						color='primary'
 						variant='contained'
 						sx={{

@@ -11,7 +11,7 @@ import user from '@testing-library/user-event';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
-import {act, RenderResult, waitFor} from '@testing-library/react';
+import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
 import {WishlistListPage} from '../../Pages/WishlistListPage';
 import {WishList} from '../../Entity/WishList';
 import {renderForTest} from '../Utils/RenderForTest';
@@ -231,9 +231,11 @@ describe('WishlistListPage', (): void => {
 		const addNewWishlistButton: HTMLElement =
 			screen.getByTestId('open-modal-button');
 		await act(async (): Promise<void> => user.click(addNewWishlistButton));
-		const input: HTMLElement = screen.getByTestId('input-wishlist-name');
-		await act(
-			async (): Promise<void> => user.type(input, newWishlist.name)
+		const input: HTMLInputElement = screen
+			.getByTestId('input-wishlist-name')
+			.querySelector('input') as HTMLInputElement;
+		await act((): boolean =>
+			fireEvent.change(input, {target: {value: newWishlist.name}})
 		);
 		const saveButton: HTMLElement = screen.getByTestId('button-save');
 		await act(async (): Promise<void> => user.click(saveButton));
