@@ -23,8 +23,8 @@ interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
 	readonly wishlistId: number;
 	readonly position: number;
-	readonly onEditButtonClick: (item: WishlistItem) => void;
-	readonly onRemoveButtonClick: (id: number) => void;
+	readonly onEdit: (item: WishlistItem) => void;
+	readonly onRemove: (wishlistId: number, itemId: number) => void;
 }
 
 export function WishlistItemComponent(
@@ -48,7 +48,7 @@ export function WishlistItemComponent(
 	async function handleRemove(): Promise<void> {
 		await removeWishlistItem(props.wishlistId, props.item.id)
 			.then((): void => {
-				props.onRemoveButtonClick(props.wishlistId);
+				props.onRemove(props.wishlistId, props.item.id);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
@@ -110,9 +110,7 @@ export function WishlistItemComponent(
 							}}
 							aria-label='edit'
 							size='large'
-							onClick={(): void =>
-								props.onEditButtonClick(props.item)
-							}
+							onClick={(): void => props.onEdit(props.item)}
 							data-testid='edit-wishlist-item'
 						>
 							<EditIcon

@@ -62,8 +62,8 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 				item={wishlistItem}
 				position={index + 1}
 				wishlistId={currentWishlist.id}
-				onEditButtonClick={jest.fn()}
-				onRemoveButtonClick={jest.fn()}
+				onEdit={jest.fn()}
+				onRemove={jest.fn()}
 			/>
 		);
 	}

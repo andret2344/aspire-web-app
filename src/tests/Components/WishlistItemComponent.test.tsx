@@ -22,8 +22,8 @@ describe('WishlistItemComponent', (): void => {
 				item={mockWishlistItem}
 				wishlistId={1}
 				position={1}
-				onEditButtonClick={jest.fn()}
-				onRemoveButtonClick={jest.fn()}
+				onEdit={jest.fn()}
+				onRemove={jest.fn()}
 			/>
 		);
 
@@ -44,8 +44,8 @@ describe('WishlistItemComponent', (): void => {
 				item={mockWishlistItem}
 				wishlistId={1}
 				position={1}
-				onEditButtonClick={jest.fn()}
-				onRemoveButtonClick={handleRemoveButtonClick}
+				onEdit={jest.fn()}
+				onRemove={handleRemoveButtonClick}
 			/>
 		);
 
@@ -57,7 +57,7 @@ describe('WishlistItemComponent', (): void => {
 
 		// assert
 		expect(handleRemoveButtonClick).toHaveBeenCalledTimes(1);
-		expect(handleRemoveButtonClick).toHaveBeenCalledWith(1);
+		expect(handleRemoveButtonClick).toHaveBeenCalledWith(1, 1);
 	});
 
 	test('remove handle item edit', async (): Promise<void> => {
@@ -70,8 +70,8 @@ describe('WishlistItemComponent', (): void => {
 				item={mockWishlistItem}
 				wishlistId={1}
 				position={1}
-				onEditButtonClick={handleEditButtonClick}
-				onRemoveButtonClick={jest.fn()}
+				onEdit={handleEditButtonClick}
+				onRemove={jest.fn()}
 			/>
 		);
 

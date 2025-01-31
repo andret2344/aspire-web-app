@@ -1,8 +1,9 @@
 import React from 'react';
+import {None} from '../../Types/None';
 
-export const mockedUseParams = jest.fn();
-export const mockedUseNavigate = jest.fn();
-export const mockedJwtDecode = jest.fn();
+export const mockedUseParams: jest.Mock = jest.fn();
+export const mockedUseNavigate: jest.Mock = jest.fn();
+export const mockedJwtDecode: jest.Mock = jest.fn();
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'),
@@ -16,4 +17,9 @@ jest.mock('react-router-dom', () => ({
 jest.mock('jwt-decode', () => ({
 	...jest.requireActual('jwt-decode'),
 	jwtDecode: mockedJwtDecode
+}));
+
+jest.mock('react-i18next', () => ({
+	...jest.requireActual('react-i18next'),
+	Trans: (props: React.PropsWithChildren<None>) => props.children
 }));

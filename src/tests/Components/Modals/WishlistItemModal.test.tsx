@@ -7,7 +7,7 @@ import {
 import '@testing-library/jest-dom';
 import React from 'react';
 import {WishList} from '../../../Entity/WishList';
-import {AddItemModal} from '../../../Components/Modals/AddItemModal';
+import {EditItemModal} from '../../../Components/Modals/EditItemModal';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {WishlistItem} from '../../../Entity/WishlistItem';
@@ -61,12 +61,12 @@ describe('WishlistItemModal', (): void => {
 		mockedGetWishlist.mockReturnValue(updatedMockWishlistData);
 		user.setup();
 		renderForTest(
-			<AddItemModal
+			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
 				toggleModal={(): void => undefined}
-				getWishlistAgain={(): void => undefined}
-				editingItem={mockWishlistData.wishlistItems[0]}
+				onAccept={(): void => undefined}
+				item={mockWishlistData.wishlistItems[0]}
 			/>
 		);
 
@@ -110,11 +110,11 @@ describe('WishlistItemModal', (): void => {
 		mockedAddWishlistItem.mockReturnValue(newMockWishlistItem);
 		user.setup();
 		renderForTest(
-			<AddItemModal
+			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
 				toggleModal={(): void => undefined}
-				getWishlistAgain={(): void => undefined}
+				onAccept={(): void => undefined}
 			/>
 		);
 
@@ -152,11 +152,11 @@ describe('WishlistItemModal', (): void => {
 		mockedAddWishlistItem.mockReturnValue(null);
 		user.setup();
 		renderForTest(
-			<AddItemModal
+			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
 				toggleModal={(): void => undefined}
-				getWishlistAgain={(): void => undefined}
+				onAccept={(): void => undefined}
 			/>
 		);
 
@@ -193,12 +193,12 @@ describe('WishlistItemModal', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
-			<AddItemModal
+			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
 				toggleModal={(): void => undefined}
-				getWishlistAgain={(): void => undefined}
-				editingItem={mockWishlistData.wishlistItems[0]}
+				onAccept={(): void => undefined}
+				item={mockWishlistData.wishlistItems[0]}
 			/>
 		);
 
@@ -219,11 +219,11 @@ describe('WishlistItemModal', (): void => {
 		React.useState = jest.fn().mockReturnValue([1, setPriority]);
 
 		render(
-			<AddItemModal
-				editingItem={mockWishlistData.wishlistItems[0]}
+			<EditItemModal
+				item={mockWishlistData.wishlistItems[0]}
 				wishlistId={mockWishlistData.id}
 				opened={true}
-				getWishlistAgain={(): void => undefined}
+				onAccept={(): void => undefined}
 				toggleModal={(): void => undefined}
 			/>
 		);

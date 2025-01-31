@@ -26,22 +26,20 @@ import 'react-quill/dist/quill.bubble.css';
 import {StringMap} from 'quill';
 import {useTranslation} from 'react-i18next';
 
-interface WishlistItemModalProps {
+interface EditItemModalProps {
 	readonly wishlistId?: number;
 	readonly opened: boolean;
 	readonly toggleModal: () => void;
-	readonly getWishlistAgain: (id: number) => void;
-	readonly editingItem?: WishlistItem;
+	readonly onAccept: (wishlistId: number, item: WishlistItem) => void;
+	readonly item?: WishlistItem;
 }
 
-export function AddItemModal(
-	props: WishlistItemModalProps
-): React.ReactElement {
+export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const theme = useTheme();
 	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
-	const [description, setDescription] = React.useState<string | undefined>(
-		props.editingItem?.description
+	const [description, setDescription] = React.useState<string>(
+		props.item?.description ?? ''
 	);
 	const {t} = useTranslation();
 	const inputRefName = React.useRef<HTMLInputElement>(null);
@@ -64,15 +62,15 @@ export function AddItemModal(
 	};
 
 	React.useEffect((): void => {
-		if (props.editingItem) {
-			setPriority(props.editingItem.priorityId);
+		if (props.item) {
+			setPriority(props.item.priorityId);
 			if (inputRefName.current) {
-				inputRefName.current.value = props.editingItem.name;
+				inputRefName.current.value = props.item.name;
 			}
 
-			setDescription(props.editingItem.description);
+			setDescription(props.item.description);
 		}
-	}, [props.editingItem]);
+	}, [props.item]);
 
 	function handleChangePriority(event: SelectChangeEvent<number>): void {
 		setPriority(+event.target.value);
@@ -92,17 +90,17 @@ export function AddItemModal(
 			inputRefName.current?.value;
 		const wishlistItemDescription: string | undefined = description;
 		if (props.wishlistId && wishlistItemName && wishlistItemDescription) {
-			if (props.editingItem) {
+			if (props.item) {
 				const updatedWishlistItem: WishlistItem | null =
 					await editWishlistItem(
 						props.wishlistId,
-						props.editingItem.id,
+						props.item.id,
 						wishlistItemName,
 						wishlistItemDescription,
 						priority
 					);
 				if (updatedWishlistItem) {
-					props.getWishlistAgain(props.wishlistId);
+					props.onAccept(props.wishlistId, updatedWishlistItem);
 					toggleModalAndClearFields();
 				}
 			} else {
@@ -110,15 +108,16 @@ export function AddItemModal(
 					setPriority(1);
 				}
 
-				const newWishlistItem = await addWishlistItem(
-					props.wishlistId,
-					wishlistItemName,
-					wishlistItemDescription,
-					priority
-				);
+				const newWishlistItem: WishlistItem | null =
+					await addWishlistItem(
+						props.wishlistId,
+						wishlistItemName,
+						wishlistItemDescription,
+						priority
+					);
 
 				if (newWishlistItem) {
-					props.getWishlistAgain(props.wishlistId);
+					props.onAccept(props.wishlistId, newWishlistItem);
 					toggleModalAndClearFields();
 					enqueueSnackbar(t('saved'), {variant: 'success'});
 				} else {
@@ -161,15 +160,13 @@ export function AddItemModal(
 				}}
 			>
 				<Typography>
-					{props.editingItem?.description
-						? t('edit-item')
-						: t('new-item')}
+					{props.item?.description ? t('edit-item') : t('new-item')}
 				</Typography>
 				<TextField
 					hiddenLabel
 					variant='filled'
-					placeholder={props.editingItem?.name ?? t('enter-item')}
-					defaultValue={props.editingItem?.name ?? ''}
+					placeholder={props.item?.name ?? t('enter-item')}
+					defaultValue={props.item?.name ?? ''}
 					inputRef={inputRefName}
 					size={isSmallerThan900 ? 'small' : 'medium'}
 					sx={{

@@ -48,10 +48,7 @@ export function DeleteWishlistModal(
 					component='div'
 					data-testid='delete-confirmation'
 				>
-					<Trans
-						i18nKey='delete-confirmation'
-						values={{wishlist: props.wishlistName}}
-					>
+					<Trans values={{wishlist: props.wishlistName}}>
 						Are you sure you want to delete the{' '}
 						<strong>{props.wishlistName}</strong> wishlist?
 					</Trans>
@@ -81,7 +78,7 @@ export function DeleteWishlistModal(
 						sx={{
 							marginTop: '10px'
 						}}
-						data-testid='button-ok'
+						data-testid='button-delete'
 						onClick={props.onRemove}
 					>
 						{t('delete')}
