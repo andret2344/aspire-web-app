@@ -1,4 +1,4 @@
-import {mockedUseNavigate} from '../__mocks__/MockCommonService';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedSignUp} from '../__mocks__/MockAuthService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import React from 'react';
@@ -142,7 +142,7 @@ describe('register page', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedUseNavigate).toHaveBeenCalledWith('/');
+			expect(mockedNavigate).toHaveBeenCalledWith('/');
 			expect(screen.getByText('account-created')).toBeInTheDocument();
 		});
 	});

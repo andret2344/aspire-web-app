@@ -1,7 +1,4 @@
-import {
-	mockedUseNavigate,
-	mockedUseParams
-} from '../__mocks__/MockCommonService';
+import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedResetPassword} from '../__mocks__/MockAuthService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
@@ -52,7 +49,7 @@ describe('NewPasswordPage', (): void => {
 				'Testowe123!',
 				token
 			);
-			expect(mockedUseNavigate).toHaveBeenCalledWith('/');
+			expect(mockedNavigate).toHaveBeenCalledWith('/');
 		});
 	});
 

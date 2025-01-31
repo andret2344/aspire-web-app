@@ -1,10 +1,10 @@
 import {mockedIsTokenValid, mockedLogIn} from '../__mocks__/MockAuthService';
-import '../__mocks__/MockCommonService';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
-import {fireEvent, waitFor} from '@testing-library/react';
+import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
 import {renderForTest} from '../Utils/RenderForTest';
 import {LoginPage} from '../../Pages/LoginPage';
 
@@ -174,11 +174,10 @@ describe('login page', (): void => {
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
-		renderForTest(<LoginPage />);
+		await act((): RenderResult => renderForTest(<LoginPage />));
 
 		// assert
-		expect(screen.getByTestId('login-navigate')).toHaveTextContent(
-			'wishlists/'
-		);
+		expect(mockedNavigate).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
 	});
 });

@@ -2,7 +2,7 @@ import MockAdapter from 'axios-mock-adapter';
 import {
 	mockedGetAccessToken,
 	mockedRefreshToken,
-	mockedsaveAccessToken
+	mockedSaveAccessToken
 } from '../__mocks__/MockAuthService';
 import apiInstance, {
 	getBackendUrl,
@@ -79,7 +79,7 @@ describe('ApiInstance', (): void => {
 
 		// assert
 		expect(mockedRefreshToken).toHaveBeenCalledTimes(1);
-		expect(mockedsaveAccessToken).toHaveBeenCalledWith('new-token');
+		expect(mockedSaveAccessToken).toHaveBeenCalledWith('new-token');
 		expect(result).toHaveProperty('data', {data: 'success'});
 	});
 

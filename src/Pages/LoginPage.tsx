@@ -14,13 +14,13 @@ import React from 'react';
 import '../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {isTokenValid, logIn} from '../Services/AuthService';
-import {Link as Anchor, Navigate, useNavigate} from 'react-router-dom';
+import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 
 export function LoginPage(): React.ReactElement {
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const theme = useTheme();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -29,7 +29,8 @@ export function LoginPage(): React.ReactElement {
 	const {register, handleSubmit} = useForm();
 
 	if (isTokenValid()) {
-		return <Navigate to='wishlists/' />;
+		navigate('/wishlists');
+		return <></>;
 	}
 
 	function handleClickShowPassword(): void {

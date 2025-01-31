@@ -23,7 +23,7 @@ describe('WishlistModal', (): void => {
 			<CreateWishlistModal
 				opened={true}
 				toggleModal={(): void => undefined}
-				addNewWishlist={(): void => undefined}
+				onAddWishlist={(): void => undefined}
 			/>
 		);
 
@@ -47,11 +47,11 @@ describe('WishlistModal', (): void => {
 			<CreateWishlistModal
 				opened={true}
 				toggleModal={(): void => undefined}
-				addNewWishlist={mockAdd}
+				onAddWishlist={mockAdd}
 			/>
 		);
 		const modal: HTMLElement = screen.getByTestId('add-wishlist-modal');
-		const input: HTMLElement = screen.getByPlaceholderText(/name/i);
+		const input: HTMLElement = screen.getByTestId('input-wishlist-name');
 
 		// assert
 		expect(modal).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('WishlistModal', (): void => {
 			<CreateWishlistModal
 				opened={true}
 				toggleModal={(): void => undefined}
-				addNewWishlist={mockAdd}
+				onAddWishlist={mockAdd}
 			/>
 		);
 		const input: HTMLElement = screen.getByPlaceholderText('name');

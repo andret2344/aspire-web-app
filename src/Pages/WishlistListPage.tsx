@@ -94,11 +94,14 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function addNewWishlist(newWishlist: WishList): void {
+		console.log('adding', newWishlist);
 		setWishlists((prevWishlists: WishList[]): WishList[] => [
 			...prevWishlists,
 			newWishlist
 		]);
-		enqueueSnackbar('Wishlist created.', {variant: 'success'});
+		toggleWishlistModal();
+		navigate(`/wishlists/${newWishlist?.id}`);
+		enqueueSnackbar(t('wishlist-created'), {variant: 'success'});
 	}
 
 	function handleWishlistRemove(wishlistId: number): void {
@@ -215,7 +218,7 @@ export function WishlistListPage(): React.ReactElement {
 				>
 					{wishlists.map(renderWishlistSidebarItem)}
 					<Button
-						data-testid='openModalButton'
+						data-testid='open-modal-button'
 						onClick={toggleWishlistModal}
 						variant='outlined'
 						sx={{
@@ -306,8 +309,8 @@ export function WishlistListPage(): React.ReactElement {
 			</Grid2>
 			<CreateWishlistModal
 				opened={openAddWishlistModal}
-				toggleModal={toggleWishlistModal}
-				addNewWishlist={addNewWishlist}
+				onAddWishlist={addNewWishlist}
+				onClose={toggleWishlistModal}
 			/>
 		</>
 	);

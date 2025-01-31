@@ -2,13 +2,13 @@ import React from 'react';
 import {None} from '../../Types/None';
 
 export const mockedUseParams: jest.Mock = jest.fn();
-export const mockedUseNavigate: jest.Mock = jest.fn();
+export const mockedNavigate: jest.Mock = jest.fn();
 export const mockedJwtDecode: jest.Mock = jest.fn();
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'),
 	useParams: mockedUseParams,
-	useNavigate: () => mockedUseNavigate,
+	useNavigate: () => mockedNavigate,
 	Navigate: jest.fn(
 		({to}): React.ReactElement => <div data-testid='navigate'>{to}</div>
 	)

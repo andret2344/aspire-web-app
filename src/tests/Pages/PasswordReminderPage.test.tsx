@@ -1,6 +1,6 @@
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import {mockedRequestResetPassword} from '../__mocks__/MockAuthService';
-import {mockedUseNavigate} from '../__mocks__/MockCommonService';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
@@ -61,7 +61,7 @@ describe('PasswordReminderPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedUseNavigate).toHaveBeenCalledWith('/');
+			expect(mockedNavigate).toHaveBeenCalledWith('/');
 		});
 	});
 

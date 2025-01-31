@@ -9,22 +9,20 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
 import {addWishlist} from '../../Services/WishListService';
 import {WishList} from '../../Entity/WishList';
 import {useTranslation} from 'react-i18next';
 
 interface WishlistModalProps {
 	readonly opened: boolean;
-	readonly toggleModal: () => void;
-	readonly addNewWishlist: (newWishlist: WishList) => void;
+	readonly onClose: () => void;
+	readonly onAddWishlist: (newWishlist: WishList) => void;
 }
 
 export function CreateWishlistModal(
 	props: WishlistModalProps
 ): React.ReactElement {
 	const theme = useTheme();
-	const navigate = useNavigate();
 	const {t} = useTranslation();
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const inputRef = React.useRef<HTMLInputElement>(null);
@@ -32,24 +30,23 @@ export function CreateWishlistModal(
 	async function handleSubmit(
 		e: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
+		if (!inputRef.current) {
+			return;
+		}
 		e.preventDefault();
-		const wishlistName: string | undefined = inputRef.current?.value;
+		const wishlistName: string = inputRef.current.value;
 		if (!wishlistName) {
 			return;
 		}
 		const newWishlist: WishList = await addWishlist(wishlistName);
-		props.addNewWishlist(newWishlist);
-		props.toggleModal();
-		navigate(`/wishlists/${newWishlist?.id}`);
-		if (inputRef.current) {
-			inputRef.current.value = '';
-		}
+		props.onAddWishlist(newWishlist);
+		inputRef.current.value = '';
 	}
 
 	return (
 		<Modal
 			data-testid='add-wishlist-modal'
-			onClose={props.toggleModal}
+			onClose={props.onClose}
 			open={props.opened}
 			aria-labelledby='modal-title'
 			aria-describedby='modal-description'
@@ -103,7 +100,7 @@ export function CreateWishlistModal(
 						sx={{
 							marginTop: '10px'
 						}}
-						onClick={props.toggleModal}
+						onClick={props.onClose}
 					>
 						{t('cancel')}
 					</Button>

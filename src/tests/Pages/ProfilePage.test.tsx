@@ -1,4 +1,4 @@
-import {mockedUseNavigate} from '../__mocks__/MockCommonService';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {
 	mockedChangePassword,
 	mockedIsTokenValid
@@ -33,8 +33,8 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		// assert
-		expect(mockedUseNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedUseNavigate).toHaveBeenCalledWith('/');
+		expect(mockedNavigate).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledWith('/');
 	});
 
 	test('check passwords are not equal', async (): Promise<void> => {
