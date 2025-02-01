@@ -27,6 +27,10 @@ export function CreateWishlistModal(
 	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
 	const [wishlistName, setWishlistName] = React.useState<string>('');
 
+	function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
+		setWishlistName(e.target.value);
+	}
+
 	async function handleSubmit(
 		e: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
@@ -76,7 +80,7 @@ export function CreateWishlistModal(
 					variant='filled'
 					placeholder={t('name')}
 					value={wishlistName}
-					onChange={(e) => setWishlistName(e.target.value)}
+					onChange={handleNameChange}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '300px',

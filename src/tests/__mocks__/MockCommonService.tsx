@@ -21,5 +21,11 @@ jest.mock('jwt-decode', () => ({
 
 jest.mock('react-i18next', () => ({
 	...jest.requireActual('react-i18next'),
-	Trans: (props: React.PropsWithChildren<None>) => props.children
+	useTranslation: () => ({
+		t: (key: string) => key,
+		i18n: {language: 'en', changeLanguage: jest.fn()}
+	}),
+	Trans: (props: React.PropsWithChildren<None>): React.ReactElement => (
+		<>{props.children}</>
+	)
 }));

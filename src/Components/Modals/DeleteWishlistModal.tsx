@@ -2,7 +2,7 @@ import {Box, Button, Modal, Paper, Typography} from '@mui/material';
 import React from 'react';
 import {Trans, useTranslation} from 'react-i18next';
 
-interface WishlistConfirmationModalProps {
+interface DeleteWishlistModalProps {
 	readonly opened: boolean;
 	readonly wishlistName: string;
 	readonly toggleModal: () => void;
@@ -10,7 +10,7 @@ interface WishlistConfirmationModalProps {
 }
 
 export function DeleteWishlistModal(
-	props: WishlistConfirmationModalProps
+	props: DeleteWishlistModalProps
 ): React.ReactElement {
 	const {t} = useTranslation();
 

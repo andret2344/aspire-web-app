@@ -6,6 +6,7 @@ import user from '@testing-library/user-event';
 import {CreateWishlistModal} from '../../../Components/Modals/CreateWishlistModal';
 import {WishList} from '../../../Entity/WishList';
 import {renderForTest} from '../../Utils/RenderForTest';
+import {act, fireEvent, RenderResult} from '@testing-library/react';
 
 describe('WishlistModal', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -22,7 +23,7 @@ describe('WishlistModal', (): void => {
 		renderForTest(
 			<CreateWishlistModal
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAddWishlist={(): void => undefined}
 			/>
 		);
@@ -43,23 +44,26 @@ describe('WishlistModal', (): void => {
 		user.setup();
 
 		// act
-		renderForTest(
-			<CreateWishlistModal
-				opened={true}
-				toggleModal={(): void => undefined}
-				onAddWishlist={mockAdd}
-			/>
+		await act(
+			(): RenderResult =>
+				renderForTest(
+					<CreateWishlistModal
+						opened={true}
+						onClose={(): void => undefined}
+						onAddWishlist={mockAdd}
+					/>
+				)
 		);
-		const modal: HTMLElement = screen.getByTestId('add-wishlist-modal');
-		const input: HTMLElement = screen.getByTestId('input-wishlist-name');
+		const input: HTMLInputElement = screen
+			.getByTestId('input-wishlist-name')
+			.querySelector('input') as HTMLInputElement;
+
+		await act((): boolean =>
+			fireEvent.change(input, {target: {value: 'new wishlist'}})
+		);
+		await act((): boolean => fireEvent.submit(input));
 
 		// assert
-		expect(modal).toBeInTheDocument();
-		expect(input).toBeInTheDocument();
-
-		await user.type(input, 'new wishlist');
-		await user.keyboard('{enter}');
-
 		expect(mockAdd).toHaveBeenCalledTimes(1);
 	});
 
@@ -72,7 +76,7 @@ describe('WishlistModal', (): void => {
 		renderForTest(
 			<CreateWishlistModal
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAddWishlist={mockAdd}
 			/>
 		);

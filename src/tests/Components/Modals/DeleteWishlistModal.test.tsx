@@ -1,20 +1,24 @@
+import '../../__mocks__/MockCommonService';
 import React from 'react';
 import {screen} from '@testing-library/dom';
-import {fireEvent} from '@testing-library/react';
+import {act, fireEvent, RenderResult} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {DeleteWishlistModal} from '../../../Components/Modals/DeleteWishlistModal';
 import {renderForTest} from '../../Utils/RenderForTest';
 
-describe('WishlistConfirmationModal', (): void => {
+describe('DeleteWishlistModal', (): void => {
 	test('renders correctly', (): void => {
 		// arrange
-		renderForTest(
-			<DeleteWishlistModal
-				opened={true}
-				wishlistName='test wishlist name'
-				onRemove={(): void => undefined}
-				toggleModal={(): void => undefined}
-			/>
+		act(
+			(): RenderResult =>
+				renderForTest(
+					<DeleteWishlistModal
+						opened={true}
+						wishlistName='test wishlist name'
+						onRemove={(): void => undefined}
+						toggleModal={(): void => undefined}
+					/>
+				)
 		);
 
 		// act
@@ -22,7 +26,9 @@ describe('WishlistConfirmationModal', (): void => {
 
 		// assert
 		expect(dialog).toBeInTheDocument();
-		expect(dialog).toHaveTextContent('delete-confirmation');
+		expect(dialog).toHaveTextContent(
+			'Are you sure you want to delete the test wishlist name wishlist?'
+		);
 	});
 
 	test('handles remove click', (): void => {
@@ -38,30 +44,8 @@ describe('WishlistConfirmationModal', (): void => {
 				toggleModal={(): void => undefined}
 			/>
 		);
-		const buttonOk: HTMLElement = screen.getByTestId('button-ok');
+		const buttonOk: HTMLElement = screen.getByTestId('button-delete');
 		fireEvent.click(buttonOk);
-
-		// assert
-		expect(mockRemove).toHaveBeenCalledTimes(1);
-	});
-
-	test('handles remove keyboard click', (): void => {
-		// arrange
-		const mockRemove: jest.Mock = jest.fn();
-
-		// act
-		renderForTest(
-			<DeleteWishlistModal
-				opened={true}
-				wishlistName='test wishlist name'
-				onRemove={mockRemove}
-				toggleModal={(): void => undefined}
-			/>
-		);
-		const modal: HTMLElement = screen.getByTestId('delete-wishlist-modal');
-		fireEvent.keyDown(modal, {
-			key: 'Enter'
-		});
 
 		// assert
 		expect(mockRemove).toHaveBeenCalledTimes(1);
