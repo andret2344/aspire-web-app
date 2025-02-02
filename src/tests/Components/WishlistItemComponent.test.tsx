@@ -1,4 +1,5 @@
-import {screen} from '@testing-library/dom';
+import {mockedRemoveWishlistItem} from '../__mocks__/MockWishlistItemService';
+import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../Utils/RenderForTest';
 import user from '@testing-library/user-event';
@@ -34,33 +35,7 @@ describe('WishlistItemComponent', (): void => {
 		expect(wishlistItemTitle).toBeInTheDocument();
 	});
 
-	test('remove wishlist item correctly', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		const handleRemoveButtonClick: jest.Mock = jest.fn();
-
-		renderForTest(
-			<WishlistItemComponent
-				item={mockWishlistItem}
-				wishlistId={1}
-				position={1}
-				onEdit={jest.fn()}
-				onRemove={handleRemoveButtonClick}
-			/>
-		);
-
-		// act
-		const removeItemButton: HTMLElement = screen.getByTestId(
-			'remove-wishlist-item'
-		);
-		await user.click(removeItemButton);
-
-		// assert
-		expect(handleRemoveButtonClick).toHaveBeenCalledTimes(1);
-		expect(handleRemoveButtonClick).toHaveBeenCalledWith(1, 1);
-	});
-
-	test('remove handle item edit', async (): Promise<void> => {
+	test('handle item edit', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		const handleEditButtonClick: jest.Mock = jest.fn();
@@ -83,5 +58,61 @@ describe('WishlistItemComponent', (): void => {
 		// assert
 		expect(handleEditButtonClick).toHaveBeenCalledTimes(1);
 		expect(handleEditButtonClick).toHaveBeenCalledWith(mockWishlistItem);
+	});
+
+	test('handle remove item with success', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		const handleRemoveButtonClick: jest.Mock = jest.fn();
+		mockedRemoveWishlistItem.mockResolvedValue(mockWishlistItem);
+
+		renderForTest(
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				onEdit={jest.fn()}
+				onRemove={handleRemoveButtonClick}
+			/>
+		);
+
+		// act
+		const removeItemButton: HTMLElement = screen.getByTestId(
+			'remove-wishlist-item'
+		);
+		await user.click(removeItemButton);
+
+		// assert
+		expect(handleRemoveButtonClick).toHaveBeenCalledTimes(1);
+		expect(handleRemoveButtonClick).toHaveBeenCalledWith(1, 1);
+	});
+
+	test('handle remove item edit with fail', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		const handleEditButtonClick: jest.Mock = jest.fn();
+		mockedRemoveWishlistItem.mockRejectedValue(void 0);
+
+		renderForTest(
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				onEdit={jest.fn()}
+				onRemove={handleEditButtonClick}
+			/>
+		);
+
+		// act
+		const removeItemButton: HTMLElement = screen.getByTestId(
+			'remove-wishlist-item'
+		);
+		await user.click(removeItemButton);
+
+		// assert
+		expect(handleEditButtonClick).toHaveBeenCalledTimes(0);
+		await waitFor((): void =>
+			expect(screen.getByText('something-went-wrong')).toBeInTheDocument()
+		);
 	});
 });

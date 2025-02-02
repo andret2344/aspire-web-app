@@ -54,7 +54,7 @@ export function WishlistItemComponent(
 				});
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong)'), {variant: 'error'})
+				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
 			);
 	}
 
@@ -123,7 +123,6 @@ export function WishlistItemComponent(
 							/>
 						</IconButton>
 						<IconButton
-							data-testid='remove-wishlist-item'
 							sx={{
 								margin: {
 									xs: '0',
@@ -133,6 +132,7 @@ export function WishlistItemComponent(
 							size='large'
 							aria-label='delete'
 							onClick={handleRemove}
+							data-testid='remove-wishlist-item'
 						>
 							<DeleteIcon
 								sx={{

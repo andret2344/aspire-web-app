@@ -1,5 +1,8 @@
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
-import {mockedRequestResetPassword} from '../__mocks__/MockAuthService';
+import {
+	mockedIsTokenValid,
+	mockedRequestResetPassword
+} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
@@ -7,6 +10,7 @@ import '@testing-library/jest-dom';
 import {PasswordReminderPage} from '../../Pages/PasswordReminderPage';
 import user from '@testing-library/user-event';
 import {renderForTest} from '../Utils/RenderForTest';
+import {act, RenderResult} from '@testing-library/react';
 
 describe('PasswordReminderPage', (): void => {
 	test('renders correctly', (): void => {
@@ -71,7 +75,7 @@ describe('PasswordReminderPage', (): void => {
 		mockedRequestResetPassword.mockRejectedValue(500);
 		renderForTest(<PasswordReminderPage />);
 
-		//act
+		// act
 		const sendButton: HTMLElement = screen.getByRole('button', {
 			name: /send/i
 		});
@@ -84,5 +88,17 @@ describe('PasswordReminderPage', (): void => {
 		await waitFor((): void => {
 			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
 		});
+	});
+
+	test('redirect successfully to wishlist page if already logged in', async (): Promise<void> => {
+		// arrange
+		mockedIsTokenValid.mockReturnValue(true);
+
+		// act
+		await act((): RenderResult => renderForTest(<PasswordReminderPage />));
+
+		// assert
+		expect(mockedNavigate).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
 	});
 });

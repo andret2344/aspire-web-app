@@ -345,4 +345,17 @@ describe('WishlistListPage', (): void => {
 		// assert
 		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 	});
+
+	test('redirect successfully to index page if not logged in', async (): Promise<void> => {
+		// arrange
+		mockedIsTokenValid.mockReturnValue(false);
+		mockedGetWishlists.mockResolvedValue([]);
+
+		// act
+		await act((): RenderResult => renderForTest(<WishlistListPage />));
+
+		// assert
+		expect(mockedNavigate).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledWith('/');
+	});
 });

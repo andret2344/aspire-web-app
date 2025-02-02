@@ -1,13 +1,14 @@
 import {mockedNavigate} from '../__mocks__/MockCommonService';
-import {mockedSignUp} from '../__mocks__/MockAuthService';
+import {mockedIsTokenValid, mockedSignUp} from '../__mocks__/MockAuthService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import React from 'react';
 
-import {fireEvent, waitFor} from '@testing-library/react';
+import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {RegisterPage} from '../../Pages/RegisterPage';
 import {screen} from '@testing-library/dom';
 import {renderForTest} from '../Utils/RenderForTest';
+import {mockedGetWishlists} from '../__mocks__/MockWishlistService';
 
 describe('register page', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -212,5 +213,18 @@ describe('register page', (): void => {
 				)
 			).toBeInTheDocument();
 		});
+	});
+
+	test('redirect successfully to index page if not logged in', async (): Promise<void> => {
+		// arrange
+		mockedIsTokenValid.mockReturnValue(true);
+		mockedGetWishlists.mockResolvedValue([]);
+
+		// act
+		await act((): RenderResult => renderForTest(<RegisterPage />));
+
+		// assert
+		expect(mockedNavigate).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
 	});
 });

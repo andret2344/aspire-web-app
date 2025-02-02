@@ -71,7 +71,9 @@ export function WishlistSidebarItem(
 	}
 
 	function renderName(): React.ReactElement {
-		return editedName ? renderInputName() : renderTypographyName();
+		return editedName === undefined
+			? renderTypographyName()
+			: renderInputName();
 	}
 
 	function renderTypographyName(): React.ReactElement {
@@ -122,6 +124,7 @@ export function WishlistSidebarItem(
 					}}
 				/>
 				<DoneIcon
+					data-testid='wishlist-edit-done'
 					fontSize='medium'
 					sx={{marginLeft: '10px'}}
 				/>

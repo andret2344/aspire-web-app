@@ -41,11 +41,10 @@ export function ProfilePage(): React.ReactElement {
 	} = useForm<Inputs>();
 	const {t} = useTranslation();
 
-	React.useEffect((): void => {
-		if (!isTokenValid()) {
-			navigate('/');
-		}
-	});
+	if (!isTokenValid()) {
+		navigate('/');
+		return <></>;
+	}
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);

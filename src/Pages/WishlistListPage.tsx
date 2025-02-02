@@ -21,7 +21,7 @@ import {WishList} from '../Entity/WishList';
 import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
 import {getWishlists, removeWishlist} from '../Services/WishListService';
 import {CreateWishlistModal} from '../Components/Modals/CreateWishlistModal';
-import {Navigate, useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {DeleteWishlistModal} from '../Components/Modals/DeleteWishlistModal';
 import {EditItemModal} from '../Components/Modals/EditItemModal';
@@ -56,11 +56,12 @@ export function WishlistListPage(): React.ReactElement {
 				navigate('/error');
 			});
 
-		setActiveWishlist(+(params.id ?? -1));
-	}, [params.id]);
+		setActiveWishlist(+(params?.id ?? -1));
+	}, [params?.id]);
 
 	if (!isTokenValid()) {
-		return <Navigate to='/' />;
+		navigate('/');
+		return <></>;
 	}
 
 	function handleNameEdit(wishlistId: number, newName: string): void {

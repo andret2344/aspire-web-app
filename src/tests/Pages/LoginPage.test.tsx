@@ -169,7 +169,7 @@ describe('login page', (): void => {
 		);
 	});
 
-	test('redirect successfully to wishlist page if already logged in and user enters to login page', async (): Promise<void> => {
+	test('redirect successfully to wishlist page if already logged in', async (): Promise<void> => {
 		// arrange
 		mockedIsTokenValid.mockReturnValue(true);
 
