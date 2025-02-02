@@ -56,6 +56,7 @@ describe('WishlistListPage', (): void => {
 		// assert
 		await waitFor((): void => {
 			expect(screen.getByText(mockWishlistData.name)).toBeInTheDocument();
+			expect(screen.getByText('Item 1')).toBeInTheDocument();
 		});
 	});
 

@@ -35,7 +35,7 @@ export function WishlistListPage(): React.ReactElement {
 	const navigate = useNavigate();
 	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	const [activeWishlist, setActiveWishlist] = React.useState<number>(-1);
+	const [activeWishlistId, setActiveWishlistId] = React.useState<number>(-1);
 	const [openAddWishlistModal, setOpenAddWishlistModal] =
 		React.useState<boolean>(false);
 	const [deleteModalOpened, setDeleteModalOpened] =
@@ -56,7 +56,7 @@ export function WishlistListPage(): React.ReactElement {
 				navigate('/error');
 			});
 
-		setActiveWishlist(+(params?.id ?? -1));
+		setActiveWishlistId(+(params?.id ?? -1));
 	}, [params?.id]);
 
 	if (!isTokenValid()) {
@@ -64,10 +64,20 @@ export function WishlistListPage(): React.ReactElement {
 		return <></>;
 	}
 
-	function handleNameEdit(wishlistId: number, newName: string): void {
-		const number: number = wishlists.findIndex(
-			(wishlist: WishList): boolean => wishlist.id === wishlistId
+	function findWishlistById(wishlistId: number): WishList | undefined {
+		return wishlists.find(
+			(wishlist: WishList): boolean => wishlistId === wishlist.id
 		);
+	}
+
+	function findWishlistIndexById(wishlistId: number): number {
+		return wishlists.findIndex(
+			(wishlist: WishList): boolean => wishlistId === wishlist.id
+		);
+	}
+
+	function handleNameEdit(wishlistId: number, newName: string): void {
+		const number: number = findWishlistIndexById(wishlistId);
 		wishlists[number] = {
 			...wishlists[number],
 			name: newName
@@ -85,7 +95,7 @@ export function WishlistListPage(): React.ReactElement {
 			<WishlistSidebarItem
 				key={wishlist.id}
 				wishlist={wishlist}
-				active={activeWishlist === wishlist.id}
+				active={activeWishlistId === wishlist.id}
 				onRemove={handleDeleteClick}
 				onNameEdit={(newName: string): void =>
 					handleNameEdit(wishlist.id, newName)
@@ -142,26 +152,24 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function handleItemRemove(wishlistId: number, itemId: number): void {
-		const found: number = wishlists.findIndex(
-			(wishlist: WishList): boolean => wishlist.id === wishlistId
-		);
+		const found: number = findWishlistIndexById(wishlistId);
 		const foundItem: number = wishlists[found].wishlistItems.findIndex(
 			(item: WishlistItem): boolean => item.id === itemId
 		);
 		wishlists[found].wishlistItems.splice(foundItem, 1);
+		setWishlists([...wishlists]);
 	}
 
 	function renderWishlistItem(
 		wishlistItem: WishlistItem,
-		index: number,
-		currentWishlist: WishList
+		index: number
 	): React.ReactElement {
 		return (
 			<WishlistItemComponent
 				key={wishlistItem?.id}
 				item={wishlistItem}
 				position={index + 1}
-				wishlistId={currentWishlist.id}
+				wishlistId={activeWishlistId}
 				onEdit={openWishlistItemModalForEdit}
 				onRemove={handleItemRemove}
 			/>
@@ -169,9 +177,8 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function renderItems(): React.ReactNode[] | undefined {
-		return wishlists[activeWishlist]?.wishlistItems.map(
-			(item: WishlistItem, index: number): React.ReactNode =>
-				renderWishlistItem(item, index, wishlists[activeWishlist])
+		return findWishlistById(activeWishlistId)?.wishlistItems.map(
+			renderWishlistItem
 		);
 	}
 
@@ -237,7 +244,7 @@ export function WishlistListPage(): React.ReactElement {
 						{t('add-new-wishlist')}
 					</Button>
 				</Grid2>
-				{activeWishlist !== -1 && (
+				{activeWishlistId !== -1 && (
 					<Grid2
 						size={{xs: 12, md: 9}}
 						overflow={{xs: 'none', md: 'auto'}}
@@ -297,12 +304,14 @@ export function WishlistListPage(): React.ReactElement {
 							opened={deleteModalOpened}
 							onCancel={handleDeleteCancel}
 							onRemove={(): void =>
-								handleWishlistRemove(activeWishlist)
+								handleWishlistRemove(activeWishlistId)
 							}
-							wishlistName={wishlists[activeWishlist]?.name}
+							wishlistName={
+								findWishlistById(activeWishlistId)?.name ?? ''
+							}
 						/>
 						<EditItemModal
-							wishlistId={activeWishlist}
+							wishlistId={activeWishlistId}
 							opened={addItemModalOpened}
 							toggleModal={toggleWishlistItemModal}
 							onAccept={handleEditAccept}

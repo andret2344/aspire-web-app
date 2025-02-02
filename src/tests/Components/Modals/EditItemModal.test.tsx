@@ -1,4 +1,5 @@
 import {mockedGetWishlist} from '../../__mocks__/MockWishlistService';
+import {mockedUseMediaQuery} from '../../__mocks__/MockMaterialUI';
 import {
 	mockedAddWishlistItem,
 	mockedEditWishlistItem
@@ -14,7 +15,7 @@ import {WishlistItem} from '../../../Entity/WishlistItem';
 import {renderForTest} from '../../Utils/RenderForTest';
 import {render} from '@testing-library/react';
 
-describe('WishlistItemModal', (): void => {
+describe('EditItemModal', (): void => {
 	beforeEach((): void => localStorage.clear());
 
 	const mockWishlistData: WishList = {
@@ -59,6 +60,7 @@ describe('WishlistItemModal', (): void => {
 		// arrange
 		mockedEditWishlistItem.mockResolvedValue(updatedMockWishlistData);
 		mockedGetWishlist.mockReturnValue(updatedMockWishlistData);
+		mockedUseMediaQuery.mockReturnValueOnce(false);
 		user.setup();
 		renderForTest(
 			<EditItemModal
@@ -108,6 +110,7 @@ describe('WishlistItemModal', (): void => {
 	test('add new item', async (): Promise<void> => {
 		// arrange
 		mockedAddWishlistItem.mockReturnValue(newMockWishlistItem);
+		mockedUseMediaQuery.mockReturnValueOnce(true);
 		user.setup();
 		renderForTest(
 			<EditItemModal

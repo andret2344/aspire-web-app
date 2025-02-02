@@ -1,4 +1,5 @@
 import {mockedAddWishlist} from '../../__mocks__/MockWishlistService';
+import {mockedUseMediaQuery} from '../../__mocks__/MockMaterialUI';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
@@ -20,6 +21,7 @@ describe('WishlistModal', (): void => {
 
 	test('renders correctly', (): void => {
 		// arrange
+		mockedUseMediaQuery.mockReturnValue(false);
 		renderForTest(
 			<CreateWishlistModal
 				opened={true}
@@ -29,9 +31,7 @@ describe('WishlistModal', (): void => {
 		);
 
 		// act
-		const saveButton: HTMLElement = screen.getByRole('button', {
-			name: 'save'
-		});
+		const saveButton: HTMLElement = screen.getByTestId('button-save');
 
 		// assert
 		expect(saveButton).toBeInTheDocument();
@@ -41,6 +41,7 @@ describe('WishlistModal', (): void => {
 		// arrange
 		const mockAdd: jest.Mock = jest.fn();
 		mockedAddWishlist.mockResolvedValue(mockWishlistData);
+		mockedUseMediaQuery.mockReturnValue(false);
 		user.setup();
 
 		// act
@@ -70,6 +71,7 @@ describe('WishlistModal', (): void => {
 	test('presses enter with empty input', async (): Promise<void> => {
 		// arrange
 		const mockAdd: jest.Mock = jest.fn();
+		mockedUseMediaQuery.mockReturnValue(true);
 		user.setup();
 
 		// act

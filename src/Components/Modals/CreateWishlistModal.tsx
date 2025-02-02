@@ -24,7 +24,7 @@ export function CreateWishlistModal(
 ): React.ReactElement {
 	const theme = useTheme();
 	const {t} = useTranslation();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
 	const [wishlistName, setWishlistName] = React.useState<string>('');
 
 	function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
