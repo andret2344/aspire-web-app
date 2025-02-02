@@ -9,48 +9,47 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
-import {addWishlist} from '../Services/WishListService';
-import {WishList} from '../Entity/WishList';
+import {addWishlist} from '../../Services/WishListService';
+import {WishList} from '../../Entity/WishList';
 import {useTranslation} from 'react-i18next';
 
 interface WishlistModalProps {
 	readonly opened: boolean;
-	readonly toggleModal: () => void;
-	readonly addNewWishlist: (newWishlist: WishList) => void;
+	readonly onClose: () => void;
+	readonly onAddWishlist: (newWishlist: WishList) => void;
 }
 
-export function WishlistModal(props: WishlistModalProps): React.ReactElement {
+export function CreateWishlistModal(
+	props: WishlistModalProps
+): React.ReactElement {
 	const theme = useTheme();
-	const navigate = useNavigate();
 	const {t} = useTranslation();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
-	const inputRef = React.useRef<HTMLInputElement>(null);
+	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
+	const [wishlistName, setWishlistName] = React.useState<string>('');
+
+	function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
+		setWishlistName(e.target.value);
+	}
 
 	async function handleSubmit(
 		e: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
 		e.preventDefault();
-		const wishlistName: string | undefined = inputRef.current?.value;
-		if (!wishlistName) {
+		if (!wishlistName.trim()) {
 			return;
 		}
 		const newWishlist: WishList = await addWishlist(wishlistName);
-		props.addNewWishlist(newWishlist);
-		props.toggleModal();
-		navigate(`/wishlists/${newWishlist?.id}`);
-		if (inputRef.current) {
-			inputRef.current.value = '';
-		}
+		props.onAddWishlist(newWishlist);
+		setWishlistName('');
 	}
 
 	return (
 		<Modal
-			data-testid='addWishlistModal'
-			onClose={props.toggleModal}
+			data-testid='add-wishlist-modal'
+			onClose={props.onClose}
 			open={props.opened}
-			aria-labelledby='modal-modal-title'
-			aria-describedby='modal-modal-description'
+			aria-labelledby='modal-title'
+			aria-describedby='modal-description'
 		>
 			<Paper
 				sx={{
@@ -69,17 +68,19 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 				onSubmit={handleSubmit}
 			>
 				<Typography
-					id='modal-modal-title'
+					id='modal-title'
 					variant='h5'
-					component='h2'
+					component='div'
 				>
 					{t('enter-wishlist-name')}
 				</Typography>
 				<TextField
+					data-testid='input-wishlist-name'
 					hiddenLabel
 					variant='filled'
 					placeholder={t('name')}
-					inputRef={inputRef}
+					value={wishlistName}
+					onChange={handleNameChange}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '300px',
@@ -96,15 +97,18 @@ export function WishlistModal(props: WishlistModalProps): React.ReactElement {
 					}}
 				>
 					<Button
-						variant='contained'
+						variant='outlined'
+						color='error'
 						sx={{
 							marginTop: '10px'
 						}}
-						onClick={props.toggleModal}
+						onClick={props.onClose}
 					>
 						{t('cancel')}
 					</Button>
 					<Button
+						data-testid='button-save'
+						color='primary'
 						variant='contained'
 						sx={{
 							marginTop: '10px'

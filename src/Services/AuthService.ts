@@ -1,6 +1,5 @@
 import axios, {AxiosRequestConfig, AxiosResponse, isAxiosError} from 'axios';
-import Cookies from 'js-cookie';
-import apiInstance, {getBackendUrl, getFrontendUrl} from './ApiInstance';
+import apiInstance, {getApiConfig} from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 const ACCESS_TOKEN: string = 'accessToken';
@@ -25,7 +24,7 @@ export async function logIn(email: string, password: string): Promise<number> {
 		return 401;
 	}
 	try {
-		const baseUrl: string = getBackendUrl();
+		const baseUrl: string = getApiConfig().backend;
 		const result: AxiosResponse = await axios.post(
 			`${baseUrl}/account/login`,
 			{
@@ -34,11 +33,10 @@ export async function logIn(email: string, password: string): Promise<number> {
 			},
 			requestConfig
 		);
-		saveAccessTokenInLocalStorage(result.data.access);
-		saveRefreshTokenInCookies(result.data.refresh);
+		saveAccessToken(result.data.access);
+		saveRefreshToken(result.data.refresh);
 		return result.status;
 	} catch (err) {
-		console.log(err);
 		return 401;
 	}
 }
@@ -47,7 +45,7 @@ export async function signUp(
 	email: string,
 	password: string
 ): Promise<AxiosResponse> {
-	const baseUrl: string = getBackendUrl();
+	const baseUrl: string = getApiConfig().backend;
 	return await axios.post(
 		`${baseUrl}/account/register`,
 		{
@@ -61,8 +59,8 @@ export async function signUp(
 export async function requestResetPassword(
 	email: string
 ): Promise<AxiosResponse> {
-	const baseUrl: string = getBackendUrl();
-	const url: string = `${getFrontendUrl()}/new-password`;
+	const baseUrl: string = getApiConfig().backend;
+	const url: string = `${getApiConfig().frontend}/new-password`;
 	return await axios.post(
 		`${baseUrl}/account/password_reset`,
 		{
@@ -78,7 +76,7 @@ export async function resetPassword(
 	token: string,
 	passwordRepeat: string
 ): Promise<number> {
-	const baseUrl: string = getBackendUrl();
+	const baseUrl: string = getApiConfig().backend;
 	const response: AxiosResponse = await axios.post(
 		`${baseUrl}/account/password_reset/confirm`,
 		{
@@ -96,7 +94,7 @@ export async function changePassword(
 	newPassword: string,
 	newPasswordConfirm: string
 ): Promise<number> {
-	const baseUrl = getBackendUrl();
+	const baseUrl = getApiConfig().backend;
 	const response: AxiosResponse = await apiInstance.post(
 		`${baseUrl}/account/change_password`,
 		{
@@ -112,23 +110,23 @@ export async function changePassword(
 
 export function logout(): void {
 	localStorage.removeItem(ACCESS_TOKEN);
-	Cookies.remove(REFRESH_TOKEN);
+	localStorage.removeItem(REFRESH_TOKEN);
 }
 
-export function saveAccessTokenInLocalStorage(accessToken: string): void {
+export function saveAccessToken(accessToken: string): void {
 	localStorage.setItem(ACCESS_TOKEN, accessToken);
 }
 
-function saveRefreshTokenInCookies(refreshToken: string): void {
-	Cookies.set(REFRESH_TOKEN, refreshToken);
+function saveRefreshToken(refreshToken: string): void {
+	localStorage.setItem(REFRESH_TOKEN, refreshToken);
 }
 
-export function getRefreshTokenFromCookies(): string | undefined {
-	return Cookies.get(REFRESH_TOKEN);
+export function getRefreshToken(): string | null {
+	return localStorage.getItem(REFRESH_TOKEN);
 }
 
-export function getToken(): string | null {
-	return getItemFromStorage(ACCESS_TOKEN);
+export function getAccessToken(): string | null {
+	return localStorage.getItem(ACCESS_TOKEN);
 }
 
 export async function refreshToken(): Promise<string | undefined> {
@@ -136,11 +134,11 @@ export async function refreshToken(): Promise<string | undefined> {
 		const result: AxiosResponse = await apiInstance.post(
 			'/account/login/refresh',
 			{
-				refresh: getRefreshTokenFromCookies()
+				refresh: getRefreshToken()
 			}
 		);
 
-		saveAccessTokenInLocalStorage(result.data.access);
+		saveAccessToken(result.data.access);
 		return result.data.access;
 	} catch (err) {
 		if (isAxiosError(err)) {
@@ -150,12 +148,8 @@ export async function refreshToken(): Promise<string | undefined> {
 	}
 }
 
-export function getItemFromStorage(key: string): string | null {
-	return localStorage.getItem(key);
-}
-
 export function isTokenValid(): boolean {
-	const token: string | null = getToken();
+	const token: string | null = getAccessToken();
 
 	if (!token) {
 		return false;

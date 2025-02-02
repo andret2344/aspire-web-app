@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios';
 
 export interface Config {
-	readonly backend?: string;
+	readonly backend: string;
 	readonly frontend: string;
 }
 
@@ -10,15 +10,13 @@ type ConfigResponse = {
 };
 
 export async function getConfig(): Promise<Config | undefined> {
-	if (process.env.NODE_ENV !== 'production') {
+	const productionMode: boolean = process.env.NODE_ENV === 'production';
+	if (!productionMode) {
 		return undefined;
 	}
 
 	try {
-		const token =
-			process.env.NODE_ENV === 'production'
-				? process.env.REACT_APP_API_TOKEN
-				: '';
+		const token: string | undefined = process.env.REACT_APP_API_TOKEN;
 
 		const response: AxiosResponse<ConfigResponse> =
 			await axios.get<ConfigResponse>(
@@ -26,7 +24,10 @@ export async function getConfig(): Promise<Config | undefined> {
 			);
 		return response.data.data;
 	} catch (error) {
-		console.error('Error fetching production config:', error);
+		console.error(
+			'Error fetching production config:',
+			(error as Error).message
+		);
 		return undefined;
 	}
 }

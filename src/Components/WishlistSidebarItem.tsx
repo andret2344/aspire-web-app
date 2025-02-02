@@ -1,23 +1,139 @@
 import React from 'react';
-import {Box, IconButton, Link, Theme, Typography} from '@mui/material';
+import {Box, IconButton, Input, Link, Theme, Typography} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {Link as Anchor} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
+import EditIcon from '@mui/icons-material/Edit';
+import DoneIcon from '@mui/icons-material/Done';
+import {updateWishlistName} from '../Services/WishListService';
+import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
+import {getApiConfig} from '../Services/ApiInstance';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
 	readonly active: boolean;
-	readonly onShare: () => void;
 	readonly onRemove: () => void;
-	readonly onDisplay: () => React.ReactElement;
+	readonly onNameEdit: (newName: string) => void;
 }
 
 export function WishlistSidebarItem(
 	props: WishlistSidebarItemProps
 ): React.ReactElement {
+	const {enqueueSnackbar} = useSnackbar();
+	const {t} = useTranslation();
+
+	const [editedName, setEditedName] = React.useState<string | undefined>(
+		undefined
+	);
+
+	function handleNameClick(): void {
+		setEditedName(props.wishlist.name);
+	}
+
+	function handleNameChange(
+		event: React.ChangeEvent<HTMLInputElement>
+	): void {
+		setEditedName(event.target.value);
+	}
+
+	async function handleNameSubmit(): Promise<void> {
+		if (editedName) {
+			try {
+				await updateWishlistName(props.wishlist.id, editedName);
+				props.onNameEdit(editedName);
+				enqueueSnackbar(t('wishlist-renamed'), {
+					variant: 'success'
+				});
+			} catch (err) {
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				});
+			}
+		}
+		setEditedName(undefined);
+	}
+
+	function copyUrlToClipboard(): void {
+		navigator.clipboard
+			.writeText(
+				`${getApiConfig().frontend}/wishlist/${props.wishlist.uuid}`
+			)
+			.then((): string | number =>
+				enqueueSnackbar(t('url-copied'), {variant: 'info'})
+			)
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
+			);
+	}
+
+	function renderName(): React.ReactElement {
+		return editedName === undefined
+			? renderTypographyName()
+			: renderInputName();
+	}
+
+	function renderTypographyName(): React.ReactElement {
+		return (
+			<Typography
+				aria-label='wishlist-name'
+				onClick={handleNameClick}
+				sx={{
+					textAlign: 'center',
+					textDecoration: 'none',
+					fontFamily: 'Montserrat',
+					fontSize: '25px',
+					fontWeight: 500
+				}}
+			>
+				{props.wishlist.name}
+				<IconButton
+					size='small'
+					sx={{marginLeft: '5px'}}
+				>
+					<EditIcon data-testid='edit-icon' />
+				</IconButton>
+			</Typography>
+		);
+	}
+
+	function renderInputName(): React.ReactElement {
+		return (
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center'
+				}}
+			>
+				<Input
+					data-testid='wishlist-edit-name-input'
+					defaultValue={editedName}
+					onChange={handleNameChange}
+					onBlur={handleNameSubmit}
+					autoFocus
+					sx={{
+						marginBottom: '10px',
+						textDecoration: 'none',
+						fontFamily: 'Montserrat',
+						fontSize: '25px',
+						fontWeight: 500
+					}}
+				/>
+				<DoneIcon
+					data-testid='wishlist-edit-done'
+					fontSize='medium'
+					sx={{marginLeft: '10px'}}
+				/>
+			</Box>
+		);
+	}
+
 	if (props.active) {
 		return (
 			<Link
@@ -45,7 +161,7 @@ export function WishlistSidebarItem(
 						padding: '10px'
 					}}
 				>
-					{props.onDisplay()}
+					{renderName()}
 					<Box
 						sx={{
 							display: 'flex',
@@ -54,7 +170,7 @@ export function WishlistSidebarItem(
 					>
 						<IconButton
 							data-testid={`shareIcon-${props.wishlist.id}`}
-							onClick={props.onShare}
+							onClick={copyUrlToClipboard}
 							sx={{marginLeft: '15px'}}
 							size='large'
 							aria-label='share'

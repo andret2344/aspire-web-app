@@ -1,5 +1,5 @@
 import {mockedIsTokenValid, mockedLogout} from '../__mocks__/MockAuthService';
-import {mockedUseNavigate} from '../__mocks__/MockCommonService';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import {act, RenderResult} from '@testing-library/react';
@@ -92,8 +92,8 @@ describe('Header', (): void => {
 
 		// assert
 		expect(mockedLogout).toHaveBeenCalledTimes(1);
-		expect(mockedUseNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedUseNavigate).toHaveBeenCalledWith('/');
+		expect(mockedNavigate).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledWith('/');
 	});
 
 	test('profile', async (): Promise<void> => {
@@ -110,7 +110,7 @@ describe('Header', (): void => {
 		await user.click(menuItemProfile);
 
 		// assert
-		expect(mockedUseNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedUseNavigate).toHaveBeenCalledWith('/profile');
+		expect(mockedNavigate).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledWith('/profile');
 	});
 });

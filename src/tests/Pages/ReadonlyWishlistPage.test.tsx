@@ -1,7 +1,4 @@
-import {
-	mockedUseNavigate,
-	mockedUseParams
-} from '../__mocks__/MockCommonService';
+import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedGetReadonlyWishlistByUUID} from '../__mocks__/MockWishlistService';
 
 import React from 'react';
@@ -85,7 +82,7 @@ describe('ReadonlyWishlistPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedUseNavigate).toHaveBeenCalledWith('/error');
+			expect(mockedNavigate).toHaveBeenCalledWith('/error');
 		});
 	});
 
@@ -113,7 +110,7 @@ describe('ReadonlyWishlistPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedUseNavigate).toHaveBeenCalledWith('/error');
+			expect(mockedNavigate).toHaveBeenCalledWith('/error');
 		});
 	});
 
@@ -162,7 +159,7 @@ describe('ReadonlyWishlistPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedUseNavigate).toHaveBeenCalledWith('/error');
+			expect(mockedNavigate).toHaveBeenCalledWith('/error');
 		});
 	});
 
@@ -178,7 +175,7 @@ describe('ReadonlyWishlistPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedUseNavigate).toHaveBeenCalledWith('/error');
+			expect(mockedNavigate).toHaveBeenCalledWith('/error');
 		});
 	});
 });
