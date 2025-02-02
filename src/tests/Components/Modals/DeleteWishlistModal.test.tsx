@@ -5,6 +5,7 @@ import {act, fireEvent, RenderResult} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {DeleteWishlistModal} from '../../../Components/Modals/DeleteWishlistModal';
 import {renderForTest} from '../../Utils/RenderForTest';
+import user from '@testing-library/user-event';
 
 describe('DeleteWishlistModal', (): void => {
 	test('renders correctly', (): void => {
@@ -16,7 +17,7 @@ describe('DeleteWishlistModal', (): void => {
 						opened={true}
 						wishlistName='test wishlist name'
 						onRemove={(): void => undefined}
-						toggleModal={(): void => undefined}
+						onCancel={(): void => undefined}
 					/>
 				)
 		);
@@ -31,7 +32,7 @@ describe('DeleteWishlistModal', (): void => {
 		);
 	});
 
-	test('handles remove click', (): void => {
+	test('handles remove click', async (): Promise<void> => {
 		// arrange
 		const mockRemove: jest.Mock = jest.fn();
 
@@ -41,11 +42,11 @@ describe('DeleteWishlistModal', (): void => {
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
-				toggleModal={(): void => undefined}
+				onCancel={(): void => undefined}
 			/>
 		);
 		const buttonOk: HTMLElement = screen.getByTestId('button-delete');
-		fireEvent.click(buttonOk);
+		await act((): Promise<void> => user.click(buttonOk));
 
 		// assert
 		expect(mockRemove).toHaveBeenCalledTimes(1);
@@ -61,7 +62,7 @@ describe('DeleteWishlistModal', (): void => {
 				opened={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
-				toggleModal={(): void => undefined}
+				onCancel={(): void => undefined}
 			/>
 		);
 		const modal: HTMLElement = screen.getByTestId('delete-wishlist-modal');

@@ -1,6 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import apiInstance, {getBackendUrl} from '../../Services/ApiInstance';
+import apiInstance, {getApiConfig} from '../../Services/ApiInstance';
 import {
 	changePassword,
 	getRefreshToken,
@@ -42,7 +42,7 @@ describe('AuthService', (): void => {
 		const email = 'test@example.com';
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
-		const baseUrl = getBackendUrl();
+		const baseUrl = getApiConfig().backend;
 		mock.onPost(`${baseUrl}/account/login`, {
 			email,
 			password
@@ -60,7 +60,7 @@ describe('AuthService', (): void => {
 		const email = 'test@example.com';
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
-		const baseUrl = getBackendUrl();
+		const baseUrl = getApiConfig().backend;
 		mock.onPost(`${baseUrl}/account/login`, {
 			email,
 			password
@@ -78,7 +78,7 @@ describe('AuthService', (): void => {
 		const email = 'test@example.com';
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
-		const baseUrl = getBackendUrl();
+		const baseUrl = getApiConfig().backend;
 		mock.onPost(`${baseUrl}/account/register`, {
 			email,
 			password
@@ -139,7 +139,7 @@ describe('AuthService', (): void => {
 		// arrange
 		const email = 'test@example.com';
 		const mock = new MockAdapter(axios);
-		const baseUrl = getBackendUrl();
+		const baseUrl = getApiConfig().backend;
 		const url = `http://localhost/new-password`;
 		mock.onPost(`${baseUrl}/account/password_reset`, {
 			email,
@@ -159,7 +159,7 @@ describe('AuthService', (): void => {
 		const password = 'Testowe123!';
 		const passwordRepeat = 'Testowe123!';
 		const token = 'accessToken';
-		const baseUrl = getBackendUrl();
+		const baseUrl = getApiConfig().backend;
 		mock.onPost(`${baseUrl}/account/password_reset/confirm`, {
 			password,
 			token,
@@ -179,7 +179,7 @@ describe('AuthService', (): void => {
 		const newPassword = 'Testowe123!';
 		const newPasswordConfirm = 'Testowe123!';
 		const currentPassword = 'Testowe456!';
-		const baseUrl = getBackendUrl();
+		const baseUrl = getApiConfig().backend;
 		mock.onPost(`${baseUrl}/account/change_password`, {
 			old_password: currentPassword,
 			password: newPassword,
@@ -244,6 +244,14 @@ describe('AuthService', (): void => {
 			'accessToken',
 			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiZXhwIjoxNzA4MjA1NzQ0fQ.b_sUJMmYFPhJUcLC7vjlwDCqOImfxddCRgdzgOC6SNk'
 		);
+
+		// act && assert
+		expect(isTokenValid()).toBe(false);
+	});
+
+	test('should return false if no token provided', (): void => {
+		// arrange
+		localStorage.removeItem('accessToken');
 
 		// act && assert
 		expect(isTokenValid()).toBe(false);

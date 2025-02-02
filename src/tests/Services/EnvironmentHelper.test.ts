@@ -25,6 +25,7 @@ describe('EnvironmentHelper', (): void => {
 		mock.onGet(uuidRegex).reply(200, {data: mockConfig});
 
 		process.env.NODE_ENV = 'production';
+		process.env.REACT_APP_API_TOKEN = 'test-token';
 
 		// act
 		const config = await getConfig();

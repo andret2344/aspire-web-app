@@ -4,10 +4,7 @@ import {
 	mockedRefreshToken,
 	mockedSaveAccessToken
 } from '../__mocks__/MockAuthService';
-import apiInstance, {
-	getBackendUrl,
-	setConfig
-} from '../../Services/ApiInstance';
+import apiInstance, {getApiConfig, setConfig} from '../../Services/ApiInstance';
 import {AxiosRequestConfig} from 'axios';
 
 describe('ApiInstance', (): void => {
@@ -21,23 +18,40 @@ describe('ApiInstance', (): void => {
 		process.env = originalEnv;
 	});
 
-	test('should use default value when REACT_API_URL is not set', (): void => {
-		delete process.env.REACT_API_URL;
-		expect(getBackendUrl()).toBe('localhost:8080');
+	test('should use the environment variable value', (): void => {
+		// arrange
+		process.env.REACT_API_URL = 'http://test.localhost:3000';
+
+		// act & assert
+		expect(getApiConfig()).toStrictEqual({
+			backend: 'http://test.localhost:3000',
+			frontend: 'http://localhost'
+		});
 	});
 
-	test('should update urlConfig and apiInstance defaults when config is provided', () => {
+	test('should use the default value when REACT_API_URL is not set', (): void => {
+		// arrange
+		delete process.env.REACT_API_URL;
+
+		// act & assert
+		expect(getApiConfig()).toStrictEqual({
+			backend: 'localhost:8080',
+			frontend: 'http://localhost'
+		});
+	});
+
+	test('should update urlConfig and apiInstance defaults when config is provided', (): void => {
 		// arrange
 		const mockConfig = {
-			backend: 'http://localhost',
-			frontend: 'http://localhost'
+			backend: 'http://backend.localhost',
+			frontend: 'http://backend.localhost'
 		};
 
 		// act
 		setConfig(mockConfig);
 
 		// assert
-		expect(apiInstance.defaults.baseURL).toEqual(mockConfig.backend);
+		expect(getApiConfig()).toStrictEqual(mockConfig);
 	});
 
 	test('should add Authorization header if token is present', async (): Promise<void> => {

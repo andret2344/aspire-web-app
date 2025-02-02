@@ -5,7 +5,7 @@ import {Trans, useTranslation} from 'react-i18next';
 interface DeleteWishlistModalProps {
 	readonly opened: boolean;
 	readonly wishlistName: string;
-	readonly toggleModal: () => void;
+	readonly onCancel: () => void;
 	readonly onRemove: () => void;
 }
 
@@ -14,14 +14,10 @@ export function DeleteWishlistModal(
 ): React.ReactElement {
 	const {t} = useTranslation();
 
-	function handleSubmit(): void {
-		props.onRemove();
-	}
-
 	return (
 		<Modal
 			data-testid='delete-wishlist-modal'
-			onClose={props.toggleModal}
+			onClose={props.onCancel}
 			open={props.opened}
 			aria-labelledby='modal-title'
 			aria-describedby='modal-description'
@@ -40,7 +36,7 @@ export function DeleteWishlistModal(
 					justifyContent: 'space-evenly'
 				}}
 				component='form'
-				onSubmit={handleSubmit}
+				onSubmit={props.onRemove}
 			>
 				<Typography
 					id='modal-title'
@@ -68,7 +64,7 @@ export function DeleteWishlistModal(
 						sx={{
 							marginTop: '10px'
 						}}
-						onClick={props.toggleModal}
+						onClick={props.onCancel}
 					>
 						{t('cancel')}
 					</Button>

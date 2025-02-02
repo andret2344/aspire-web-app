@@ -11,7 +11,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import {updateWishlistName} from '../Services/WishListService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {getFrontendUrl} from '../Services/ApiInstance';
+import {getApiConfig} from '../Services/ApiInstance';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
@@ -59,7 +59,9 @@ export function WishlistSidebarItem(
 
 	function copyUrlToClipboard(): void {
 		navigator.clipboard
-			.writeText(`${getFrontendUrl()}/wishlist/${props.wishlist.uuid}`)
+			.writeText(
+				`${getApiConfig().frontend}/wishlist/${props.wishlist.uuid}`
+			)
 			.then((): string | number =>
 				enqueueSnackbar(t('url-copied'), {variant: 'info'})
 			)

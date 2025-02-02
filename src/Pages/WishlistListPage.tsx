@@ -86,7 +86,7 @@ export function WishlistListPage(): React.ReactElement {
 				key={wishlist.id}
 				wishlist={wishlist}
 				active={activeWishlist === wishlist.id}
-				onRemove={toggleWishlistConfirmationModal}
+				onRemove={handleDeleteClick}
 				onNameEdit={(newName: string): void =>
 					handleNameEdit(wishlist.id, newName)
 				}
@@ -128,8 +128,12 @@ export function WishlistListPage(): React.ReactElement {
 		setOpenAddWishlistModal((prev: boolean): boolean => !prev);
 	}
 
-	function toggleWishlistConfirmationModal(): void {
-		setDeleteModalOpened((prev: boolean): boolean => !prev);
+	function handleDeleteClick(): void {
+		setDeleteModalOpened(true);
+	}
+
+	function handleDeleteCancel(): void {
+		setDeleteModalOpened(false);
 	}
 
 	function toggleWishlistItemModal(): void {
@@ -291,7 +295,7 @@ export function WishlistListPage(): React.ReactElement {
 						</Box>
 						<DeleteWishlistModal
 							opened={deleteModalOpened}
-							toggleModal={toggleWishlistConfirmationModal}
+							onCancel={handleDeleteCancel}
 							onRemove={(): void =>
 								handleWishlistRemove(activeWishlist)
 							}
