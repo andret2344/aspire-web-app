@@ -4,7 +4,7 @@ import '../../assets/fonts.css';
 import {None} from '../Types/None';
 import {useTranslation} from 'react-i18next';
 
-export function AuthComponent(
+export function AuthContainer(
 	props: React.PropsWithChildren<None>
 ): React.ReactElement {
 	const {t} = useTranslation();

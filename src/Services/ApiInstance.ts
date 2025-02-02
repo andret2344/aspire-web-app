@@ -1,8 +1,4 @@
-import {
-	getToken,
-	refreshToken,
-	saveAccessTokenInLocalStorage
-} from './AuthService';
+import {getAccessToken, refreshToken, saveAccessToken} from './AuthService';
 import axios, {
 	AxiosError,
 	AxiosInstance,
@@ -11,21 +7,21 @@ import axios, {
 } from 'axios';
 import {Config} from './EnvironmentHelper';
 
-let urlConfig: Config = {
-	backend: process.env.REACT_API_URL,
-	frontend: `${window.location.protocol}//${window.location.host}`
-};
+let fetchedConfig: Config | undefined = undefined;
 
-export function getBackendUrl(): string {
-	return urlConfig.backend ?? 'localhost:8080';
+function getDefaultConfig(): Config {
+	return {
+		backend: process.env.REACT_API_URL ?? 'localhost:8080',
+		frontend: `${window.location.protocol}//${window.location.host}`
+	};
 }
 
-export function getFrontendUrl(): string {
-	return urlConfig.frontend;
+export function getApiConfig(): Config {
+	return fetchedConfig ?? getDefaultConfig();
 }
 
 const apiInstance: AxiosInstance = axios.create({
-	baseURL: `${getBackendUrl()}`,
+	baseURL: getApiConfig().backend,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json'
@@ -34,7 +30,7 @@ const apiInstance: AxiosInstance = axios.create({
 
 export function setConfig(config: Config | undefined): void {
 	if (config) {
-		urlConfig = config;
+		fetchedConfig = config;
 		apiInstance.defaults.baseURL = config.backend;
 	}
 }
@@ -44,7 +40,7 @@ apiInstance.interceptors.request.use(
 	async (
 		config: InternalAxiosRequestConfig
 	): Promise<InternalAxiosRequestConfig<any>> => {
-		const token = getToken();
+		const token = getAccessToken();
 		if (token) {
 			config.headers['Authorization'] = `Bearer ${token}`;
 		}
@@ -61,7 +57,7 @@ apiInstance.interceptors.response.use(
 		if (error.response?.status === 401 && originalRequest) {
 			const newToken = await refreshToken();
 			if (newToken) {
-				saveAccessTokenInLocalStorage(newToken);
+				saveAccessToken(newToken);
 				return apiInstance(originalRequest);
 			}
 		}

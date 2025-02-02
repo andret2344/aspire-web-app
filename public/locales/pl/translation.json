@@ -12,8 +12,8 @@
 	"settings": "Ustawienia",
 	"log-out": "Wyloguj",
 	"cancel": "Anuluj",
-	"delete-confirmation": "Czy jesteś pewien, ze chcesz usunąć listę życzeń {{wishlist}}?",
-	"add-new-wishlist": "Dodaj nową białą listę",
+	"delete-confirmation": "Czy jesteś pewien, ze chcesz usunąć listę życzeń <strong>{{wishlist}}</strong>?",
+	"add-new-wishlist": "Dodaj nową listę życzeń",
 	"action": "Akcja",
 	"priority": "Priorytet",
 	"item-no": "Przedmiot nr.",
@@ -44,7 +44,9 @@
 	"wrong-login-or-password": "Niepoprawny login lub hasło. Spróbuj ponownie.",
 	"password-changed!": "Hasło zmieniono prawidłowo",
 	"password-invalid": "Coś poszło nie tak! Prawdopodobnie twoje obecne hasło jest nieprawidłowe.",
+	"save": "Zapisz",
 	"saved": "Zapisano pomyślnie.",
+	"delete": "Usuń",
 	"too-long": "Za długa nazwa lub opis.",
 	"edit-item": "Edytuj element",
 	"new-item": "Dodaj nowy element",
@@ -54,5 +56,6 @@
 	"url-copied": "Share URL copied to clipboard",
 	"passwords-not-equal": "Passwords are not equal",
 	"wishlist-renamed": "Wishlist name changed successfully",
+	"wishlist-created": "Wishlist created",
 	"type-description-here": "Type description here"
 }

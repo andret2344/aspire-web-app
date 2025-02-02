@@ -8,7 +8,7 @@ import {
 } from '../../Services/WishListService';
 import {waitFor} from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
-import apiInstance, {getBackendUrl} from '../../Services/ApiInstance';
+import apiInstance, {getApiConfig} from '../../Services/ApiInstance';
 import axios, {AxiosError} from 'axios';
 import {WishList, WishListDto} from '../../Entity/WishList';
 import {headers} from '../../Services/AuthService';
@@ -101,7 +101,7 @@ describe('WishListService', (): void => {
 	test('get readonly wishlist by uuid', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(axios);
-		const baseUrl = getBackendUrl();
+		const baseUrl = getApiConfig().backend;
 		mock.onGet(`${baseUrl}/wishlist/by_uuid/uuid`, {headers}).reply(
 			200,
 			mockWishlistDto
@@ -119,7 +119,7 @@ describe('WishListService', (): void => {
 	test('get readonly wishlist by uuid rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(axios);
-		const baseUrl = getBackendUrl();
+		const baseUrl = getApiConfig().backend;
 		mock.onGet(`${baseUrl}/wishlist/by_uuid/uuid`, {headers}).reply(500);
 
 		// act

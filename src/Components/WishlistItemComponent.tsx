@@ -19,15 +19,17 @@ import Linkify from 'linkify-react';
 import parse from 'html-react-parser';
 import {useTranslation} from 'react-i18next';
 
-interface RowProps {
-	readonly row: WishlistItem;
+interface WishlistItemComponentProps {
+	readonly item: WishlistItem;
 	readonly wishlistId: number;
 	readonly position: number;
-	readonly onEdit?: (item: WishlistItem) => void;
-	readonly onRemove?: (id: number) => void;
+	readonly onEdit: (item: WishlistItem) => void;
+	readonly onRemove: (wishlistId: number, itemId: number) => void;
 }
 
-export function Row(props: RowProps): React.ReactElement {
+export function WishlistItemComponent(
+	props: WishlistItemComponentProps
+): React.ReactElement {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
@@ -43,23 +45,22 @@ export function Row(props: RowProps): React.ReactElement {
 		return <KeyboardArrowDownIcon />;
 	}
 
-	async function handleRemoveWishlistItemButton(): Promise<void> {
-		await removeWishlistItem(props.wishlistId, props.row.id)
+	async function handleRemove(): Promise<void> {
+		await removeWishlistItem(props.wishlistId, props.item.id)
 			.then((): void => {
-				props.onRemove?.(props.wishlistId);
+				props.onRemove(props.wishlistId, props.item.id);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong)'), {variant: 'error'})
+				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
 			);
 	}
 
 	return (
 		<React.Fragment>
 			<TableRow
-				data-testid='uniqueTestIdForRow'
 				sx={{
 					borderBottom: 'unset'
 				}}
@@ -84,7 +85,7 @@ export function Row(props: RowProps): React.ReactElement {
 						textOverflow: 'ellipsis'
 					}}
 				>
-					{props.row.name}
+					{props.item.name}
 				</TableCell>
 				<TableCell align='center'>
 					<Box
@@ -95,56 +96,55 @@ export function Row(props: RowProps): React.ReactElement {
 							alignItems: 'center'
 						}}
 					>
-						<PriorityBadge priorityId={props.row.priorityId} />
+						<PriorityBadge priorityId={props.item.priorityId} />
 					</Box>
 				</TableCell>
-				{props.onRemove && props.onEdit && (
-					<TableCell>
-						<Box sx={{display: 'flex', flexDirection: 'row'}}>
-							<IconButton
+				<TableCell>
+					<Box sx={{display: 'flex', flexDirection: 'row'}}>
+						<IconButton
+							sx={{
+								marginLeft: {
+									xs: '0',
+									md: '15px'
+								}
+							}}
+							aria-label='edit'
+							size='large'
+							onClick={(): void => props.onEdit(props.item)}
+							data-testid='edit-wishlist-item'
+						>
+							<EditIcon
 								sx={{
-									marginLeft: {
-										xs: '0',
-										md: '15px'
+									fontSize: {
+										xs: '25px',
+										md: '35px'
 									}
 								}}
-								aria-label='edit'
-								size='large'
-								onClick={(): void => props.onEdit?.(props.row)}
-							>
-								<EditIcon
-									sx={{
-										fontSize: {
-											xs: '25px',
-											md: '35px'
-										}
-									}}
-								/>
-							</IconButton>
-							<IconButton
-								data-testid='removeWishlistItem'
+							/>
+						</IconButton>
+						<IconButton
+							sx={{
+								margin: {
+									xs: '0',
+									md: '0 15px'
+								}
+							}}
+							size='large'
+							aria-label='delete'
+							onClick={handleRemove}
+							data-testid='remove-wishlist-item'
+						>
+							<DeleteIcon
 								sx={{
-									margin: {
-										xs: '0',
-										md: '0 15px'
+									fontSize: {
+										xs: '25px',
+										md: '35px'
 									}
 								}}
-								size='large'
-								aria-label='delete'
-								onClick={handleRemoveWishlistItemButton}
-							>
-								<DeleteIcon
-									sx={{
-										fontSize: {
-											xs: '25px',
-											md: '35px'
-										}
-									}}
-								/>
-							</IconButton>
-						</Box>
-					</TableCell>
-				)}
+							/>
+						</IconButton>
+					</Box>
+				</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell
@@ -164,7 +164,7 @@ export function Row(props: RowProps): React.ReactElement {
 										rel: 'noopener noreferrer'
 									}}
 								>
-									{parse(props.row.description)}
+									{parse(props.item.description)}
 								</Linkify>
 							</Typography>
 						</Box>

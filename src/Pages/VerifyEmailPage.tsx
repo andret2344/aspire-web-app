@@ -1,5 +1,5 @@
 import React from 'react';
-import {AuthComponent} from '../Components/AuthComponent';
+import {AuthContainer} from '../Components/AuthContainer';
 import {Box, Button, Link, Typography} from '@mui/material';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import {VerifyEmailTypography} from '../Components/VerifyEmailTypography';
@@ -14,7 +14,7 @@ export function VerifyEmailPage(): React.ReactElement {
 	}
 
 	return (
-		<AuthComponent>
+		<AuthContainer>
 			<Box
 				marginTop='10px'
 				marginX='20px'
@@ -83,6 +83,6 @@ export function VerifyEmailPage(): React.ReactElement {
 					{t('sign-in')}
 				</Link>
 			</Box>
-		</AuthComponent>
+		</AuthContainer>
 	);
 }

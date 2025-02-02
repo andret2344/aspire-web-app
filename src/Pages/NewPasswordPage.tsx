@@ -9,11 +9,10 @@ import {
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import '../../assets/fonts.css';
-import {AuthComponent} from '../Components/AuthComponent';
-import {RenderPasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
+import {AuthContainer} from '../Components/AuthContainer';
+import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {useNavigate, useParams} from 'react-router-dom';
 import {resetPassword} from '../Services/AuthService';
-import {Header} from '../Components/Header';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 
@@ -71,110 +70,102 @@ export function NewPasswordPage(): React.ReactElement {
 	}
 
 	return (
-		<Header>
-			<AuthComponent>
-				<form
-					style={{
-						width: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center',
-						alignItems: 'center'
+		<AuthContainer>
+			<form
+				style={{
+					width: '100%',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+				className='loginForm'
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<TextField
+					type={showPassword ? 'text' : 'password'}
+					autoComplete='new-password'
+					slotProps={{
+						input: {
+							endAdornment: (
+								<InputAdornment
+									position='end'
+									sx={{margin: 0, padding: 0}}
+								>
+									<IconButton
+										data-testid={'visibilityIconPassword'}
+										sx={{margin: 0, padding: 0}}
+										onClick={handleClickShowPassword}
+									>
+										<PasswordVisibilityIcon
+											visible={showPassword}
+										/>
+									</IconButton>
+								</InputAdornment>
+							)
+						}
 					}}
-					className='loginForm'
-					onSubmit={handleSubmit(onSubmit)}
+					hiddenLabel
+					variant='filled'
+					placeholder={t('password')}
+					size={isSmallerThan600 ? 'small' : 'medium'}
+					sx={{
+						width: '200px',
+						marginTop: '5px'
+					}}
+					required
+					error={!!errors.password}
+					helperText={errors.password?.message}
+					{...register('password')}
+				/>
+				<TextField
+					type={showPasswordRepeat ? 'text' : 'password'}
+					autoComplete='new-password'
+					slotProps={{
+						input: {
+							endAdornment: (
+								<InputAdornment
+									position='end'
+									sx={{margin: 0, padding: 0}}
+								>
+									<IconButton
+										data-testid={
+											'visibilityIconRepeatPassword'
+										}
+										sx={{margin: 0, padding: 0}}
+										onClick={handleClickShowPasswordRepeat}
+									>
+										<PasswordVisibilityIcon
+											visible={showPasswordRepeat}
+										/>
+									</IconButton>
+								</InputAdornment>
+							)
+						}
+					}}
+					hiddenLabel
+					variant='filled'
+					placeholder={t('repeat-password')}
+					size={isSmallerThan600 ? 'small' : 'medium'}
+					sx={{
+						width: '200px',
+						marginTop: '5px'
+					}}
+					required
+					error={!!errors.passwordRepeat}
+					helperText={errors.passwordRepeat?.message}
+					{...register('passwordRepeat')}
+				/>
+				<Button
+					variant='contained'
+					sx={{
+						marginTop: '10px'
+					}}
+					type='submit'
 				>
-					<TextField
-						type={showPassword ? 'text' : 'password'}
-						autoComplete='new-password'
-						slotProps={{
-							input: {
-								endAdornment: (
-									<InputAdornment
-										position='end'
-										sx={{margin: 0, padding: 0}}
-									>
-										<IconButton
-											data-testid={
-												'visibilityIconPassword'
-											}
-											sx={{margin: 0, padding: 0}}
-											onClick={handleClickShowPassword}
-										>
-											<RenderPasswordVisibilityIcon
-												showPassword={showPassword}
-											/>
-										</IconButton>
-									</InputAdornment>
-								)
-							}
-						}}
-						hiddenLabel
-						variant='filled'
-						placeholder={t('password')}
-						size={isSmallerThan600 ? 'small' : 'medium'}
-						sx={{
-							width: '200px',
-							marginTop: '5px'
-						}}
-						required
-						error={!!errors.password}
-						helperText={errors.password?.message}
-						{...register('password')}
-					/>
-					<TextField
-						type={showPasswordRepeat ? 'text' : 'password'}
-						autoComplete='new-password'
-						slotProps={{
-							input: {
-								endAdornment: (
-									<InputAdornment
-										position='end'
-										sx={{margin: 0, padding: 0}}
-									>
-										<IconButton
-											data-testid={
-												'visibilityIconRepeatPassword'
-											}
-											sx={{margin: 0, padding: 0}}
-											onClick={
-												handleClickShowPasswordRepeat
-											}
-										>
-											<RenderPasswordVisibilityIcon
-												showPassword={
-													showPasswordRepeat
-												}
-											/>
-										</IconButton>
-									</InputAdornment>
-								)
-							}
-						}}
-						hiddenLabel
-						variant='filled'
-						placeholder={t('repeat-password')}
-						size={isSmallerThan600 ? 'small' : 'medium'}
-						sx={{
-							width: '200px',
-							marginTop: '5px'
-						}}
-						required
-						error={!!errors.passwordRepeat}
-						helperText={errors.passwordRepeat?.message}
-						{...register('passwordRepeat')}
-					/>
-					<Button
-						variant='contained'
-						sx={{
-							marginTop: '10px'
-						}}
-						type='submit'
-					>
-						{t('change-password')}
-					</Button>
-				</form>
-			</AuthComponent>
-		</Header>
+					{t('change-password')}
+				</Button>
+			</form>
+		</AuthContainer>
 	);
 }

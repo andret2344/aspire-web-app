@@ -1,7 +1,4 @@
-import {
-	mockedUseNavigate,
-	mockedUseParams
-} from '../__mocks__/MockCommonService';
+import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedResetPassword} from '../__mocks__/MockAuthService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
@@ -15,17 +12,17 @@ describe('NewPasswordPage', (): void => {
 		// arrange
 		renderForTest(<NewPasswordPage />);
 
-		//act
+		// act
 		const changePasswordButton: HTMLElement = screen.getByRole('button', {
 			name: /change-password/i
 		});
 
-		//assert
+		// assert
 		expect(changePasswordButton).toBeInTheDocument();
 	});
 
 	test('Redirect to main page when password reset successfully', async (): Promise<void> => {
-		//arrange
+		// arrange
 		user.setup();
 		mockedResetPassword.mockResolvedValue(200);
 		const token = 'accessToken';
@@ -34,7 +31,7 @@ describe('NewPasswordPage', (): void => {
 		});
 		renderForTest(<NewPasswordPage />);
 
-		//act
+		// act
 		const changePasswordButton: HTMLElement = screen.getByRole('button', {
 			name: /change-password/i
 		});
@@ -45,19 +42,19 @@ describe('NewPasswordPage', (): void => {
 		await user.type(passwordRepeatInput, 'Testowe123!');
 		await user.click(changePasswordButton);
 
-		//assert
+		// assert
 		await waitFor((): void => {
 			expect(mockedResetPassword).toHaveBeenCalledWith(
 				'Testowe123!',
 				'Testowe123!',
 				token
 			);
-			expect(mockedUseNavigate).toHaveBeenCalledWith('/');
+			expect(mockedNavigate).toHaveBeenCalledWith('/');
 		});
 	});
 
 	test('render error snackbar when server respond error', async (): Promise<void> => {
-		//arrange
+		// arrange
 		user.setup();
 		mockedResetPassword.mockRejectedValue(500);
 		mockedUseParams.mockReturnValue({
@@ -65,7 +62,7 @@ describe('NewPasswordPage', (): void => {
 		});
 		renderForTest(<NewPasswordPage />);
 
-		//act
+		// act
 		const changePasswordButton: HTMLElement = screen.getByRole('button', {
 			name: /change-password/i
 		});
@@ -78,19 +75,19 @@ describe('NewPasswordPage', (): void => {
 		await user.click(changePasswordButton);
 		const errorSnackbar: HTMLElement = await screen.findByRole('alert');
 
-		//assert
+		// assert
 		await waitFor((): void => {
 			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
 		});
 	});
 
 	test('check passwords are not equal', async (): Promise<void> => {
-		//arrange
+		// arrange
 		user.setup();
 		mockedResetPassword.mockRejectedValue(400);
 		renderForTest(<NewPasswordPage />);
 
-		//act
+		// act
 		const changePasswordButton: HTMLElement = screen.getByRole('button', {
 			name: /change-password/i
 		});
@@ -105,18 +102,18 @@ describe('NewPasswordPage', (): void => {
 			'passwords-not-equal'
 		);
 
-		//assert
+		// assert
 		await waitFor((): void => {
 			expect(errorSnackbar).toBeInTheDocument();
 		});
 	});
 
 	test('click on show password buttons', async (): Promise<void> => {
-		//arrange
+		// arrange
 		user.setup();
 		renderForTest(<NewPasswordPage />);
 
-		//act
+		// act
 		const showPasswordButton: HTMLElement = screen.getByTestId(
 			'visibilityIconPassword'
 		);
@@ -126,7 +123,7 @@ describe('NewPasswordPage', (): void => {
 		await user.click(showPasswordButton);
 		await user.click(showPasswordRepeatButton);
 
-		//assert
+		// assert
 		expect(showPasswordButton).toBeInTheDocument();
 		expect(showPasswordRepeatButton).toBeInTheDocument();
 	});
