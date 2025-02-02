@@ -1,13 +1,10 @@
 import MockAdapter from 'axios-mock-adapter';
 import {
-	mockedGetToken,
+	mockedGetAccessToken,
 	mockedRefreshToken,
-	mockedSaveAccessTokenInLocalStorage
+	mockedSaveAccessToken
 } from '../__mocks__/MockAuthService';
-import apiInstance, {
-	getBackendUrl,
-	setConfig
-} from '../../Services/ApiInstance';
+import apiInstance, {getApiConfig, setConfig} from '../../Services/ApiInstance';
 import {AxiosRequestConfig} from 'axios';
 
 describe('ApiInstance', (): void => {
@@ -21,30 +18,47 @@ describe('ApiInstance', (): void => {
 		process.env = originalEnv;
 	});
 
-	test('should use default value when REACT_API_URL is not set', (): void => {
-		delete process.env.REACT_API_URL;
-		expect(getBackendUrl()).toBe('http://localhost:8080');
+	test('should use the environment variable value', (): void => {
+		// arrange
+		process.env.REACT_API_URL = 'http://test.localhost:3000';
+
+		// act & assert
+		expect(getApiConfig()).toStrictEqual({
+			backend: 'http://test.localhost:3000',
+			frontend: 'http://localhost'
+		});
 	});
 
-	test('should update urlConfig and apiInstance defaults when config is provided', () => {
+	test('should use the default value when REACT_API_URL is not set', (): void => {
+		// arrange
+		delete process.env.REACT_API_URL;
+
+		// act & assert
+		expect(getApiConfig()).toStrictEqual({
+			backend: 'http://localhost:8080',
+			frontend: 'http://localhost'
+		});
+	});
+
+	test('should update urlConfig and apiInstance defaults when config is provided', (): void => {
 		// arrange
 		const mockConfig = {
-			backend: 'http://localhost',
-			frontend: 'http://localhost'
+			backend: 'http://backend.localhost',
+			frontend: 'http://backend.localhost'
 		};
 
 		// act
 		setConfig(mockConfig);
 
 		// assert
-		expect(apiInstance.defaults.baseURL).toEqual(mockConfig.backend);
+		expect(getApiConfig()).toStrictEqual(mockConfig);
 	});
 
 	test('should add Authorization header if token is present', async (): Promise<void> => {
 		// assert
 		const mock = new MockAdapter(apiInstance);
 		const token = 'test-token';
-		mockedGetToken.mockReturnValue(token);
+		mockedGetAccessToken.mockReturnValue(token);
 
 		let capturedConfig: AxiosRequestConfig | undefined;
 		mock.onPost('/test').reply((config) => {
@@ -67,10 +81,7 @@ describe('ApiInstance', (): void => {
 		const mock = new MockAdapter(apiInstance);
 		const originalRequestConfig = {url: '/test', method: 'get'};
 
-		jest.mock('js-cookie', () => ({
-			get: jest.fn().mockReturnValue('existing-refresh-token'),
-			set: jest.fn()
-		}));
+		localStorage.setItem('refreshToken', 'existing-refresh-token');
 
 		mock.onGet('/test').replyOnce(401);
 		mock.onGet('/test').reply(200, {data: 'success'});
@@ -82,9 +93,7 @@ describe('ApiInstance', (): void => {
 
 		// assert
 		expect(mockedRefreshToken).toHaveBeenCalledTimes(1);
-		expect(mockedSaveAccessTokenInLocalStorage).toHaveBeenCalledWith(
-			'new-token'
-		);
+		expect(mockedSaveAccessToken).toHaveBeenCalledWith('new-token');
 		expect(result).toHaveProperty('data', {data: 'success'});
 	});
 

@@ -1,10 +1,10 @@
-import {mockedUseNavigate} from '../__mocks__/MockCommonService';
 import {mockedIsTokenValid, mockedLogIn} from '../__mocks__/MockAuthService';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
-import {fireEvent, waitFor} from '@testing-library/react';
+import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
 import {renderForTest} from '../Utils/RenderForTest';
 import {LoginPage} from '../../Pages/LoginPage';
 
@@ -169,16 +169,15 @@ describe('login page', (): void => {
 		);
 	});
 
-	test('redirect successfully to wishlist page if already logged in and user enters to login page', async (): Promise<void> => {
+	test('redirect successfully to wishlist page if already logged in', async (): Promise<void> => {
 		// arrange
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
-		renderForTest(<LoginPage />);
+		await act((): RenderResult => renderForTest(<LoginPage />));
 
 		// assert
-		await waitFor((): void => {
-			expect(mockedUseNavigate).toHaveBeenCalledWith('wishlists/');
-		});
+		expect(mockedNavigate).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
 	});
 });

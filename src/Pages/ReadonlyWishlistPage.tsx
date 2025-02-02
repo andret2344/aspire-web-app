@@ -1,5 +1,4 @@
 import React from 'react';
-import {Header} from '../Components/Header';
 import {
 	Box,
 	Grid2,
@@ -15,7 +14,7 @@ import {
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
-import {Row} from '../Components/Row';
+import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {getReadonlyWishlistByUUID} from '../Services/WishListService';
 import {useNavigate, useParams} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
@@ -58,11 +57,13 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		currentWishlist: WishList
 	): React.ReactElement {
 		return (
-			<Row
+			<WishlistItemComponent
 				key={wishlistItem.id}
-				row={wishlistItem}
+				item={wishlistItem}
 				position={index + 1}
 				wishlistId={currentWishlist.id}
+				onEdit={jest.fn()}
+				onRemove={jest.fn()}
 			/>
 		);
 	}
@@ -75,65 +76,63 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	}
 
 	return (
-		<Header>
-			<Grid2
-				flexGrow={{sx: 1}}
-				container
-				columnSpacing={2}
-			>
-				{wishlist && (
-					<Grid2 size={{xs: 12}}>
-						<Box
-							sx={(theme: Theme): SystemStyleObject<Theme> => ({
-								height: '60px',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'space-between',
-								width: '100%',
-								backgroundColor:
-									theme.palette.mode === 'dark'
-										? ''
-										: getThemeColor(theme, 'lightBlue'),
-								borderTop: '2px #FFFFFF',
-								paddingLeft: '10px'
-							})}
-						>
-							{wishlist.name}
-						</Box>
-						<TableContainer
-							sx={{
-								maxHeight: '75vh',
-								overflowY: 'auto'
-							}}
-							component={Paper}
-						>
-							<Table aria-label='collapsible table'>
-								<TableHead>
-									<TableRow>
-										<TableCell
-											width='5%'
-											align='left'
-										/>
-										<TableCell align='left'>
-											{t('item-no')}
-										</TableCell>
-										<TableCell align='left'>
-											{t('name')}
-										</TableCell>
-										<TableCell
-											width='10%'
-											align='center'
-										>
-											{t('priority')}
-										</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>{renderItems()}</TableBody>
-							</Table>
-						</TableContainer>
-					</Grid2>
-				)}
-			</Grid2>
-		</Header>
+		<Grid2
+			flexGrow={{sx: 1}}
+			container
+			columnSpacing={2}
+		>
+			{wishlist && (
+				<Grid2 size={{xs: 12}}>
+					<Box
+						sx={(theme: Theme): SystemStyleObject<Theme> => ({
+							height: '60px',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							width: '100%',
+							backgroundColor:
+								theme.palette.mode === 'dark'
+									? ''
+									: getThemeColor(theme, 'lightBlue'),
+							borderTop: '2px #FFFFFF',
+							paddingLeft: '10px'
+						})}
+					>
+						{wishlist.name}
+					</Box>
+					<TableContainer
+						sx={{
+							maxHeight: '75vh',
+							overflowY: 'auto'
+						}}
+						component={Paper}
+					>
+						<Table aria-label='collapsible table'>
+							<TableHead>
+								<TableRow>
+									<TableCell
+										width='5%'
+										align='left'
+									/>
+									<TableCell align='left'>
+										{t('item-no')}
+									</TableCell>
+									<TableCell align='left'>
+										{t('name')}
+									</TableCell>
+									<TableCell
+										width='10%'
+										align='center'
+									>
+										{t('priority')}
+									</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>{renderItems()}</TableBody>
+						</Table>
+					</TableContainer>
+				</Grid2>
+			)}
+		</Grid2>
 	);
 }

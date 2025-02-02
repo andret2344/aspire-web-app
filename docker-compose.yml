@@ -1,6 +1,6 @@
 services:
   backend:
-    image: registry.gitlab.com/self-evolving/aspire/aspire-server:latest
+    image: registry.gitlab.com/self-evolving/aspire/aspire-server:v0.1.0-build.f2617f92
     depends_on:
       db:
         condition: service_healthy

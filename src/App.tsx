@@ -14,6 +14,7 @@ import {setConfig} from './Services/ApiInstance';
 import {PasswordReminderPage} from './Pages/PasswordReminderPage';
 import {NewPasswordPage} from './Pages/NewPasswordPage';
 import './i18n';
+import {Header} from './Components/Header';
 
 export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -37,6 +38,7 @@ export function App(): React.ReactElement {
 			maxSnack={4}
 		>
 			<CssBaseline />
+			<Header />
 			<Routes>
 				<Route
 					path='/'

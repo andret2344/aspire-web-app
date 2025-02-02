@@ -20,9 +20,9 @@ import React from 'react';
 import {
 	addWishlistItem,
 	editWishlistItem
-} from '../Services/WishlistItemService';
-import {getAllPriorities, Priority} from '../Entity/Priority';
-import {WishlistItem} from '../Entity/WishlistItem';
+} from '../../Services/WishlistItemService';
+import {getAllPriorities, Priority} from '../../Entity/Priority';
+import {WishlistItem} from '../../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -30,24 +30,22 @@ import 'react-quill/dist/quill.bubble.css';
 import {StringMap} from 'quill';
 import {useTranslation} from 'react-i18next';
 
-interface WishlistItemModalProps {
+interface EditItemModalProps {
 	readonly wishlistId?: number;
 	readonly opened: boolean;
 	readonly toggleModal: () => void;
-	readonly getWishlistAgain: (id: number) => void;
-	readonly editingItem?: WishlistItem;
+	readonly onAccept: (wishlistId: number, item: WishlistItem) => void;
+	readonly item?: WishlistItem;
 }
 
-export function WishlistItemModal(
-	props: WishlistItemModalProps
-): React.ReactElement {
+export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const theme = useTheme();
 	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
 	const [hidden, setHidden] = React.useState<boolean>(false);
 	const [open, setOpen] = React.useState<boolean>(false);
-	const [description, setDescription] = React.useState<string | undefined>(
-		props.editingItem?.description
+	const [description, setDescription] = React.useState<string>(
+		props.item?.description ?? ''
 	);
 	const {t} = useTranslation();
 	const inputRefName = React.useRef<HTMLInputElement>(null);
@@ -70,15 +68,15 @@ export function WishlistItemModal(
 	};
 
 	React.useEffect((): void => {
-		if (props.editingItem) {
-			setPriority(props.editingItem.priorityId);
+		if (props.item) {
+			setPriority(props.item.priorityId);
 			if (inputRefName.current) {
-				inputRefName.current.value = props.editingItem.name;
+				inputRefName.current.value = props.item.name;
 			}
 
-			setDescription(props.editingItem.description);
+			setDescription(props.item.description);
 		}
-	}, [props.editingItem]);
+	}, [props.item]);
 
 	function handleChangePriority(event: SelectChangeEvent<number>): void {
 		setPriority(+event.target.value);
@@ -106,17 +104,17 @@ export function WishlistItemModal(
 			inputRefName.current?.value;
 		const wishlistItemDescription: string | undefined = description;
 		if (props.wishlistId && wishlistItemName && wishlistItemDescription) {
-			if (props.editingItem) {
+			if (props.item) {
 				const updatedWishlistItem = await editWishlistItem(
 					props.wishlistId,
-					props.editingItem.id,
+					props.item.id,
 					wishlistItemName,
 					wishlistItemDescription,
 					priority,
 					hidden
 				);
 				if (updatedWishlistItem) {
-					props.getWishlistAgain(props.wishlistId);
+					props.onAccept(props.wishlistId, updatedWishlistItem);
 					toggleModalAndClearFields();
 				}
 			} else {
@@ -124,16 +122,17 @@ export function WishlistItemModal(
 					setPriority(1);
 				}
 
-				const newWishlistItem = await addWishlistItem(
-					props.wishlistId,
-					wishlistItemName,
-					wishlistItemDescription,
-					priority,
+				const newWishlistItem: WishlistItem | null =
+					await addWishlistItem(
+						props.wishlistId,
+						wishlistItemName,
+						wishlistItemDescription,
+						priority,
 					hidden
 				);
 
 				if (newWishlistItem) {
-					props.getWishlistAgain(props.wishlistId);
+					props.onAccept(props.wishlistId, newWishlistItem);
 					toggleModalAndClearFields();
 					enqueueSnackbar(t('saved'), {variant: 'success'});
 				} else {
@@ -147,8 +146,8 @@ export function WishlistItemModal(
 		<Modal
 			onClose={props.toggleModal}
 			open={props.opened}
-			aria-labelledby='modal-modal-title'
-			aria-describedby='modal-modal-description'
+			aria-labelledby='modal-title'
+			aria-describedby='modal-description'
 			sx={{
 				display: 'flex',
 				justifyContent: 'center',
@@ -176,15 +175,13 @@ export function WishlistItemModal(
 				}}
 			>
 				<Typography>
-					{props.editingItem?.description
-						? t('edit-item')
-						: t('new-item')}
+					{props.item?.description ? t('edit-item') : t('new-item')}
 				</Typography>
 				<TextField
 					hiddenLabel
 					variant='filled'
-					placeholder={props.editingItem?.name ?? t('enter-item')}
-					defaultValue={props.editingItem?.name ?? ''}
+					placeholder={props.item?.name ?? t('enter-item')}
+					defaultValue={props.item?.name ?? ''}
 					inputRef={inputRefName}
 					size={isSmallerThan900 ? 'small' : 'medium'}
 					sx={{
@@ -270,7 +267,7 @@ export function WishlistItemModal(
 						}}
 					>
 						<Typography
-							id='modal-modal-title'
+							id='modal-title'
 							variant='h6'
 							component='h2'
 							sx={{alignSelf: 'flex-start'}}

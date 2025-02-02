@@ -9,7 +9,6 @@ import {
 	Typography
 } from '@mui/material';
 import React from 'react';
-import {None} from '../Types/None';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Logout, Settings} from '@mui/icons-material';
 import {Link as Anchor, useNavigate} from 'react-router-dom';
@@ -17,9 +16,7 @@ import {isTokenValid, logout} from '../Services/AuthService';
 import {LanguagePicker} from './LanguagePicker';
 import {useTranslation} from 'react-i18next';
 
-export function Header(
-	props: React.PropsWithChildren<None>
-): React.ReactElement {
+export function Header(): React.ReactElement {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const {t} = useTranslation();
@@ -62,7 +59,6 @@ export function Header(
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				minHeight: '100vh',
 				padding: '0px'
 			}}
 		>
@@ -151,7 +147,6 @@ export function Header(
 					</Box>
 				</Box>
 			</Container>
-			{props.children}
 		</Box>
 	);
 }
