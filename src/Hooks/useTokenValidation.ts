@@ -8,7 +8,7 @@ export interface TokenValidationResult {
 
 export function useTokenValidation(timeout?: number): TokenValidationResult {
 	const [valid, setValid] = React.useState<boolean | undefined>(undefined);
-	const [loading, setLoading] = React.useState(true);
+	const [loading, setLoading] = React.useState<boolean>(true);
 
 	React.useEffect((): void => {
 		timeout ? setTimeout(run, timeout) : run();
