@@ -182,8 +182,8 @@ export function WishlistListPage(): React.ReactElement {
 		);
 	}
 
-	function renderItems(): React.ReactNode[] | undefined {
-		return findWishlistById(activeWishlistId)?.wishlistItems.map(
+	function renderItems(): React.ReactNode[] {
+		return (findWishlistById(activeWishlistId)?.wishlistItems ?? []).map(
 			renderWishlistItem
 		);
 	}
