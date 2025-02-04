@@ -21,21 +21,20 @@ import {WishList} from '../Entity/WishList';
 import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
 import {getWishlists, removeWishlist} from '../Services/WishListService';
 import {CreateWishlistModal} from '../Components/Modals/CreateWishlistModal';
-import {useNavigate, useParams} from 'react-router-dom';
+import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {DeleteWishlistModal} from '../Components/Modals/DeleteWishlistModal';
 import {EditItemModal} from '../Components/Modals/EditItemModal';
 import {useSnackbar} from 'notistack';
-import {isTokenValid} from '../Services/AuthService';
 import {useTranslation} from 'react-i18next';
+import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function WishlistListPage(): React.ReactElement {
 	type Params = {readonly id?: string};
 	const params: Params = useParams<Params>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	const [activeWishlistId, setActiveWishlistId] = React.useState<number>(-1);
 	const [openAddWishlistModal, setOpenAddWishlistModal] =
 		React.useState<boolean>(false);
 	const [deleteModalOpened, setDeleteModalOpened] =
@@ -47,19 +46,26 @@ export function WishlistListPage(): React.ReactElement {
 	>(undefined);
 	const {enqueueSnackbar} = useSnackbar();
 	const theme: Theme = useTheme();
+	const {tokenLoading, tokenValid} = useTokenValidation();
+	const activeWishlistId: number = +(params?.id ?? -1);
 
 	React.useEffect((): void => {
+		if (tokenLoading || !tokenValid) {
+			return;
+		}
 		getWishlists()
 			.then(setWishlists)
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
 				navigate('/error');
 			});
+	}, [tokenValid]);
 
-		setActiveWishlistId(+(params?.id ?? -1));
-	}, [params?.id]);
+	if (tokenLoading) {
+		return <></>;
+	}
 
-	if (!isTokenValid()) {
+	if (!tokenValid) {
 		navigate('/');
 		return <></>;
 	}
