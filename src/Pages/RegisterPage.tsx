@@ -15,10 +15,11 @@ import '../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {Link as Anchor, useNavigate} from 'react-router-dom';
-import {isTokenValid, RegisterApiError, signUp} from '../Services/AuthService';
+import {RegisterApiError, signUp} from '../Services/AuthService';
 import {AxiosError, AxiosResponse} from 'axios';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
+import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 interface IFormInput {
 	readonly email: string;
@@ -35,6 +36,7 @@ export function RegisterPage(): React.ReactElement {
 		React.useState<boolean>(false);
 	const navigate = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
+	const {tokenLoading, tokenValid} = useTokenValidation();
 
 	const {
 		register,
@@ -43,7 +45,11 @@ export function RegisterPage(): React.ReactElement {
 		handleSubmit
 	} = useForm<IFormInput>();
 
-	if (isTokenValid()) {
+	if (tokenLoading) {
+		return <></>;
+	}
+
+	if (tokenValid) {
 		navigate('/wishlists');
 		return <></>;
 	}

@@ -5,6 +5,7 @@ import {
 	InputAdornment,
 	Link,
 	TextField,
+	Theme,
 	Typography,
 	useMediaQuery,
 	useTheme
@@ -13,22 +14,28 @@ import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
 import '../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
-import {isTokenValid, logIn} from '../Services/AuthService';
+import {logIn} from '../Services/AuthService';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
+import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function LoginPage(): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
-	const theme = useTheme();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const theme: Theme = useTheme();
+	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 	const {register, handleSubmit} = useForm();
+	const {tokenLoading, tokenValid} = useTokenValidation();
 
-	if (isTokenValid()) {
+	if (tokenLoading) {
+		return <></>;
+	}
+
+	if (tokenValid) {
 		navigate('/wishlists');
 		return <></>;
 	}

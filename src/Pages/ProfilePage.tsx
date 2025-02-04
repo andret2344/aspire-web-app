@@ -9,7 +9,7 @@ import {
 	Typography
 } from '@mui/material';
 import React from 'react';
-import {changePassword, isTokenValid} from '../Services/AuthService';
+import {changePassword} from '../Services/AuthService';
 import {useNavigate} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import {useSnackbar} from 'notistack';
@@ -17,6 +17,7 @@ import {useDarkMode} from '../Components/DarkModeContext';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '../Components/ToggleColorModeComponent';
 import {useTranslation} from 'react-i18next';
+import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function ProfilePage(): React.ReactElement {
 	type Inputs = {
@@ -32,6 +33,7 @@ export function ProfilePage(): React.ReactElement {
 	const {darkMode, toggleDarkMode} = useDarkMode();
 	const navigate = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
+	const {tokenLoading, tokenValid} = useTokenValidation();
 	const {
 		handleSubmit,
 		register,
@@ -41,7 +43,11 @@ export function ProfilePage(): React.ReactElement {
 	} = useForm<Inputs>();
 	const {t} = useTranslation();
 
-	if (!isTokenValid()) {
+	if (tokenLoading) {
+		return <></>;
+	}
+
+	if (!tokenValid) {
 		navigate('/');
 		return <></>;
 	}
