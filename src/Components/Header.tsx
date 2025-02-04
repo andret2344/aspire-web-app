@@ -12,14 +12,20 @@ import React from 'react';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Logout, Settings} from '@mui/icons-material';
 import {Link as Anchor, useNavigate} from 'react-router-dom';
-import {isTokenValid, logout} from '../Services/AuthService';
+import {logout} from '../Services/AuthService';
 import {LanguagePicker} from './LanguagePicker';
 import {useTranslation} from 'react-i18next';
+import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function Header(): React.ReactElement {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const {t} = useTranslation();
+	const {tokenLoading, tokenValid} = useTokenValidation();
+
+	if (tokenLoading) {
+		return <></>;
+	}
 
 	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
 		setAnchorEl(event.currentTarget);
@@ -35,7 +41,7 @@ export function Header(): React.ReactElement {
 	}
 
 	function renderProfileIcon(): React.ReactElement | undefined {
-		if (!isTokenValid()) {
+		if (!tokenValid) {
 			return undefined;
 		}
 		return (
