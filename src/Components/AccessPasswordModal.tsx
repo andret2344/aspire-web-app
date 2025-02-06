@@ -8,7 +8,7 @@ import {
 	InputAdornment,
 	IconButton
 } from '@mui/material';
-import {RenderPasswordVisibilityIcon} from './PasswordVisibilityIcon';
+import {PasswordVisibilityIcon} from './PasswordVisibilityIcon';
 import {setWishlistPassword} from '../Services/WishListService';
 import React from 'react';
 import {WishList} from '../Entity/WishList';
@@ -93,7 +93,7 @@ export const AccessPasswordModal = (
 									sx={{margin: 0, padding: 0}}
 									onClick={handleClickShowPassword}
 								>
-									<RenderPasswordVisibilityIcon
+									<PasswordVisibilityIcon
 										showPassword={showPassword}
 									/>
 								</IconButton>

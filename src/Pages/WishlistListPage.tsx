@@ -13,7 +13,7 @@ import {
 	Theme,
 	useTheme
 } from '@mui/material';
-import React from 'react';
+import React, {useCallback} from 'react';
 import '../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
@@ -67,8 +67,21 @@ export function WishlistListPage(): React.ReactElement {
 		return <></>;
 	}
 
+	const fetchAndSetWishlistHiddenItems = useCallback(
+		async (id: number): Promise<void> => {
+			await getWishlistHiddenItems(id)
+				.then(setActiveWishlistHiddenItems)
+				.catch((): string | number =>
+					enqueueSnackbar(t('something-went-wrong'), {
+						variant: 'error'
+					})
+				);
+		},
+		[navigate]
+	);
+
 	function findWishlistById(wishlistId: number): WishList | undefined {
-		return wishlists.find(
+		return wishlists?.find(
 			(wishlist: WishList): boolean => wishlistId === wishlist.id
 		);
 	}
@@ -181,7 +194,7 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function renderItems(): React.ReactNode[] | undefined {
-		return findWishlistById(activeWishlistId)?.wishlistItems.map(
+		return findWishlistById(activeWishlistId)?.wishlistItems?.map(
 			renderWishlistItem
 		);
 	}
@@ -316,6 +329,9 @@ export function WishlistListPage(): React.ReactElement {
 						/>
 						<EditItemModal
 							wishlistId={activeWishlistId}
+							wishlistPassword={
+								findWishlistById(activeWishlistId)?.has_password
+							}
 							opened={addItemModalOpened}
 							toggleModal={toggleWishlistItemModal}
 							onAccept={handleEditAccept}

@@ -32,6 +32,7 @@ import {useTranslation} from 'react-i18next';
 
 interface EditItemModalProps {
 	readonly wishlistId?: number;
+	readonly wishlistPassword?: boolean;
 	readonly opened: boolean;
 	readonly toggleModal: () => void;
 	readonly onAccept: (wishlistId: number, item: WishlistItem) => void;
@@ -42,7 +43,9 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const theme = useTheme();
 	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
-	const [hidden, setHidden] = React.useState<boolean>(false);
+	const [hidden, setHidden] = React.useState<boolean | undefined>(
+		props.item?.hidden
+	);
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [description, setDescription] = React.useState<string>(
 		props.item?.description ?? ''
@@ -128,8 +131,8 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 						wishlistItemName,
 						wishlistItemDescription,
 						priority,
-					hidden
-				);
+						hidden
+					);
 
 				if (newWishlistItem) {
 					props.onAccept(props.wishlistId, newWishlistItem);
@@ -226,7 +229,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 								title='If you want to hide this wish, set a password for the wishlist'
 								placement='right'
 								PopperProps={{
-									disablePortal: true
+									disablePortal: false
 								}}
 								open={open}
 								disableFocusListener
@@ -239,7 +242,8 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 										console.log(hidden);
 										handleTooltipOpen();
 									}}
-									disabled
+									disabled={!props.wishlistPassword}
+									defaultChecked={props.item?.hidden}
 									control={<Checkbox />}
 									data-testid='tooltip-test'
 									label='Hide this wish'

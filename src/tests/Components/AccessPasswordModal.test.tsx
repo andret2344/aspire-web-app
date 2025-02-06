@@ -89,30 +89,30 @@ describe('AccessPasswordModal', (): void => {
 		fireEvent.click(screen.getByRole('button', {name: 'Cancel'}));
 	});
 
-	// test('getWishlistHiddenItems throw error when no wishlist hidden items are returned', async (): Promise<void> => {
-	// 	// Arrange
-	// 	// user.setup();
-	// 	mockedGetWishlistHiddenItems.mockRejectedValue(new Error('Test error'));
-	// 	await act(
-	// 		(): RenderResult =>
-	// 			renderForTest(
-	// 				<AccessPasswordModal
-	// 					wishlist={mockWishlistData}
-	// 					getWishlistHiddenItems={() => undefined}
-	// 					setRevealPassModalOpened={() => undefined}
-	// 					revealPassModalOpened={true}
-	// 				/>
-	// 			)
-	// 	);
+	test('getWishlistHiddenItems throw error when no wishlist hidden items are returned', async (): Promise<void> => {
+		// Arrange
+		mockedGetWishlistHiddenItems.mockRejectedValue(new Error('Test error'));
+		await act(
+			(): RenderResult =>
+				renderForTest(
+					<AccessPasswordModal
+						wishlist={mockWishlistData}
+						getWishlistHiddenItems={() => undefined}
+						setRevealPassModalOpened={() => undefined}
+						revealPassModalOpened={true}
+					/>
+				)
+		);
 
-	// 	//act
-	// 	const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
-	// 	fireEvent.change(screen.getByPlaceholderText('Password'), {
-	// 		target: {value: 'password123'}
-	// 	});
+		//act
+		const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
+		fireEvent.change(screen.getByPlaceholderText('Password'), {
+			target: {value: 'password123'}
+		});
 
-	// 	// Assert
-	// 	expect(confirmBtn).toHaveProperty('disabled', false);
-	// 	fireEvent.click(confirmBtn);
-	// });
+		// Assert
+		expect(confirmBtn).toHaveProperty('disabled', false);
+		fireEvent.click(confirmBtn);
+		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
+	});
 });

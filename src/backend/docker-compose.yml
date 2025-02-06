@@ -1,0 +1,38 @@
+services:
+  api:
+    container_name: aspire_api
+    image: registry.gitlab.com/self-evolving/aspire/aspire-server:v0.1.0-dev.1
+    ports:
+      - "8083:8080"
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8080"
+    environment:
+      DB_HOST: db
+      DB_NAME: ${POSTGRES_DB_NAME}
+      DB_USER: ${POSTGRES_DB_USER}
+      DB_PASS: ${POSTGRES_DB_PASS}
+      DB_PORT: 5432
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    container_name: aspire_db
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASS}
+    env_file:
+      - .env
+volumes:
+  db-data:
