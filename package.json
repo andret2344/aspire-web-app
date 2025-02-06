@@ -19,12 +19,28 @@
 		"Frontend",
 		"Aspire"
 	],
-	"author": "Mytthew",
+	"contributors": [
+		{
+			"name": "Andret2344",
+			"email": "andret2344@gmail.com",
+			"url": "https://andret.eu/"
+		},
+		{
+			"name": "Mytthew"
+		},
+		{
+			"name": "7Matt"
+		},
+		{
+			"name": "barttux."
+		}
+	],
 	"license": "MIT",
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
 		"@fontsource/roboto": "^5.1.1",
+		"@mdxeditor/editor": "^3.21.2",
 		"@mui/icons-material": "^6.4.2",
 		"@mui/material": "^6.4.2",
 		"@testing-library/user-event": "^14.6.1",
@@ -33,7 +49,6 @@
 		"axios": "^1.7.9",
 		"axios-mock-adapter": "^2.1.0",
 		"dotenv-webpack": "^8.1.0",
-		"html-react-parser": "^5.2.2",
 		"i18next": "^24.2.2",
 		"i18next-browser-languagedetector": "^8.0.2",
 		"i18next-http-backend": "^3.0.2",
@@ -44,11 +59,10 @@
 		"react": "^18.3.1",
 		"react-country-flag": "^3.1.0",
 		"react-dom": "^18.3.1",
-		"react-draft-wysiwyg": "^1.15.0",
 		"react-hook-form": "^7.54.2",
 		"react-i18next": "^15.4.0",
-		"react-quill": "^2.0.0",
-		"react-router-dom": "^7.1.3"
+		"react-router-dom": "^7.1.3",
+		"react-showdown": "^2.3.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.26.7",

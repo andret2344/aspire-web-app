@@ -1,5 +1,5 @@
 import apiInstance from './ApiInstance';
-import {WishlistItem} from '../Entity/WishlistItem';
+import {WishlistItemDto} from '../Entity/WishlistItem';
 import {AxiosResponse, isAxiosError} from 'axios';
 
 export async function addWishlistItem(
@@ -7,7 +7,7 @@ export async function addWishlistItem(
 	name: string,
 	description: string,
 	priorityId: number | string
-): Promise<WishlistItem | null> {
+): Promise<WishlistItemDto | null> {
 	try {
 		const result: AxiosResponse = await apiInstance.post(
 			`/${wishlistId}/wishlistitem`,
@@ -32,7 +32,7 @@ export async function editWishlistItem(
 	name: string,
 	description: string,
 	priorityId: number | string
-): Promise<WishlistItem | null> {
+): Promise<WishlistItemDto | null> {
 	try {
 		const result: AxiosResponse = await apiInstance.put(
 			`/${wishlistId}/wishlistitem/${wishlistItemId}`,

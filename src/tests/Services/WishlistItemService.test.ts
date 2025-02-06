@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import apiInstance from '../../Services/ApiInstance';
 import {waitFor} from '@testing-library/react';
-import {WishlistItem} from '../../Entity/WishlistItem';
+import {WishlistItemDto} from '../../Entity/WishlistItem';
 import {
 	addWishlistItem,
 	editWishlistItem,
@@ -11,20 +11,20 @@ import {
 describe('WishListItemService', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	const mockWishlistItem: WishlistItem = {
+	const mockWishlistItemDto: WishlistItemDto = {
 		id: 1,
-		wishlistId: 1,
+		wishlist_id: 1,
 		description: 'test description',
 		name: 'Item 1',
-		priorityId: 3
+		priority_id: 3
 	};
 
-	const mockUpdatedWishlistItem: WishlistItem = {
+	const mockUpdatedWishlistItemDto: WishlistItemDto = {
 		id: 1,
-		wishlistId: 1,
+		wishlist_id: 1,
 		description: 'updated test description',
 		name: 'updated',
-		priorityId: 3
+		priority_id: 3
 	};
 
 	test('add wishlist item', async (): Promise<void> => {
@@ -34,15 +34,18 @@ describe('WishListItemService', (): void => {
 		const name = 'test name';
 		const description = 'test description';
 		const priorityId = 1;
-		mock.onPost(`/${wishlistId}/wishlistitem`).reply(200, mockWishlistItem);
+		mock.onPost(`/${wishlistId}/wishlistitem`).reply(
+			200,
+			mockWishlistItemDto
+		);
 
 		// act
 		await waitFor(
-			(): Promise<WishlistItem | null> =>
+			(): Promise<WishlistItemDto | null> =>
 				addWishlistItem(wishlistId, name, description, priorityId)
-		).then((wishlistItem: WishlistItem | null): void => {
+		).then((wishlistItemDto: WishlistItemDto | null): void => {
 			// assert
-			expect(wishlistItem).toStrictEqual(mockWishlistItem);
+			expect(wishlistItemDto).toStrictEqual(mockWishlistItemDto);
 		});
 	});
 
@@ -56,13 +59,15 @@ describe('WishListItemService', (): void => {
 		mock.onPost(`/${wishlistId}/wishlistitem`).reply(500);
 
 		// act
-		await waitFor(
-			(): Promise<WishlistItem | null> =>
-				addWishlistItem(wishlistId, name, description, priorityId)
-		).then((): void => {
-			// assert
-			// TODO: Fill in after implementation
-		});
+		const result: WishlistItemDto | null = await addWishlistItem(
+			wishlistId,
+			name,
+			description,
+			priorityId
+		);
+
+		// assert
+		expect(result).toBeNull();
 	});
 
 	test('edit wishlist item', async (): Promise<void> => {
@@ -75,12 +80,12 @@ describe('WishListItemService', (): void => {
 		const priorityId = 1;
 		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			200,
-			mockUpdatedWishlistItem
+			mockUpdatedWishlistItemDto
 		);
 
 		// act
 		await waitFor(
-			(): Promise<WishlistItem | null> =>
+			(): Promise<WishlistItemDto | null> =>
 				editWishlistItem(
 					wishlistId,
 					wishlistItemId,
@@ -88,9 +93,9 @@ describe('WishListItemService', (): void => {
 					description,
 					priorityId
 				)
-		).then((wishlistItem: WishlistItem | null): void => {
+		).then((wishlistItemDto: WishlistItemDto | null): void => {
 			// assert
-			expect(wishlistItem).toStrictEqual(mockUpdatedWishlistItem);
+			expect(wishlistItemDto).toStrictEqual(mockUpdatedWishlistItemDto);
 		});
 	});
 
@@ -104,13 +109,13 @@ describe('WishListItemService', (): void => {
 		const priorityId = 1;
 		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			500,
-			mockUpdatedWishlistItem
+			mockUpdatedWishlistItemDto
 		);
 		const logSpy = jest.spyOn(console, 'error');
 
 		// act
 		await waitFor(
-			(): Promise<WishlistItem | null> =>
+			(): Promise<WishlistItemDto | null> =>
 				editWishlistItem(
 					wishlistId,
 					wishlistItemId,

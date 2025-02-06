@@ -91,7 +91,7 @@ export function WishlistListPage(): React.ReactElement {
 		setWishlists([...wishlists]);
 	}
 
-	function openWishlistItemModalForEdit(item: WishlistItem): void {
+	function handleItemEdit(item: WishlistItem): void {
 		setEditingWishlistItem(item);
 		setAddItemModalOpened(true);
 	}
@@ -176,7 +176,7 @@ export function WishlistListPage(): React.ReactElement {
 				item={wishlistItem}
 				position={index + 1}
 				wishlistId={activeWishlistId}
-				onEdit={openWishlistItemModalForEdit}
+				onEdit={handleItemEdit}
 				onRemove={handleItemRemove}
 			/>
 		);

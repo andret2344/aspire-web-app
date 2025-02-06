@@ -125,7 +125,7 @@ describe('EditItemModal', (): void => {
 			'enter-item'
 		) as HTMLInputElement;
 		const descriptionInput = screen
-			.getByTestId('test-quill')
+			.getByTestId('test-mdx')
 			.querySelector('.ql-editor') as HTMLInputElement;
 		const prioritySelect = screen.getByRole(
 			'combobox'
@@ -167,7 +167,7 @@ describe('EditItemModal', (): void => {
 			'enter-item'
 		) as HTMLInputElement;
 		const descriptionInput = screen
-			.getByTestId('test-quill')
+			.getByTestId('test-mdx')
 			.querySelector('.ql-editor') as HTMLInputElement;
 		const prioritySelect = screen.getByRole(
 			'combobox'
