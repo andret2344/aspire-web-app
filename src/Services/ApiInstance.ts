@@ -9,6 +9,10 @@ import {Config} from './EnvironmentHelper';
 
 let fetchedConfig: Config | undefined = undefined;
 
+function createTokenHeader(token: string): string {
+	return `Bearer ${token}`;
+}
+
 function getDefaultConfig(): Config {
 	return {
 		backend: process.env.REACT_API_URL ?? 'http://localhost:8080',
@@ -40,9 +44,9 @@ apiInstance.interceptors.request.use(
 	async (
 		config: InternalAxiosRequestConfig
 	): Promise<InternalAxiosRequestConfig<any>> => {
-		const token = getAccessToken();
+		const token: string | null = getAccessToken();
 		if (token) {
-			config.headers['Authorization'] = `Bearer ${token}`;
+			config.headers['Authorization'] = createTokenHeader(token);
 		}
 		return config;
 	}
@@ -55,8 +59,10 @@ apiInstance.interceptors.response.use(
 			error.config;
 
 		if (error.response?.status === 401 && originalRequest) {
-			const newToken = await refreshToken();
+			const newToken: string | undefined = await refreshToken();
 			if (newToken) {
+				originalRequest.headers['Authorization'] =
+					createTokenHeader(newToken);
 				saveAccessToken(newToken);
 				return apiInstance(originalRequest);
 			}
