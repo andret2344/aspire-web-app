@@ -4,7 +4,7 @@ export interface WishlistItem {
 	readonly name: string;
 	readonly description: string;
 	readonly priorityId: number;
-	readonly hidden: boolean | undefined;
+	readonly hidden?: boolean;
 }
 
 export interface WishlistItemDto {

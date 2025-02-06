@@ -1,12 +1,12 @@
 import {
+	Box,
+	Button,
+	IconButton,
+	InputAdornment,
 	Modal,
 	Paper,
-	Typography,
 	TextField,
-	Button,
-	Box,
-	InputAdornment,
-	IconButton
+	Typography
 } from '@mui/material';
 import {PasswordVisibilityIcon} from './PasswordVisibilityIcon';
 import {setWishlistPassword} from '../Services/WishListService';
@@ -17,38 +17,39 @@ import {useTranslation} from 'react-i18next';
 
 interface AccessPasswordModalProps {
 	readonly wishlist: WishList;
-	readonly setRevealPassModalOpened: () => void;
-	readonly getWishlistHiddenItems: (id: number) => void;
-	readonly revealPassModalOpened: boolean;
+	readonly onClose: () => void;
+	readonly onAccept: (id: number) => void;
+	readonly opened: boolean;
 }
 
 export const AccessPasswordModal = (
 	props: AccessPasswordModalProps
 ): React.ReactElement => {
-	const [hideItemPass, setHideItemPass] = React.useState<string>('');
+	const [password, setPassword] = React.useState<string>('');
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 
-	const handleClickShowPassword = (): void => {
+	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);
-	};
+	}
 
 	function handleSubmitButton(): void {
-		if (hideItemPass) {
-			setWishlistPassword(props.wishlist.id, hideItemPass);
-			props.setRevealPassModalOpened();
-			setHideItemPass('');
-			props.getWishlistHiddenItems(props.wishlist.id);
-			enqueueSnackbar(t('password-changed!'), {
-				variant: 'success'
+		if (password) {
+			setWishlistPassword(props.wishlist.id, password).then((): void => {
+				setPassword('');
+				props.onAccept(props.wishlist.id);
+				enqueueSnackbar(t('password-changed!'), {
+					variant: 'success'
+				});
+				props.onClose();
 			});
 		}
 	}
 
 	return (
 		<Modal
-			open={props.revealPassModalOpened}
+			open={props.opened}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
 			sx={{
@@ -94,7 +95,7 @@ export const AccessPasswordModal = (
 									onClick={handleClickShowPassword}
 								>
 									<PasswordVisibilityIcon
-										showPassword={showPassword}
+										visible={showPassword}
 									/>
 								</IconButton>
 							</InputAdornment>
@@ -104,7 +105,7 @@ export const AccessPasswordModal = (
 					variant={'filled'}
 					placeholder={'Password'}
 					onChange={(e) => {
-						setHideItemPass(e.currentTarget.value);
+						setPassword(e.currentTarget.value);
 					}}
 					sx={{
 						width: {
@@ -127,8 +128,8 @@ export const AccessPasswordModal = (
 				>
 					<Button
 						onClick={() => {
-							props.setRevealPassModalOpened();
-							setHideItemPass('');
+							props.onClose();
+							setPassword('');
 						}}
 						variant='contained'
 						sx={{
@@ -139,7 +140,7 @@ export const AccessPasswordModal = (
 					</Button>
 					<Button
 						onClick={() => handleSubmitButton()}
-						disabled={!hideItemPass}
+						disabled={!password}
 						variant='contained'
 						sx={{
 							margin: '10px'

@@ -203,7 +203,7 @@ describe('AuthService', (): void => {
 			accessToken: 'access-token'
 		};
 		const mock = new MockAdapter(apiInstance);
-		mock.onPost(`${getBackendUrl()}/account/login/refresh`).reply(
+		mock.onPost(`${getApiConfig().backend}/account/login/refresh`).reply(
 			200,
 			mockResponseData
 		);

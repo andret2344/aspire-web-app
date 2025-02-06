@@ -32,7 +32,7 @@ describe('EditItemModal', (): void => {
 				hidden: false
 			}
 		],
-		has_hidden_items: false
+		has_password: false
 	};
 
 	const updatedMockWishlistData: WishList = {
@@ -49,7 +49,7 @@ describe('EditItemModal', (): void => {
 				hidden: false
 			}
 		],
-		has_hidden_items: false
+		has_password: false
 	};
 
 	const newMockWishlistItem: WishlistItem = {
@@ -115,12 +115,12 @@ describe('EditItemModal', (): void => {
 	test('tooltip works properly', (): void => {
 		//arrange
 		renderForTest(
-			<WishlistItemModal
+			<EditItemModal
 				wishlistId={mockWishlistData.id}
+				item={mockWishlistData.wishlistItems[0]}
 				opened={true}
 				toggleModal={(): void => undefined}
-				getWishlistAgain={(): void => undefined}
-				editingItem={mockWishlistData.wishlistItems[0]}
+				onAccept={(): void => undefined}
 			/>
 		);
 

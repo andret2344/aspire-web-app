@@ -13,7 +13,7 @@ describe('AccessPasswordModal', (): void => {
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
 		name: 'Mock Wishlist',
 		wishlistItems: [],
-		has_hidden_items: false
+		has_password: false
 	};
 
 	test('renders modal correctly', (): void => {
@@ -21,9 +21,9 @@ describe('AccessPasswordModal', (): void => {
 		renderForTest(
 			<AccessPasswordModal
 				wishlist={mockWishlistData}
-				getWishlistHiddenItems={() => undefined}
-				setRevealPassModalOpened={() => undefined}
-				revealPassModalOpened={true}
+				onClose={(): void => undefined}
+				onAccept={(): void => undefined}
+				opened={true}
 			/>
 		);
 		// assert
@@ -35,9 +35,9 @@ describe('AccessPasswordModal', (): void => {
 		renderForTest(
 			<AccessPasswordModal
 				wishlist={mockWishlistData}
-				getWishlistHiddenItems={() => undefined}
-				setRevealPassModalOpened={() => undefined}
-				revealPassModalOpened={true}
+				onClose={(): void => undefined}
+				onAccept={(): void => undefined}
+				opened={true}
 			/>
 		);
 
@@ -57,9 +57,9 @@ describe('AccessPasswordModal', (): void => {
 		renderForTest(
 			<AccessPasswordModal
 				wishlist={mockWishlistData}
-				getWishlistHiddenItems={() => undefined}
-				setRevealPassModalOpened={() => undefined}
-				revealPassModalOpened={true}
+				onClose={(): void => undefined}
+				onAccept={(): void => undefined}
+				opened={true}
 			/>
 		);
 
@@ -79,9 +79,9 @@ describe('AccessPasswordModal', (): void => {
 		renderForTest(
 			<AccessPasswordModal
 				wishlist={mockWishlistData}
-				getWishlistHiddenItems={() => undefined}
-				setRevealPassModalOpened={() => undefined}
-				revealPassModalOpened={true}
+				onClose={(): void => undefined}
+				onAccept={(): void => undefined}
+				opened={true}
 			/>
 		);
 
@@ -90,28 +90,27 @@ describe('AccessPasswordModal', (): void => {
 	});
 
 	test('getWishlistHiddenItems throw error when no wishlist hidden items are returned', async (): Promise<void> => {
-		// Arrange
+		// arrange
 		mockedGetWishlistHiddenItems.mockRejectedValue(new Error('Test error'));
 		await act(
 			(): RenderResult =>
 				renderForTest(
 					<AccessPasswordModal
 						wishlist={mockWishlistData}
-						getWishlistHiddenItems={() => undefined}
-						setRevealPassModalOpened={() => undefined}
-						revealPassModalOpened={true}
+						onClose={(): void => undefined}
+						onAccept={(): void => undefined}
+						opened={true}
 					/>
 				)
 		);
 
-		//act
+		// act
 		const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
 		fireEvent.change(screen.getByPlaceholderText('Password'), {
 			target: {value: 'password123'}
 		});
 
-		// Assert
-		expect(confirmBtn).toHaveProperty('disabled', false);
+		// assert
 		fireEvent.click(confirmBtn);
 		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 	});

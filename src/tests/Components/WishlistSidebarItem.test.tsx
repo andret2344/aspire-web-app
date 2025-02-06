@@ -22,7 +22,8 @@ describe('WishlistSidebarItem', (): void => {
 				name: 'Item 1',
 				priorityId: 3
 			}
-		]
+		],
+		has_password: false
 	};
 
 	test('render correctly', (): void => {
@@ -33,6 +34,7 @@ describe('WishlistSidebarItem', (): void => {
 				active={false}
 				onRemove={jest.fn()}
 				onNameEdit={jest.fn()}
+				onPasswordEnter={jest.fn()}
 			/>
 		);
 
@@ -53,6 +55,7 @@ describe('WishlistSidebarItem', (): void => {
 				active={true}
 				onRemove={jest.fn()}
 				onNameEdit={handleNameChange}
+				onPasswordEnter={jest.fn()}
 			/>
 		);
 
@@ -89,6 +92,7 @@ describe('WishlistSidebarItem', (): void => {
 				active={true}
 				onRemove={jest.fn()}
 				onNameEdit={handleNameChange}
+				onPasswordEnter={jest.fn()}
 			/>
 		);
 
@@ -125,6 +129,7 @@ describe('WishlistSidebarItem', (): void => {
 				active={true}
 				onRemove={jest.fn()}
 				onNameEdit={handleNameChange}
+				onPasswordEnter={jest.fn()}
 			/>
 		);
 

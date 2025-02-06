@@ -13,7 +13,7 @@ import {
 	Theme,
 	useTheme
 } from '@mui/material';
-import React, {useCallback} from 'react';
+import React from 'react';
 import '../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
@@ -36,8 +36,7 @@ export function WishlistListPage(): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	const [activeWishlistHiddenItems, setActiveWishlistHiddenItems] =
-		React.useState<WishlistItem[]>([]);
+	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
 	const [openAddWishlistModal, setOpenAddWishlistModal] =
 		React.useState<boolean>(false);
 	const [deleteModalOpened, setDeleteModalOpened] =
@@ -73,21 +72,18 @@ export function WishlistListPage(): React.ReactElement {
 		return <></>;
 	}
 
-	const fetchAndSetWishlistHiddenItems = useCallback(
-		async (id: number): Promise<void> => {
-			await getWishlistHiddenItems(id)
-				.then(setActiveWishlistHiddenItems)
-				.catch((): string | number =>
-					enqueueSnackbar(t('something-went-wrong'), {
-						variant: 'error'
-					})
-				);
-		},
-		[navigate]
-	);
+	async function handlePasswordEnter(id: number): Promise<void> {
+		await getWishlistHiddenItems(id)
+			.then(setHiddenItems)
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
+			);
+	}
 
 	function findWishlistById(wishlistId: number): WishList | undefined {
-		return wishlists?.find(
+		return wishlists.find(
 			(wishlist: WishList): boolean => wishlistId === wishlist.id
 		);
 	}
@@ -122,7 +118,7 @@ export function WishlistListPage(): React.ReactElement {
 				onNameEdit={(newName: string): void =>
 					handleNameEdit(wishlist.id, newName)
 				}
-				getWishlistHiddenItems={fetchAndSetWishlistHiddenItems}
+				onPasswordEnter={handlePasswordEnter}
 			/>
 		);
 	}
@@ -200,9 +196,10 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function renderItems(): React.ReactNode[] {
-		return (findWishlistById(activeWishlistId)?.wishlistItems ?? []).map(
-			renderWishlistItem
-		);
+		const activeWishlistItems =
+			findWishlistById(activeWishlistId)?.wishlistItems ?? [];
+		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
+		return items.map(renderWishlistItem);
 	}
 
 	function handleEditAccept(wishlistId: number, item: WishlistItem): void {

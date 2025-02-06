@@ -20,7 +20,7 @@ interface WishlistSidebarItemProps {
 	readonly active: boolean;
 	readonly onRemove: () => void;
 	readonly onNameEdit: (newName: string) => void;
-	readonly getWishlistHiddenItems: (id: number) => void;
+	readonly onPasswordEnter: (id: number) => void;
 }
 
 export function WishlistSidebarItem(
@@ -32,12 +32,11 @@ export function WishlistSidebarItem(
 	const [editedName, setEditedName] = React.useState<string | undefined>(
 		undefined
 	);
-
-	const [revealPassModalOpened, setRevealPassModalOpened] =
+	const [passwordModalOpened, setPasswordModalOpened] =
 		React.useState<boolean>(false);
+
 	const toggleRevealPassModal = (): void => {
-		setRevealPassModalOpened((prev): boolean => !prev);
-		console.log(props.wishlist);
+		setPasswordModalOpened((prev): boolean => !prev);
 	};
 
 	function handleNameClick(): void {
@@ -205,9 +204,9 @@ export function WishlistSidebarItem(
 				</Box>
 				<AccessPasswordModal
 					wishlist={props.wishlist}
-					setRevealPassModalOpened={toggleRevealPassModal}
-					revealPassModalOpened={revealPassModalOpened}
-					getWishlistHiddenItems={props.getWishlistHiddenItems}
+					onClose={toggleRevealPassModal}
+					opened={passwordModalOpened}
+					onAccept={props.onPasswordEnter}
 				/>
 			</Link>
 		);

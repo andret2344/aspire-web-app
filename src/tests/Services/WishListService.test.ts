@@ -4,8 +4,8 @@ import {
 	getWishlist,
 	getWishlists,
 	removeWishlist,
-	updateWishlistName,
-	setWishlistPassword
+	setWishlistPassword,
+	updateWishlistName
 } from '../../Services/WishListService';
 import {waitFor} from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
@@ -31,7 +31,7 @@ describe('WishListService', (): void => {
 				hidden: false
 			}
 		],
-		has_hidden_items: false
+		has_password: false
 	};
 
 	const mockWishlist: WishList = {
@@ -48,7 +48,7 @@ describe('WishListService', (): void => {
 				hidden: false
 			}
 		],
-		has_hidden_items: false
+		has_password: false
 	};
 
 	test('get wishlists', async (): Promise<void> => {
