@@ -36,6 +36,9 @@ export function WishlistListPage(): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
+	// const [activeWishlist, setActiveWishlist] = React.useState<WishList | null>(
+	// 	null
+	// );
 	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
 	const [openAddWishlistModal, setOpenAddWishlistModal] =
 		React.useState<boolean>(false);
@@ -72,9 +75,14 @@ export function WishlistListPage(): React.ReactElement {
 		return <></>;
 	}
 
-	async function handlePasswordEnter(id: number): Promise<void> {
-		await getWishlistHiddenItems(id)
+	async function handlePasswordEnter(
+		id: number,
+		password: string
+	): Promise<void> {
+		await getWishlistHiddenItems(id, password)
 			.then(setHiddenItems)
+			.then(() => console.log(hiddenItems))
+			.then(() => renderItems())
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {
 					variant: 'error'

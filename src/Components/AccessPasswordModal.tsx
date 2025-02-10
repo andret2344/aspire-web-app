@@ -18,7 +18,7 @@ import {useTranslation} from 'react-i18next';
 interface AccessPasswordModalProps {
 	readonly wishlist: WishList;
 	readonly onClose: () => void;
-	readonly onAccept: (id: number) => void;
+	readonly onAccept: (id: number, password: string) => void;
 	readonly opened: boolean;
 }
 
@@ -35,16 +35,19 @@ export const AccessPasswordModal = (
 	}
 
 	function handleSubmitButton(): void {
-		if (password) {
+		if (!props.wishlist.has_password) {
 			setWishlistPassword(props.wishlist.id, password).then((): void => {
 				setPassword('');
-				props.onAccept(props.wishlist.id);
 				enqueueSnackbar(t('password-changed!'), {
 					variant: 'success'
 				});
 				props.onClose();
 			});
 		}
+		props.onAccept(props.wishlist.id, password);
+		setPassword('');
+		props.onClose();
+		console.log(props.wishlist.wishlistItems);
 	}
 
 	return (

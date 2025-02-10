@@ -73,6 +73,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	React.useEffect((): void => {
 		if (props.item) {
 			setPriority(props.item.priorityId);
+			setHidden(props.item.hidden);
 			if (inputRefName.current) {
 				inputRefName.current.value = props.item.name;
 			}
@@ -83,6 +84,10 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 
 	function handleChangePriority(event: SelectChangeEvent<number>): void {
 		setPriority(+event.target.value);
+	}
+
+	function handleChangeHidden(): void {
+		setHidden((prev): boolean => !prev);
 	}
 
 	const handleTooltipClose = () => {
@@ -238,13 +243,20 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							>
 								<FormControlLabel
 									onClick={() => {
-										setHidden((prev): boolean => !prev);
 										console.log(hidden);
-										handleTooltipOpen();
+										!props.wishlistPassword
+											? handleTooltipOpen()
+											: '';
 									}}
 									disabled={!props.wishlistPassword}
 									defaultChecked={props.item?.hidden}
-									control={<Checkbox />}
+									control={
+										<Checkbox
+											onClick={() => {
+												handleChangeHidden();
+											}}
+										/>
+									}
 									data-testid='tooltip-test'
 									label='Hide this wish'
 								/>

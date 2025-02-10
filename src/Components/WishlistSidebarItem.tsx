@@ -20,7 +20,7 @@ interface WishlistSidebarItemProps {
 	readonly active: boolean;
 	readonly onRemove: () => void;
 	readonly onNameEdit: (newName: string) => void;
-	readonly onPasswordEnter: (id: number) => void;
+	readonly onPasswordEnter: (id: number, password: string) => void;
 }
 
 export function WishlistSidebarItem(

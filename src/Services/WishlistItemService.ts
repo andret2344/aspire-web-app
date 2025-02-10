@@ -3,10 +3,11 @@ import {WishlistItem} from '../Entity/WishlistItem';
 import {AxiosResponse, isAxiosError} from 'axios';
 
 export const getWishlistHiddenItems = async (
-	id: number
+	id: number,
+	password: string
 ): Promise<WishlistItem[]> => {
 	const result: AxiosResponse<WishlistItem[]> = await apiInstance.get(
-		`/wishlist/${id}/hidden_items`
+		`/${id}/wishlistitem/hidden_items?access_code=${password}`
 	);
 	return result.data;
 };
