@@ -47,7 +47,6 @@ export const AccessPasswordModal = (
 		props.onAccept(props.wishlist.id, password);
 		setPassword('');
 		props.onClose();
-		console.log(props.wishlist.wishlistItems);
 	}
 
 	return (

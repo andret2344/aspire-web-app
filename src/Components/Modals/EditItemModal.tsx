@@ -248,10 +248,10 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 											? handleTooltipOpen()
 											: '';
 									}}
-									disabled={!props.wishlistPassword}
-									defaultChecked={props.item?.hidden}
 									control={
 										<Checkbox
+											defaultChecked={props.item?.hidden}
+											disabled={!props.wishlistPassword}
 											onClick={() => {
 												handleChangeHidden();
 											}}

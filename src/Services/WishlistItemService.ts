@@ -1,16 +1,17 @@
 import apiInstance from './ApiInstance';
-import {WishlistItem} from '../Entity/WishlistItem';
+import {WishlistItem, WishlistItemDto} from '../Entity/WishlistItem';
 import {AxiosResponse, isAxiosError} from 'axios';
+import {mapWishlistItem} from '../Entity/WishlistItem';
 
 export const getWishlistHiddenItems = async (
 	id: number,
 	password: string
 ): Promise<WishlistItem[]> => {
-	const result: AxiosResponse<WishlistItem[]> = await apiInstance.get(
+	const result: AxiosResponse<WishlistItemDto[]> = await apiInstance.get(
 		`/${id}/wishlistitem/hidden_items`,
 		{headers: {'Access-Code': password}}
 	);
-	return result.data;
+	return result.data.map(mapWishlistItem);
 };
 
 export async function addWishlistItem(

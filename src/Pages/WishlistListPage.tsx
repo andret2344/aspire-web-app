@@ -79,7 +79,6 @@ export function WishlistListPage(): React.ReactElement {
 	): Promise<void> {
 		await getWishlistHiddenItems(id, password)
 			.then(setHiddenItems)
-			.then(() => console.log(hiddenItems))
 			.then(() => renderItems())
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {
@@ -205,6 +204,7 @@ export function WishlistListPage(): React.ReactElement {
 		const activeWishlistItems =
 			findWishlistById(activeWishlistId)?.wishlistItems ?? [];
 		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
+		console.log(items);
 		return items.map(renderWishlistItem);
 	}
 
