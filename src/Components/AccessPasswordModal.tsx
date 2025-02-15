@@ -82,7 +82,12 @@ export const AccessPasswordModal = (
 					}
 				}}
 			>
-				<Typography>Enter password for this wishlist</Typography>
+				<Typography>
+					{!props.wishlist.has_password
+						? `Set password for this
+					wishlist`
+						: `Enter password to reveal ${props.wishlist.name} hidden items`}
+				</Typography>
 				<TextField
 					type={showPassword ? 'text' : 'password'}
 					autoComplete={'new-password'}

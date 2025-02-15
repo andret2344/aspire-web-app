@@ -36,9 +36,6 @@ export function WishlistListPage(): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	// const [activeWishlist, setActiveWishlist] = React.useState<WishList | null>(
-	// 	null
-	// );
 	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
 	const [openAddWishlistModal, setOpenAddWishlistModal] =
 		React.useState<boolean>(false);
@@ -64,7 +61,8 @@ export function WishlistListPage(): React.ReactElement {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
 				navigate('/error');
 			});
-	}, [tokenValid]);
+		setHiddenItems([]);
+	}, [tokenValid, activeWishlistId]);
 
 	if (tokenLoading) {
 		return <></>;

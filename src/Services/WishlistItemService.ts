@@ -7,7 +7,8 @@ export const getWishlistHiddenItems = async (
 	password: string
 ): Promise<WishlistItem[]> => {
 	const result: AxiosResponse<WishlistItem[]> = await apiInstance.get(
-		`/${id}/wishlistitem/hidden_items?access_code=${password}`
+		`/${id}/wishlistitem/hidden_items`,
+		{headers: {'Access-Code': password}}
 	);
 	return result.data;
 };
