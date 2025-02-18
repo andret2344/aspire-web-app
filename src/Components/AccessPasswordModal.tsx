@@ -8,6 +8,7 @@ import {
 	TextField,
 	Typography
 } from '@mui/material';
+import '../../assets/fonts.css';
 import {PasswordVisibilityIcon} from './PasswordVisibilityIcon';
 import {setWishlistPassword} from '../Services/WishListService';
 import React from 'react';
@@ -27,6 +28,9 @@ export const AccessPasswordModal = (
 ): React.ReactElement => {
 	const [password, setPassword] = React.useState<string>('');
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
+	const [forgotPassword, setForgotPassword] = React.useState<boolean>(
+		props.wishlist.has_password
+	);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 
@@ -34,19 +38,32 @@ export const AccessPasswordModal = (
 		setShowPassword((prev: boolean): boolean => !prev);
 	}
 
+	function handleClickForgotPassword(): void {
+		setForgotPassword((prev: boolean): boolean => !prev);
+	}
+
+	function handleCancelButton(): void {
+		props.onClose();
+		setPassword('');
+		setForgotPassword(props.wishlist.has_password);
+	}
+
 	function handleSubmitButton(): void {
-		if (!props.wishlist.has_password) {
+		if (!forgotPassword) {
 			setWishlistPassword(props.wishlist.id, password).then((): void => {
 				setPassword('');
 				enqueueSnackbar(t('password-changed!'), {
 					variant: 'success'
 				});
 				props.onClose();
+				setForgotPassword(props.wishlist.has_password);
 			});
+		} else {
+			props.onAccept(props.wishlist.id, password);
+			setPassword('');
+			props.onClose();
+			setForgotPassword(props.wishlist.has_password);
 		}
-		props.onAccept(props.wishlist.id, password);
-		setPassword('');
-		props.onClose();
 	}
 
 	return (
@@ -82,7 +99,7 @@ export const AccessPasswordModal = (
 				}}
 			>
 				<Typography>
-					{!props.wishlist.has_password
+					{!forgotPassword
 						? `Set password for this
 					wishlist`
 						: `Enter password to reveal ${props.wishlist.name} hidden items`}
@@ -123,7 +140,20 @@ export const AccessPasswordModal = (
 					}}
 					required
 				/>
-
+				{forgotPassword && (
+					<Button
+						variant='text'
+						onClick={() => handleClickForgotPassword()}
+						style={{
+							textDecoration: 'underline',
+							margin: '5px',
+							fontFamily: 'Montserrat',
+							fontWeight: '400'
+						}}
+					>
+						{t('forgot-password')}
+					</Button>
+				)}
 				<Box
 					sx={{
 						display: 'flex',
@@ -134,10 +164,7 @@ export const AccessPasswordModal = (
 					}}
 				>
 					<Button
-						onClick={() => {
-							props.onClose();
-							setPassword('');
-						}}
+						onClick={() => handleCancelButton()}
 						variant='contained'
 						sx={{
 							margin: '10px'
