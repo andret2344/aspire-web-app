@@ -61,8 +61,11 @@ export function WishlistListPage(): React.ReactElement {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
 				navigate('/error');
 			});
+	}, [tokenValid, addItemModalOpened]);
+
+	React.useEffect((): void => {
 		setHiddenItems([]);
-	}, [tokenValid, activeWishlistId]);
+	}, [activeWishlistId]);
 
 	if (tokenLoading) {
 		return <></>;
@@ -79,9 +82,8 @@ export function WishlistListPage(): React.ReactElement {
 	): Promise<void> {
 		await getWishlistHiddenItems(id, password)
 			.then(setHiddenItems)
-			.then(() => renderItems())
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('password-invalid'), {
 					variant: 'error'
 				})
 			);
@@ -124,8 +126,13 @@ export function WishlistListPage(): React.ReactElement {
 					handleNameEdit(wishlist.id, newName)
 				}
 				onPasswordEnter={handlePasswordEnter}
+				renderSidebarItems={renderSidebarItems}
 			/>
 		);
+	}
+
+	function renderSidebarItems(): React.ReactNode[] {
+		return wishlists.map(renderWishlistSidebarItem);
 	}
 
 	function addNewWishlist(newWishlist: WishList): void {
@@ -204,7 +211,6 @@ export function WishlistListPage(): React.ReactElement {
 		const activeWishlistItems =
 			findWishlistById(activeWishlistId)?.wishlistItems ?? [];
 		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
-		console.log(items);
 		return items.map(renderWishlistItem);
 	}
 
@@ -253,7 +259,7 @@ export function WishlistListPage(): React.ReactElement {
 						borderRight: `2px solid ${theme.palette.divider}`
 					}}
 				>
-					{wishlists.map(renderWishlistSidebarItem)}
+					{renderSidebarItems()}
 					<Button
 						data-testid='open-modal-button'
 						onClick={toggleWishlistModal}

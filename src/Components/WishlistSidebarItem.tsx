@@ -2,7 +2,8 @@ import React from 'react';
 import {Box, IconButton, Input, Link, Theme, Typography} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {Link as Anchor} from 'react-router-dom';
@@ -19,6 +20,7 @@ interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
 	readonly active: boolean;
 	readonly onRemove: () => void;
+	readonly renderSidebarItems: () => void;
 	readonly onNameEdit: (newName: string) => void;
 	readonly onPasswordEnter: (id: number, password: string) => void;
 }
@@ -191,7 +193,11 @@ export function WishlistSidebarItem(
 							size='large'
 							aria-label={'access-password-modal'}
 						>
-							<VisibilityRoundedIcon />
+							{props.wishlist.has_password ? (
+								<LockOutlinedIcon />
+							) : (
+								<LockOpenOutlinedIcon />
+							)}
 						</IconButton>
 						<IconButton
 							onClick={props.onRemove}

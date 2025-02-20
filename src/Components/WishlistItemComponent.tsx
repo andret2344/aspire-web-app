@@ -18,6 +18,7 @@ import {useSnackbar} from 'notistack';
 import Linkify from 'linkify-react';
 import parse from 'html-react-parser';
 import {useTranslation} from 'react-i18next';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -62,12 +63,25 @@ export function WishlistItemComponent(
 		<React.Fragment>
 			<TableRow
 				sx={{
-					borderBottom: 'unset'
+					borderBottom: 'unset',
+					position: 'relative'
 				}}
-				style={{cursor: 'pointer'}}
+				style={{
+					cursor: 'pointer'
+				}}
 				onClick={handleToggleExpandButton}
 			>
 				<TableCell>
+					{props.item.hidden && (
+						<VisibilityOffOutlinedIcon
+							sx={{
+								position: 'absolute',
+								top: '0',
+								left: '0',
+								margin: '0.3em'
+							}}
+						/>
+					)}
 					<IconButton
 						aria-label='expand row'
 						size='small'

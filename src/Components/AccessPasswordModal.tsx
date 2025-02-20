@@ -18,9 +18,9 @@ import {useTranslation} from 'react-i18next';
 
 interface AccessPasswordModalProps {
 	readonly wishlist: WishList;
+	readonly opened: boolean;
 	readonly onClose: () => void;
 	readonly onAccept: (id: number, password: string) => void;
-	readonly opened: boolean;
 }
 
 export const AccessPasswordModal = (
