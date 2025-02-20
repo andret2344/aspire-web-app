@@ -61,11 +61,8 @@ export function WishlistListPage(): React.ReactElement {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
 				navigate('/error');
 			});
-	}, [tokenValid, addItemModalOpened]);
-
-	React.useEffect((): void => {
 		setHiddenItems([]);
-	}, [activeWishlistId]);
+	}, [tokenValid, activeWishlistId]);
 
 	if (tokenLoading) {
 		return <></>;
