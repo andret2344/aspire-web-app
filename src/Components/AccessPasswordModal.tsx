@@ -15,6 +15,7 @@ import React from 'react';
 import {WishList} from '../Entity/WishList';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
+import {useNavigate} from 'react-router-dom';
 
 interface AccessPasswordModalProps {
 	readonly wishlist: WishList;
@@ -33,6 +34,7 @@ export const AccessPasswordModal = (
 	);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
+	const navigate = useNavigate();
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);
@@ -57,6 +59,7 @@ export const AccessPasswordModal = (
 				});
 				props.onClose();
 				setForgotPassword(props.wishlist.has_password);
+				navigate('/wishlists');
 			});
 		} else {
 			props.onAccept(props.wishlist.id, password);
