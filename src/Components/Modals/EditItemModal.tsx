@@ -105,7 +105,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 			inputRefName.current.value = '';
 		}
 		setDescription('');
-		setHidden(false);
+		handleChangeHidden();
 	}
 
 	async function handleSaveButton(): Promise<void> {

@@ -39,6 +39,7 @@ export function WishlistSidebarItem(
 
 	const toggleRevealPassModal = (): void => {
 		setPasswordModalOpened((prev): boolean => !prev);
+		console.log(props.wishlist.wishlistItems);
 	};
 
 	function handleNameClick(): void {

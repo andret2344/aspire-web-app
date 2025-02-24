@@ -207,7 +207,9 @@ export function WishlistListPage(): React.ReactElement {
 	function renderItems(): React.ReactNode[] {
 		const activeWishlistItems =
 			findWishlistById(activeWishlistId)?.wishlistItems ?? [];
-		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
+		const items = [...activeWishlistItems, ...hiddenItems].map((item) =>
+			item.wishlistId ? item : {...item, wishlistId: activeWishlistId}
+		);
 		return items.map(renderWishlistItem);
 	}
 
@@ -216,7 +218,8 @@ export function WishlistListPage(): React.ReactElement {
 			(wishlist: WishList): boolean => wishlist.id === wishlistId
 		);
 		if (editingWishlistItem) {
-			const foundItem: number = wishlists[found]?.wishlistItems.findIndex(
+			wishlists[found].wishlistItems.push(...hiddenItems);
+			const foundItem: number = wishlists[found].wishlistItems.findIndex(
 				(it: WishlistItem): boolean => it.id === editingWishlistItem.id
 			);
 			wishlists[found].wishlistItems[foundItem] = item;
@@ -224,6 +227,7 @@ export function WishlistListPage(): React.ReactElement {
 			wishlists[found].wishlistItems.push(item);
 		}
 		setWishlists([...wishlists]);
+		setHiddenItems([]);
 	}
 
 	return (
