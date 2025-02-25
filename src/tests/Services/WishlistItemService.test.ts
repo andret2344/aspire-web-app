@@ -60,13 +60,16 @@ describe('WishListItemService', (): void => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
-		mock.onGet(`/wishlist/${wishlistId}/hidden_items`).reply(200, []);
+		const password = 'test';
+		mock.onGet(`/${wishlistId}/wishlistitem/hidden_items`).reply(200, []);
 
 		// act
 		await waitFor(async (): Promise<void> => {
-			const result = await getWishlistHiddenItems(wishlistId);
+			const result = await getWishlistHiddenItems(wishlistId, password);
 
 			// assert
+			console.log(result);
+			console.log();
 			expect(result).toEqual([]);
 		});
 	});

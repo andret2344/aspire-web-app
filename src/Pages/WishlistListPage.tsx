@@ -123,7 +123,6 @@ export function WishlistListPage(): React.ReactElement {
 					handleNameEdit(wishlist.id, newName)
 				}
 				onPasswordEnter={handlePasswordEnter}
-				renderSidebarItems={renderSidebarItems}
 			/>
 		);
 	}
