@@ -151,4 +151,24 @@ describe('WishlistSidebarItem', (): void => {
 		// assert
 		expect(handleNameChange).toHaveBeenCalledTimes(0);
 	});
+
+	test('visiblity button works correctly', async (): Promise<void> => {
+		// arrange
+		renderForTest(
+			<WishlistSidebarItem
+				wishlist={mockWishlistData}
+				active={true}
+				onRemove={jest.fn()}
+				onNameEdit={jest.fn()}
+				onPasswordEnter={jest.fn()}
+			/>
+		);
+		//act
+		await user.click(screen.getByTestId('hidden-items-icon-button'));
+
+		// assert
+		expect(
+			screen.getByText('Set password for this wishlist')
+		).toBeInTheDocument();
+	});
 });

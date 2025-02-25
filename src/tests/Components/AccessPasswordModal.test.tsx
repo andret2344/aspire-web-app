@@ -1,9 +1,9 @@
 import React, {act} from 'react';
-import {screen} from '@testing-library/dom';
+import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {AccessPasswordModal} from '../../Components/AccessPasswordModal';
 import {renderForTest} from '../Utils/RenderForTest';
-import {fireEvent, RenderResult} from '@testing-library/react';
+import {fireEvent} from '@testing-library/react';
 import {WishList} from '../../Entity/WishList';
 import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
 
@@ -90,28 +90,37 @@ describe('AccessPasswordModal', (): void => {
 	});
 
 	test('getWishlistHiddenItems throw error when no wishlist hidden items are returned', async (): Promise<void> => {
-		// arrange
-		mockedGetWishlistHiddenItems.mockRejectedValue(new Error('Test error'));
-		await act(
-			(): RenderResult =>
-				renderForTest(
-					<AccessPasswordModal
-						wishlist={mockWishlistData}
-						onClose={(): void => undefined}
-						onAccept={(): void => undefined}
-						opened={true}
-					/>
-				)
-		);
+		// Arrange
+		mockedGetWishlistHiddenItems.mockImplementation(async () => {
+			throw new Error('Test error');
+		});
 
-		// act
+		await act(async () => {
+			renderForTest(
+				<AccessPasswordModal
+					wishlist={mockWishlistData}
+					onClose={(): void => undefined}
+					onAccept={(): void => undefined}
+					opened={true}
+				/>
+			);
+		});
+
+		// Act
 		const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
 		fireEvent.change(screen.getByPlaceholderText('Password'), {
 			target: {value: 'password123'}
 		});
 
-		// assert
-		fireEvent.click(confirmBtn);
-		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
+		await act(async () => {
+			fireEvent.click(confirmBtn);
+		});
+
+		// Assert
+		await waitFor(async () => {
+			expect(
+				await screen.findByText('something-went-wrong')
+			).toBeInTheDocument();
+		});
 	});
 });
