@@ -52,15 +52,14 @@ export const AccessPasswordModal = (
 
 	function handleSubmitButton(): void {
 		if (!forgotPassword) {
-			setWishlistPassword(props.wishlist.id, password).then((): void => {
-				setPassword('');
-				enqueueSnackbar(t('password-changed!'), {
-					variant: 'success'
-				});
-				props.onClose();
-				setForgotPassword(props.wishlist.has_password);
-				navigate('/wishlists');
+			setWishlistPassword(props.wishlist.id, password);
+			setPassword('');
+			enqueueSnackbar(t('password-changed!'), {
+				variant: 'success'
 			});
+			props.onClose();
+			setForgotPassword(props.wishlist.has_password);
+			navigate('/wishlists');
 		} else {
 			props.onAccept(props.wishlist.id, password);
 			setPassword('');
@@ -146,7 +145,7 @@ export const AccessPasswordModal = (
 				{forgotPassword && (
 					<Button
 						variant='text'
-						onClick={() => handleClickForgotPassword()}
+						onClick={handleClickForgotPassword}
 						style={{
 							textDecoration: 'underline',
 							margin: '5px',
@@ -167,7 +166,7 @@ export const AccessPasswordModal = (
 					}}
 				>
 					<Button
-						onClick={() => handleCancelButton()}
+						onClick={handleCancelButton}
 						variant='contained'
 						sx={{
 							margin: '10px'
@@ -176,7 +175,7 @@ export const AccessPasswordModal = (
 						Cancel
 					</Button>
 					<Button
-						onClick={() => handleSubmitButton()}
+						onClick={handleSubmitButton}
 						disabled={!password}
 						variant='contained'
 						sx={{
