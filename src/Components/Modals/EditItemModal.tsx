@@ -253,9 +253,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 										<Checkbox
 											defaultChecked={props.item?.hidden}
 											disabled={!props.wishlistPassword}
-											onClick={() => {
-												handleChangeHidden();
-											}}
+											onClick={handleChangeHidden}
 										/>
 									}
 									data-testid='tooltip-test'

@@ -110,6 +110,35 @@ describe('AccessPasswordModal', (): void => {
 		});
 	});
 
+	// test('handle get hidden items with fail', async (): Promise<void> => {
+	// 	//arrange
+	// 	mockedGetWishlistHiddenItems.mockRejectedValue(401);
+	// 	renderForTest(
+	// 		<AccessPasswordModal
+	// 			wishlist={mockWishlistDataWithPassword}
+	// 			onClose={jest.fn()}
+	// 			onAccept={jest.fn()}
+	// 			opened={true}
+	// 		/>
+	// 	);
+
+	// 	//act
+	// 	const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
+	// 	fireEvent.change(screen.getByPlaceholderText('Password'), {
+	// 		target: {value: 'password123'}
+	// 	});
+
+	// 	//assert
+	// 	expect(confirmBtn).toHaveProperty('disabled', false);
+	// 	await act(async () => {
+	// 		fireEvent.click(confirmBtn);
+	// 		console.log();
+	// 	});
+	// 	await waitFor((): void =>
+	// 		expect(screen.getByText('password-invalid')).toBeInTheDocument()
+	// 	);
+	// });
+
 	test('forgot password toggle works', async (): Promise<void> => {
 		//arrange
 		renderForTest(
