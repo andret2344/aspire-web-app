@@ -13,7 +13,7 @@ import {fireEvent, screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {WishlistItem} from '../../../Entity/WishlistItem';
 import {renderForTest} from '../../Utils/RenderForTest';
-import {render} from '@testing-library/react';
+import {act, render} from '@testing-library/react';
 
 describe('EditItemModal', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -33,6 +33,23 @@ describe('EditItemModal', (): void => {
 			}
 		],
 		has_password: false
+	};
+
+	const mockWishlistDataWithPassword: WishList = {
+		id: 1,
+		uuid: 'random uuid',
+		name: 'Mock Wishlist',
+		wishlistItems: [
+			{
+				id: 1,
+				wishlistId: 1,
+				description: 'test description',
+				name: 'Item 1',
+				priorityId: 3,
+				hidden: true
+			}
+		],
+		has_password: true
 	};
 
 	const updatedMockWishlistData: WishList = {
@@ -112,8 +129,8 @@ describe('EditItemModal', (): void => {
 		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(1);
 	});
 
-	test('tooltip works properly', (): void => {
-		//arrange
+	test('tooltip works properly when no password', (): void => {
+		// arrange
 		renderForTest(
 			<EditItemModal
 				wishlistId={mockWishlistData.id}
@@ -124,8 +141,31 @@ describe('EditItemModal', (): void => {
 			/>
 		);
 
-		//assert
+		// act
 		fireEvent.click(screen.getByTestId('tooltip-test'));
+
+		// assert
+		expect(screen.getByText('hide-item-tooltip')).toBeInTheDocument();
+	});
+
+	test('tooltip does not show up when password is set', (): void => {
+		// arrange
+		renderForTest(
+			<EditItemModal
+				wishlistPassword={true}
+				wishlistId={mockWishlistData.id}
+				item={mockWishlistDataWithPassword.wishlistItems[0]}
+				opened={true}
+				toggleModal={(): void => undefined}
+				onAccept={(): void => undefined}
+			/>
+		);
+
+		// act
+		fireEvent.click(screen.getByTestId('tooltip-test'));
+
+		// assert
+		expect(screen.queryByText('hide-item-tooltip')).toBeNull();
 	});
 
 	test('add new item', async (): Promise<void> => {
@@ -226,12 +266,37 @@ describe('EditItemModal', (): void => {
 			/>
 		);
 
-		const cancelButton: HTMLElement = screen.getByRole('button', {
-			name: /cancel/i
-		});
+		const cancelButton: HTMLElement = screen.getByTestId(
+			'edit-item-modal-cancel'
+		);
 
-		expect(cancelButton).toBeInTheDocument();
+		// act
 		await user.click(cancelButton);
+
+		// assert ???
+	});
+
+	test('tries to confirm with an empty name', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		renderForTest(
+			<EditItemModal
+				wishlistId={mockWishlistData.id}
+				opened={true}
+				toggleModal={(): void => undefined}
+				onAccept={(): void => undefined}
+			/>
+		);
+
+		const confirmButton: HTMLElement = screen.getByTestId(
+			'edit-item-modal-confirm'
+		);
+
+		// act
+		await act(async (): Promise<void> => await user.click(confirmButton));
+
+		// assert
+		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(0);
 	});
 
 	test('updates inputs and priority on editingItem prop change', (): void => {

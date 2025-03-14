@@ -46,6 +46,7 @@
 	"password-invalid": "Some error occurred! Probably your current password is not valid.",
 	"set-wishlist-password": "Set password for this wishlist",
 	"wishlist-has-password": "This wishlist already has a password!",
+	"hide-item-tooltip": "If you want to hide this wish, set a password for the wishlist.",
 	"save": "Save",
 	"saved": "Saved.",
 	"delete": "Delete",
