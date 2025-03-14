@@ -205,10 +205,10 @@ export function WishlistSidebarItem(
 							<ShareIcon />
 						</IconButton>
 						<IconButton
-							data-testid={'hidden-items-icon-button'}
+							data-testid='hidden-items-icon-button'
 							onClick={handlePasswordModalOpen}
 							size='large'
-							aria-label={'access-password-modal'}
+							aria-label='access-password-modal'
 						>
 							{props.wishlist.has_password ? (
 								<LockOutlinedIcon />

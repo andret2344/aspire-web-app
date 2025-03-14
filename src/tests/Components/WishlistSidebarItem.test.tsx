@@ -1,4 +1,7 @@
-import {mockedUpdateWishlistName} from '../__mocks__/MockWishlistService';
+import {
+	mockedSetWishlistPassword,
+	mockedUpdateWishlistName
+} from '../__mocks__/MockWishlistService';
 import {WishlistSidebarItem} from '../../Components/WishlistSidebarItem';
 import {WishList} from '../../Entity/WishList';
 import {screen, waitFor} from '@testing-library/dom';
@@ -26,12 +29,47 @@ describe('WishlistSidebarItem', (): void => {
 		has_password: false
 	};
 
+	const mockWishlistDataWithPassword: WishList = {
+		id: 1,
+		uuid: 'random uuid',
+		name: 'Mock Wishlist',
+		wishlistItems: [
+			{
+				id: 1,
+				wishlistId: 1,
+				description: 'test description',
+				name: 'Item 1',
+				priorityId: 3,
+				hidden: true
+			}
+		],
+		has_password: true
+	};
+
 	test('render correctly', (): void => {
 		// arrange
 		renderForTest(
 			<WishlistSidebarItem
 				wishlist={mockWishlistData}
 				active={false}
+				onRemove={jest.fn()}
+				onNameEdit={jest.fn()}
+			/>
+		);
+
+		// act
+		const wishlistTitle: HTMLElement = screen.getByText('Mock Wishlist');
+
+		// assert
+		expect(wishlistTitle).toBeInTheDocument();
+	});
+
+	test('renders correctly', (): void => {
+		// arrange
+		renderForTest(
+			<WishlistSidebarItem
+				wishlist={mockWishlistDataWithPassword}
+				active={true}
 				onRemove={jest.fn()}
 				onNameEdit={jest.fn()}
 			/>
@@ -148,7 +186,7 @@ describe('WishlistSidebarItem', (): void => {
 		expect(handleNameChange).toHaveBeenCalledTimes(0);
 	});
 
-	test('visiblity button works correctly', async (): Promise<void> => {
+	test('visibility button works correctly', async (): Promise<void> => {
 		// arrange
 		renderForTest(
 			<WishlistSidebarItem
@@ -158,10 +196,59 @@ describe('WishlistSidebarItem', (): void => {
 				onNameEdit={jest.fn()}
 			/>
 		);
-		//act
+
+		// act
 		await user.click(screen.getByTestId('hidden-items-icon-button'));
 
 		// assert
 		expect(screen.getByText('set-wishlist-password')).toBeInTheDocument();
+	});
+
+	it('closes opened set password modal', async (): Promise<void> => {
+		// arrange
+		renderForTest(
+			<WishlistSidebarItem
+				wishlist={mockWishlistData}
+				active={true}
+				onRemove={jest.fn()}
+				onNameEdit={jest.fn()}
+			/>
+		);
+
+		await user.click(screen.getByTestId('hidden-items-icon-button'));
+
+		// act
+		await user.click(screen.getByTestId('wishlist-password-modal-cancel'));
+
+		// assert
+		expect(screen.queryByText('set-wishlist-password')).toBeNull();
+	});
+
+	it('handles password setting', async (): Promise<void> => {
+		// arrange
+		mockedSetWishlistPassword.mockResolvedValue(null);
+		renderForTest(
+			<WishlistSidebarItem
+				wishlist={mockWishlistData}
+				active={true}
+				onRemove={jest.fn()}
+				onNameEdit={jest.fn()}
+			/>
+		);
+
+		await user.click(screen.getByTestId('hidden-items-icon-button'));
+
+		const input: HTMLInputElement = screen
+			.getByTestId('wishlist-password-modal-input')
+			.querySelector('input') as HTMLInputElement;
+
+		await user.type(input, 'password');
+
+		// act
+		await user.click(screen.getByTestId('wishlist-password-modal-confirm'));
+
+		// assert
+		expect(screen.getByText('password-changed')).toBeInTheDocument();
+		expect(screen.queryByText('set-wishlist-password')).toBeNull();
 	});
 });

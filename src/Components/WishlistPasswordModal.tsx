@@ -95,6 +95,7 @@ export function WishlistPasswordModal(
 				</Typography>
 				{renderWarningTypography()}
 				<TextField
+					data-testid='wishlist-password-modal-input'
 					type={showPassword ? 'text' : 'password'}
 					autoComplete={'new-password'}
 					slotProps={{
