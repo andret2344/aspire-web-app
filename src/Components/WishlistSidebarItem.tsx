@@ -10,18 +10,20 @@ import {Link as Anchor} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
-import {updateWishlistName} from '../Services/WishListService';
+import {
+	setWishlistPassword,
+	updateWishlistName
+} from '../Services/WishListService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {getApiConfig} from '../Services/ApiInstance';
-import {AccessPasswordModal} from './AccessPasswordModal';
+import {WishlistPasswordModal} from './WishlistPasswordModal';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
 	readonly active: boolean;
 	readonly onRemove: () => void;
 	readonly onNameEdit: (newName: string) => void;
-	readonly onPasswordEnter: (id: number, password: string) => void;
 }
 
 export function WishlistSidebarItem(
@@ -36,10 +38,13 @@ export function WishlistSidebarItem(
 	const [passwordModalOpened, setPasswordModalOpened] =
 		React.useState<boolean>(false);
 
-	const toggleRevealPassModal = (): void => {
-		setPasswordModalOpened((prev): boolean => !prev);
-		console.log(props.wishlist.wishlistItems);
-	};
+	function handlePasswordModalClose(): void {
+		setPasswordModalOpened(false);
+	}
+
+	function handlePasswordModalOpen(): void {
+		setPasswordModalOpened(true);
+	}
 
 	function handleNameClick(): void {
 		setEditedName(props.wishlist.name);
@@ -145,6 +150,18 @@ export function WishlistSidebarItem(
 		);
 	}
 
+	async function handlePasswordAccept(
+		id: number,
+		password: string
+	): Promise<void> {
+		await setWishlistPassword(id, password).then((): void => {
+			enqueueSnackbar(t('password-changed'), {
+				variant: 'success'
+			});
+			setPasswordModalOpened(false);
+		});
+	}
+
 	if (props.active) {
 		return (
 			<Link
@@ -189,7 +206,7 @@ export function WishlistSidebarItem(
 						</IconButton>
 						<IconButton
 							data-testid={'hidden-items-icon-button'}
-							onClick={toggleRevealPassModal}
+							onClick={handlePasswordModalOpen}
 							size='large'
 							aria-label={'access-password-modal'}
 						>
@@ -208,11 +225,11 @@ export function WishlistSidebarItem(
 						</IconButton>
 					</Box>
 				</Box>
-				<AccessPasswordModal
+				<WishlistPasswordModal
 					wishlist={props.wishlist}
-					onClose={toggleRevealPassModal}
-					opened={passwordModalOpened}
-					onAccept={props.onPasswordEnter}
+					onClose={handlePasswordModalClose}
+					open={passwordModalOpened}
+					onAccept={handlePasswordAccept}
 				/>
 			</Link>
 		);

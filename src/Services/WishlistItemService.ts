@@ -1,25 +1,28 @@
 import apiInstance from './ApiInstance';
-import {WishlistItem, WishlistItemDto} from '../Entity/WishlistItem';
+import {
+	mapWishlistItem,
+	WishlistItem,
+	WishlistItemDto
+} from '../Entity/WishlistItem';
 import {AxiosResponse, isAxiosError} from 'axios';
-import {mapWishlistItem} from '../Entity/WishlistItem';
 
-export const getWishlistHiddenItems = async (
+export async function getWishlistHiddenItems(
 	id: number,
 	password: string
-): Promise<WishlistItem[]> => {
+): Promise<WishlistItem[]> {
 	const result: AxiosResponse<WishlistItemDto[]> = await apiInstance.get(
 		`/${id}/wishlistitem/hidden_items`,
 		{headers: {'Access-Code': password}}
 	);
 	return result.data.map(mapWishlistItem);
-};
+}
 
 export async function addWishlistItem(
 	wishlistId: number,
 	name: string,
 	description: string,
-	priorityId: number | string,
-	hidden: boolean | undefined
+	priorityId: number,
+	hidden?: boolean
 ): Promise<WishlistItem | null> {
 	try {
 		const result = await apiInstance.post(`/${wishlistId}/wishlistitem`, {
@@ -42,8 +45,8 @@ export async function editWishlistItem(
 	wishlistItemId: number,
 	name: string,
 	description: string,
-	priorityId: number | string,
-	hidden: boolean | undefined
+	priorityId: number,
+	hidden?: boolean
 ): Promise<WishlistItem | null> {
 	try {
 		const result: AxiosResponse = await apiInstance.put(

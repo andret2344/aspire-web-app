@@ -34,7 +34,6 @@ describe('WishlistSidebarItem', (): void => {
 				active={false}
 				onRemove={jest.fn()}
 				onNameEdit={jest.fn()}
-				onPasswordEnter={jest.fn()}
 			/>
 		);
 
@@ -55,7 +54,6 @@ describe('WishlistSidebarItem', (): void => {
 				active={true}
 				onRemove={jest.fn()}
 				onNameEdit={handleNameChange}
-				onPasswordEnter={jest.fn()}
 			/>
 		);
 
@@ -92,7 +90,6 @@ describe('WishlistSidebarItem', (): void => {
 				active={true}
 				onRemove={jest.fn()}
 				onNameEdit={handleNameChange}
-				onPasswordEnter={jest.fn()}
 			/>
 		);
 
@@ -129,7 +126,6 @@ describe('WishlistSidebarItem', (): void => {
 				active={true}
 				onRemove={jest.fn()}
 				onNameEdit={handleNameChange}
-				onPasswordEnter={jest.fn()}
 			/>
 		);
 
@@ -160,15 +156,12 @@ describe('WishlistSidebarItem', (): void => {
 				active={true}
 				onRemove={jest.fn()}
 				onNameEdit={jest.fn()}
-				onPasswordEnter={jest.fn()}
 			/>
 		);
 		//act
 		await user.click(screen.getByTestId('hidden-items-icon-button'));
 
 		// assert
-		expect(
-			screen.getByText('Set password for this wishlist')
-		).toBeInTheDocument();
+		expect(screen.getByText('set-wishlist-password')).toBeInTheDocument();
 	});
 });

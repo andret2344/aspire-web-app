@@ -26,7 +26,6 @@ import {WishlistItem} from '../Entity/WishlistItem';
 import {DeleteWishlistModal} from '../Components/Modals/DeleteWishlistModal';
 import {EditItemModal} from '../Components/Modals/EditItemModal';
 import {useSnackbar} from 'notistack';
-import {getWishlistHiddenItems} from '../Services/WishlistItemService';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
 
@@ -37,7 +36,7 @@ export function WishlistListPage(): React.ReactElement {
 	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
 	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
-	const [openAddWishlistModal, setOpenAddWishlistModal] =
+	const [addWishlistModalOpened, setAddWishlistModalOpened] =
 		React.useState<boolean>(false);
 	const [deleteModalOpened, setDeleteModalOpened] =
 		React.useState<boolean>(false);
@@ -71,19 +70,6 @@ export function WishlistListPage(): React.ReactElement {
 	if (!tokenValid) {
 		navigate('/');
 		return <></>;
-	}
-
-	async function handlePasswordEnter(
-		id: number,
-		password: string
-	): Promise<void> {
-		await getWishlistHiddenItems(id, password)
-			.then(setHiddenItems)
-			.catch((): string | number =>
-				enqueueSnackbar(t('password-invalid'), {
-					variant: 'error'
-				})
-			);
 	}
 
 	function findWishlistById(wishlistId: number): WishList | undefined {
@@ -122,7 +108,6 @@ export function WishlistListPage(): React.ReactElement {
 				onNameEdit={(newName: string): void =>
 					handleNameEdit(wishlist.id, newName)
 				}
-				onPasswordEnter={handlePasswordEnter}
 			/>
 		);
 	}
@@ -162,7 +147,7 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function toggleWishlistModal(): void {
-		setOpenAddWishlistModal((prev: boolean): boolean => !prev);
+		setAddWishlistModalOpened((prev: boolean): boolean => !prev);
 	}
 
 	function handleDeleteClick(): void {
@@ -204,10 +189,14 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function renderItems(): React.ReactNode[] {
-		const activeWishlistItems =
+		const activeWishlistItems: WishlistItem[] =
 			findWishlistById(activeWishlistId)?.wishlistItems ?? [];
-		const items = [...activeWishlistItems, ...hiddenItems].map((item) =>
-			item.wishlistId ? item : {...item, wishlistId: activeWishlistId}
+		const items: WishlistItem[] = [
+			...activeWishlistItems,
+			...hiddenItems
+		].map(
+			(item: WishlistItem): WishlistItem =>
+				item.wishlistId ? item : {...item, wishlistId: activeWishlistId}
 		);
 		return items.map(renderWishlistItem);
 	}
@@ -226,7 +215,6 @@ export function WishlistListPage(): React.ReactElement {
 			wishlists[found].wishlistItems.push(item);
 		}
 		setWishlists([...wishlists]);
-		setHiddenItems([]);
 	}
 
 	return (
@@ -356,7 +344,7 @@ export function WishlistListPage(): React.ReactElement {
 				)}
 			</Grid2>
 			<CreateWishlistModal
-				opened={openAddWishlistModal}
+				opened={addWishlistModalOpened}
 				onAddWishlist={addNewWishlist}
 				onClose={toggleWishlistModal}
 			/>

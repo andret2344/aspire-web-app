@@ -80,7 +80,7 @@ export function ProfilePage(): React.ReactElement {
 		)
 			.then((response: number): void => {
 				if ([200, 201].includes(response || -1)) {
-					enqueueSnackbar(`${t('password-changed!')}`, {
+					enqueueSnackbar(`${t('password-changed')}`, {
 						variant: 'success'
 					});
 					reset();

@@ -56,7 +56,7 @@ export function NewPasswordPage(): React.ReactElement {
 		resetPassword(data.password, data.passwordRepeat, params.token ?? '')
 			.then((response: number): void => {
 				if ([200, 201].includes(response || -1)) {
-					enqueueSnackbar('password-changed!', {
+					enqueueSnackbar('password-changed', {
 						variant: 'success'
 					});
 					navigate('/');

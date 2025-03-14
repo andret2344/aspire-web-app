@@ -10,67 +10,54 @@ import {
 } from '@mui/material';
 import '../../assets/fonts.css';
 import {PasswordVisibilityIcon} from './PasswordVisibilityIcon';
-import {setWishlistPassword} from '../Services/WishListService';
 import React from 'react';
 import {WishList} from '../Entity/WishList';
-import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {useNavigate} from 'react-router-dom';
 
 interface AccessPasswordModalProps {
 	readonly wishlist: WishList;
-	readonly opened: boolean;
+	readonly open: boolean;
 	readonly onClose: () => void;
 	readonly onAccept: (id: number, password: string) => void;
 }
 
-export const AccessPasswordModal = (
+export function WishlistPasswordModal(
 	props: AccessPasswordModalProps
-): React.ReactElement => {
+): React.ReactElement {
+	const {t} = useTranslation();
 	const [password, setPassword] = React.useState<string>('');
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
-	const [forgotPassword, setForgotPassword] = React.useState<boolean>(
-		props.wishlist.has_password
-	);
-	const {enqueueSnackbar} = useSnackbar();
-	const {t} = useTranslation();
-	const navigate = useNavigate();
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);
 	}
 
-	function handleClickForgotPassword(): void {
-		setForgotPassword((prev: boolean): boolean => !prev);
-	}
-
 	function handleCancelButton(): void {
 		props.onClose();
-		setPassword('');
-		setForgotPassword(props.wishlist.has_password);
 	}
 
 	function handleSubmitButton(): void {
-		if (!forgotPassword) {
-			setWishlistPassword(props.wishlist.id, password);
-			setPassword('');
-			enqueueSnackbar(t('password-changed!'), {
-				variant: 'success'
-			});
-			props.onClose();
-			setForgotPassword(props.wishlist.has_password);
-			navigate('/wishlists');
-		} else {
-			props.onAccept(props.wishlist.id, password);
-			setPassword('');
-			props.onClose();
-			setForgotPassword(props.wishlist.has_password);
+		props.onAccept(props.wishlist.id, password);
+	}
+
+	function renderWarningTypography(): React.ReactElement {
+		if (!props.wishlist.has_password) {
+			return <></>;
 		}
+		return (
+			<Typography
+				color='warning'
+				variant='caption'
+			>
+				{t('wishlist-has-password')}
+			</Typography>
+		);
 	}
 
 	return (
 		<Modal
-			open={props.opened}
+			onClose={handleCancelButton}
+			open={props.open}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
 			sx={{
@@ -100,36 +87,39 @@ export const AccessPasswordModal = (
 					}
 				}}
 			>
-				<Typography>
-					{!forgotPassword
-						? `Set password for this
-					wishlist`
-						: `Enter password to reveal ${props.wishlist.name} hidden items`}
+				<Typography
+					variant='body1'
+					marginBottom='1em'
+				>
+					{t('set-wishlist-password')}
 				</Typography>
+				{renderWarningTypography()}
 				<TextField
 					type={showPassword ? 'text' : 'password'}
 					autoComplete={'new-password'}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment
-								position='end'
-								sx={{margin: 0, padding: 0}}
-							>
-								<IconButton
-									data-testid={'visibilityIcon'}
+					slotProps={{
+						input: {
+							endAdornment: (
+								<InputAdornment
+									position='end'
 									sx={{margin: 0, padding: 0}}
-									onClick={handleClickShowPassword}
 								>
-									<PasswordVisibilityIcon
-										visible={showPassword}
-									/>
-								</IconButton>
-							</InputAdornment>
-						)
+									<IconButton
+										data-testid={'visibilityIcon'}
+										sx={{margin: 0, padding: 0}}
+										onClick={handleClickShowPassword}
+									>
+										<PasswordVisibilityIcon
+											visible={showPassword}
+										/>
+									</IconButton>
+								</InputAdornment>
+							)
+						}
 					}}
 					hiddenLabel
 					variant={'filled'}
-					placeholder={'Password'}
+					placeholder={t('password')}
 					onChange={(e) => {
 						setPassword(e.currentTarget.value);
 					}}
@@ -142,20 +132,6 @@ export const AccessPasswordModal = (
 					}}
 					required
 				/>
-				{forgotPassword && (
-					<Button
-						variant='text'
-						onClick={handleClickForgotPassword}
-						style={{
-							textDecoration: 'underline',
-							margin: '5px',
-							fontFamily: 'Montserrat',
-							fontWeight: '400'
-						}}
-					>
-						{t('forgot-password')}
-					</Button>
-				)}
 				<Box
 					sx={{
 						display: 'flex',
@@ -166,15 +142,17 @@ export const AccessPasswordModal = (
 					}}
 				>
 					<Button
+						data-testid='wishlist-password-modal-cancel'
 						onClick={handleCancelButton}
 						variant='contained'
 						sx={{
 							margin: '10px'
 						}}
 					>
-						Cancel
+						{t('cancel')}
 					</Button>
 					<Button
+						data-testid='wishlist-password-modal-confirm'
 						onClick={handleSubmitButton}
 						disabled={!password}
 						variant='contained'
@@ -182,10 +160,10 @@ export const AccessPasswordModal = (
 							margin: '10px'
 						}}
 					>
-						Confirm
+						{t('confirm')}
 					</Button>
 				</Box>
 			</Paper>
 		</Modal>
 	);
-};
+}

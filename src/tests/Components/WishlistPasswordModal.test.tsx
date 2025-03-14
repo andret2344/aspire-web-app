@@ -1,14 +1,14 @@
 import React, {act} from 'react';
-import {screen, waitFor} from '@testing-library/dom';
+import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {AccessPasswordModal} from '../../Components/AccessPasswordModal';
+import {WishlistPasswordModal} from '../../Components/WishlistPasswordModal';
 import {renderForTest} from '../Utils/RenderForTest';
 import {fireEvent} from '@testing-library/react';
 import {WishList} from '../../Entity/WishList';
 import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
 import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
 
-describe('AccessPasswordModal', (): void => {
+describe('WishlistPasswordModal', (): void => {
 	const mockWishlistData: WishList = {
 		id: 1,
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
@@ -17,7 +17,7 @@ describe('AccessPasswordModal', (): void => {
 		has_password: false
 	};
 
-	const mockWishlistDataWithPassword: WishList = {
+	const mockWishlistDataWithpassword: WishList = {
 		id: 1,
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
 		name: 'Mock Wishlist',
@@ -28,30 +28,30 @@ describe('AccessPasswordModal', (): void => {
 	test('renders modal correctly', (): void => {
 		//arrange
 		renderForTest(
-			<AccessPasswordModal
+			<WishlistPasswordModal
 				wishlist={mockWishlistData}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
-				opened={true}
+				open={true}
 			/>
 		);
 		// assert
-		expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
+		expect(screen.getByPlaceholderText('password')).toBeInTheDocument();
 	});
 
 	test('password visibility toggle works', (): void => {
 		// arrange
 		renderForTest(
-			<AccessPasswordModal
+			<WishlistPasswordModal
 				wishlist={mockWishlistData}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
-				opened={true}
+				open={true}
 			/>
 		);
 
 		// act
-		const passwordInput = screen.getByPlaceholderText('Password');
+		const passwordInput = screen.getByPlaceholderText('password');
 		const toggleButton = screen.getByTestId('visibilityIcon');
 
 		// assert
@@ -64,17 +64,19 @@ describe('AccessPasswordModal', (): void => {
 		//arrange
 		mockedSetWishlistPassword.mockResolvedValue(200);
 		renderForTest(
-			<AccessPasswordModal
+			<WishlistPasswordModal
 				wishlist={mockWishlistData}
 				onClose={jest.fn()}
 				onAccept={jest.fn()}
-				opened={true}
+				open={true}
 			/>
 		);
 
 		//act
-		const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		const confirmBtn: HTMLElement = screen.getByTestId(
+			'wishlist-password-modal-confirm'
+		);
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
 
@@ -89,17 +91,19 @@ describe('AccessPasswordModal', (): void => {
 		//arrange
 		mockedGetWishlistHiddenItems.mockResolvedValue(200);
 		renderForTest(
-			<AccessPasswordModal
-				wishlist={mockWishlistDataWithPassword}
+			<WishlistPasswordModal
+				wishlist={mockWishlistDataWithpassword}
 				onClose={jest.fn()}
 				onAccept={jest.fn()}
-				opened={true}
+				open={true}
 			/>
 		);
 
 		//act
-		const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		const confirmBtn: HTMLElement = screen.getByTestId(
+			'wishlist-password-modal-confirm'
+		);
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
 
@@ -110,99 +114,45 @@ describe('AccessPasswordModal', (): void => {
 		});
 	});
 
-	// test('handle get hidden items with fail', async (): Promise<void> => {
-	// 	//arrange
-	// 	mockedGetWishlistHiddenItems.mockRejectedValue(401);
-	// 	renderForTest(
-	// 		<AccessPasswordModal
-	// 			wishlist={mockWishlistDataWithPassword}
-	// 			onClose={jest.fn()}
-	// 			onAccept={jest.fn()}
-	// 			opened={true}
-	// 		/>
-	// 	);
-
-	// 	//act
-	// 	const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
-	// 	fireEvent.change(screen.getByPlaceholderText('Password'), {
-	// 		target: {value: 'password123'}
-	// 	});
-
-	// 	//assert
-	// 	expect(confirmBtn).toHaveProperty('disabled', false);
-	// 	await act(async () => {
-	// 		fireEvent.click(confirmBtn);
-	// 		console.log();
-	// 	});
-	// 	await waitFor((): void =>
-	// 		expect(screen.getByText('password-invalid')).toBeInTheDocument()
-	// 	);
-	// });
-
-	test('forgot password toggle works', async (): Promise<void> => {
-		//arrange
-		renderForTest(
-			<AccessPasswordModal
-				wishlist={mockWishlistDataWithPassword}
-				onClose={jest.fn()}
-				onAccept={jest.fn()}
-				opened={true}
-			/>
-		);
-
-		//act
-		const forgotBtn = screen.getByRole('button', {
-			name: 'forgot-password'
-		});
-
-		//assert
-		await act(async () => {
-			fireEvent.click(forgotBtn);
-		});
-		await waitFor(async () => {
-			expect(
-				await screen.getByText('Set password for this wishlist')
-			).toBeInTheDocument();
-		});
-	});
-
 	test('cancel button is clickable', (): void => {
 		//arrange
 		renderForTest(
-			<AccessPasswordModal
+			<WishlistPasswordModal
 				wishlist={mockWishlistData}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
-				opened={true}
+				open={true}
 			/>
 		);
 
 		//assert & act
-		fireEvent.click(screen.getByRole('button', {name: 'Cancel'}));
+		fireEvent.click(screen.getByTestId('wishlist-password-modal-cancel'));
 	});
 
 	test('getWishlistHiddenItems returns empty hidden items array', async (): Promise<void> => {
 		// Arrange
 		mockedGetWishlistHiddenItems.mockRejectedValue(404);
-		await act(async () => {
+		await act(async (): Promise<void> => {
 			renderForTest(
-				<AccessPasswordModal
+				<WishlistPasswordModal
 					wishlist={mockWishlistData}
 					onClose={(): void => undefined}
 					onAccept={jest.fn()}
-					opened={true}
+					open={true}
 				/>
 			);
 		});
 
 		// Act
-		const confirmBtn = screen.getByRole('button', {name: 'Confirm'});
-		fireEvent.change(screen.getByPlaceholderText('Password'), {
+		const confirmBtn: HTMLElement = screen.getByTestId(
+			'wishlist-password-modal-confirm'
+		);
+		fireEvent.change(screen.getByPlaceholderText('password'), {
 			target: {value: 'password123'}
 		});
 
 		//Assert
-		await act(async () => {
+		await act(async (): Promise<void> => {
 			fireEvent.click(confirmBtn);
 		});
 	});
