@@ -14,7 +14,7 @@ describe('WishlistPasswordModal', (): void => {
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
 		name: 'Mock Wishlist',
 		wishlistItems: [],
-		has_password: false
+		hasPassword: false
 	};
 
 	const mockWishlistDataWithpassword: WishList = {
@@ -22,7 +22,7 @@ describe('WishlistPasswordModal', (): void => {
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
 		name: 'Mock Wishlist',
 		wishlistItems: [],
-		has_password: true
+		hasPassword: true
 	};
 
 	test('renders modal correctly', (): void => {

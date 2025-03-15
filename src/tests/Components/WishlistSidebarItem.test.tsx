@@ -26,7 +26,7 @@ describe('WishlistSidebarItem', (): void => {
 				priorityId: 3
 			}
 		],
-		has_password: false
+		hasPassword: false
 	};
 
 	const mockWishlistDataWithPassword: WishList = {
@@ -43,7 +43,7 @@ describe('WishlistSidebarItem', (): void => {
 				hidden: true
 			}
 		],
-		has_password: true
+		hasPassword: true
 	};
 
 	test('render correctly', (): void => {

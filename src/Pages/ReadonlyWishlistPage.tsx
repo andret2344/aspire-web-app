@@ -16,63 +16,45 @@ import {WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {getReadonlyWishlistByUUID} from '../Services/WishListService';
-import {useNavigate, useParams} from 'react-router-dom';
+import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {useTranslation} from 'react-i18next';
 
 export function ReadonlyWishlistPage(): React.ReactElement {
-	type Params = {uuid?: string};
-	const params: Params = useParams<Params>();
-	const navigate = useNavigate();
-	const [wishlist, setWishlist] = React.useState<WishList | null>(null);
+	type Params = {readonly uuid: string};
+	const params: Params = useParams<Params>() as Params;
+	const navigate: NavigateFunction = useNavigate();
+	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
+		undefined
+	);
 	const {t} = useTranslation();
 
 	React.useEffect((): void => {
-		if (params.uuid) {
-			fetchSelectedWishlist(params.uuid)
-				.then((wishlist: WishList | null): void => {
-					if (wishlist) {
-						setWishlist(wishlist);
-					} else {
-						navigate('/error');
-					}
-				})
-				.catch((): void => {
-					navigate('/error');
-				});
-		} else {
-			setWishlist(null);
-		}
+		getReadonlyWishlistByUUID(params.uuid)
+			.then(setWishlist)
+			.catch((): void => {
+				navigate('/error');
+			});
 	}, [navigate, params.uuid]);
-
-	async function fetchSelectedWishlist(
-		uuid: string
-	): Promise<WishList | null> {
-		return await getReadonlyWishlistByUUID(uuid);
-	}
 
 	function renderWishlistItem(
 		wishlistItem: WishlistItem,
-		index: number,
-		currentWishlist: WishList
+		index: number
 	): React.ReactElement {
 		return (
 			<WishlistItemComponent
 				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}
-				wishlistId={currentWishlist.id}
+				wishlistId={wishlist!.id}
 				onEdit={jest.fn()}
 				onRemove={jest.fn()}
 			/>
 		);
 	}
 
-	function renderItems(): React.ReactNode[] | undefined {
-		return wishlist?.wishlistItems.map(
-			(item: WishlistItem, index: number): React.ReactNode =>
-				renderWishlistItem(item, index, wishlist)
-		);
+	function renderItems(): React.ReactNode[] {
+		return wishlist!.wishlistItems.map(renderWishlistItem);
 	}
 
 	return (
@@ -90,10 +72,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 							alignItems: 'center',
 							justifyContent: 'space-between',
 							width: '100%',
-							backgroundColor:
-								theme.palette.mode === 'dark'
-									? ''
-									: getThemeColor(theme, 'lightBlue'),
+							backgroundColor: getThemeColor(theme, 'lightBlue'),
 							borderTop: '2px #FFFFFF',
 							paddingLeft: '10px'
 						})}

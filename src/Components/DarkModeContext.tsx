@@ -37,7 +37,8 @@ export function DarkModeProvider(
 }
 
 export function useDarkMode(): DarkModeContextType {
-	const context = useContext(DarkModeContext);
+	const context: DarkModeContextType | undefined =
+		useContext(DarkModeContext);
 	if (!context) {
 		throw new Error('useDarkMode must be used within a DarkModeProvider');
 	}

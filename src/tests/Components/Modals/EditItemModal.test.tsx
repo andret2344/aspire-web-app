@@ -32,7 +32,7 @@ describe('EditItemModal', (): void => {
 				hidden: false
 			}
 		],
-		has_password: false
+		hasPassword: false
 	};
 
 	const mockWishlistDataWithPassword: WishList = {
@@ -49,7 +49,7 @@ describe('EditItemModal', (): void => {
 				hidden: true
 			}
 		],
-		has_password: true
+		hasPassword: true
 	};
 
 	const updatedMockWishlistData: WishList = {
@@ -66,7 +66,7 @@ describe('EditItemModal', (): void => {
 				hidden: false
 			}
 		],
-		has_password: false
+		hasPassword: false
 	};
 
 	const newMockWishlistItem: WishlistItem = {

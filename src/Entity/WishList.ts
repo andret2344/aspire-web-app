@@ -5,7 +5,7 @@ export interface WishList {
 	readonly uuid: string;
 	readonly name: string;
 	readonly wishlistItems: WishlistItem[];
-	readonly has_password: boolean;
+	readonly hasPassword: boolean;
 }
 
 export interface WishListDto {

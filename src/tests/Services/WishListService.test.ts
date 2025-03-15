@@ -48,7 +48,7 @@ describe('WishListService', (): void => {
 				hidden: false
 			}
 		],
-		has_password: false
+		hasPassword: false
 	};
 
 	test('get wishlists', async (): Promise<void> => {

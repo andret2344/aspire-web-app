@@ -333,7 +333,7 @@ export function WishlistListPage(): React.ReactElement {
 						<EditItemModal
 							wishlistId={activeWishlistId}
 							wishlistPassword={
-								findWishlistById(activeWishlistId)?.has_password
+								findWishlistById(activeWishlistId)?.hasPassword
 							}
 							opened={addItemModalOpened}
 							toggleModal={toggleWishlistItemModal}

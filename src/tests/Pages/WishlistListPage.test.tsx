@@ -41,7 +41,7 @@ describe('WishlistListPage', (): void => {
 				hidden: false
 			}
 		],
-		has_password: false
+		hasPassword: false
 	};
 
 	test('renders correctly with wishlist data', async (): Promise<void> => {
@@ -191,7 +191,7 @@ describe('WishlistListPage', (): void => {
 					hidden: false
 				}
 			],
-			has_password: false
+			hasPassword: false
 		};
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
@@ -219,7 +219,7 @@ describe('WishlistListPage', (): void => {
 			uuid: 'b838027b-9177-43d6-918e-67917f1d9b16',
 			name: 'New Mock Wishlist',
 			wishlistItems: [],
-			has_password: false
+			hasPassword: false
 		};
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});

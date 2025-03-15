@@ -57,19 +57,6 @@ describe('ReadonlyWishlistPage', (): void => {
 		});
 	});
 
-	test('sets wishlist to null if uuid is undefined', async (): Promise<void> => {
-		// arrange
-		mockedUseParams.mockReturnValue({uuid: undefined});
-
-		// act
-		renderForTest(<ReadonlyWishlistPage />);
-
-		// assert
-		await waitFor((): void => {
-			expect(screen.queryByText('Mock Wishlist')).not.toBeInTheDocument();
-		});
-	});
-
 	test('redirects to error page on fetch failure', async (): Promise<void> => {
 		// arrange
 		mockedUseParams.mockReturnValue({uuid: 'test-uuid'});
@@ -97,20 +84,6 @@ describe('ReadonlyWishlistPage', (): void => {
 		// assert
 		await waitFor((): void => {
 			expect(screen.getByText(mockWishlistData.name)).toBeInTheDocument();
-		});
-	});
-
-	test('redirects to error page when fetched wishlist is null', async (): Promise<void> => {
-		// arrange
-		mockedUseParams.mockReturnValue({uuid: 'test-uuid'});
-		mockedGetReadonlyWishlistByUUID.mockResolvedValue(null);
-
-		// act
-		renderForTest(<ReadonlyWishlistPage />);
-
-		// assert
-		await waitFor((): void => {
-			expect(mockedNavigate).toHaveBeenCalledWith('/error');
 		});
 	});
 
@@ -146,20 +119,6 @@ describe('ReadonlyWishlistPage', (): void => {
 		// arrange
 		await waitFor((): void => {
 			expect(screen.getByText(mockWishlistData.name)).toBeInTheDocument();
-		});
-	});
-
-	test('fetchSelectedWishlist handles null response', async (): Promise<void> => {
-		// arrange
-		mockedUseParams.mockReturnValue({uuid: 'test-uuid'});
-		mockedGetReadonlyWishlistByUUID.mockResolvedValue(null);
-
-		// act
-		renderForTest(<ReadonlyWishlistPage />);
-
-		// assert
-		await waitFor((): void => {
-			expect(mockedNavigate).toHaveBeenCalledWith('/error');
 		});
 	});
 

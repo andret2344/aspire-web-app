@@ -210,7 +210,7 @@ export function WishlistSidebarItem(
 							size='large'
 							aria-label='access-password-modal'
 						>
-							{props.wishlist.has_password ? (
+							{props.wishlist.hasPassword ? (
 								<LockOutlinedIcon />
 							) : (
 								<LockOpenOutlinedIcon />

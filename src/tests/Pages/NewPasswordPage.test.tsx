@@ -1,10 +1,13 @@
 import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
+import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import {mockedResetPassword} from '../__mocks__/MockAuthService';
+
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {NewPasswordPage} from '../../Pages/NewPasswordPage';
 import user from '@testing-library/user-event';
+
+import {NewPasswordPage} from '../../Pages/NewPasswordPage';
 import {renderForTest} from '../Utils/RenderForTest';
 
 describe('NewPasswordPage', (): void => {
@@ -13,9 +16,23 @@ describe('NewPasswordPage', (): void => {
 		renderForTest(<NewPasswordPage />);
 
 		// act
-		const changePasswordButton: HTMLElement = screen.getByRole('button', {
-			name: /change-password/i
-		});
+		const changePasswordButton: HTMLElement = screen.getByTestId(
+			'button-change-password'
+		);
+
+		// assert
+		expect(changePasswordButton).toBeInTheDocument();
+	});
+
+	test('renders small correctly', (): void => {
+		// arrange
+		mockedUseMediaQuery.mockReturnValueOnce(true);
+		renderForTest(<NewPasswordPage />);
+
+		// act
+		const changePasswordButton: HTMLElement = screen.getByTestId(
+			'button-change-password'
+		);
 
 		// assert
 		expect(changePasswordButton).toBeInTheDocument();
@@ -32,11 +49,12 @@ describe('NewPasswordPage', (): void => {
 		renderForTest(<NewPasswordPage />);
 
 		// act
-		const changePasswordButton: HTMLElement = screen.getByRole('button', {
-			name: /change-password/i
-		});
-		const passwordInput = screen.getByPlaceholderText('password');
-		const passwordRepeatInput =
+		const changePasswordButton: HTMLElement = screen.getByTestId(
+			'button-change-password'
+		);
+		const passwordInput: HTMLElement =
+			screen.getByPlaceholderText('password');
+		const passwordRepeatInput: HTMLElement =
 			screen.getByPlaceholderText('repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
 		await user.type(passwordRepeatInput, 'Testowe123!');
@@ -63,9 +81,9 @@ describe('NewPasswordPage', (): void => {
 		renderForTest(<NewPasswordPage />);
 
 		// act
-		const changePasswordButton: HTMLElement = screen.getByRole('button', {
-			name: /change-password/i
-		});
+		const changePasswordButton: HTMLElement = screen.getByTestId(
+			'button-change-password'
+		);
 		const passwordInput: HTMLElement =
 			screen.getByPlaceholderText('password');
 		const passwordRepeatInput: HTMLElement =
@@ -84,19 +102,18 @@ describe('NewPasswordPage', (): void => {
 	test('check passwords are not equal', async (): Promise<void> => {
 		// arrange
 		user.setup();
-		mockedResetPassword.mockRejectedValue(400);
 		renderForTest(<NewPasswordPage />);
 
 		// act
-		const changePasswordButton: HTMLElement = screen.getByRole('button', {
-			name: /change-password/i
-		});
+		const changePasswordButton: HTMLElement = screen.getByTestId(
+			'button-change-password'
+		);
 		const passwordInput: HTMLElement =
 			screen.getByPlaceholderText('password');
 		const passwordRepeatInput: HTMLElement =
 			screen.getByPlaceholderText('repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
-		await user.type(passwordRepeatInput, 'Testowe1234!');
+		await user.type(passwordRepeatInput, 'D1ff4r4n7!');
 		await user.click(changePasswordButton);
 		const errorSnackbar: HTMLElement = screen.getByText(
 			'passwords-not-equal'
@@ -106,6 +123,7 @@ describe('NewPasswordPage', (): void => {
 		await waitFor((): void => {
 			expect(errorSnackbar).toBeInTheDocument();
 		});
+		expect(mockedResetPassword).toHaveBeenCalledTimes(0);
 	});
 
 	test('click on show password buttons', async (): Promise<void> => {
@@ -115,10 +133,10 @@ describe('NewPasswordPage', (): void => {
 
 		// act
 		const showPasswordButton: HTMLElement = screen.getByTestId(
-			'visibilityIconPassword'
+			'visibility-icon-password'
 		);
 		const showPasswordRepeatButton: HTMLElement = screen.getByTestId(
-			'visibilityIconRepeatPassword'
+			'visibility-icon-repeat-password'
 		);
 		await user.click(showPasswordButton);
 		await user.click(showPasswordRepeatButton);

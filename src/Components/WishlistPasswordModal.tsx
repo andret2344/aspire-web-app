@@ -41,7 +41,7 @@ export function WishlistPasswordModal(
 	}
 
 	function renderWarningTypography(): React.ReactElement {
-		if (!props.wishlist.has_password) {
+		if (!props.wishlist.hasPassword) {
 			return <></>;
 		}
 		return (
