@@ -27,7 +27,7 @@ const lightColors: Colors = {
 const darkColors: Colors = {
 	blue: '#026DD1',
 	red: '#e08888',
-	lightBlue: '#D9E6F7',
+	lightBlue: 'rgba(0, 109, 209, 0.4)',
 	activeBlue: 'rgba(0, 109, 209, 0.4)'
 };
 

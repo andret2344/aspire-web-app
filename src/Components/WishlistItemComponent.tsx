@@ -19,6 +19,7 @@ import Linkify from 'linkify-react';
 import parse from 'html-react-parser';
 import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import {useParams} from 'react-router-dom';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -31,6 +32,8 @@ interface WishlistItemComponentProps {
 export function WishlistItemComponent(
 	props: WishlistItemComponentProps
 ): React.ReactElement {
+	type Params = {readonly id?: string};
+	const params: Params = useParams<Params>();
 	const [open, setOpen] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
@@ -113,52 +116,54 @@ export function WishlistItemComponent(
 						<PriorityBadge priorityId={props.item.priorityId} />
 					</Box>
 				</TableCell>
-				<TableCell>
-					<Box sx={{display: 'flex', flexDirection: 'row'}}>
-						<IconButton
-							sx={{
-								marginLeft: {
-									xs: '0',
-									md: '15px'
-								}
-							}}
-							aria-label='edit'
-							size='large'
-							onClick={(): void => props.onEdit(props.item)}
-							data-testid='edit-wishlist-item'
-						>
-							<EditIcon
+				{Number.isFinite(+params.id!) && (
+					<TableCell>
+						<Box sx={{display: 'flex', flexDirection: 'row'}}>
+							<IconButton
 								sx={{
-									fontSize: {
-										xs: '25px',
-										md: '35px'
+									marginLeft: {
+										xs: '0',
+										md: '15px'
 									}
 								}}
-							/>
-						</IconButton>
-						<IconButton
-							sx={{
-								margin: {
-									xs: '0',
-									md: '0 15px'
-								}
-							}}
-							size='large'
-							aria-label='delete'
-							onClick={handleRemove}
-							data-testid='remove-wishlist-item'
-						>
-							<DeleteIcon
+								aria-label='edit'
+								size='large'
+								onClick={(): void => props.onEdit(props.item)}
+								data-testid='edit-wishlist-item'
+							>
+								<EditIcon
+									sx={{
+										fontSize: {
+											xs: '25px',
+											md: '35px'
+										}
+									}}
+								/>
+							</IconButton>
+							<IconButton
 								sx={{
-									fontSize: {
-										xs: '25px',
-										md: '35px'
+									margin: {
+										xs: '0',
+										md: '0 15px'
 									}
 								}}
-							/>
-						</IconButton>
-					</Box>
-				</TableCell>
+								size='large'
+								aria-label='delete'
+								onClick={handleRemove}
+								data-testid='remove-wishlist-item'
+							>
+								<DeleteIcon
+									sx={{
+										fontSize: {
+											xs: '25px',
+											md: '35px'
+										}
+									}}
+								/>
+							</IconButton>
+						</Box>
+					</TableCell>
+				)}
 			</TableRow>
 			<TableRow>
 				<TableCell

@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Box,
 	Grid2,
+	IconButton,
 	Paper,
 	Table,
 	TableBody,
@@ -12,6 +13,8 @@ import {
 	Theme
 } from '@mui/material';
 import {getThemeColor} from '../Styles/theme';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
@@ -19,6 +22,9 @@ import {getReadonlyWishlistByUUID} from '../Services/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {useTranslation} from 'react-i18next';
+import {WishlistPasswordModal} from '../Components/WishlistPasswordModal';
+import {getWishlistHiddenItems} from '../Services/WishlistItemService';
+import {enqueueSnackbar} from 'notistack';
 
 export function ReadonlyWishlistPage(): React.ReactElement {
 	type Params = {readonly uuid: string};
@@ -27,15 +33,40 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
 		undefined
 	);
+	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
 	const {t} = useTranslation();
+	const [passwordModalOpened, setPasswordModalOpened] =
+		React.useState<boolean>(false);
 
 	React.useEffect((): void => {
 		getReadonlyWishlistByUUID(params.uuid)
-			.then(setWishlist)
+			.then((wishlist) => setWishlist({...wishlist}))
 			.catch((): void => {
 				navigate('/error');
 			});
 	}, [navigate, params.uuid]);
+
+	function handlePasswordModalClose(): void {
+		setPasswordModalOpened(false);
+	}
+
+	function handlePasswordModalOpen(): void {
+		setPasswordModalOpened(true);
+	}
+
+	async function handlePasswordEnter(
+		id: number,
+		password: string
+	): Promise<void> {
+		await getWishlistHiddenItems(id, password)
+			.then(setHiddenItems)
+			.catch((): string | number =>
+				enqueueSnackbar(t('password-invalid'), {
+					variant: 'error'
+				})
+			);
+		setPasswordModalOpened(false);
+	}
 
 	function renderWishlistItem(
 		wishlistItem: WishlistItem,
@@ -47,14 +78,17 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 				item={wishlistItem}
 				position={index + 1}
 				wishlistId={wishlist!.id}
-				onEdit={jest.fn()}
-				onRemove={jest.fn()}
+				onEdit={() => jest.fn()}
+				onRemove={() => jest.fn()}
 			/>
 		);
 	}
 
 	function renderItems(): React.ReactNode[] {
-		return wishlist!.wishlistItems.map(renderWishlistItem);
+		const activeWishlistItems: WishlistItem[] =
+			wishlist!.wishlistItems ?? [];
+		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
+		return items.map(renderWishlistItem);
 	}
 
 	return (
@@ -78,6 +112,18 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 						})}
 					>
 						{wishlist.name}
+						<IconButton
+							data-testid='hidden-items-icon-button'
+							onClick={handlePasswordModalOpen}
+							size='large'
+							aria-label='access-password-modal'
+						>
+							{wishlist.hasPassword! ? (
+								<LockOutlinedIcon />
+							) : (
+								<LockOpenOutlinedIcon />
+							)}
+						</IconButton>
 					</Box>
 					<TableContainer
 						sx={{
@@ -112,6 +158,12 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 					</TableContainer>
 				</Grid2>
 			)}
+			<WishlistPasswordModal
+				wishlist={wishlist!}
+				onClose={handlePasswordModalClose}
+				open={passwordModalOpened}
+				onAccept={handlePasswordEnter}
+			/>
 		</Grid2>
 	);
 }
