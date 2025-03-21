@@ -25,12 +25,15 @@ export async function addWishlistItem(
 	hidden?: boolean
 ): Promise<WishlistItem | null> {
 	try {
-		const result = await apiInstance.post(`/${wishlistId}/wishlistitem`, {
-			name,
-			description,
-			priority_id: priorityId,
-			hidden
-		});
+		const result: AxiosResponse<WishlistItem> = await apiInstance.post(
+			`/${wishlistId}/wishlistitem`,
+			{
+				name,
+				description,
+				priority_id: priorityId,
+				hidden
+			}
+		);
 		return result.data;
 	} catch (err) {
 		if (isAxiosError(err)) {
@@ -49,7 +52,7 @@ export async function editWishlistItem(
 	hidden?: boolean
 ): Promise<WishlistItem | null> {
 	try {
-		const result: AxiosResponse = await apiInstance.put(
+		const result: AxiosResponse<WishlistItem> = await apiInstance.put(
 			`/${wishlistId}/wishlistitem/${wishlistItemId}`,
 			{
 				name,

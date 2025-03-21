@@ -11,14 +11,14 @@ import {
 import React from 'react';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Logout, Settings} from '@mui/icons-material';
-import {Link as Anchor, useNavigate} from 'react-router-dom';
+import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {logout} from '../Services/AuthService';
 import {LanguagePicker} from './LanguagePicker';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function Header(): React.ReactElement {
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const {t} = useTranslation();
 	const {tokenLoading, tokenValid} = useTokenValidation();
@@ -27,9 +27,9 @@ export function Header(): React.ReactElement {
 		return <></>;
 	}
 
-	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
+	function handleClick(event: React.MouseEvent<HTMLElement>): void {
 		setAnchorEl(event.currentTarget);
-	};
+	}
 
 	function handleClose(): void {
 		setAnchorEl(null);

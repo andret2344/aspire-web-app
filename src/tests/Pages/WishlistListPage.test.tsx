@@ -124,11 +124,11 @@ describe('WishlistListPage', (): void => {
 		renderForTest(<WishlistListPage />);
 
 		// assert
-		const addNewWishlistItem = await waitFor(
+		const addNewWishlistItem: HTMLElement = await waitFor(
 			(): HTMLElement => screen.getByLabelText('Add item')
 		);
 		expect(addNewWishlistItem).toBeInTheDocument();
-		await waitFor(async (): Promise<void> => {
+		await act(async (): Promise<void> => {
 			await user.click(addNewWishlistItem);
 		});
 

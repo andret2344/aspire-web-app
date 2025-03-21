@@ -38,7 +38,7 @@ export function CreateWishlistModal(
 		if (!wishlistName.trim()) {
 			return;
 		}
-		const newWishlist: WishList = await addWishlist(wishlistName);
+		const newWishlist: WishList = await addWishlist(wishlistName.trim());
 		props.onAddWishlist(newWishlist);
 		setWishlistName('');
 	}
