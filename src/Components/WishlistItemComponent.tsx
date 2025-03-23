@@ -19,21 +19,18 @@ import Linkify from 'linkify-react';
 import parse from 'html-react-parser';
 import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import {useParams} from 'react-router-dom';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
 	readonly wishlistId: number;
 	readonly position: number;
-	readonly onEdit: (item: WishlistItem) => void;
-	readonly onRemove: (wishlistId: number, itemId: number) => void;
+	readonly onEdit?: (item: WishlistItem) => void;
+	readonly onRemove?: (wishlistId: number, itemId: number) => void;
 }
 
 export function WishlistItemComponent(
 	props: WishlistItemComponentProps
 ): React.ReactElement {
-	type Params = {readonly id?: string};
-	const params: Params = useParams<Params>();
 	const [open, setOpen] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
@@ -48,11 +45,67 @@ export function WishlistItemComponent(
 		}
 		return <KeyboardArrowDownIcon />;
 	}
+	function renderEditButton(): React.ReactElement {
+		if (props.onEdit) {
+			return (
+				<IconButton
+					sx={{
+						marginLeft: {
+							xs: '0',
+							md: '15px'
+						}
+					}}
+					aria-label='edit'
+					size='large'
+					onClick={(): void => props.onEdit!(props.item)}
+					data-testid='edit-wishlist-item'
+				>
+					<EditIcon
+						sx={{
+							fontSize: {
+								xs: '25px',
+								md: '35px'
+							}
+						}}
+					/>
+				</IconButton>
+			);
+		}
+		return <></>;
+	}
+	function renderRemoveButton(): React.ReactElement {
+		if (props.onRemove) {
+			return (
+				<IconButton
+					sx={{
+						margin: {
+							xs: '0',
+							md: '0 15px'
+						}
+					}}
+					size='large'
+					aria-label='delete'
+					onClick={handleRemove}
+					data-testid='remove-wishlist-item'
+				>
+					<DeleteIcon
+						sx={{
+							fontSize: {
+								xs: '25px',
+								md: '35px'
+							}
+						}}
+					/>
+				</IconButton>
+			);
+		}
+		return <></>;
+	}
 
 	async function handleRemove(): Promise<void> {
 		await removeWishlistItem(props.wishlistId, props.item.id)
 			.then((): void => {
-				props.onRemove(props.wishlistId, props.item.id);
+				props.onRemove!(props.wishlistId, props.item.id);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
@@ -116,54 +169,16 @@ export function WishlistItemComponent(
 						<PriorityBadge priorityId={props.item.priorityId} />
 					</Box>
 				</TableCell>
-				{Number.isFinite(+params.id!) && (
-					<TableCell>
-						<Box sx={{display: 'flex', flexDirection: 'row'}}>
-							<IconButton
-								sx={{
-									marginLeft: {
-										xs: '0',
-										md: '15px'
-									}
-								}}
-								aria-label='edit'
-								size='large'
-								onClick={(): void => props.onEdit(props.item)}
-								data-testid='edit-wishlist-item'
-							>
-								<EditIcon
-									sx={{
-										fontSize: {
-											xs: '25px',
-											md: '35px'
-										}
-									}}
-								/>
-							</IconButton>
-							<IconButton
-								sx={{
-									margin: {
-										xs: '0',
-										md: '0 15px'
-									}
-								}}
-								size='large'
-								aria-label='delete'
-								onClick={handleRemove}
-								data-testid='remove-wishlist-item'
-							>
-								<DeleteIcon
-									sx={{
-										fontSize: {
-											xs: '25px',
-											md: '35px'
-										}
-									}}
-								/>
-							</IconButton>
-						</Box>
-					</TableCell>
-				)}
+				<TableCell
+					style={{
+						display: `${props.onEdit || props.onRemove ? 'block' : 'none'}`
+					}}
+				>
+					<Box sx={{display: 'flex', flexDirection: 'row'}}>
+						{renderEditButton()}
+						{renderRemoveButton()}
+					</Box>
+				</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell

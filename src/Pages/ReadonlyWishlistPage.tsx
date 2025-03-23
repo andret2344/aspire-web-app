@@ -78,8 +78,8 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 				item={wishlistItem}
 				position={index + 1}
 				wishlistId={wishlist!.id}
-				onEdit={() => jest.fn()}
-				onRemove={() => jest.fn()}
+				onEdit={undefined}
+				onRemove={undefined}
 			/>
 		);
 	}
@@ -112,18 +112,16 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 						})}
 					>
 						{wishlist.name}
-						<IconButton
-							data-testid='hidden-items-icon-button'
-							onClick={handlePasswordModalOpen}
-							size='large'
-							aria-label='access-password-modal'
-						>
-							{wishlist.hasPassword! ? (
+						{wishlist.hasPassword && (
+							<IconButton
+								data-testid='hidden-items-icon-button'
+								onClick={handlePasswordModalOpen}
+								size='large'
+								aria-label='access-password-modal'
+							>
 								<LockOutlinedIcon />
-							) : (
-								<LockOpenOutlinedIcon />
-							)}
-						</IconButton>
+							</IconButton>
+						)}
 					</Box>
 					<TableContainer
 						sx={{
