@@ -13,7 +13,6 @@ import {
 	Theme
 } from '@mui/material';
 import {getThemeColor} from '../Styles/theme';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
