@@ -40,72 +40,74 @@ export function WishlistItemComponent(
 	}
 
 	function renderExpandButton(): React.ReactElement {
-		if (open) {
-			return <KeyboardArrowUpIcon />;
+		if (!open) {
+			return <KeyboardArrowDownIcon />;
 		}
-		return <KeyboardArrowDownIcon />;
+		return <KeyboardArrowUpIcon />;
 	}
+
 	function renderEditButton(): React.ReactElement {
-		if (props.onEdit) {
-			return (
-				<IconButton
+		if (!props.onEdit) {
+			return <></>;
+		}
+		return (
+			<IconButton
+				sx={{
+					marginLeft: {
+						xs: '0',
+						md: '15px'
+					}
+				}}
+				aria-label='edit'
+				size='large'
+				onClick={(): void => props.onEdit!(props.item)}
+				data-testid='edit-wishlist-item'
+			>
+				<EditIcon
 					sx={{
-						marginLeft: {
-							xs: '0',
-							md: '15px'
+						fontSize: {
+							xs: '25px',
+							md: '35px'
 						}
 					}}
-					aria-label='edit'
-					size='large'
-					onClick={(): void => props.onEdit!(props.item)}
-					data-testid='edit-wishlist-item'
-				>
-					<EditIcon
-						sx={{
-							fontSize: {
-								xs: '25px',
-								md: '35px'
-							}
-						}}
-					/>
-				</IconButton>
-			);
-		}
-		return <></>;
+				/>
+			</IconButton>
+		);
 	}
+
 	function renderRemoveButton(): React.ReactElement {
-		if (props.onRemove) {
-			return (
-				<IconButton
+		if (!props.onRemove) {
+			return <></>;
+		}
+		return (
+			<IconButton
+				sx={{
+					margin: {
+						xs: '0',
+						md: '0 15px'
+					}
+				}}
+				size='large'
+				aria-label='delete'
+				onClick={handleRemove}
+				data-testid='remove-wishlist-item'
+			>
+				<DeleteIcon
 					sx={{
-						margin: {
-							xs: '0',
-							md: '0 15px'
+						fontSize: {
+							xs: '25px',
+							md: '35px'
 						}
 					}}
-					size='large'
-					aria-label='delete'
-					onClick={handleRemove}
-					data-testid='remove-wishlist-item'
-				>
-					<DeleteIcon
-						sx={{
-							fontSize: {
-								xs: '25px',
-								md: '35px'
-							}
-						}}
-					/>
-				</IconButton>
-			);
-		}
-		return <></>;
+				/>
+			</IconButton>
+		);
 	}
 
 	async function handleRemove(): Promise<void> {
 		await removeWishlistItem(props.wishlistId, props.item.id)
 			.then((): void => {
-				props.onRemove!(props.wishlistId, props.item.id);
+				props.onRemove?.(props.wishlistId, props.item.id);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});

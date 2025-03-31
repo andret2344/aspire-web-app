@@ -97,7 +97,7 @@ export function WishlistPasswordModal(
 				<TextField
 					data-testid='wishlist-password-modal-input'
 					type={showPassword ? 'text' : 'password'}
-					autoComplete={'new-password'}
+					autoComplete='new-password'
 					slotProps={{
 						input: {
 							endAdornment: (
@@ -119,7 +119,7 @@ export function WishlistPasswordModal(
 						}
 					}}
 					hiddenLabel
-					variant={'filled'}
+					variant='filled'
 					placeholder={t('password')}
 					onChange={(e) => {
 						setPassword(e.currentTarget.value);

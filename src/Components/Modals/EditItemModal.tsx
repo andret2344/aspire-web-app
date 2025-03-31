@@ -262,7 +262,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 										/>
 									}
 									data-testid='tooltip-test'
-									label='Hide this wish'
+									label={t('hide-wish')}
 								/>
 							</Tooltip>
 						</ClickAwayListener>

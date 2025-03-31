@@ -39,7 +39,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 
 	React.useEffect((): void => {
 		getReadonlyWishlistByUUID(params.uuid)
-			.then((wishlist) => setWishlist({...wishlist}))
+			.then(setWishlist)
 			.catch((): void => {
 				navigate('/error');
 			});
@@ -77,8 +77,6 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 				item={wishlistItem}
 				position={index + 1}
 				wishlistId={wishlist!.id}
-				onEdit={undefined}
-				onRemove={undefined}
 			/>
 		);
 	}

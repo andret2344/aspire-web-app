@@ -68,8 +68,6 @@ describe('WishListItemService', (): void => {
 			const result = await getWishlistHiddenItems(wishlistId, password);
 
 			// assert
-			console.log(result);
-			console.log();
 			expect(result).toEqual([]);
 		});
 	});
