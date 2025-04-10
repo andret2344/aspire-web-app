@@ -46,6 +46,22 @@ export function WishlistItemComponent(
 		return <KeyboardArrowUpIcon />;
 	}
 
+	function renderVisiblityIcon(): React.ReactElement {
+		if (!props.item.hidden) {
+			return <></>;
+		}
+		return (
+			<VisibilityOffOutlinedIcon
+				sx={{
+					position: 'absolute',
+					top: '0',
+					left: '0',
+					margin: '0.3em'
+				}}
+			/>
+		);
+	}
+
 	function renderEditButton(): React.ReactElement {
 		if (!props.onEdit) {
 			return <></>;
@@ -130,16 +146,7 @@ export function WishlistItemComponent(
 				onClick={handleToggleExpandButton}
 			>
 				<TableCell>
-					{props.item.hidden && (
-						<VisibilityOffOutlinedIcon
-							sx={{
-								position: 'absolute',
-								top: '0',
-								left: '0',
-								margin: '0.3em'
-							}}
-						/>
-					)}
+					{renderVisiblityIcon()}
 					<IconButton
 						aria-label='expand row'
 						size='small'

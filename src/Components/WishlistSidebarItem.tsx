@@ -50,6 +50,13 @@ export function WishlistSidebarItem(
 		setEditedName(props.wishlist.name);
 	}
 
+	function renderPasswordIcon(): React.ReactElement {
+		if (!props.wishlist.hasPassword) {
+			return <LockOpenOutlinedIcon />;
+		}
+		return <LockOutlinedIcon />;
+	}
+
 	function handleNameChange(
 		event: React.ChangeEvent<HTMLInputElement>
 	): void {
@@ -210,11 +217,7 @@ export function WishlistSidebarItem(
 							size='large'
 							aria-label='access-password-modal'
 						>
-							{props.wishlist.hasPassword ? (
-								<LockOutlinedIcon />
-							) : (
-								<LockOpenOutlinedIcon />
-							)}
+							{renderPasswordIcon()}
 						</IconButton>
 						<IconButton
 							onClick={props.onRemove}

@@ -53,6 +53,22 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		setPasswordModalOpened(true);
 	}
 
+	function renderPasswordButton(): React.ReactElement {
+		if (!wishlist?.hasPassword) {
+			return <></>;
+		}
+		return (
+			<IconButton
+				data-testid='hidden-items-icon-button'
+				onClick={handlePasswordModalOpen}
+				size='large'
+				aria-label='access-password-modal'
+			>
+				<LockOutlinedIcon />
+			</IconButton>
+		);
+	}
+
 	async function handlePasswordEnter(
 		id: number,
 		password: string
@@ -109,16 +125,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 						})}
 					>
 						{wishlist.name}
-						{wishlist.hasPassword && (
-							<IconButton
-								data-testid='hidden-items-icon-button'
-								onClick={handlePasswordModalOpen}
-								size='large'
-								aria-label='access-password-modal'
-							>
-								<LockOutlinedIcon />
-							</IconButton>
-						)}
+						{renderPasswordButton()}
 					</Box>
 					<TableContainer
 						sx={{

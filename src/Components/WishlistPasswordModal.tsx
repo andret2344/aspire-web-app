@@ -36,6 +36,10 @@ export function WishlistPasswordModal(
 		props.onClose();
 	}
 
+	function handlePasswordChange(password: string): void {
+		setPassword(password);
+	}
+
 	function handleSubmitButton(): void {
 		props.onAccept(props.wishlist.id, password);
 	}
@@ -122,7 +126,7 @@ export function WishlistPasswordModal(
 					variant='filled'
 					placeholder={t('password')}
 					onChange={(e) => {
-						setPassword(e.currentTarget.value);
+						handlePasswordChange(e.currentTarget.value);
 					}}
 					sx={{
 						width: {
