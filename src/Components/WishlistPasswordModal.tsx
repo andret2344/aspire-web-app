@@ -36,8 +36,10 @@ export function WishlistPasswordModal(
 		props.onClose();
 	}
 
-	function handlePasswordChange(password: string): void {
-		setPassword(password);
+	function handlePasswordChange(
+		e: React.ChangeEvent<HTMLInputElement>
+	): void {
+		setPassword(e.target.value.trim());
 	}
 
 	function handleSubmitButton(): void {
@@ -125,9 +127,7 @@ export function WishlistPasswordModal(
 					hiddenLabel
 					variant='filled'
 					placeholder={t('password')}
-					onChange={(e) => {
-						handlePasswordChange(e.currentTarget.value);
-					}}
+					onChange={handlePasswordChange}
 					sx={{
 						width: {
 							xs: '55%',
