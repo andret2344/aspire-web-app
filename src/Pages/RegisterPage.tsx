@@ -74,23 +74,24 @@ export function RegisterPage(): React.ReactElement {
 
 		signUp(data.email, data.password)
 			.then((response: AxiosResponse): void => {
-				if ([200, 201].includes(response?.status || -1)) {
+				if ([200, 201].includes(response.status)) {
 					navigate('/');
 					enqueueSnackbar(t('account-created'), {variant: 'success'});
 				}
 			})
 			.catch((response: AxiosError<RegisterApiError>): void => {
-				const registerApiError = response.response?.data;
+				const registerApiError: RegisterApiError | undefined =
+					response.response?.data;
 				if (registerApiError?.email) {
 					setError('email', {
 						type: 'manual',
-						message: registerApiError?.email
+						message: registerApiError.email
 					});
 				}
 				if (registerApiError?.password) {
 					setError('password', {
 						type: 'manual',
-						message: registerApiError?.password
+						message: registerApiError.password
 					});
 				}
 			});
@@ -136,7 +137,7 @@ export function RegisterPage(): React.ReactElement {
 									sx={{margin: 0, padding: 0}}
 								>
 									<IconButton
-										data-testid={'visibilityIconPassword'}
+										data-testid='visibility-icon-password'
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPassword}
 									>
@@ -150,7 +151,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={`${t('password')}`}
+					placeholder={t('password')}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
@@ -173,7 +174,7 @@ export function RegisterPage(): React.ReactElement {
 								>
 									<IconButton
 										data-testid={
-											'visibilityIconRepeatPassword'
+											'visibility-icon-repeat-password'
 										}
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPasswordRepeat}
@@ -188,7 +189,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={`${t('repeat-password')}`}
+					placeholder={t('repeat-password')}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
 						width: '200px',

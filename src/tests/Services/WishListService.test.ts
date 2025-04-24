@@ -4,6 +4,7 @@ import {
 	getWishlist,
 	getWishlists,
 	removeWishlist,
+	setWishlistPassword,
 	updateWishlistName
 } from '../../Services/WishListService';
 import {waitFor} from '@testing-library/react';
@@ -26,9 +27,11 @@ describe('WishListService', (): void => {
 				wishlist_id: 1,
 				description: 'test description',
 				name: 'Item 1',
-				priority_id: 3
+				priority_id: 3,
+				hidden: false
 			}
-		]
+		],
+		has_password: false
 	};
 
 	const mockWishlist: WishList = {
@@ -41,9 +44,11 @@ describe('WishListService', (): void => {
 				wishlistId: 1,
 				description: 'test description',
 				name: 'Item 1',
-				priorityId: 3
+				priorityId: 3,
+				hidden: false
 			}
-		]
+		],
+		hasPassword: false
 	};
 
 	test('get wishlists', async (): Promise<void> => {
@@ -209,5 +214,25 @@ describe('WishListService', (): void => {
 		});
 
 		mock.restore();
+	});
+
+	test('set wishlist password correctly', async (): Promise<void> => {
+		// arrange
+		const mock = new MockAdapter(apiInstance);
+		const wishlistId = 1;
+		const password = 'pass123';
+		const message = 'Access code set successfully';
+		mock.onPost(`/wishlist/${wishlistId}/set_access_code`).reply(
+			200,
+			message
+		);
+
+		// act
+		await waitFor(async (): Promise<void> => {
+			const result = await setWishlistPassword(wishlistId, password);
+
+			// assert
+			expect(result).toEqual(message);
+		});
 	});
 });

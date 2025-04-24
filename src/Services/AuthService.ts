@@ -94,7 +94,7 @@ export async function changePassword(
 	newPassword: string,
 	newPasswordConfirm: string
 ): Promise<number> {
-	const baseUrl = getApiConfig().backend;
+	const baseUrl: string = getApiConfig().backend;
 	const response: AxiosResponse = await apiInstance.post(
 		`${baseUrl}/account/change_password`,
 		{
@@ -138,8 +138,8 @@ export async function refreshToken(): Promise<string | undefined> {
 			}
 		);
 
-		saveAccessToken(result.data.access);
-		return result.data.access;
+		saveAccessToken(result.data.accessToken);
+		return result.data.accessToken;
 	} catch (err) {
 		if (isAxiosError(err)) {
 			console.error(err.response);

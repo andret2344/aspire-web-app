@@ -28,9 +28,25 @@ export async function getReadonlyWishlistByUUID(
 }
 
 export async function addWishlist(name: string): Promise<WishList> {
-	const result = await apiInstance.post('/wishlist', {
-		name
-	});
+	const result: AxiosResponse<WishList> = await apiInstance.post(
+		'/wishlist',
+		{
+			name
+		}
+	);
+	return result.data;
+}
+
+export async function setWishlistPassword(
+	id: number,
+	password: string
+): Promise<string> {
+	const result: AxiosResponse<string> = await apiInstance.post(
+		`/wishlist/${id}/set_access_code`,
+		{
+			access_code: password
+		}
+	);
 	return result.data;
 }
 
@@ -42,17 +58,21 @@ export async function updateWishlistName(
 	id: number,
 	name: string
 ): Promise<WishList | null> {
-	const result = await apiInstance.put(`/wishlist/${id}`, {
-		name
-	});
+	const result: AxiosResponse<WishList | null> = await apiInstance.put(
+		`/wishlist/${id}`,
+		{
+			name
+		}
+	);
 
 	return result.data;
 }
 
 export function mapWishlist(wishlist: WishListDto): WishList {
-	const {wishlist_items, ...rest} = wishlist;
+	const {wishlist_items, has_password, ...rest} = wishlist;
 	return {
 		...rest,
-		wishlistItems: wishlist_items.map(mapWishlistItem)
+		wishlistItems: wishlist_items.map(mapWishlistItem),
+		hasPassword: has_password
 	};
 }

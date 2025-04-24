@@ -2,16 +2,22 @@ import React from 'react';
 import {Box, IconButton, Input, Link, Theme, Typography} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
 import {Link as Anchor} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
-import {updateWishlistName} from '../Services/WishListService';
+import {
+	setWishlistPassword,
+	updateWishlistName
+} from '../Services/WishListService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {getApiConfig} from '../Services/ApiInstance';
+import {WishlistPasswordModal} from './WishlistPasswordModal';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
@@ -29,9 +35,26 @@ export function WishlistSidebarItem(
 	const [editedName, setEditedName] = React.useState<string | undefined>(
 		undefined
 	);
+	const [passwordModalOpened, setPasswordModalOpened] =
+		React.useState<boolean>(false);
+
+	function handlePasswordModalClose(): void {
+		setPasswordModalOpened(false);
+	}
+
+	function handlePasswordModalOpen(): void {
+		setPasswordModalOpened(true);
+	}
 
 	function handleNameClick(): void {
 		setEditedName(props.wishlist.name);
+	}
+
+	function renderPasswordIcon(): React.ReactElement {
+		if (!props.wishlist.hasPassword) {
+			return <LockOpenOutlinedIcon />;
+		}
+		return <LockOutlinedIcon />;
 	}
 
 	function handleNameChange(
@@ -134,6 +157,18 @@ export function WishlistSidebarItem(
 		);
 	}
 
+	async function handlePasswordAccept(
+		id: number,
+		password: string
+	): Promise<void> {
+		await setWishlistPassword(id, password).then((): void => {
+			enqueueSnackbar(t('password-changed'), {
+				variant: 'success'
+			});
+			setPasswordModalOpened(false);
+		});
+	}
+
 	if (props.active) {
 		return (
 			<Link
@@ -171,18 +206,21 @@ export function WishlistSidebarItem(
 						<IconButton
 							data-testid={`shareIcon-${props.wishlist.id}`}
 							onClick={copyUrlToClipboard}
-							sx={{marginLeft: '15px'}}
 							size='large'
 							aria-label='share'
 						>
 							<ShareIcon />
 						</IconButton>
 						<IconButton
+							data-testid='hidden-items-icon-button'
+							onClick={handlePasswordModalOpen}
+							size='large'
+							aria-label='access-password-modal'
+						>
+							{renderPasswordIcon()}
+						</IconButton>
+						<IconButton
 							onClick={props.onRemove}
-							sx={{
-								marginLeft: '15px',
-								marginRight: '20px'
-							}}
 							size='large'
 							aria-label={`delete-wishlist-${props.wishlist.id}`}
 						>
@@ -190,6 +228,12 @@ export function WishlistSidebarItem(
 						</IconButton>
 					</Box>
 				</Box>
+				<WishlistPasswordModal
+					wishlist={props.wishlist}
+					onClose={handlePasswordModalClose}
+					open={passwordModalOpened}
+					onAccept={handlePasswordAccept}
+				/>
 			</Link>
 		);
 	}

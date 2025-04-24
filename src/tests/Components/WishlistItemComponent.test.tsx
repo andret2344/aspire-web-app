@@ -16,11 +16,39 @@ describe('WishlistItemComponent', (): void => {
 		priorityId: 2
 	};
 
+	const mockWishlistItemHidden: WishlistItem = {
+		id: 1,
+		wishlistId: 1,
+		description: 'test description',
+		name: 'Item 1',
+		priorityId: 2,
+		hidden: true
+	};
+
 	test('render correctly', (): void => {
 		// arrange
 		renderForTest(
 			<WishlistItemComponent
 				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				onEdit={jest.fn()}
+				onRemove={jest.fn()}
+			/>
+		);
+
+		// act
+		const wishlistItemTitle: HTMLElement = screen.getByText('Item 1');
+
+		// assert
+		expect(wishlistItemTitle).toBeInTheDocument();
+	});
+
+	test('renders correctly hidden', (): void => {
+		// arrange
+		renderForTest(
+			<WishlistItemComponent
+				item={mockWishlistItemHidden}
 				wishlistId={1}
 				position={1}
 				onEdit={jest.fn()}
