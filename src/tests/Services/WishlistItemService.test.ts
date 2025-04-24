@@ -60,16 +60,16 @@ describe('WishListItemService', (): void => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
+		let result: WishlistItem[] = [];
 		const password = 'test';
 		mock.onGet(`/${wishlistId}/wishlistitem/hidden_items`).reply(200, []);
 
 		// act
 		await waitFor(async (): Promise<void> => {
-			const result = await getWishlistHiddenItems(wishlistId, password);
-
-			// assert
-			expect(result).toEqual([]);
+			result = await getWishlistHiddenItems(wishlistId, password);
 		});
+		// assert
+		expect(result).toEqual([]);
 	});
 
 	test('add wishlist item rejected', async (): Promise<void> => {

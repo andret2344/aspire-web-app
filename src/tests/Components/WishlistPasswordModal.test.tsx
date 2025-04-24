@@ -85,11 +85,9 @@ describe('WishlistPasswordModal', (): void => {
 		expect(confirmBtn).toHaveProperty('disabled', false);
 		act(() => {
 			user.click(confirmBtn);
-			waitFor((): void => {
-				expect(
-					screen.getByText('password-changed')
-				).toBeInTheDocument();
-			});
+		});
+		waitFor((): void => {
+			expect(screen.getByText('password-changed')).toBeInTheDocument();
 		});
 	});
 
@@ -118,11 +116,9 @@ describe('WishlistPasswordModal', (): void => {
 		expect(confirmBtn).toHaveProperty('disabled', false);
 		act(() => {
 			user.click(confirmBtn);
-			waitFor((): void => {
-				expect(
-					screen.getByText('password-changed')
-				).toBeInTheDocument();
-			});
+		});
+		waitFor((): void => {
+			expect(screen.getByText('password-changed')).toBeInTheDocument();
 		});
 	});
 
