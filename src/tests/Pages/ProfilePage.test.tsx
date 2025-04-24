@@ -138,13 +138,13 @@ describe('ProfilePage', (): void => {
 
 		// act
 		const showPasswordButton: HTMLElement = screen.getByTestId(
-			'visibilityIconPassword'
+			'visibility-icon-password'
 		);
 		const showPasswordRepeatButton: HTMLElement = screen.getByTestId(
-			'visibilityIconRepeatPassword'
+			'visibility-icon-repeat-password'
 		);
 		const showPasswordRepeatConfButton: HTMLElement = screen.getByTestId(
-			'visibilityIconRepeatPasswordConfirmation'
+			'visibility-icon-repeat-password-confirmation'
 		);
 		await user.click(showPasswordButton);
 		await user.click(showPasswordRepeatButton);

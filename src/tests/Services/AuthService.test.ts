@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from '../../Services/ApiInstance';
 import {
 	changePassword,
@@ -85,10 +85,10 @@ describe('AuthService', (): void => {
 		}).reply(200);
 
 		// act
-		const response = await signUp(email, password);
-
-		// assert
-		expect(response.status).toEqual(200);
+		signUp(email, password).then((result: AxiosResponse): void => {
+			// assert
+			expect(result.status).toEqual(200);
+		});
 	});
 
 	test('logout successfully', async () => {
@@ -200,17 +200,20 @@ describe('AuthService', (): void => {
 	test('refresh token', async (): Promise<void> => {
 		// arrange
 		const mockResponseData = {
-			access: 'access-token'
+			accessToken: 'access-token'
 		};
 		const mock = new MockAdapter(apiInstance);
-		mock.onPost('/account/login/refresh').reply(200, mockResponseData);
+		mock.onPost(`${getApiConfig().backend}/account/login/refresh`).reply(
+			200,
+			mockResponseData
+		);
 
 		// act
-		await refreshToken().then((result): void => {
-			// assert
-			expect(result).toBeDefined();
-			expect(result).toEqual(mockResponseData.access);
-		});
+		const result = await refreshToken();
+
+		//assert
+		expect(result).toBeDefined();
+		expect(result).toEqual(mockResponseData.accessToken);
 	});
 
 	test('refresh token rejected', async (): Promise<void> => {

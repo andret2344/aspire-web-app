@@ -6,7 +6,7 @@ import {VerifyEmailTypography} from '../Components/VerifyEmailTypography';
 import {useTranslation} from 'react-i18next';
 
 export function VerifyEmailPage(): React.ReactElement {
-	const emailPlaceholder: string = 'andret@wishlist.com';
+	const emailPlaceholder: string = 'andret@aspireapp.online';
 	const {t} = useTranslation();
 
 	function handleClick(): void {

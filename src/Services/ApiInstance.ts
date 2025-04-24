@@ -15,7 +15,7 @@ function createTokenHeader(token: string): string {
 
 function getDefaultConfig(): Config {
 	return {
-		backend: process.env.REACT_API_URL ?? 'localhost:8080',
+		backend: process.env.REACT_API_URL ?? 'http://localhost:8080',
 		frontend: `${window.location.protocol}//${window.location.host}`
 	};
 }

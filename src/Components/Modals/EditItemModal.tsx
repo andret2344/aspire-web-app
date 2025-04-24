@@ -1,18 +1,23 @@
 import {
 	Box,
 	Button,
+	Checkbox,
+	ClickAwayListener,
 	FormControl,
+	FormControlLabel,
 	MenuItem,
 	Modal,
 	Paper,
 	Select,
 	SelectChangeEvent,
 	TextField,
+	Theme,
+	Tooltip,
 	Typography,
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import React from 'react';
+import React, {RefObject} from 'react';
 import {
 	addWishlistItem,
 	editWishlistItem
@@ -27,7 +32,8 @@ import {StringMap} from 'quill';
 import {useTranslation} from 'react-i18next';
 
 interface EditItemModalProps {
-	readonly wishlistId?: number;
+	readonly wishlistId: number;
+	readonly wishlistPassword?: boolean;
 	readonly opened: boolean;
 	readonly toggleModal: () => void;
 	readonly onAccept: (wishlistId: number, item: WishlistItem) => void;
@@ -35,14 +41,19 @@ interface EditItemModalProps {
 }
 
 export function EditItemModal(props: EditItemModalProps): React.ReactElement {
-	const theme = useTheme();
-	const isSmallerThan900 = useMediaQuery(theme.breakpoints.up('md'));
+	const theme: Theme = useTheme();
+	const isSmallerThan900: boolean = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(1);
+	const [hidden, setHidden] = React.useState<boolean>(
+		props.item?.hidden || false
+	);
+	const [open, setOpen] = React.useState<boolean>(false);
 	const [description, setDescription] = React.useState<string>(
 		props.item?.description ?? ''
 	);
 	const {t} = useTranslation();
-	const inputRefName = React.useRef<HTMLInputElement>(null);
+	const inputRefName: RefObject<HTMLInputElement> =
+		React.useRef<HTMLInputElement>(null);
 	const {enqueueSnackbar} = useSnackbar();
 	const modules: StringMap = {
 		toolbar: [
@@ -64,6 +75,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	React.useEffect((): void => {
 		if (props.item) {
 			setPriority(props.item.priorityId);
+			setHidden(props.item.hidden || false);
 			if (inputRefName.current) {
 				inputRefName.current.value = props.item.name;
 			}
@@ -76,6 +88,18 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		setPriority(+event.target.value);
 	}
 
+	function handleChangeHidden(): void {
+		setHidden((prev: boolean): boolean => !prev);
+	}
+
+	function handleTooltipClose() {
+		setOpen(false);
+	}
+
+	function handleTooltipOpen() {
+		setOpen(true);
+	}
+
 	function toggleModalAndClearFields(): void {
 		props.toggleModal();
 		setPriority(1);
@@ -83,48 +107,91 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 			inputRefName.current.value = '';
 		}
 		setDescription('');
+		setHidden(true);
 	}
 
 	async function handleSaveButton(): Promise<void> {
-		const wishlistItemName: string | undefined =
-			inputRefName.current?.value;
-		const wishlistItemDescription: string | undefined = description;
-		if (props.wishlistId && wishlistItemName && wishlistItemDescription) {
-			if (props.item) {
-				const updatedWishlistItem: WishlistItem | null =
-					await editWishlistItem(
-						props.wishlistId,
-						props.item.id,
-						wishlistItemName,
-						wishlistItemDescription,
-						priority
-					);
-				if (updatedWishlistItem) {
-					props.onAccept(props.wishlistId, updatedWishlistItem);
-					toggleModalAndClearFields();
-				}
+		const wishlistItemName: string = inputRefName.current!.value;
+		if (!wishlistItemName) {
+			return undefined;
+		}
+		if (props.item) {
+			const updatedWishlistItem: WishlistItem | null =
+				await editWishlistItem(
+					props.wishlistId,
+					props.item.id,
+					wishlistItemName,
+					description,
+					priority,
+					hidden
+				);
+			if (updatedWishlistItem) {
+				props.onAccept(props.wishlistId, updatedWishlistItem);
+				toggleModalAndClearFields();
+			}
+		} else {
+			if (priority) {
+				setPriority(1);
+			}
+
+			const newWishlistItem: WishlistItem | null = await addWishlistItem(
+				props.wishlistId,
+				wishlistItemName,
+				description,
+				priority,
+				hidden
+			);
+
+			if (newWishlistItem) {
+				props.onAccept(props.wishlistId, newWishlistItem);
+				toggleModalAndClearFields();
+				enqueueSnackbar(t('saved'), {variant: 'success'});
 			} else {
-				if (priority) {
-					setPriority(1);
-				}
-
-				const newWishlistItem: WishlistItem | null =
-					await addWishlistItem(
-						props.wishlistId,
-						wishlistItemName,
-						wishlistItemDescription,
-						priority
-					);
-
-				if (newWishlistItem) {
-					props.onAccept(props.wishlistId, newWishlistItem);
-					toggleModalAndClearFields();
-					enqueueSnackbar(t('saved'), {variant: 'success'});
-				} else {
-					enqueueSnackbar(t('too-long'), {variant: 'error'});
-				}
+				enqueueSnackbar(t('too-long'), {variant: 'error'});
 			}
 		}
+	}
+
+	function handleDisabledCheckboxClick(): void {
+		if (props.wishlistPassword) {
+			return;
+		}
+		return handleTooltipOpen();
+	}
+
+	function renderTooltip(): React.ReactElement {
+		return (
+			<Box>
+				<ClickAwayListener onClickAway={handleTooltipClose}>
+					<Tooltip
+						title={t('hide-item-tooltip')}
+						placement='right'
+						slotProps={{
+							popper: {
+								disablePortal: false
+							}
+						}}
+						open={open}
+						disableFocusListener
+						disableHoverListener
+						disableTouchListener
+					>
+						<FormControlLabel
+							onClick={handleDisabledCheckboxClick}
+							control={
+								<Checkbox
+									defaultChecked={props.item?.hidden}
+									disabled={!props.wishlistPassword}
+									onClick={handleChangeHidden}
+								/>
+							}
+							data-testid='tooltip-test'
+							label={t('hide-wish')}
+						/>
+					</Tooltip>
+				</ClickAwayListener>
+			</Box>
+		);
 	}
 
 	return (
@@ -205,6 +272,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							)
 						)}
 					</Select>
+					{renderTooltip()}
 				</FormControl>
 				<Box
 					sx={{
@@ -221,7 +289,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 					<Box
 						sx={{
 							width: '100%',
-							margin: '20px 0'
+							marginBottom: '20px'
 						}}
 					>
 						<Typography
@@ -268,6 +336,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 						}}
 					>
 						<Button
+							data-testid='edit-item-modal-cancel'
 							variant='contained'
 							sx={{
 								margin: '10px'
@@ -277,6 +346,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							{t('cancel')}
 						</Button>
 						<Button
+							data-testid='edit-item-modal-confirm'
 							onClick={handleSaveButton}
 							variant='contained'
 							sx={{
