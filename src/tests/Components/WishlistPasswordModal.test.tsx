@@ -136,32 +136,4 @@ describe('WishlistPasswordModal', (): void => {
 		//assert & act
 		fireEvent.click(screen.getByTestId('wishlist-password-modal-cancel'));
 	});
-
-	// test('getWishlistHiddenItems returns empty hidden items array', async (): Promise<void> => {
-	// 	// Arrange
-	// 	mockedGetWishlistHiddenItems.mockRejectedValue(404);
-	// 	await act(async (): Promise<void> => {
-	// 		renderForTest(
-	// 			<WishlistPasswordModal
-	// 				wishlist={mockWishlistData}
-	// 				onClose={(): void => undefined}
-	// 				onAccept={jest.fn()}
-	// 				open={true}
-	// 			/>
-	// 		);
-	// 	});
-
-	// 	// Act
-	// 	const confirmBtn: HTMLElement = screen.getByTestId(
-	// 		'wishlist-password-modal-confirm'
-	// 	);
-	// 	fireEvent.change(screen.getByPlaceholderText('password'), {
-	// 		target: {value: 'password123'}
-	// 	});
-
-	// 	//Assert
-	// 	await act(async (): Promise<void> => {
-	// 		fireEvent.click(confirmBtn);
-	// 	});
-	// });
 });
