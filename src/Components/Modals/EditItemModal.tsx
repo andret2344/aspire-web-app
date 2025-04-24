@@ -107,7 +107,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 			inputRefName.current.value = '';
 		}
 		setDescription('');
-		handleChangeHidden();
+		setHidden(true);
 	}
 
 	async function handleSaveButton(): Promise<void> {
@@ -157,6 +157,41 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 			return;
 		}
 		return handleTooltipOpen();
+	}
+
+	function renderTooltip(): React.ReactElement {
+		return (
+			<Box>
+				<ClickAwayListener onClickAway={handleTooltipClose}>
+					<Tooltip
+						title={t('hide-item-tooltip')}
+						placement='right'
+						slotProps={{
+							popper: {
+								disablePortal: false
+							}
+						}}
+						open={open}
+						disableFocusListener
+						disableHoverListener
+						disableTouchListener
+					>
+						<FormControlLabel
+							onClick={handleDisabledCheckboxClick}
+							control={
+								<Checkbox
+									defaultChecked={props.item?.hidden}
+									disabled={!props.wishlistPassword}
+									onClick={handleChangeHidden}
+								/>
+							}
+							data-testid='tooltip-test'
+							label={t('hide-wish')}
+						/>
+					</Tooltip>
+				</ClickAwayListener>
+			</Box>
+		);
 	}
 
 	return (
@@ -237,36 +272,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							)
 						)}
 					</Select>
-					<Box>
-						<ClickAwayListener onClickAway={handleTooltipClose}>
-							<Tooltip
-								title={t('hide-item-tooltip')}
-								placement='right'
-								slotProps={{
-									popper: {
-										disablePortal: false
-									}
-								}}
-								open={open}
-								disableFocusListener
-								disableHoverListener
-								disableTouchListener
-							>
-								<FormControlLabel
-									onClick={handleDisabledCheckboxClick}
-									control={
-										<Checkbox
-											defaultChecked={props.item?.hidden}
-											disabled={!props.wishlistPassword}
-											onClick={handleChangeHidden}
-										/>
-									}
-									data-testid='tooltip-test'
-									label={t('hide-wish')}
-								/>
-							</Tooltip>
-						</ClickAwayListener>
-					</Box>
+					{renderTooltip()}
 				</FormControl>
 				<Box
 					sx={{
