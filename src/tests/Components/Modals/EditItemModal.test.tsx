@@ -4,6 +4,7 @@ import {
 	mockedAddWishlistItem,
 	mockedEditWishlistItem
 } from '../../__mocks__/MockWishlistItemService';
+import '../../__mocks__/MockMDXEditor';
 
 import '@testing-library/jest-dom';
 import React from 'react';
@@ -185,21 +186,14 @@ describe('EditItemModal', (): void => {
 		const inputName = screen.getByPlaceholderText(
 			'enter-item'
 		) as HTMLInputElement;
-		const descriptionInput = screen
-			.getByTestId('test-mdx')
-			.querySelector('.ql-editor') as HTMLInputElement;
 		const prioritySelect = screen.getByRole(
 			'combobox'
 		) as HTMLSelectElement;
 
 		expect(inputName).toBeInTheDocument();
-		expect(descriptionInput).toBeInTheDocument();
-		expect(prioritySelect).toBeInTheDocument();
 
 		await user.type(inputName, 'New name');
 		expect(inputName.value).toBe('New name');
-
-		await user.type(descriptionInput, 'New description');
 
 		const saveButton: HTMLElement = screen.getByRole('button', {
 			name: /confirm/i
@@ -209,9 +203,10 @@ describe('EditItemModal', (): void => {
 		await user.click(saveButton);
 
 		expect(mockedAddWishlistItem).toHaveBeenCalledTimes(1);
+		expect(prioritySelect).toBeInTheDocument();
 	});
 
-	test('add new item too long name or description', async (): Promise<void> => {
+	test('add new item too long name', async (): Promise<void> => {
 		// arrange
 		mockedAddWishlistItem.mockReturnValue(null);
 		user.setup();
@@ -227,21 +222,15 @@ describe('EditItemModal', (): void => {
 		const inputName = screen.getByPlaceholderText(
 			'enter-item'
 		) as HTMLInputElement;
-		const descriptionInput = screen
-			.getByTestId('test-mdx')
-			.querySelector('.ql-editor') as HTMLInputElement;
 		const prioritySelect = screen.getByRole(
 			'combobox'
 		) as HTMLSelectElement;
 
 		expect(inputName).toBeInTheDocument();
-		expect(descriptionInput).toBeInTheDocument();
 		expect(prioritySelect).toBeInTheDocument();
 
 		await user.type(inputName, 'New name');
 		expect(inputName.value).toBe('New name');
-
-		await user.type(descriptionInput, 'New description');
 
 		const saveButton: HTMLElement = screen.getByRole('button', {
 			name: /confirm/i
