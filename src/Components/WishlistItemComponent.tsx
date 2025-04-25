@@ -141,6 +141,7 @@ export function WishlistItemComponent(
 	return (
 		<React.Fragment>
 			<TableRow
+				data-testid='wishlist-item-row'
 				sx={{
 					borderBottom: 'unset',
 					position: 'relative'
