@@ -1,7 +1,7 @@
 import {
 	Box,
 	Button,
-	Grid2,
+	Grid,
 	IconButton,
 	InputAdornment,
 	Paper,
@@ -92,12 +92,12 @@ export function ProfilePage(): React.ReactElement {
 	}
 
 	return (
-		<Grid2
+		<Grid
 			flexGrow={{sx: 1}}
 			container
 			columnSpacing={2}
 		>
-			<Grid2
+			<Grid
 				size={{xs: 12}}
 				sx={{
 					display: 'flex',
@@ -345,7 +345,7 @@ export function ProfilePage(): React.ReactElement {
 						</Box>
 					</Box>
 				</Paper>
-			</Grid2>
-		</Grid2>
+			</Grid>
+		</Grid>
 	);
 }

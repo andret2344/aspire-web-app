@@ -1,7 +1,7 @@
 import {
 	Box,
 	Button,
-	Grid2,
+	Grid,
 	IconButton,
 	Paper,
 	Table,
@@ -219,7 +219,7 @@ export function WishlistListPage(): React.ReactElement {
 
 	return (
 		<>
-			<Grid2
+			<Grid
 				sx={{
 					paddingBottom: 'auto',
 					flexGrow: 1,
@@ -234,7 +234,7 @@ export function WishlistListPage(): React.ReactElement {
 				}}
 				container
 			>
-				<Grid2
+				<Grid
 					size={{xs: 12, md: 3}}
 					overflow={{xs: 'none', md: 'auto'}}
 					maxHeight={{xs: 'none', md: '100vh'}}
@@ -263,9 +263,9 @@ export function WishlistListPage(): React.ReactElement {
 					>
 						{t('add-new-wishlist')}
 					</Button>
-				</Grid2>
+				</Grid>
 				{activeWishlistId !== -1 && (
-					<Grid2
+					<Grid
 						size={{xs: 12, md: 9}}
 						overflow={{xs: 'none', md: 'auto'}}
 						maxHeight={{xs: 'none', md: '100vh'}}
@@ -340,9 +340,9 @@ export function WishlistListPage(): React.ReactElement {
 							onAccept={handleEditAccept}
 							item={editingWishlistItem}
 						/>
-					</Grid2>
+					</Grid>
 				)}
-			</Grid2>
+			</Grid>
 			<CreateWishlistModal
 				opened={addWishlistModalOpened}
 				onAddWishlist={addNewWishlist}
