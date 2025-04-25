@@ -11,14 +11,14 @@ import {
 import React from 'react';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {Logout, Settings} from '@mui/icons-material';
-import {Link as Anchor, useNavigate} from 'react-router-dom';
+import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {logout} from '../Services/AuthService';
 import {LanguagePicker} from './LanguagePicker';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function Header(): React.ReactElement {
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const {t} = useTranslation();
 	const {tokenLoading, tokenValid} = useTokenValidation();
@@ -27,9 +27,9 @@ export function Header(): React.ReactElement {
 		return <></>;
 	}
 
-	const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
+	function handleClick(event: React.MouseEvent<HTMLElement>): void {
 		setAnchorEl(event.currentTarget);
-	};
+	}
 
 	function handleClose(): void {
 		setAnchorEl(null);
@@ -45,17 +45,18 @@ export function Header(): React.ReactElement {
 			return undefined;
 		}
 		return (
-			<IconButton
-				data-testid='account-icon-button'
-				sx={{justifySelf: 'flex-end'}}
-				onClick={handleClick}
-			>
-				<AccountCircleOutlinedIcon
-					data-testid='account-icon'
-					sx={{color: 'white'}}
-					fontSize='large'
-				/>
-			</IconButton>
+			<Box sx={{justifySelf: 'flex-end'}}>
+				<IconButton
+					data-testid={'account-icon-button'}
+					onClick={handleClick}
+				>
+					<AccountCircleOutlinedIcon
+						data-testid={'account-icon'}
+						sx={{color: 'white'}}
+						fontSize={'large'}
+					/>
+				</IconButton>
+			</Box>
 		);
 	}
 
@@ -79,35 +80,35 @@ export function Header(): React.ReactElement {
 					sx={{
 						minWidth: '100%',
 						display: 'flex',
-						flexDirection: 'row',
 						justifyContent: 'space-between',
 						alignItems: 'center'
 					}}
 				>
-					<Typography
-						variant='h6'
-						noWrap
-					>
-						<Link
-							component={Anchor}
-							to='/'
-							sx={{
-								fontFamily: 'Courgette',
-								fontWeight: 700,
-								fontSize: '35px',
-								letterSpacing: '.3rem',
-								color: 'white',
-								textDecoration: 'none'
-							}}
+					<Box>
+						<Typography
+							variant='h6'
+							noWrap
 						>
-							Aspire
-						</Link>
-					</Typography>
+							<Link
+								component={Anchor}
+								to='/'
+								sx={{
+									fontFamily: 'Courgette',
+									fontWeight: 700,
+									fontSize: '35px',
+									letterSpacing: '.3rem',
+									color: 'white',
+									textDecoration: 'none'
+								}}
+							>
+								Aspire
+							</Link>
+						</Typography>
+					</Box>
 					<Box
 						sx={{
 							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-between',
+							justifyContent: 'flex-end',
 							alignItems: 'center'
 						}}
 					>
@@ -148,8 +149,8 @@ export function Header(): React.ReactElement {
 								{t('log-out')}
 							</MenuItem>
 						</Menu>
+						<LanguagePicker />
 					</Box>
-					<LanguagePicker />
 				</Box>
 			</Container>
 		</Box>

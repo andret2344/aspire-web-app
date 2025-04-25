@@ -1,7 +1,10 @@
 import {
 	Box,
 	Button,
+	Checkbox,
+	ClickAwayListener,
 	FormControl,
+	FormControlLabel,
 	MenuItem,
 	Modal,
 	Paper,
@@ -9,6 +12,7 @@ import {
 	SelectChangeEvent,
 	TextField,
 	Theme,
+	Tooltip,
 	Typography,
 	useMediaQuery,
 	useTheme
@@ -19,39 +23,17 @@ import {
 	editWishlistItem
 } from '../../Services/WishlistItemService';
 import {getAllPriorities, Priority} from '../../Entity/Priority';
-import {
-	mapWishlistItem,
-	WishlistItem,
-	WishlistItemDto
-} from '../../Entity/WishlistItem';
+import {WishlistItem} from '../../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
+import {StringMap} from 'quill';
 import {useTranslation} from 'react-i18next';
-// eslint-disable-next-line import/no-unresolved
-import '@mdxeditor/editor/style.css';
-import {
-	BlockTypeSelect,
-	BoldItalicUnderlineToggles,
-	CreateLink,
-	headingsPlugin,
-	InsertTable,
-	InsertThematicBreak,
-	linkDialogPlugin,
-	linkPlugin,
-	listsPlugin,
-	ListsToggle,
-	markdownShortcutPlugin,
-	MDXEditor,
-	MDXEditorMethods,
-	quotePlugin,
-	Separator,
-	tablePlugin,
-	thematicBreakPlugin,
-	toolbarPlugin,
-	UndoRedo
-} from '@mdxeditor/editor';
 
 interface EditItemModalProps {
-	readonly wishlistId?: number;
+	readonly wishlistId: number;
+	readonly wishlistPassword?: boolean;
 	readonly opened: boolean;
 	readonly toggleModal: () => void;
 	readonly onAccept: (wishlistId: number, item: WishlistItem) => void;
@@ -61,19 +43,44 @@ interface EditItemModalProps {
 export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const theme: Theme = useTheme();
 	const isSmallerThan900: boolean = useMediaQuery(theme.breakpoints.up('md'));
-	const [priority, setPriority] = React.useState<number>(
-		props.item?.priorityId ?? 1
+	const [priority, setPriority] = React.useState<number>(1);
+	const [hidden, setHidden] = React.useState<boolean>(
+		props.item?.hidden || false
+	);
+	const [open, setOpen] = React.useState<boolean>(false);
+	const [description, setDescription] = React.useState<string>(
+		props.item?.description ?? ''
 	);
 	const {t} = useTranslation();
-	const nameInputRef: RefObject<HTMLInputElement> =
+	const inputRefName: RefObject<HTMLInputElement> =
 		React.useRef<HTMLInputElement>(null);
-	const descriptionEditorRef: RefObject<MDXEditorMethods> =
-		React.useRef<MDXEditorMethods>(null);
 	const {enqueueSnackbar} = useSnackbar();
+	const modules: StringMap = {
+		toolbar: [
+			[{header: [1, 2, 3, 4, 5, 6, false]}],
+			[{font: []}],
+			[{size: []}],
+			['bold', 'italic', 'underline', 'strike', 'blockquote'],
+			[
+				{list: 'ordered'},
+				{List: 'bullet'},
+				{indent: '-1'},
+				{indent: '+1'}
+			],
+
+			['link', 'image', 'video']
+		]
+	};
 
 	React.useEffect((): void => {
-		if (nameInputRef.current) {
-			nameInputRef.current.value = props.item?.name ?? '';
+		if (props.item) {
+			setPriority(props.item.priorityId);
+			setHidden(props.item.hidden || false);
+			if (inputRefName.current) {
+				inputRefName.current.value = props.item.name;
+			}
+
+			setDescription(props.item.description);
 		}
 	}, [props.item]);
 
@@ -81,80 +88,109 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		setPriority(+event.target.value);
 	}
 
+	function handleChangeHidden(): void {
+		setHidden((prev: boolean): boolean => !prev);
+	}
+
+	function handleTooltipClose() {
+		setOpen(false);
+	}
+
+	function handleTooltipOpen() {
+		setOpen(true);
+	}
+
 	function toggleModalAndClearFields(): void {
 		props.toggleModal();
 		setPriority(1);
-		if (nameInputRef.current) {
-			nameInputRef.current.value = '';
+		if (inputRefName.current) {
+			inputRefName.current.value = '';
 		}
-		descriptionEditorRef.current?.setMarkdown('');
+		setDescription('');
+		setHidden(true);
 	}
 
 	async function handleSaveButton(): Promise<void> {
-		const wishlistItemName: string | undefined =
-			nameInputRef.current?.value;
-		const wishlistItemDescription: string | undefined =
-			descriptionEditorRef.current?.getMarkdown();
-		if (props.wishlistId && wishlistItemName && wishlistItemDescription) {
-			if (props.item) {
-				const updatedWishlistItem: WishlistItemDto | null =
-					await editWishlistItem(
-						props.wishlistId,
-						props.item.id,
-						wishlistItemName,
-						wishlistItemDescription,
-						priority
-					);
-				if (updatedWishlistItem) {
-					props.onAccept(
-						props.wishlistId,
-						mapWishlistItem(updatedWishlistItem)
-					);
-					toggleModalAndClearFields();
-				}
+		const wishlistItemName: string = inputRefName.current!.value;
+		if (!wishlistItemName) {
+			return undefined;
+		}
+		if (props.item) {
+			const updatedWishlistItem: WishlistItem | null =
+				await editWishlistItem(
+					props.wishlistId,
+					props.item.id,
+					wishlistItemName,
+					description,
+					priority,
+					hidden
+				);
+			if (updatedWishlistItem) {
+				props.onAccept(props.wishlistId, updatedWishlistItem);
+				toggleModalAndClearFields();
+			}
+		} else {
+			if (priority) {
+				setPriority(1);
+			}
+
+			const newWishlistItem: WishlistItem | null = await addWishlistItem(
+				props.wishlistId,
+				wishlistItemName,
+				description,
+				priority,
+				hidden
+			);
+
+			if (newWishlistItem) {
+				props.onAccept(props.wishlistId, newWishlistItem);
+				toggleModalAndClearFields();
+				enqueueSnackbar(t('saved'), {variant: 'success'});
 			} else {
-				if (priority) {
-					setPriority(1);
-				}
-
-				const newWishlistItem: WishlistItemDto | null =
-					await addWishlistItem(
-						props.wishlistId,
-						wishlistItemName,
-						wishlistItemDescription,
-						priority
-					);
-
-				if (newWishlistItem) {
-					props.onAccept(
-						props.wishlistId,
-						mapWishlistItem(newWishlistItem)
-					);
-					toggleModalAndClearFields();
-					enqueueSnackbar(t('saved'), {variant: 'success'});
-				} else {
-					enqueueSnackbar(t('too-long'), {variant: 'error'});
-				}
+				enqueueSnackbar(t('too-long'), {variant: 'error'});
 			}
 		}
 	}
 
-	function renderToolbarContents(): React.ReactElement {
+	function handleDisabledCheckboxClick(): void {
+		if (props.wishlistPassword) {
+			return;
+		}
+		return handleTooltipOpen();
+	}
+
+	function renderTooltip(): React.ReactElement {
 		return (
-			<>
-				{' '}
-				<UndoRedo />
-				<Separator />
-				<BoldItalicUnderlineToggles />
-				<Separator />
-				<BlockTypeSelect />
-				<Separator />
-				<CreateLink />
-				<InsertTable />
-				<InsertThematicBreak />
-				<Separator />
-				<ListsToggle />
-			</>
+			<Box>
+				<ClickAwayListener onClickAway={handleTooltipClose}>
+					<Tooltip
+						title={t('hide-item-tooltip')}
+						placement='right'
+						slotProps={{
+							popper: {
+								disablePortal: false
+							}
+						}}
+						open={open}
+						disableFocusListener
+						disableHoverListener
+						disableTouchListener
+					>
+						<FormControlLabel
+							onClick={handleDisabledCheckboxClick}
+							control={
+								<Checkbox
+									defaultChecked={props.item?.hidden}
+									disabled={!props.wishlistPassword}
+									onClick={handleChangeHidden}
+								/>
+							}
+							data-testid='tooltip-test'
+							label={t('hide-wish')}
+						/>
+					</Tooltip>
+				</ClickAwayListener>
+			</Box>
 		);
 	}
 
@@ -198,7 +234,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 					variant='filled'
 					placeholder={props.item?.name ?? t('enter-item')}
 					defaultValue={props.item?.name ?? ''}
-					inputRef={nameInputRef}
+					inputRef={inputRefName}
 					size={isSmallerThan900 ? 'small' : 'medium'}
 					sx={{
 						width: {
@@ -236,6 +272,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							)
 						)}
 					</Select>
+					{renderTooltip()}
 				</FormControl>
 				<Box
 					sx={{
@@ -252,7 +289,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 					<Box
 						sx={{
 							width: '100%',
-							margin: '20px 0'
+							marginBottom: '20px'
 						}}
 					>
 						<Typography
@@ -271,27 +308,19 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 									md: '300px'
 								}
 							}}
-							data-testid='test-mdx'
+							data-testid='test-quill'
 						>
-							<MDXEditor
-								markdown={props.item?.description ?? ''}
-								plugins={[
-									headingsPlugin({
-										allowedHeadingLevels: [1, 2, 3, 4, 5, 6]
-									}),
-									listsPlugin(),
-									tablePlugin(),
-									linkPlugin(),
-									linkDialogPlugin(),
-									quotePlugin(),
-									markdownShortcutPlugin(),
-									thematicBreakPlugin(),
-									toolbarPlugin({
-										toolbarClassName: 'my-classname',
-										toolbarContents: renderToolbarContents
-									})
-								]}
-								ref={descriptionEditorRef}
+							<ReactQuill
+								style={{
+									height: isSmallerThan900
+										? '250px'
+										: '450px',
+									scrollbarWidth: 'none'
+								}}
+								theme={isSmallerThan900 ? 'snow' : 'bubble'}
+								value={description}
+								onChange={setDescription}
+								modules={modules}
 								placeholder={t('type-description-here')}
 							/>
 						</Box>
@@ -307,6 +336,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 						}}
 					>
 						<Button
+							data-testid='edit-item-modal-cancel'
 							variant='contained'
 							sx={{
 								margin: '10px'
@@ -316,6 +346,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							{t('cancel')}
 						</Button>
 						<Button
+							data-testid='edit-item-modal-confirm'
 							onClick={handleSaveButton}
 							variant='contained'
 							sx={{

@@ -44,17 +44,11 @@ export function LanguagePicker(): React.ReactElement {
 
 	return (
 		<div className='LanguagePicker'>
-			<IconButton
-				onClick={handleClick}
-				style={{
-					width: '1.5rem',
-					height: '1.5rem',
-					padding: '0',
-					border: 'none',
-					background: 'none'
-				}}
-			>
-				<TranslateIcon color='inherit' />
+			<IconButton onClick={handleClick}>
+				<TranslateIcon
+					color='inherit'
+					fontSize='large'
+				/>
 			</IconButton>
 			<Menu
 				id='basic-menu'

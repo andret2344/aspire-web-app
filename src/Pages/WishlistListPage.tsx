@@ -35,7 +35,8 @@ export function WishlistListPage(): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	const [openAddWishlistModal, setOpenAddWishlistModal] =
+	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
+	const [addWishlistModalOpened, setAddWishlistModalOpened] =
 		React.useState<boolean>(false);
 	const [deleteModalOpened, setDeleteModalOpened] =
 		React.useState<boolean>(false);
@@ -59,7 +60,8 @@ export function WishlistListPage(): React.ReactElement {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
 				navigate('/error');
 			});
-	}, [tokenValid]);
+		setHiddenItems([]);
+	}, [tokenValid, activeWishlistId]);
 
 	if (tokenLoading) {
 		return <></>;
@@ -110,6 +112,10 @@ export function WishlistListPage(): React.ReactElement {
 		);
 	}
 
+	function renderSidebarItems(): React.ReactNode[] {
+		return wishlists.map(renderWishlistSidebarItem);
+	}
+
 	function addNewWishlist(newWishlist: WishList): void {
 		setWishlists((prevWishlists: WishList[]): WishList[] => [
 			...prevWishlists,
@@ -141,7 +147,7 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function toggleWishlistModal(): void {
-		setOpenAddWishlistModal((prev: boolean): boolean => !prev);
+		setAddWishlistModalOpened((prev: boolean): boolean => !prev);
 	}
 
 	function handleDeleteClick(): void {
@@ -183,9 +189,16 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function renderItems(): React.ReactNode[] {
-		return (findWishlistById(activeWishlistId)?.wishlistItems ?? []).map(
-			renderWishlistItem
+		const activeWishlistItems: WishlistItem[] =
+			findWishlistById(activeWishlistId)?.wishlistItems ?? [];
+		const items: WishlistItem[] = [
+			...activeWishlistItems,
+			...hiddenItems
+		].map(
+			(item: WishlistItem): WishlistItem =>
+				item.wishlistId ? item : {...item, wishlistId: activeWishlistId}
 		);
+		return items.map(renderWishlistItem);
 	}
 
 	function handleEditAccept(wishlistId: number, item: WishlistItem): void {
@@ -193,7 +206,8 @@ export function WishlistListPage(): React.ReactElement {
 			(wishlist: WishList): boolean => wishlist.id === wishlistId
 		);
 		if (editingWishlistItem) {
-			const foundItem: number = wishlists[found]?.wishlistItems.findIndex(
+			wishlists[found].wishlistItems.push(...hiddenItems);
+			const foundItem: number = wishlists[found].wishlistItems.findIndex(
 				(it: WishlistItem): boolean => it.id === editingWishlistItem.id
 			);
 			wishlists[found].wishlistItems[foundItem] = item;
@@ -233,7 +247,7 @@ export function WishlistListPage(): React.ReactElement {
 						borderRight: `2px solid ${theme.palette.divider}`
 					}}
 				>
-					{wishlists.map(renderWishlistSidebarItem)}
+					{renderSidebarItems()}
 					<Button
 						data-testid='open-modal-button'
 						onClick={toggleWishlistModal}
@@ -318,6 +332,9 @@ export function WishlistListPage(): React.ReactElement {
 						/>
 						<EditItemModal
 							wishlistId={activeWishlistId}
+							wishlistPassword={
+								findWishlistById(activeWishlistId)?.hasPassword
+							}
 							opened={addItemModalOpened}
 							toggleModal={toggleWishlistItemModal}
 							onAccept={handleEditAccept}
@@ -327,7 +344,7 @@ export function WishlistListPage(): React.ReactElement {
 				)}
 			</Grid2>
 			<CreateWishlistModal
-				opened={openAddWishlistModal}
+				opened={addWishlistModalOpened}
 				onAddWishlist={addNewWishlist}
 				onClose={toggleWishlistModal}
 			/>

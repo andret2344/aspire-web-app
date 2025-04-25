@@ -3,6 +3,7 @@ import {
 	IconButton,
 	InputAdornment,
 	TextField,
+	Theme,
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
@@ -11,19 +12,19 @@ import {useForm} from 'react-hook-form';
 import '../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
-import {useNavigate, useParams} from 'react-router-dom';
+import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {resetPassword} from '../Services/AuthService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 
 export function NewPasswordPage(): React.ReactElement {
 	type Inputs = {readonly password: string; readonly passwordRepeat: string};
-	type Params = {readonly token?: string};
+	type Params = {readonly token: string};
 	const {t} = useTranslation();
-	const params: Params = useParams<Params>();
-	const navigate = useNavigate();
-	const theme = useTheme();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const params: Params = useParams<Params>() as Params;
+	const navigate: NavigateFunction = useNavigate();
+	const theme: Theme = useTheme();
+	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
 	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const [showPasswordRepeat, setShowPasswordRepeat] =
 		React.useState<boolean>(false);
@@ -53,10 +54,10 @@ export function NewPasswordPage(): React.ReactElement {
 			return;
 		}
 
-		resetPassword(data.password, data.passwordRepeat, params.token ?? '')
+		resetPassword(data.password, data.passwordRepeat, params.token)
 			.then((response: number): void => {
-				if ([200, 201].includes(response || -1)) {
-					enqueueSnackbar('password-changed!', {
+				if ([200, 201].includes(response)) {
+					enqueueSnackbar('password-changed', {
 						variant: 'success'
 					});
 					navigate('/');
@@ -93,7 +94,7 @@ export function NewPasswordPage(): React.ReactElement {
 									sx={{margin: 0, padding: 0}}
 								>
 									<IconButton
-										data-testid={'visibilityIconPassword'}
+										data-testid='visibility-icon-password'
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPassword}
 									>
@@ -114,8 +115,6 @@ export function NewPasswordPage(): React.ReactElement {
 						marginTop: '5px'
 					}}
 					required
-					error={!!errors.password}
-					helperText={errors.password?.message}
 					{...register('password')}
 				/>
 				<TextField
@@ -130,7 +129,7 @@ export function NewPasswordPage(): React.ReactElement {
 								>
 									<IconButton
 										data-testid={
-											'visibilityIconRepeatPassword'
+											'visibility-icon-repeat-password'
 										}
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPasswordRepeat}
@@ -157,6 +156,7 @@ export function NewPasswordPage(): React.ReactElement {
 					{...register('passwordRepeat')}
 				/>
 				<Button
+					data-testid='button-change-password'
 					variant='contained'
 					sx={{
 						marginTop: '10px'

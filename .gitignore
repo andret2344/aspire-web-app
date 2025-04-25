@@ -4,3 +4,4 @@
 *.iml
 yarn-error.log
 /coverage/
+src/backend/.env

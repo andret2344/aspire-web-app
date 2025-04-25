@@ -38,7 +38,7 @@ export function CreateWishlistModal(
 		if (!wishlistName.trim()) {
 			return;
 		}
-		const newWishlist: WishList = await addWishlist(wishlistName);
+		const newWishlist: WishList = await addWishlist(wishlistName.trim());
 		props.onAddWishlist(newWishlist);
 		setWishlistName('');
 	}
@@ -50,15 +50,16 @@ export function CreateWishlistModal(
 			open={props.opened}
 			aria-labelledby='modal-title'
 			aria-describedby='modal-description'
+			sx={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center'
+			}}
 		>
 			<Paper
 				sx={{
 					width: '400px',
 					height: '250px',
-					position: 'fixed',
-					top: '50%',
-					left: '50%',
-					transform: 'translate(-50%, -50%)',
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
@@ -70,6 +71,7 @@ export function CreateWishlistModal(
 				<Typography
 					id='modal-title'
 					variant='h5'
+					sx={{textAlign: 'center'}}
 					component='div'
 				>
 					{t('enter-wishlist-name')}

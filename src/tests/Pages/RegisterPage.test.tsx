@@ -70,10 +70,10 @@ describe('register page', (): void => {
 		const repeatPasswordInput: HTMLElement =
 			screen.getByPlaceholderText('repeat-password');
 		const toggleShowPasswordButton: HTMLElement = screen.getByTestId(
-			'visibilityIconPassword'
+			'visibility-icon-password'
 		);
 		const toggleShowRepeatPasswordButton = screen.getByTestId(
-			'visibilityIconRepeatPassword'
+			'visibility-icon-repeat-password'
 		);
 
 		// assert
@@ -212,6 +212,60 @@ describe('register page', (): void => {
 					'This password is too short. it must contain at least 8 characters.This password is too common.This password is entirely numeric.'
 				)
 			).toBeInTheDocument();
+		});
+	});
+
+	test('skips unknown error', async (): Promise<void> => {
+		// arrange
+		const mockError = {
+			response: {
+				data: {}
+			}
+		};
+		mockedSignUp.mockRejectedValue(mockError);
+		renderForTest(<RegisterPage />);
+
+		// act
+		fireEvent.change(screen.getByPlaceholderText('email-address'), {
+			target: {value: 'test@example.com'}
+		});
+		fireEvent.change(screen.getByPlaceholderText('password'), {
+			target: {value: 'password123'}
+		});
+		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
+			target: {value: 'password123'}
+		});
+		fireEvent.click(screen.getByRole('button', {name: 'create-account'}));
+
+		// assert
+		await waitFor((): void => {
+			expect(screen.queryByText('account-created')).toBeNull();
+		});
+	});
+
+	test('skips undefined error', async (): Promise<void> => {
+		// arrange
+		const mockError = {
+			response: undefined
+		};
+		mockedSignUp.mockRejectedValue(mockError);
+		renderForTest(<RegisterPage />);
+
+		// act
+		fireEvent.change(screen.getByPlaceholderText('email-address'), {
+			target: {value: 'test@example.com'}
+		});
+		fireEvent.change(screen.getByPlaceholderText('password'), {
+			target: {value: 'password123'}
+		});
+		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
+			target: {value: 'password123'}
+		});
+		fireEvent.click(screen.getByRole('button', {name: 'create-account'}));
+
+		// assert
+		await waitFor((): void => {
+			expect(screen.queryByText('account-created')).toBeNull();
 		});
 	});
 

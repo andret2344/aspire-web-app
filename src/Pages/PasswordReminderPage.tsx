@@ -5,6 +5,7 @@ import {
 	Button,
 	Link,
 	TextField,
+	Theme,
 	Typography,
 	useMediaQuery,
 	useTheme
@@ -12,17 +13,17 @@ import {
 import {useForm} from 'react-hook-form';
 import {requestResetPassword} from '../Services/AuthService';
 import {useSnackbar} from 'notistack';
-import {Link as Anchor, useNavigate} from 'react-router-dom';
+import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function PasswordReminderPage(): React.ReactElement {
 	type Inputs = {readonly email: string};
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
-	const theme = useTheme();
+	const theme: Theme = useTheme();
 	const {enqueueSnackbar} = useSnackbar();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
+	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
 	const {register, handleSubmit} = useForm<Inputs>();
 	const {tokenLoading, tokenValid} = useTokenValidation();
 

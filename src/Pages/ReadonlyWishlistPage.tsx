@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Box,
 	Grid2,
+	IconButton,
 	Paper,
 	Table,
 	TableBody,
@@ -12,67 +13,95 @@ import {
 	Theme
 } from '@mui/material';
 import {getThemeColor} from '../Styles/theme';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {getReadonlyWishlistByUUID} from '../Services/WishListService';
-import {useNavigate, useParams} from 'react-router-dom';
+import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {useTranslation} from 'react-i18next';
+import {WishlistPasswordModal} from '../Components/WishlistPasswordModal';
+import {getWishlistHiddenItems} from '../Services/WishlistItemService';
+import {enqueueSnackbar} from 'notistack';
 
 export function ReadonlyWishlistPage(): React.ReactElement {
-	type Params = {uuid?: string};
-	const params: Params = useParams<Params>();
-	const navigate = useNavigate();
-	const [wishlist, setWishlist] = React.useState<WishList | null>(null);
+	type Params = {readonly uuid: string};
+	const params: Params = useParams<Params>() as Params;
+	const navigate: NavigateFunction = useNavigate();
+	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
+		undefined
+	);
+	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
 	const {t} = useTranslation();
+	const [passwordModalOpened, setPasswordModalOpened] =
+		React.useState<boolean>(false);
 
 	React.useEffect((): void => {
-		if (params.uuid) {
-			fetchSelectedWishlist(params.uuid)
-				.then((wishlist: WishList | null): void => {
-					if (wishlist) {
-						setWishlist(wishlist);
-					} else {
-						navigate('/error');
-					}
-				})
-				.catch((): void => {
-					navigate('/error');
-				});
-		} else {
-			setWishlist(null);
-		}
+		getReadonlyWishlistByUUID(params.uuid)
+			.then(setWishlist)
+			.catch((): void => {
+				navigate('/error');
+			});
 	}, [navigate, params.uuid]);
 
-	async function fetchSelectedWishlist(
-		uuid: string
-	): Promise<WishList | null> {
-		return await getReadonlyWishlistByUUID(uuid);
+	function handlePasswordModalClose(): void {
+		setPasswordModalOpened(false);
+	}
+
+	function handlePasswordModalOpen(): void {
+		setPasswordModalOpened(true);
+	}
+
+	function renderPasswordButton(): React.ReactElement {
+		if (!wishlist?.hasPassword) {
+			return <></>;
+		}
+		return (
+			<IconButton
+				data-testid='hidden-items-icon-button'
+				onClick={handlePasswordModalOpen}
+				size='large'
+				aria-label='access-password-modal'
+			>
+				<LockOutlinedIcon />
+			</IconButton>
+		);
+	}
+
+	async function handlePasswordEnter(
+		id: number,
+		password: string
+	): Promise<void> {
+		await getWishlistHiddenItems(id, password)
+			.then(setHiddenItems)
+			.catch((): string | number =>
+				enqueueSnackbar(t('password-invalid'), {
+					variant: 'error'
+				})
+			);
+		setPasswordModalOpened(false);
 	}
 
 	function renderWishlistItem(
 		wishlistItem: WishlistItem,
-		index: number,
-		currentWishlist: WishList
+		index: number
 	): React.ReactElement {
 		return (
 			<WishlistItemComponent
 				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}
-				wishlistId={currentWishlist.id}
-				onEdit={jest.fn()}
-				onRemove={jest.fn()}
+				wishlistId={wishlist!.id}
 			/>
 		);
 	}
 
-	function renderItems(): React.ReactNode[] | undefined {
-		return wishlist?.wishlistItems.map(
-			(item: WishlistItem, index: number): React.ReactNode =>
-				renderWishlistItem(item, index, wishlist)
-		);
+	function renderItems(): React.ReactNode[] {
+		const activeWishlistItems: WishlistItem[] =
+			wishlist!.wishlistItems ?? [];
+		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
+		return items.map(renderWishlistItem);
 	}
 
 	return (
@@ -90,15 +119,13 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 							alignItems: 'center',
 							justifyContent: 'space-between',
 							width: '100%',
-							backgroundColor:
-								theme.palette.mode === 'dark'
-									? ''
-									: getThemeColor(theme, 'lightBlue'),
+							backgroundColor: getThemeColor(theme, 'lightBlue'),
 							borderTop: '2px #FFFFFF',
 							paddingLeft: '10px'
 						})}
 					>
 						{wishlist.name}
+						{renderPasswordButton()}
 					</Box>
 					<TableContainer
 						sx={{
@@ -133,6 +160,12 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 					</TableContainer>
 				</Grid2>
 			)}
+			<WishlistPasswordModal
+				wishlist={wishlist!}
+				onClose={handlePasswordModalClose}
+				open={passwordModalOpened}
+				onAccept={handlePasswordEnter}
+			/>
 		</Grid2>
 	);
 }

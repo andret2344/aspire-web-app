@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {changePassword} from '../Services/AuthService';
-import {useNavigate} from 'react-router-dom';
+import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import {useSnackbar} from 'notistack';
 import {useDarkMode} from '../Components/DarkModeContext';
@@ -31,7 +31,7 @@ export function ProfilePage(): React.ReactElement {
 	const [showPasswordRepeatConfirmation, setShowPasswordRepeatConfirmation] =
 		React.useState<boolean>(false);
 	const {darkMode, toggleDarkMode} = useDarkMode();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
 	const {tokenLoading, tokenValid} = useTokenValidation();
 	const {
@@ -79,8 +79,8 @@ export function ProfilePage(): React.ReactElement {
 			data.newPasswordConfirm
 		)
 			.then((response: number): void => {
-				if ([200, 201].includes(response || -1)) {
-					enqueueSnackbar(`${t('password-changed!')}`, {
+				if ([200, 201].includes(response)) {
+					enqueueSnackbar(`${t('password-changed')}`, {
 						variant: 'success'
 					});
 					reset();
@@ -173,7 +173,7 @@ export function ProfilePage(): React.ReactElement {
 												>
 													<IconButton
 														data-testid={
-															'visibilityIconPassword'
+															'visibility-icon-password'
 														}
 														sx={{
 															margin: 0,
@@ -217,7 +217,7 @@ export function ProfilePage(): React.ReactElement {
 												>
 													<IconButton
 														data-testid={
-															'visibilityIconRepeatPassword'
+															'visibility-icon-repeat-password'
 														}
 														sx={{
 															margin: 0,
@@ -267,7 +267,7 @@ export function ProfilePage(): React.ReactElement {
 												>
 													<IconButton
 														data-testid={
-															'visibilityIconRepeatPasswordConfirmation'
+															'visibility-icon-repeat-password-confirmation'
 														}
 														sx={{
 															margin: 0,

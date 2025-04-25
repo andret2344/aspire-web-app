@@ -7,7 +7,6 @@ import {
 import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
 import user from '@testing-library/user-event';
-
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
@@ -20,7 +19,8 @@ describe('WishlistListPage', (): void => {
 	beforeEach((): void => {
 		Object.defineProperty(global.navigator, 'clipboard', {
 			value: {
-				writeText: jest.fn()
+				writeText: jest.fn(),
+				readText: jest.fn()
 			},
 			configurable: true
 		});
@@ -37,9 +37,11 @@ describe('WishlistListPage', (): void => {
 				wishlistId: 1,
 				description: 'Check out this link: https://example.com',
 				name: 'Item 1',
-				priorityId: 3
+				priorityId: 3,
+				hidden: false
 			}
-		]
+		],
+		hasPassword: false
 	};
 
 	test('renders correctly with wishlist data', async (): Promise<void> => {
@@ -122,18 +124,13 @@ describe('WishlistListPage', (): void => {
 		renderForTest(<WishlistListPage />);
 
 		// assert
-		const addNewWishlistItem = await waitFor(
+		const addNewWishlistItem: HTMLElement = await waitFor(
 			(): HTMLElement => screen.getByLabelText('Add item')
 		);
 		expect(addNewWishlistItem).toBeInTheDocument();
-		await waitFor(
-			async (): Promise<void> => {
-				await user.click(addNewWishlistItem);
-			},
-			{
-				timeout: 5000
-			}
-		);
+		await act(async (): Promise<void> => {
+			await user.click(addNewWishlistItem);
+		});
 
 		const saveButton = screen.getByRole('button', {name: /confirm/i});
 		expect(saveButton).toBeInTheDocument();
@@ -190,9 +187,11 @@ describe('WishlistListPage', (): void => {
 					wishlistId: 1,
 					description: 'test description',
 					name: 'Item 1',
-					priorityId: 3
+					priorityId: 3,
+					hidden: false
 				}
-			]
+			],
+			hasPassword: false
 		};
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
@@ -219,7 +218,8 @@ describe('WishlistListPage', (): void => {
 			id: 2,
 			uuid: 'b838027b-9177-43d6-918e-67917f1d9b16',
 			name: 'New Mock Wishlist',
-			wishlistItems: []
+			wishlistItems: [],
+			hasPassword: false
 		};
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
@@ -243,7 +243,9 @@ describe('WishlistListPage', (): void => {
 
 		// assert
 		await waitFor((): void =>
-			expect(screen.getByText(newWishlist.name)).toBeInTheDocument()
+			expect(
+				screen.getAllByText(newWishlist.name).length
+			).toBeGreaterThan(0)
 		);
 	});
 
