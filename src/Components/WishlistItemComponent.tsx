@@ -75,7 +75,7 @@ export function WishlistItemComponent(
 				}}
 				aria-label='edit'
 				size='large'
-				onClick={(): void => props.onEdit!(props.item)}
+				onClick={handleEditButton}
 				data-testid='edit-wishlist-item'
 			>
 				<EditIcon
@@ -104,7 +104,7 @@ export function WishlistItemComponent(
 				}}
 				size='large'
 				aria-label='delete'
-				onClick={handleRemove}
+				onClick={handleRemoveButton}
 				data-testid='remove-wishlist-item'
 			>
 				<DeleteIcon
@@ -135,7 +135,7 @@ export function WishlistItemComponent(
 
 	function handleEditButton(event: React.MouseEvent): void {
 		event.stopPropagation();
-		return props.onEdit(props.item);
+		return props.onEdit?.(props.item);
 	}
 
 	return (

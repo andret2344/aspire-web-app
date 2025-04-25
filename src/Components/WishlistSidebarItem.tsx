@@ -75,6 +75,7 @@ export function WishlistSidebarItem(
 				enqueueSnackbar(t('something-went-wrong'), {
 					variant: 'error'
 				});
+				console.error(err);
 			}
 		}
 		setEditedName(undefined);
