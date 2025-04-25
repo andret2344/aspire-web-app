@@ -90,8 +90,10 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		setPriority(+event.target.value);
 	}
 
-	function handleChangeHidden(): void {
-		setHidden((prev: boolean): boolean => !prev);
+	function handleChangeHidden(
+		event: React.ChangeEvent<HTMLInputElement>
+	): void {
+		setHidden(event.target.checked);
 	}
 
 	function handleTooltipClose() {
@@ -103,13 +105,11 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	}
 
 	function toggleModalAndClearFields(): void {
-		props.toggleModal();
-		setPriority(1);
 		if (nameInputRef.current) {
 			nameInputRef.current.value = '';
 		}
 		descriptionEditorRef.current?.setMarkdown('');
-		setHidden(true);
+		props.toggleModal();
 	}
 
 	async function handleSaveButton(): Promise<void> {
@@ -194,7 +194,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 								<Checkbox
 									defaultChecked={props.item?.hidden}
 									disabled={!props.wishlistPassword}
-									onClick={handleChangeHidden}
+									onChange={handleChangeHidden}
 								/>
 							}
 							data-testid='tooltip-test'
