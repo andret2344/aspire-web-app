@@ -1,17 +1,9 @@
-import {
-	Box,
-	Button,
-	Modal,
-	Paper,
-	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme
-} from '@mui/material';
+import {Box, Button, TextField, useMediaQuery, useTheme} from '@mui/material';
 import React from 'react';
 import {addWishlist} from '../../Services/WishListService';
 import {WishList} from '../../Entity/WishList';
 import {useTranslation} from 'react-i18next';
+import {AspireModal} from './AspireModal';
 
 interface WishlistModalProps {
 	readonly opened: boolean;
@@ -44,83 +36,57 @@ export function CreateWishlistModal(
 	}
 
 	return (
-		<Modal
+		<AspireModal
 			data-testid='add-wishlist-modal'
 			onClose={props.onClose}
-			open={props.opened}
-			aria-labelledby='modal-title'
-			aria-describedby='modal-description'
-			sx={{
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center'
-			}}
+			opened={props.opened}
+			title={t('enter-wishlist-name')}
+			onSubmit={handleSubmit}
 		>
-			<Paper
+			<TextField
+				data-testid='input-wishlist-name'
+				hiddenLabel
+				variant='filled'
+				placeholder={t('name')}
+				value={wishlistName}
+				onChange={handleNameChange}
+				size={isSmallerThan600 ? 'small' : 'medium'}
 				sx={{
-					width: '400px',
-					height: '250px',
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-					justifyContent: 'space-evenly'
+					width: '300px',
+					marginTop: '15px'
 				}}
-				component='form'
-				onSubmit={handleSubmit}
+			/>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+					width: '80%',
+					alignItems: 'center'
+				}}
 			>
-				<Typography
-					id='modal-title'
-					variant='h5'
-					sx={{textAlign: 'center'}}
-					component='div'
-				>
-					{t('enter-wishlist-name')}
-				</Typography>
-				<TextField
-					data-testid='input-wishlist-name'
-					hiddenLabel
-					variant='filled'
-					placeholder={t('name')}
-					value={wishlistName}
-					onChange={handleNameChange}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+				<Button
+					variant='outlined'
+					color='error'
 					sx={{
-						width: '300px',
-						marginTop: '15px'
+						marginTop: '10px'
 					}}
-				/>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						width: '80%',
-						alignItems: 'center'
-					}}
+					onClick={props.onClose}
 				>
-					<Button
-						variant='outlined'
-						color='error'
-						sx={{
-							marginTop: '10px'
-						}}
-						onClick={props.onClose}
-					>
-						{t('cancel')}
-					</Button>
-					<Button
-						data-testid='button-save'
-						color='primary'
-						variant='contained'
-						sx={{
-							marginTop: '10px'
-						}}
-						type='submit'
-					>
-						{t('save')}
-					</Button>
-				</Box>
-			</Paper>
-		</Modal>
+					{t('cancel')}
+				</Button>
+				<Button
+					data-testid='button-save'
+					color='primary'
+					variant='contained'
+					sx={{
+						marginTop: '10px'
+					}}
+					type='submit'
+				>
+					{t('save')}
+				</Button>
+			</Box>
+		</AspireModal>
 	);
 }

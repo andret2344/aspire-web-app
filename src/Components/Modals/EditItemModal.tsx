@@ -6,8 +6,6 @@ import {
 	FormControl,
 	FormControlLabel,
 	MenuItem,
-	Modal,
-	Paper,
 	Select,
 	SelectChangeEvent,
 	TextField,
@@ -30,6 +28,7 @@ import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 import {StringMap} from 'quill';
 import {useTranslation} from 'react-i18next';
+import {AspireModal} from './AspireModal';
 
 interface EditItemModalProps {
 	readonly wishlistId: number;
@@ -110,7 +109,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		setHidden(true);
 	}
 
-	async function handleSaveButton(): Promise<void> {
+	async function handleSubmit(): Promise<void> {
 		const wishlistItemName: string = inputRefName.current!.value;
 		if (!wishlistItemName) {
 			return undefined;
@@ -195,169 +194,139 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	}
 
 	return (
-		<Modal
+		<AspireModal
 			onClose={props.toggleModal}
-			open={props.opened}
-			aria-labelledby='modal-title'
-			aria-describedby='modal-description'
-			sx={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				margin: {
-					xs: '0',
-					md: '30px 0'
-				}
-			}}
+			opened={props.opened}
+			title={props.item?.description ? t('edit-item') : t('new-item')}
+			onSubmit={handleSubmit}
+			width='80%'
 		>
-			<Paper
+			<TextField
+				hiddenLabel
+				variant='filled'
+				placeholder={props.item?.name ?? t('enter-item')}
+				defaultValue={props.item?.name ?? ''}
+				inputRef={inputRefName}
+				size={isSmallerThan900 ? 'small' : 'medium'}
+				sx={{
+					width: {
+						xs: '95%',
+						md: '80%'
+					},
+					marginTop: '15px'
+				}}
+			/>
+			<FormControl
+				sx={{
+					m: 3,
+					width: {
+						xs: '95%',
+						md: '80%'
+					}
+				}}
+			>
+				<Select
+					labelId='demo-simple-select-autowidth-label'
+					id='demo-simple-select-autowidth'
+					value={priority}
+					onChange={handleChangePriority}
+					displayEmpty
+					required
+				>
+					{getAllPriorities().map(
+						(priorityItem: Priority): React.ReactElement => (
+							<MenuItem
+								key={priorityItem.value}
+								value={priorityItem.value}
+							>
+								{`${priorityItem.value}\u00A0\u00A0 ${priorityItem.description}`}
+							</MenuItem>
+						)
+					)}
+				</Select>
+				{renderTooltip()}
+			</FormControl>
+			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					padding: '30px 0',
+					justifyContent: 'space-between',
 					width: {
-						xs: '100%',
+						xs: '95%',
 						md: '80%'
-					},
-					height: {
-						xs: '100%',
-						md: 'auto'
 					}
 				}}
 			>
-				<Typography>
-					{props.item?.description ? t('edit-item') : t('new-item')}
-				</Typography>
-				<TextField
-					hiddenLabel
-					variant='filled'
-					placeholder={props.item?.name ?? t('enter-item')}
-					defaultValue={props.item?.name ?? ''}
-					inputRef={inputRefName}
-					size={isSmallerThan900 ? 'small' : 'medium'}
+				<Box
 					sx={{
-						width: {
-							xs: '95%',
-							md: '80%'
-						},
-						marginTop: '15px'
-					}}
-				/>
-				<FormControl
-					sx={{
-						m: 3,
-						width: {
-							xs: '95%',
-							md: '80%'
-						}
+						width: '100%',
+						marginBottom: '20px'
 					}}
 				>
-					<Select
-						labelId='demo-simple-select-autowidth-label'
-						id='demo-simple-select-autowidth'
-						value={priority}
-						onChange={handleChangePriority}
-						displayEmpty
-						required
+					<Typography
+						id='modal-title'
+						variant='h6'
+						component='h2'
+						sx={{alignSelf: 'flex-start'}}
 					>
-						{getAllPriorities().map(
-							(priorityItem: Priority): React.ReactElement => (
-								<MenuItem
-									key={priorityItem.value}
-									value={priorityItem.value}
-								>
-									{`${priorityItem.value}\u00A0\u00A0 ${priorityItem.description}`}
-								</MenuItem>
-							)
-						)}
-					</Select>
-					{renderTooltip()}
-				</FormControl>
+						Description
+					</Typography>
+					<Box
+						sx={{
+							paddingBottom: '10px',
+							height: {
+								xs: '450px',
+								md: '300px'
+							}
+						}}
+						data-testid='test-quill'
+					>
+						<ReactQuill
+							style={{
+								height: isSmallerThan900 ? '250px' : '450px',
+								scrollbarWidth: 'none'
+							}}
+							theme={isSmallerThan900 ? 'snow' : 'bubble'}
+							value={description}
+							onChange={setDescription}
+							modules={modules}
+							placeholder={t('type-description-here')}
+						/>
+					</Box>
+				</Box>
+
 				<Box
 					sx={{
 						display: 'flex',
-						flexDirection: 'column',
+						flexDirection: 'row',
+						justifyContent: 'space-around',
 						alignItems: 'center',
-						justifyContent: 'space-between',
-						width: {
-							xs: '95%',
-							md: '80%'
-						}
+						width: '80%'
 					}}
 				>
-					<Box
+					<Button
+						data-testid='edit-item-modal-cancel'
+						variant='contained'
 						sx={{
-							width: '100%',
-							marginBottom: '20px'
+							margin: '10px'
+						}}
+						onClick={toggleModalAndClearFields}
+					>
+						{t('cancel')}
+					</Button>
+					<Button
+						data-testid='edit-item-modal-confirm'
+						type='submit'
+						variant='contained'
+						sx={{
+							margin: '10px'
 						}}
 					>
-						<Typography
-							id='modal-title'
-							variant='h6'
-							component='h2'
-							sx={{alignSelf: 'flex-start'}}
-						>
-							Description
-						</Typography>
-						<Box
-							sx={{
-								paddingBottom: '10px',
-								height: {
-									xs: '450px',
-									md: '300px'
-								}
-							}}
-							data-testid='test-quill'
-						>
-							<ReactQuill
-								style={{
-									height: isSmallerThan900
-										? '250px'
-										: '450px',
-									scrollbarWidth: 'none'
-								}}
-								theme={isSmallerThan900 ? 'snow' : 'bubble'}
-								value={description}
-								onChange={setDescription}
-								modules={modules}
-								placeholder={t('type-description-here')}
-							/>
-						</Box>
-					</Box>
-
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-around',
-							alignItems: 'center',
-							width: '80%'
-						}}
-					>
-						<Button
-							data-testid='edit-item-modal-cancel'
-							variant='contained'
-							sx={{
-								margin: '10px'
-							}}
-							onClick={toggleModalAndClearFields}
-						>
-							{t('cancel')}
-						</Button>
-						<Button
-							data-testid='edit-item-modal-confirm'
-							onClick={handleSaveButton}
-							variant='contained'
-							sx={{
-								margin: '10px'
-							}}
-						>
-							{t('confirm')}
-						</Button>
-					</Box>
+						{t('confirm')}
+					</Button>
 				</Box>
-			</Paper>
-		</Modal>
+			</Box>
+		</AspireModal>
 	);
 }
