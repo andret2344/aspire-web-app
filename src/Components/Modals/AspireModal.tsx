@@ -2,10 +2,11 @@ import React from 'react';
 import {Modal, Paper, Typography} from '@mui/material';
 
 interface AspireModalProps {
+	readonly 'data-testid'?: string;
 	readonly title: React.ReactElement | string;
 	readonly opened: boolean;
 	readonly onClose: () => void;
-	readonly onSubmit?: () => void;
+	readonly onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
 	readonly width?: string;
 }
 
@@ -14,6 +15,7 @@ export function AspireModal(
 ): React.ReactElement {
 	return (
 		<Modal
+			data-testid={props['data-testid']}
 			onClose={props.onClose}
 			open={props.opened}
 			aria-labelledby='modal-title'

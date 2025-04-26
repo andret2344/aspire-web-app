@@ -23,11 +23,11 @@ describe('DeleteWishlistModal', (): void => {
 		);
 
 		// act
-		const dialog: HTMLElement = screen.getByTestId('delete-confirmation');
+		const modal: HTMLElement = screen.getByTestId('delete-wishlist-modal');
 
 		// assert
-		expect(dialog).toBeInTheDocument();
-		expect(dialog).toHaveTextContent(
+		expect(modal).toBeInTheDocument();
+		expect(modal).toHaveTextContent(
 			'Are you sure you want to delete the test wishlist name wishlist?'
 		);
 	});
