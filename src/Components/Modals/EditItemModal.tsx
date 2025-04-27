@@ -69,7 +69,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		props.item?.priorityId ?? 1
 	);
 	const [hidden, setHidden] = React.useState<boolean>(
-		props.item?.hidden || false
+		props.item?.hidden ?? false
 	);
 	const [open, setOpen] = React.useState<boolean>(false);
 	const {t} = useTranslation();
@@ -312,26 +312,26 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							}
 						}}
 						data-testid='test-mdx'
-						>
-							<MDXEditor
-								markdown={props.item?.description ?? ''}
+					>
+						<MDXEditor
+							markdown={props.item?.description ?? ''}
 							plugins={[
 								headingsPlugin({
-										allowedHeadingLevels: [1, 2, 3, 4, 5, 6]
-									}),
-									listsPlugin(),
-									tablePlugin(),
-									linkPlugin(),
-									linkDialogPlugin(),
-									quotePlugin(),
-									markdownShortcutPlugin(),
+									allowedHeadingLevels: [1, 2, 3, 4, 5, 6]
+								}),
+								listsPlugin(),
+								tablePlugin(),
+								linkPlugin(),
+								linkDialogPlugin(),
+								quotePlugin(),
+								markdownShortcutPlugin(),
 								thematicBreakPlugin(),
-									toolbarPlugin({
-										toolbarClassName: 'my-classname',
-										toolbarContents: renderToolbarContents
-									})
+								toolbarPlugin({
+									toolbarClassName: 'my-classname',
+									toolbarContents: renderToolbarContents
+								})
 							]}
-								ref={descriptionEditorRef}
+							ref={descriptionEditorRef}
 							placeholder={t('type-description-here')}
 						/>
 					</Box>
