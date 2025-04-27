@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	Box,
-	Grid2,
+	Grid,
 	IconButton,
 	Paper,
 	Table,
@@ -104,13 +104,13 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	}
 
 	return (
-		<Grid2
+		<Grid
 			flexGrow={{sx: 1}}
 			container
 			columnSpacing={2}
 		>
 			{wishlist && (
-				<Grid2 size={{xs: 12}}>
+				<Grid size={{xs: 12}}>
 					<Box
 						sx={(theme: Theme): SystemStyleObject<Theme> => ({
 							height: '60px',
@@ -157,7 +157,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 							<TableBody>{renderItems()}</TableBody>
 						</Table>
 					</TableContainer>
-				</Grid2>
+				</Grid>
 			)}
 			<WishlistPasswordModal
 				wishlist={wishlist!}
@@ -165,6 +165,6 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 				open={passwordModalOpened}
 				onAccept={handlePasswordEnter}
 			/>
-		</Grid2>
+		</Grid>
 	);
 }

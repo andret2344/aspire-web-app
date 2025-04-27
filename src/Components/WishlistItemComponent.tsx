@@ -15,8 +15,7 @@ import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
 import {removeWishlistItem} from '../Services/WishlistItemService';
 import {useSnackbar} from 'notistack';
-import Linkify from 'linkify-react';
-import parse from 'html-react-parser';
+import MarkdownView from 'react-showdown';
 import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
@@ -76,7 +75,7 @@ export function WishlistItemComponent(
 				}}
 				aria-label='edit'
 				size='large'
-				onClick={(): void => props.onEdit!(props.item)}
+				onClick={handleEditButton}
 				data-testid='edit-wishlist-item'
 			>
 				<EditIcon
@@ -105,7 +104,7 @@ export function WishlistItemComponent(
 				}}
 				size='large'
 				aria-label='delete'
-				onClick={handleRemove}
+				onClick={handleRemoveButton}
 				data-testid='remove-wishlist-item'
 			>
 				<DeleteIcon
@@ -120,7 +119,8 @@ export function WishlistItemComponent(
 		);
 	}
 
-	async function handleRemove(): Promise<void> {
+	async function handleRemoveButton(event: React.MouseEvent): Promise<void> {
+		event.stopPropagation();
 		await removeWishlistItem(props.wishlistId, props.item.id)
 			.then((): void => {
 				props.onRemove!(props.wishlistId, props.item.id);
@@ -133,9 +133,15 @@ export function WishlistItemComponent(
 			);
 	}
 
+	function handleEditButton(event: React.MouseEvent): void {
+		event.stopPropagation();
+		return props.onEdit?.(props.item);
+	}
+
 	return (
 		<React.Fragment>
 			<TableRow
+				data-testid='wishlist-item-row'
 				sx={{
 					borderBottom: 'unset',
 					position: 'relative'
@@ -201,14 +207,9 @@ export function WishlistItemComponent(
 					>
 						<Box sx={{margin: 1}}>
 							<Typography component='div'>
-								<Linkify
-									options={{
-										target: '_blank',
-										rel: 'noopener noreferrer'
-									}}
-								>
-									{parse(props.item.description)}
-								</Linkify>
+								<MarkdownView
+									markdown={props.item.description}
+								/>
 							</Typography>
 						</Box>
 					</Collapse>

@@ -6,6 +6,8 @@ import {
 } from '../__mocks__/MockWishlistService';
 import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
+import '../__mocks__/MockMDXEditor';
+
 import user from '@testing-library/user-event';
 import React from 'react';
 import '@testing-library/jest-dom';

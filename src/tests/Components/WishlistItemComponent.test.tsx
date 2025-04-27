@@ -3,7 +3,7 @@ import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../Utils/RenderForTest';
 import user from '@testing-library/user-event';
-import React from 'react';
+import React, {act} from 'react';
 import {WishlistItemComponent} from '../../Components/WishlistItemComponent';
 import {WishlistItem} from '../../Entity/WishlistItem';
 
@@ -11,16 +11,16 @@ describe('WishlistItemComponent', (): void => {
 	const mockWishlistItem: WishlistItem = {
 		id: 1,
 		wishlistId: 1,
-		description: 'test description',
 		name: 'Item 1',
+		description: '# test description',
 		priorityId: 2
 	};
 
 	const mockWishlistItemHidden: WishlistItem = {
 		id: 1,
 		wishlistId: 1,
-		description: 'test description',
 		name: 'Item 1',
+		description: 'test description',
 		priorityId: 2,
 		hidden: true
 	};
@@ -86,6 +86,28 @@ describe('WishlistItemComponent', (): void => {
 		// assert
 		expect(handleEditButtonClick).toHaveBeenCalledTimes(1);
 		expect(handleEditButtonClick).toHaveBeenCalledWith(mockWishlistItem);
+	});
+
+	test('handle item row expands', async (): Promise<void> => {
+		// arrange
+		user.setup();
+
+		renderForTest(
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				onEdit={jest.fn()}
+				onRemove={jest.fn()}
+			/>
+		);
+
+		// act
+		const itemRow: HTMLElement = screen.getByTestId('wishlist-item-row');
+		await act(async (): Promise<void> => user.click(itemRow));
+
+		// assert
+		expect(screen.getByText('test description')).toBeInTheDocument();
 	});
 
 	test('handle remove item with success', async (): Promise<void> => {
