@@ -54,7 +54,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	}
 
 	function renderPasswordButton(): React.ReactElement {
-		if (!wishlist?.hasPassword) {
+		if (!wishlist!.hasPassword) {
 			return <></>;
 		}
 		return (
@@ -98,8 +98,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	}
 
 	function renderItems(): React.ReactNode[] {
-		const activeWishlistItems: WishlistItem[] =
-			wishlist!.wishlistItems ?? [];
+		const activeWishlistItems: WishlistItem[] = wishlist!.wishlistItems;
 		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
 		return items.map(renderWishlistItem);
 	}

@@ -123,7 +123,7 @@ export function WishlistItemComponent(
 		event.stopPropagation();
 		await removeWishlistItem(props.wishlistId, props.item.id)
 			.then((): void => {
-				props.onRemove?.(props.wishlistId, props.item.id);
+				props.onRemove!(props.wishlistId, props.item.id);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
