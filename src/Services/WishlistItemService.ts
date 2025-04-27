@@ -23,9 +23,9 @@ export async function addWishlistItem(
 	description: string,
 	priorityId: number,
 	hidden?: boolean
-): Promise<WishlistItem | null> {
+): Promise<WishlistItemDto | null> {
 	try {
-		const result: AxiosResponse<WishlistItem> = await apiInstance.post(
+		const result: AxiosResponse<WishlistItemDto> = await apiInstance.post(
 			`/${wishlistId}/wishlistitem`,
 			{
 				name,
@@ -50,9 +50,9 @@ export async function editWishlistItem(
 	description: string,
 	priorityId: number,
 	hidden?: boolean
-): Promise<WishlistItem | null> {
+): Promise<WishlistItemDto | null> {
 	try {
-		const result: AxiosResponse<WishlistItem> = await apiInstance.put(
+		const result: AxiosResponse<WishlistItemDto> = await apiInstance.put(
 			`/${wishlistId}/wishlistitem/${wishlistItemId}`,
 			{
 				name,

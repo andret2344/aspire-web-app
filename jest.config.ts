@@ -10,8 +10,9 @@ module.exports = {
 	],
 	transform: {
 		'^.+\\.(ts|tsx)$': 'ts-jest',
-		'^.+\\.css$': '<rootDir>/cssTransform.js'
+		'\\.css$': '<rootDir>/cssTransform.js'
 	},
+	transformIgnorePatterns: ['node_modules/(?!@mdxeditor)'],
 	coverageThreshold: {
 		global: {
 			statements: 95,
