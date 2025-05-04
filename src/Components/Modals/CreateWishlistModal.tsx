@@ -79,6 +79,7 @@ export function CreateWishlistModal(
 					data-testid='button-save'
 					color='primary'
 					variant='contained'
+					disabled={!wishlistName}
 					sx={{
 						marginTop: '10px'
 					}}

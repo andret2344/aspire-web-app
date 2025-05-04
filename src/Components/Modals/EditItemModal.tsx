@@ -360,6 +360,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 						data-testid='edit-item-modal-confirm'
 						type='submit'
 						variant='contained'
+						disabled={!nameInputRef.current?.value}
 						sx={{
 							margin: '10px'
 						}}
