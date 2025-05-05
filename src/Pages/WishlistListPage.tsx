@@ -158,9 +158,9 @@ export function WishlistListPage(): React.ReactElement {
 		setDeleteModalOpened(false);
 	}
 
-	function toggleWishlistItemModal(): void {
+	function closeEditModal(): void {
 		setEditingWishlistItem(undefined);
-		setAddItemModalOpened((prev: boolean): boolean => !prev);
+		setAddItemModalOpened(false);
 	}
 
 	function handleItemRemove(wishlistId: number, itemId: number): void {
@@ -314,32 +314,12 @@ export function WishlistListPage(): React.ReactElement {
 						>
 							<IconButton
 								aria-label='Add item'
-								onClick={toggleWishlistItemModal}
+								onClick={closeEditModal}
 								sx={{margin: '25px', padding: '25px'}}
 							>
 								<AddCircleOutlineIcon fontSize='large' />
 							</IconButton>
 						</Box>
-						<DeleteWishlistModal
-							opened={deleteModalOpened}
-							onCancel={handleDeleteCancel}
-							onRemove={(): void =>
-								handleWishlistRemove(activeWishlistId)
-							}
-							wishlistName={
-								findWishlistById(activeWishlistId)?.name ?? ''
-							}
-						/>
-						<EditItemModal
-							wishlistId={activeWishlistId}
-							wishlistPassword={
-								findWishlistById(activeWishlistId)?.hasPassword
-							}
-							opened={addItemModalOpened}
-							toggleModal={toggleWishlistItemModal}
-							onAccept={handleEditAccept}
-							item={editingWishlistItem}
-						/>
 					</Grid>
 				)}
 			</Grid>
@@ -347,6 +327,22 @@ export function WishlistListPage(): React.ReactElement {
 				opened={addWishlistModalOpened}
 				onAddWishlist={addNewWishlist}
 				onClose={toggleWishlistModal}
+			/>
+			<EditItemModal
+				wishlistId={activeWishlistId}
+				wishlistPassword={
+					findWishlistById(activeWishlistId)?.hasPassword
+				}
+				opened={addItemModalOpened}
+				onClose={closeEditModal}
+				onAccept={handleEditAccept}
+				item={editingWishlistItem}
+			/>
+			<DeleteWishlistModal
+				opened={deleteModalOpened}
+				onCancel={handleDeleteCancel}
+				onRemove={(): void => handleWishlistRemove(activeWishlistId)}
+				wishlistName={findWishlistById(activeWishlistId)?.name ?? ''}
 			/>
 		</>
 	);

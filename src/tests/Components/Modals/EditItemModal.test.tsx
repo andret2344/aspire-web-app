@@ -89,7 +89,7 @@ describe('EditItemModal', (): void => {
 			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 				item={mockWishlistData.wishlistItems[0]}
 			/>
@@ -137,7 +137,7 @@ describe('EditItemModal', (): void => {
 				wishlistId={mockWishlistData.id}
 				item={mockWishlistData.wishlistItems[0]}
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
 		);
@@ -157,7 +157,7 @@ describe('EditItemModal', (): void => {
 				wishlistId={mockWishlistData.id}
 				item={mockWishlistDataWithPassword.wishlistItems[0]}
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
 		);
@@ -178,7 +178,7 @@ describe('EditItemModal', (): void => {
 			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
 		);
@@ -214,7 +214,7 @@ describe('EditItemModal', (): void => {
 			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
 		);
@@ -249,7 +249,7 @@ describe('EditItemModal', (): void => {
 			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 				item={mockWishlistData.wishlistItems[0]}
 			/>
@@ -272,7 +272,7 @@ describe('EditItemModal', (): void => {
 			<EditItemModal
 				wishlistId={mockWishlistData.id}
 				opened={true}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
 		);
@@ -302,7 +302,7 @@ describe('EditItemModal', (): void => {
 				wishlistId={mockWishlistData.id}
 				opened={true}
 				onAccept={(): void => undefined}
-				toggleModal={(): void => undefined}
+				onClose={(): void => undefined}
 			/>
 		);
 
