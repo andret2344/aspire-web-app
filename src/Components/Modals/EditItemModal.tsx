@@ -78,12 +78,6 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		React.useRef<MDXEditorMethods>(null);
 	const {enqueueSnackbar} = useSnackbar();
 
-	React.useEffect((): void => {
-		setName(props.item?.name ?? '');
-		setPriority(props.item?.priorityId ?? 1);
-		setHidden(props.item?.hidden ?? false);
-	}, [props.item]);
-
 	function handleChangePriority(event: SelectChangeEvent<number>): void {
 		setPriority(+event.target.value);
 	}

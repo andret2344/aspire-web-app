@@ -329,6 +329,7 @@ export function WishlistListPage(): React.ReactElement {
 				onClose={toggleWishlistModal}
 			/>
 			<EditItemModal
+				key={editingWishlistItem?.id}
 				wishlistId={activeWishlistId}
 				wishlistPassword={
 					findWishlistById(activeWishlistId)?.hasPassword
