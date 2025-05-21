@@ -223,6 +223,7 @@ export function WishlistSidebarItem(
 						<IconButton
 							onClick={props.onRemove}
 							size='large'
+							data-testid={`delete-wishlist-${props.wishlist.id}`}
 							aria-label={`delete-wishlist-${props.wishlist.id}`}
 						>
 							<DeleteIcon />

@@ -45,7 +45,9 @@ describe('DeleteWishlistModal', (): void => {
 				onCancel={(): void => undefined}
 			/>
 		);
-		const buttonOk: HTMLElement = screen.getByTestId('button-delete');
+		const buttonOk: HTMLElement = screen.getByTestId(
+			'delete-wishlist-modal-button-delete'
+		);
 		await act((): Promise<void> => user.click(buttonOk));
 
 		// assert

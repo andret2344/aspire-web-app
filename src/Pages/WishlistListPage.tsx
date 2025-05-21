@@ -158,8 +158,12 @@ export function WishlistListPage(): React.ReactElement {
 		setDeleteModalOpened(false);
 	}
 
-	function closeEditModal(): void {
+	function openEditModal(): void {
 		setEditingWishlistItem(undefined);
+		setAddItemModalOpened(true);
+	}
+
+	function closeEditModal(): void {
 		setAddItemModalOpened(false);
 	}
 
@@ -313,8 +317,9 @@ export function WishlistListPage(): React.ReactElement {
 							}}
 						>
 							<IconButton
+								data-testid='add-item-button'
 								aria-label='Add item'
-								onClick={closeEditModal}
+								onClick={openEditModal}
 								sx={{margin: '25px', padding: '25px'}}
 							>
 								<AddCircleOutlineIcon fontSize='large' />

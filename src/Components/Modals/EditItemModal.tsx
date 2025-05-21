@@ -102,9 +102,6 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		event.preventDefault();
 		const wishlistItemDescription: string =
 			descriptionEditorRef.current?.getMarkdown() ?? '';
-		if (!name) {
-			return undefined;
-		}
 		if (props.item) {
 			const updatedWishlistItem: WishlistItemDto | null =
 				await editWishlistItem(
@@ -228,6 +225,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 				hiddenLabel
 				variant='filled'
 				value={name}
+				data-testid='edit-item-modal-input-name'
 				onChange={handleNameChange}
 				size={isSmallerThan900 ? 'small' : 'medium'}
 				sx={{

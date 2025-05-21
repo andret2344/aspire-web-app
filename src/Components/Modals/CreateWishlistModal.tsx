@@ -27,9 +27,6 @@ export function CreateWishlistModal(
 		e: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
 		e.preventDefault();
-		if (!wishlistName.trim()) {
-			return;
-		}
 		const newWishlist: WishList = await addWishlist(wishlistName.trim());
 		props.onAddWishlist(newWishlist);
 		setWishlistName('');

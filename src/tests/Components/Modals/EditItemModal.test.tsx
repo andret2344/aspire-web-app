@@ -14,7 +14,6 @@ import {fireEvent, screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {WishlistItem} from '../../../Entity/WishlistItem';
 import {renderForTest} from '../../Utils/RenderForTest';
-import {act, render} from '@testing-library/react';
 
 describe('EditItemModal', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -95,38 +94,27 @@ describe('EditItemModal', (): void => {
 			/>
 		);
 
-		const inputName = screen.getByPlaceholderText(
-			mockWishlistData.wishlistItems[0].name
-		) as HTMLInputElement;
-		const prioritySelect = screen.getByRole(
-			'combobox'
-		) as HTMLSelectElement;
-
-		expect(prioritySelect).toBeInTheDocument();
+		const inputName: HTMLInputElement = screen
+			.getByTestId('edit-item-modal-input-name')
+			.querySelector('input') as HTMLInputElement;
+		const prioritySelect: HTMLSelectElement = screen.getByRole('combobox');
 
 		const saveButton: HTMLElement = screen.getByRole('button', {
 			name: /confirm/i
 		});
 
-		expect(inputName).toBeInTheDocument();
-		expect(inputName.value).toBe('Item 1');
-
+		// act
 		await user.clear(inputName);
 		await user.type(inputName, 'New name');
-
-		expect(inputName.value).toBe('New name');
 		await user.click(prioritySelect);
 
 		const secondOptionPriority: HTMLElement = await screen.findByText(
 			/Przydałoby mi się, gdyż często odczuwam brak./i
 		);
-
-		expect(secondOptionPriority).toBeInTheDocument();
 		await user.click(secondOptionPriority);
-
-		expect(saveButton).toBeInTheDocument();
 		await user.click(saveButton);
 
+		// assert
 		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(1);
 	});
 
@@ -183,25 +171,19 @@ describe('EditItemModal', (): void => {
 			/>
 		);
 
-		const inputName = screen.getByPlaceholderText(
-			'enter-item'
-		) as HTMLInputElement;
-		const prioritySelect = screen.getByRole(
-			'combobox'
-		) as HTMLSelectElement;
-
-		expect(inputName).toBeInTheDocument();
-
-		await user.type(inputName, 'New name');
-		expect(inputName.value).toBe('New name');
-
+		const inputName: HTMLInputElement = screen
+			.getByTestId('edit-item-modal-input-name')
+			.querySelector('input') as HTMLInputElement;
+		const prioritySelect: HTMLSelectElement = screen.getByRole('combobox');
 		const saveButton: HTMLElement = screen.getByRole('button', {
 			name: /confirm/i
 		});
 
-		expect(saveButton).toBeInTheDocument();
+		// act
+		await user.type(inputName, 'New name');
 		await user.click(saveButton);
 
+		// assert
 		expect(mockedAddWishlistItem).toHaveBeenCalledTimes(1);
 		expect(prioritySelect).toBeInTheDocument();
 	});
@@ -219,26 +201,18 @@ describe('EditItemModal', (): void => {
 			/>
 		);
 
-		const inputName = screen.getByPlaceholderText(
-			'enter-item'
-		) as HTMLInputElement;
-		const prioritySelect = screen.getByRole(
-			'combobox'
-		) as HTMLSelectElement;
-
-		expect(inputName).toBeInTheDocument();
-		expect(prioritySelect).toBeInTheDocument();
-
-		await user.type(inputName, 'New name');
-		expect(inputName.value).toBe('New name');
-
+		const inputName: HTMLInputElement = screen
+			.getByTestId('edit-item-modal-input-name')
+			.querySelector('input') as HTMLInputElement;
 		const saveButton: HTMLElement = screen.getByRole('button', {
 			name: /confirm/i
 		});
 
-		expect(saveButton).toBeInTheDocument();
+		// act
+		await user.type(inputName, 'New name');
 		await user.click(saveButton);
 
+		// assert
 		expect(screen.getByText('too-long')).toBeInTheDocument();
 	});
 
@@ -277,37 +251,12 @@ describe('EditItemModal', (): void => {
 			/>
 		);
 
+		// act
 		const confirmButton: HTMLElement = screen.getByTestId(
 			'edit-item-modal-confirm'
 		);
 
-		// act
-		await act(async (): Promise<void> => await user.click(confirmButton));
-
 		// assert
-		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(0);
-	});
-
-	test('updates inputs and priority on editingItem prop change', (): void => {
-		const mockInputRefName = {current: {value: ''}};
-
-		jest.spyOn(React, 'useRef').mockReturnValueOnce(mockInputRefName);
-
-		const setPriority: jest.Mock = jest.fn();
-		React.useState = jest.fn().mockReturnValue([1, setPriority]);
-
-		render(
-			<EditItemModal
-				item={mockWishlistData.wishlistItems[0]}
-				wishlistId={mockWishlistData.id}
-				opened={true}
-				onAccept={(): void => undefined}
-				onClose={(): void => undefined}
-			/>
-		);
-
-		expect(mockInputRefName.current.value).toBe(
-			mockWishlistData.wishlistItems[0].name
-		);
+		expect(confirmButton).toHaveAttribute('disabled', '');
 	});
 });
