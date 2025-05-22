@@ -57,7 +57,7 @@ interface EditItemModalProps {
 	readonly wishlistId: number;
 	readonly wishlistPassword?: boolean;
 	readonly opened: boolean;
-	readonly toggleModal: () => void;
+	readonly onClose: () => void;
 	readonly onAccept: (wishlistId: number, item: WishlistItem) => void;
 	readonly item?: WishlistItem;
 }
@@ -71,19 +71,12 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const [hidden, setHidden] = React.useState<boolean>(
 		props.item?.hidden ?? false
 	);
-	const [open, setOpen] = React.useState<boolean>(false);
+	const [name, setName] = React.useState<string>(props.item?.name ?? '');
+	const [tooltipOpened, setTooltipOpened] = React.useState<boolean>(false);
 	const {t} = useTranslation();
-	const nameInputRef: RefObject<HTMLInputElement> =
-		React.useRef<HTMLInputElement>(null);
 	const descriptionEditorRef: RefObject<MDXEditorMethods> =
 		React.useRef<MDXEditorMethods>(null);
 	const {enqueueSnackbar} = useSnackbar();
-
-	React.useEffect((): void => {
-		if (nameInputRef.current) {
-			nameInputRef.current.value = props.item?.name ?? '';
-		}
-	}, [props.item]);
 
 	function handleChangePriority(event: SelectChangeEvent<number>): void {
 		setPriority(+event.target.value);
@@ -95,36 +88,26 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		setHidden(event.target.checked);
 	}
 
-	function handleTooltipClose() {
-		setOpen(false);
+	function handleTooltipClose(): void {
+		setTooltipOpened(false);
 	}
 
-	function handleTooltipOpen() {
-		setOpen(true);
+	function handleTooltipOpen(): void {
+		setTooltipOpened(true);
 	}
 
-	function toggleModalAndClearFields(): void {
-		if (nameInputRef.current) {
-			nameInputRef.current.value = '';
-		}
-		descriptionEditorRef.current?.setMarkdown('');
-		props.toggleModal();
-	}
-
-	async function handleSubmit(): Promise<void> {
-		const wishlistItemName: string | undefined =
-			nameInputRef.current?.value;
+	async function handleSubmit(
+		event: React.FormEvent<HTMLFormElement>
+	): Promise<void> {
+		event.preventDefault();
 		const wishlistItemDescription: string =
 			descriptionEditorRef.current?.getMarkdown() ?? '';
-		if (!wishlistItemName) {
-			return undefined;
-		}
 		if (props.item) {
 			const updatedWishlistItem: WishlistItemDto | null =
 				await editWishlistItem(
 					props.wishlistId,
 					props.item.id,
-					wishlistItemName,
+					name,
 					wishlistItemDescription,
 					priority,
 					hidden
@@ -134,7 +117,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 					props.wishlistId,
 					mapWishlistItem(updatedWishlistItem)
 				);
-				toggleModalAndClearFields();
+				props.onClose();
 			}
 		} else {
 			if (priority) {
@@ -144,7 +127,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 			const newWishlistItem: WishlistItemDto | null =
 				await addWishlistItem(
 					props.wishlistId,
-					wishlistItemName,
+					name,
 					wishlistItemDescription,
 					priority,
 					hidden
@@ -155,7 +138,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 					props.wishlistId,
 					mapWishlistItem(newWishlistItem)
 				);
-				toggleModalAndClearFields();
+				props.onClose();
 				enqueueSnackbar(t('saved'), {variant: 'success'});
 			} else {
 				enqueueSnackbar(t('too-long'), {variant: 'error'});
@@ -170,6 +153,12 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		return handleTooltipOpen();
 	}
 
+	function handleNameChange(
+		event: React.ChangeEvent<HTMLInputElement>
+	): void {
+		setName(event.target.value);
+	}
+
 	function renderTooltip(): React.ReactElement {
 		return (
 			<Box>
@@ -182,7 +171,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 								disablePortal: false
 							}
 						}}
-						open={open}
+						open={tooltipOpened}
 						disableFocusListener
 						disableHoverListener
 						disableTouchListener
@@ -226,7 +215,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 
 	return (
 		<AspireModal
-			onClose={props.toggleModal}
+			onClose={props.onClose}
 			opened={props.opened}
 			title={props.item?.description ? t('edit-item') : t('new-item')}
 			onSubmit={handleSubmit}
@@ -235,9 +224,9 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 			<TextField
 				hiddenLabel
 				variant='filled'
-				placeholder={props.item?.name ?? t('enter-item')}
-				defaultValue={props.item?.name ?? ''}
-				inputRef={nameInputRef}
+				value={name}
+				data-testid='edit-item-modal-input-name'
+				onChange={handleNameChange}
 				size={isSmallerThan900 ? 'small' : 'medium'}
 				sx={{
 					width: {
@@ -352,7 +341,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 						sx={{
 							margin: '10px'
 						}}
-						onClick={toggleModalAndClearFields}
+						onClick={props.onClose}
 					>
 						{t('cancel')}
 					</Button>
@@ -360,6 +349,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 						data-testid='edit-item-modal-confirm'
 						type='submit'
 						variant='contained'
+						disabled={!name}
 						sx={{
 							margin: '10px'
 						}}

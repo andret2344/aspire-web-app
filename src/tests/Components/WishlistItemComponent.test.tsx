@@ -79,8 +79,9 @@ describe('WishlistItemComponent', (): void => {
 		);
 
 		// act
-		const editItemButton: HTMLElement =
-			screen.getByTestId('edit-wishlist-item');
+		const editItemButton: HTMLElement = screen.getByTestId(
+			'edit-wishlist-item-1-1'
+		);
 		await user.click(editItemButton);
 
 		// assert

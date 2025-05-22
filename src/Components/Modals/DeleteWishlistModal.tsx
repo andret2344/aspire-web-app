@@ -47,6 +47,7 @@ export function DeleteWishlistModal(
 				<Button
 					variant='outlined'
 					color='primary'
+					data-testid='delete-wishlist-modal-button-cancel'
 					sx={{
 						marginTop: '10px'
 					}}
@@ -60,7 +61,7 @@ export function DeleteWishlistModal(
 					sx={{
 						marginTop: '10px'
 					}}
-					data-testid='button-delete'
+					data-testid='delete-wishlist-modal-button-delete'
 					onClick={props.onRemove}
 				>
 					{t('delete')}

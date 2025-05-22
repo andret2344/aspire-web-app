@@ -27,9 +27,6 @@ export function CreateWishlistModal(
 		e: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
 		e.preventDefault();
-		if (!wishlistName.trim()) {
-			return;
-		}
 		const newWishlist: WishList = await addWishlist(wishlistName.trim());
 		props.onAddWishlist(newWishlist);
 		setWishlistName('');
@@ -79,6 +76,7 @@ export function CreateWishlistModal(
 					data-testid='button-save'
 					color='primary'
 					variant='contained'
+					disabled={!wishlistName}
 					sx={{
 						marginTop: '10px'
 					}}

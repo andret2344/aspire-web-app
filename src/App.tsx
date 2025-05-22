@@ -9,7 +9,7 @@ import {ProfilePage} from './Pages/ProfilePage';
 import {RegisterPage} from './Pages/RegisterPage';
 import {SnackbarProvider} from 'notistack';
 import {ReadonlyWishlistPage} from './Pages/ReadonlyWishlistPage';
-import {Config, getConfig} from './Services/EnvironmentHelper';
+import {getConfig} from './Services/EnvironmentHelper';
 import {setConfig} from './Services/ApiInstance';
 import {PasswordReminderPage} from './Pages/PasswordReminderPage';
 import {NewPasswordPage} from './Pages/NewPasswordPage';
@@ -18,14 +18,11 @@ import {Header} from './Components/Header';
 
 export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
-	const fetchBaseUrl = async (): Promise<Config | undefined> => {
-		return await getConfig();
-	};
 
 	React.useEffect((): void => {
-		fetchBaseUrl()
+		getConfig()
 			.then(setConfig)
-			.then((): void => setLoaded(true));
+			.finally((): void => setLoaded(true));
 	}, []);
 
 	if (!loaded) {
