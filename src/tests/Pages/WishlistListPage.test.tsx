@@ -195,6 +195,23 @@ describe('WishlistListPage', (): void => {
 
 	test('accept name change', async (): Promise<void> => {
 		// arrange
+		const mockWishlistData: WishList = {
+			id: 1,
+			uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
+			name: 'Mock Wishlist',
+			wishlistItems: [
+				{
+					id: 1,
+					wishlistId: 1,
+					description: 'Check out this link: https://example.com',
+					name: 'Item 1',
+					priorityId: 3,
+					hidden: false
+				}
+			],
+			hasPassword: false
+		};
+
 		const mockWishlistDataUpdatedName: WishList = {
 			id: 1,
 			uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
@@ -239,6 +256,23 @@ describe('WishlistListPage', (): void => {
 
 	test('cancel name change', async (): Promise<void> => {
 		// arrange
+		const mockWishlistData: WishList = {
+			id: 1,
+			uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
+			name: 'Mock Wishlist',
+			wishlistItems: [
+				{
+					id: 1,
+					wishlistId: 1,
+					description: 'Check out this link: https://example.com',
+					name: 'Item 1',
+					priorityId: 3,
+					hidden: false
+				}
+			],
+			hasPassword: false
+		};
+
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
 		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
