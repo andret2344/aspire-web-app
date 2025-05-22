@@ -173,14 +173,11 @@ export function WishlistSidebarItem(
 	if (props.active) {
 		return (
 			<Link
+				key={props.wishlist.id}
 				sx={(theme: Theme): SystemStyleObject<Theme> => ({
 					color: 'inherit',
 					textDecoration: 'none',
 					cursor: 'pointer',
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					alignItems: 'center',
 					borderRadius: '10px',
 					backgroundColor: getThemeColor(theme, 'activeBlue'),
 					marginTop: '15px',

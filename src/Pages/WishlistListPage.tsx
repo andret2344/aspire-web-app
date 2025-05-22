@@ -86,10 +86,7 @@ export function WishlistListPage(): React.ReactElement {
 
 	function handleNameEdit(wishlistId: number, newName: string): void {
 		const number: number = findWishlistIndexById(wishlistId);
-		wishlists[number] = {
-			...wishlists[number],
-			name: newName
-		};
+		wishlists[number] = {...wishlists[number], name: newName};
 		setWishlists([...wishlists]);
 	}
 
@@ -223,23 +220,17 @@ export function WishlistListPage(): React.ReactElement {
 				sx={{
 					paddingBottom: 'auto',
 					flexGrow: 1,
-					maxHeight: {
-						xs: '100vh',
-						md: 'none'
-					},
-					overflowY: {
-						xs: 'auto',
-						md: 'none'
-					}
+					height: '100vh',
+					overflowY: 'auto',
+					paddingTop: '56px'
 				}}
 				container
 			>
 				<Grid
 					size={{xs: 12, md: 3}}
 					overflow={{xs: 'none', md: 'auto'}}
-					maxHeight={{xs: 'none', md: '100vh'}}
-					style={{
-						paddingBottom: '15px',
+					height={{xs: 'none', md: '100%'}}
+					sx={{
 						display: 'flex',
 						flexDirection: 'column',
 						justifyContent: 'flex-start',
@@ -248,27 +239,25 @@ export function WishlistListPage(): React.ReactElement {
 					}}
 				>
 					{renderSidebarItems()}
-					<Button
-						data-testid='open-modal-button'
-						onClick={toggleWishlistModal}
-						variant='outlined'
-						sx={{
-							margin: '15px',
-							marginBottom: {
-								xs: '0px',
-								md: '50px'
-							}
-						}}
-						startIcon={<AddCircleOutlineIcon />}
-					>
-						{t('add-new-wishlist')}
-					</Button>
+					<Box sx={{padding: '15px'}}>
+						<Button
+							data-testid='open-modal-button'
+							onClick={toggleWishlistModal}
+							variant='outlined'
+							sx={{
+								margin: '15px'
+							}}
+							startIcon={<AddCircleOutlineIcon />}
+						>
+							{t('add-new-wishlist')}
+						</Button>
+					</Box>
 				</Grid>
 				{activeWishlistId !== -1 && (
 					<Grid
 						size={{xs: 12, md: 9}}
 						overflow={{xs: 'none', md: 'auto'}}
-						maxHeight={{xs: 'none', md: '100vh'}}
+						maxHeight={{xs: 'none', md: '100%'}}
 						paddingBottom='50px'
 					>
 						<TableContainer component={Paper}>

@@ -65,6 +65,8 @@ export function Header(): React.ReactElement {
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
+				position: 'fixed',
+				width: '100%',
 				padding: '0px'
 			}}
 		>
