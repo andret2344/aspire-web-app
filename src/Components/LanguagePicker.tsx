@@ -47,6 +47,7 @@ export function LanguagePicker(): React.ReactElement {
 			<IconButton onClick={handleClick}>
 				<TranslateIcon
 					color='inherit'
+					sx={{color: 'white'}}
 					fontSize='large'
 				/>
 			</IconButton>
