@@ -96,6 +96,7 @@ export function ProfilePage(): React.ReactElement {
 			flexGrow={{sx: 1}}
 			container
 			columnSpacing={2}
+			sx={{paddingTop: '56px'}}
 		>
 			<Grid
 				size={{xs: 12}}
