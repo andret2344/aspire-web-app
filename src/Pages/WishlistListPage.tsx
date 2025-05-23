@@ -155,9 +155,13 @@ export function WishlistListPage(): React.ReactElement {
 		setDeleteModalOpened(false);
 	}
 
-	function toggleWishlistItemModal(): void {
+	function openEditModal(): void {
 		setEditingWishlistItem(undefined);
-		setAddItemModalOpened((prev: boolean): boolean => !prev);
+		setAddItemModalOpened(true);
+	}
+
+	function closeEditModal(): void {
+		setAddItemModalOpened(false);
 	}
 
 	function handleItemRemove(wishlistId: number, itemId: number): void {
@@ -302,33 +306,14 @@ export function WishlistListPage(): React.ReactElement {
 							}}
 						>
 							<IconButton
+								data-testid='add-item-button'
 								aria-label='Add item'
-								onClick={toggleWishlistItemModal}
+								onClick={openEditModal}
 								sx={{margin: '25px', padding: '25px'}}
 							>
 								<AddCircleOutlineIcon fontSize='large' />
 							</IconButton>
 						</Box>
-						<DeleteWishlistModal
-							opened={deleteModalOpened}
-							onCancel={handleDeleteCancel}
-							onRemove={(): void =>
-								handleWishlistRemove(activeWishlistId)
-							}
-							wishlistName={
-								findWishlistById(activeWishlistId)?.name ?? ''
-							}
-						/>
-						<EditItemModal
-							wishlistId={activeWishlistId}
-							wishlistPassword={
-								findWishlistById(activeWishlistId)?.hasPassword
-							}
-							opened={addItemModalOpened}
-							toggleModal={toggleWishlistItemModal}
-							onAccept={handleEditAccept}
-							item={editingWishlistItem}
-						/>
 					</Grid>
 				)}
 			</Grid>
@@ -336,6 +321,23 @@ export function WishlistListPage(): React.ReactElement {
 				opened={addWishlistModalOpened}
 				onAddWishlist={addNewWishlist}
 				onClose={toggleWishlistModal}
+			/>
+			<EditItemModal
+				key={editingWishlistItem?.id}
+				wishlistId={activeWishlistId}
+				wishlistPassword={
+					findWishlistById(activeWishlistId)?.hasPassword
+				}
+				opened={addItemModalOpened}
+				onClose={closeEditModal}
+				onAccept={handleEditAccept}
+				item={editingWishlistItem}
+			/>
+			<DeleteWishlistModal
+				opened={deleteModalOpened}
+				onCancel={handleDeleteCancel}
+				onRemove={(): void => handleWishlistRemove(activeWishlistId)}
+				wishlistName={findWishlistById(activeWishlistId)?.name ?? ''}
 			/>
 		</>
 	);

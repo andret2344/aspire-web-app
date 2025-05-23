@@ -76,7 +76,7 @@ export function WishlistItemComponent(
 				aria-label='edit'
 				size='large'
 				onClick={handleEditButton}
-				data-testid='edit-wishlist-item'
+				data-testid={`edit-wishlist-item-${props.wishlistId}-${props.item.id}`}
 			>
 				<EditIcon
 					sx={{
