@@ -108,6 +108,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 			flexGrow={{sx: 1}}
 			container
 			columnSpacing={2}
+			sx={{paddingTop: '56px'}}
 		>
 			{wishlist && (
 				<Grid size={{xs: 12}}>
