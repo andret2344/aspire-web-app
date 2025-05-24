@@ -5,7 +5,6 @@ import {
 	mockedEditWishlistItem
 } from '../../__mocks__/MockWishlistItemService';
 import '../../__mocks__/MockMDXEditor';
-
 import '@testing-library/jest-dom';
 import React from 'react';
 import {WishList} from '../../../Entity/WishList';
