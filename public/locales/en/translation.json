@@ -15,6 +15,7 @@
 	"clear": "Clear",
 	"clear-tooltip-enabled": "Clears the already set up wishlist password making all the protected items visible again.",
 	"clear-tooltip-disabled": "You can't clear the password because you haven't set up one yet.",
+	"password-cleared": "Password cleared successfully.",
 	"delete-confirmation": "Are you sure you want to delete the <strong>{{wishlist}}</strong> wishlist?",
 	"add-new-wishlist": "Add new wishlist",
 	"action": "Action",

@@ -11,6 +11,7 @@ import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import {
+	clearWishlistPassword,
 	setWishlistPassword,
 	updateWishlistName
 } from '../Services/WishListService';
@@ -100,6 +101,18 @@ export function WishlistSidebarItem(
 		return editedName === undefined
 			? renderTypographyName()
 			: renderInputName();
+	}
+
+	function handlePasswordClear(): void {
+		clearWishlistPassword(props.wishlist.id)
+			.then((): string | number =>
+				enqueueSnackbar(t('password-cleared'), {variant: 'success'})
+			)
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
+			);
 	}
 
 	function renderTypographyName(): React.ReactElement {
@@ -231,7 +244,7 @@ export function WishlistSidebarItem(
 					wishlist={props.wishlist}
 					open={passwordModalOpened}
 					onAccept={handlePasswordAccept}
-					onClear={() => undefined}
+					onClear={handlePasswordClear}
 					onClose={handlePasswordModalClose}
 				/>
 			</Link>

@@ -102,7 +102,7 @@ export function LoginPage(): React.ReactElement {
 									sx={{margin: 0, padding: 0}}
 								>
 									<IconButton
-										data-testid='visibilityIcon'
+										data-testid='password-visibility-icon'
 										sx={{margin: 0, padding: 0}}
 										onClick={handleClickShowPassword}
 									>

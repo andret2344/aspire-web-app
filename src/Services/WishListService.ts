@@ -50,6 +50,13 @@ export async function setWishlistPassword(
 	return result.data;
 }
 
+export async function clearWishlistPassword(id: number): Promise<string> {
+	const result: AxiosResponse<string> = await apiInstance.post(
+		`/wishlist/${id}/clear_access_code`
+	);
+	return result.data;
+}
+
 export async function removeWishlist(id: number): Promise<void> {
 	await apiInstance.delete(`/wishlist/${id}`);
 }

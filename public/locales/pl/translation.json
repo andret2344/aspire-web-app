@@ -15,6 +15,7 @@
 	"clear": "Wyczyść",
 	"clear-tooltip-enabled": "Czyści obecnie ustawione hasło listy życzeń sprawiając, że wszystkie elementy są znowu widoczne.",
 	"clear-tooltip-disabled": "Nie można wyczyścić hasła, ponieważ żadne nie zostało jeszcze ustawione.",
+	"password-cleared": "Hasło zostało usunięte.",
 	"delete-confirmation": "Czy jesteś pewien, ze chcesz usunąć listę życzeń <strong>{{wishlist}}</strong>?",
 	"add-new-wishlist": "Dodaj nową listę życzeń",
 	"action": "Akcja",
