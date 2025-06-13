@@ -1,7 +1,7 @@
 import React, {act} from 'react';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {WishlistPasswordModal} from '../../Components/WishlistPasswordModal';
+import {WishlistPasswordModal} from '../../Components/Modals/WishlistPasswordModal';
 import {renderForTest} from '../Utils/RenderForTest';
 import {fireEvent} from '@testing-library/react';
 import {WishList} from '../../Entity/WishList';

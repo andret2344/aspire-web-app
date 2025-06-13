@@ -27,7 +27,6 @@ export function AuthContainer(
 					sm: 'center'
 				},
 				height: '100vh',
-				minHeight: '700px',
 				overflowX: 'auto'
 			}}
 		>

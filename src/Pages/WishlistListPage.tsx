@@ -272,7 +272,10 @@ export function WishlistListPage(): React.ReactElement {
 											width='5%'
 											align='left'
 										/>
-										<TableCell align='left'>
+										<TableCell
+											align='left'
+											width='5%'
+										>
 											{t('item-no')}
 										</TableCell>
 										<TableCell align='left'>

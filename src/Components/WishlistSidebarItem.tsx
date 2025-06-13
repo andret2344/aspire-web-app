@@ -17,7 +17,7 @@ import {
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {getApiConfig} from '../Services/ApiInstance';
-import {WishlistPasswordModal} from './WishlistPasswordModal';
+import {WishlistPasswordModal} from './Modals/WishlistPasswordModal';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
@@ -229,9 +229,10 @@ export function WishlistSidebarItem(
 				</Box>
 				<WishlistPasswordModal
 					wishlist={props.wishlist}
-					onClose={handlePasswordModalClose}
 					open={passwordModalOpened}
 					onAccept={handlePasswordAccept}
+					onClear={() => undefined}
+					onClose={handlePasswordModalClose}
 				/>
 			</Link>
 		);
