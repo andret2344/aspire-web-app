@@ -85,7 +85,7 @@ export function LoginPage(): React.ReactElement {
 					placeholder={t('login')}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
-						width: '200px',
+						width: '350px',
 						marginTop: '5px'
 					}}
 					type='email'
@@ -119,7 +119,7 @@ export function LoginPage(): React.ReactElement {
 					placeholder={t('password')}
 					size={isSmallerThan600 ? 'small' : 'medium'}
 					sx={{
-						width: '200px',
+						width: '350px',
 						marginTop: '5px'
 					}}
 					required

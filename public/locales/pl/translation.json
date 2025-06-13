@@ -13,6 +13,8 @@
 	"log-out": "Wyloguj",
 	"cancel": "Anuluj",
 	"clear": "Wyczyść",
+	"clear-tooltip-enabled": "Czyści obecnie ustawione hasło listy życzeń sprawiając, że wszystkie elementy są znowu widoczne.",
+	"clear-tooltip-disabled": "Nie można wyczyścić hasła, ponieważ żadne nie zostało jeszcze ustawione.",
 	"delete-confirmation": "Czy jesteś pewien, ze chcesz usunąć listę życzeń <strong>{{wishlist}}</strong>?",
 	"add-new-wishlist": "Dodaj nową listę życzeń",
 	"action": "Akcja",
@@ -46,7 +48,7 @@
 	"password-changed": "Hasło zmieniono prawidłowo",
 	"password-invalid": "Coś poszło nie tak! Prawdopodobnie twoje obecne hasło jest nieprawidłowe.",
 	"set-wishlist-password": "Ustaw hasło dla tej listy życzeń",
-	"wishlist-has-password": "Ta lista życzeń ma już ustawione hasło!",
+	"access-wishlist-password": "Wpisz hasło, by uzyskać dostęp do ukrytych elementów",
 	"hide-item-tooltip": "Jeśli chcesz ukryć ten element, ustaw hasło listy życzeń.",
 	"hide-wish": "Ukryj życzenie",
 	"save": "Zapisz",
@@ -58,9 +60,9 @@
 	"enter-item": "Wpisz nazwę tutaj",
 	"wishlist-removed": "Usunięto listę życzeń",
 	"item-removed": "Usunięto element",
-	"url-copied": "Share URL copied to clipboard",
-	"passwords-not-equal": "Passwords are not equal",
-	"wishlist-renamed": "Wishlist name changed successfully",
-	"wishlist-created": "Wishlist created",
-	"type-description-here": "Type description here"
+	"url-copied": "Adres URL został skopiowany do schowka",
+	"passwords-not-equal": "Hasła są różne",
+	"wishlist-renamed": "Zmieniono nazwę listy życzeń",
+	"wishlist-created": "Utworzono nową listę życzeń",
+	"type-description-here": "Opis..."
 }

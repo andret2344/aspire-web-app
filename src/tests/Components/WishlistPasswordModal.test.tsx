@@ -1,7 +1,7 @@
 import React, {act} from 'react';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {WishlistPasswordModal} from '../../Components/Modals/WishlistPasswordModal';
+import {WishlistSetupPasswordModal} from '../../Components/Modals/WishlistSetupPasswordModal';
 import {renderForTest} from '../Utils/RenderForTest';
 import {fireEvent} from '@testing-library/react';
 import {WishList} from '../../Entity/WishList';
@@ -9,7 +9,7 @@ import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService
 import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
 import user from '@testing-library/user-event';
 
-describe('WishlistPasswordModal', (): void => {
+describe('WishlistSetupPasswordModal', (): void => {
 	const mockWishlistData: WishList = {
 		id: 1,
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
@@ -29,7 +29,7 @@ describe('WishlistPasswordModal', (): void => {
 	test('renders modal correctly', (): void => {
 		//arrange
 		renderForTest(
-			<WishlistPasswordModal
+			<WishlistSetupPasswordModal
 				wishlist={mockWishlistData}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
@@ -43,7 +43,7 @@ describe('WishlistPasswordModal', (): void => {
 	test('password visibility toggle works', (): void => {
 		// arrange
 		renderForTest(
-			<WishlistPasswordModal
+			<WishlistSetupPasswordModal
 				wishlist={mockWishlistData}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
@@ -65,7 +65,7 @@ describe('WishlistPasswordModal', (): void => {
 		//arrange
 		mockedSetWishlistPassword.mockResolvedValue(200);
 		renderForTest(
-			<WishlistPasswordModal
+			<WishlistSetupPasswordModal
 				wishlist={mockWishlistData}
 				onClose={jest.fn()}
 				onAccept={jest.fn()}
@@ -96,7 +96,7 @@ describe('WishlistPasswordModal', (): void => {
 		mockedGetWishlistHiddenItems.mockResolvedValue(200);
 		user.setup();
 		renderForTest(
-			<WishlistPasswordModal
+			<WishlistSetupPasswordModal
 				wishlist={mockWishlistDataWithpassword}
 				onClose={jest.fn()}
 				onAccept={jest.fn()}
@@ -125,7 +125,7 @@ describe('WishlistPasswordModal', (): void => {
 	test('cancel button is clickable', (): void => {
 		//arrange
 		renderForTest(
-			<WishlistPasswordModal
+			<WishlistSetupPasswordModal
 				wishlist={mockWishlistData}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}

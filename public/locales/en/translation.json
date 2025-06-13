@@ -13,6 +13,8 @@
 	"log-out": "Log out",
 	"cancel": "Cancel",
 	"clear": "Clear",
+	"clear-tooltip-enabled": "Clears the already set up wishlist password making all the protected items visible again.",
+	"clear-tooltip-disabled": "You can't clear the password because you haven't set up one yet.",
 	"delete-confirmation": "Are you sure you want to delete the <strong>{{wishlist}}</strong> wishlist?",
 	"add-new-wishlist": "Add new wishlist",
 	"action": "Action",
@@ -46,7 +48,7 @@
 	"password-changed": "Password changed successfully!",
 	"password-invalid": "Some error occurred! Probably your current password is not valid.",
 	"set-wishlist-password": "Set password for this wishlist",
-	"wishlist-has-password": "This wishlist already has a password!",
+	"access-wishlist-password": "Enter the password to access hidden items",
 	"hide-item-tooltip": "If you want to hide this wish, set a password for the wishlist.",
 	"hide-wish": "Hide this wish",
 	"save": "Save",
@@ -59,8 +61,8 @@
 	"wishlist-removed": "Wishlist removed successfully",
 	"item-removed": "Wishlist item removed successfully",
 	"url-copied": "Share URL copied to clipboard",
-	"passwords-not-equal": "Hasła są różne",
-	"wishlist-renamed": "Zmieniono nazwę listy życzeń",
-	"wishlist-created": "Utworzono nową listę życzeń",
-	"type-description-here": "Opis..."
+	"passwords-not-equal": "Passwords are not equal",
+	"wishlist-renamed": "Wishlist name changed successfully",
+	"wishlist-created": "Wishlist created",
+	"type-description-here": "Type description here"
 }

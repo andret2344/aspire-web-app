@@ -21,9 +21,9 @@ import {getReadonlyWishlistByUUID} from '../Services/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {useTranslation} from 'react-i18next';
-import {WishlistPasswordModal} from '../Components/Modals/WishlistPasswordModal';
 import {getWishlistHiddenItems} from '../Services/WishlistItemService';
 import {enqueueSnackbar} from 'notistack';
+import {WishlistInputPasswordModal} from '../Components/Modals/WishlistInputPasswordModal';
 
 export function ReadonlyWishlistPage(): React.ReactElement {
 	type Params = {readonly uuid: string};
@@ -163,11 +163,10 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 					</TableContainer>
 				</Grid>
 			)}
-			<WishlistPasswordModal
+			<WishlistInputPasswordModal
 				wishlist={wishlist!}
 				open={passwordModalOpened}
 				onAccept={handlePasswordEnter}
-				onClear={() => undefined}
 				onClose={handlePasswordModalClose}
 			/>
 		</Grid>

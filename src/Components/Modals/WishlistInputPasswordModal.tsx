@@ -1,10 +1,9 @@
 import {
-	Box,
 	Button,
 	IconButton,
 	InputAdornment,
-	TextField,
-	Typography
+	Stack,
+	TextField
 } from '@mui/material';
 import '../../../assets/fonts.css';
 import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
@@ -13,16 +12,15 @@ import {WishList} from '../../Entity/WishList';
 import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
 
-interface AccessPasswordModalProps {
+interface WishlistInputPasswordModalProps {
 	readonly wishlist: WishList;
 	readonly open: boolean;
 	readonly onAccept: (wishlistId: number, password: string) => void;
-	readonly onClear: (wishlistId: number) => void;
 	readonly onClose: () => void;
 }
 
-export function WishlistPasswordModal(
-	props: AccessPasswordModalProps
+export function WishlistInputPasswordModal(
+	props: WishlistInputPasswordModalProps
 ): React.ReactElement {
 	const {t} = useTranslation();
 	const [password, setPassword] = React.useState<string>('');
@@ -46,31 +44,12 @@ export function WishlistPasswordModal(
 		props.onAccept(props.wishlist.id, password);
 	}
 
-	function handleClearButton(): void {
-		props.onClear(props.wishlist.id);
-	}
-
-	function renderWarningTypography(): React.ReactElement {
-		if (!props.wishlist?.hasPassword) {
-			return <></>;
-		}
-		return (
-			<Typography
-				color='warning'
-				variant='caption'
-			>
-				{t('wishlist-has-password')}
-			</Typography>
-		);
-	}
-
 	return (
 		<AspireModal
-			title={t('set-wishlist-password')}
+			title={t('access-wishlist-password')}
 			opened={props.open}
 			onClose={handleCancelButton}
 		>
-			{renderWarningTypography()}
 			<TextField
 				data-testid='wishlist-password-modal-input'
 				type={showPassword ? 'text' : 'password'}
@@ -108,50 +87,27 @@ export function WishlistPasswordModal(
 				}}
 				required
 			/>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'center',
-					alignItems: 'center',
-					width: '80%'
-				}}
+			<Stack
+				direction='row'
+				spacing={1}
 			>
 				<Button
 					data-testid='wishlist-password-modal-cancel'
 					onClick={handleCancelButton}
 					color='error'
 					variant='outlined'
-					sx={{
-						margin: '10px'
-					}}
 				>
 					{t('cancel')}
-				</Button>
-				<Button
-					data-testid='wishlist-password-modal-clear'
-					onClick={handleClearButton}
-					disabled={!props.wishlist?.hasPassword}
-					color='error'
-					variant='contained'
-					sx={{
-						margin: '10px'
-					}}
-				>
-					{t('clear')}
 				</Button>
 				<Button
 					data-testid='wishlist-password-modal-confirm'
 					onClick={handleSubmitButton}
 					disabled={!password}
 					variant='contained'
-					sx={{
-						margin: '10px'
-					}}
 				>
 					{t('confirm')}
 				</Button>
-			</Box>
+			</Stack>
 		</AspireModal>
 	);
 }
