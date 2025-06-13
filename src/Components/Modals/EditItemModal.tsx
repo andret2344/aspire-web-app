@@ -65,7 +65,7 @@ interface EditItemModalProps {
 
 export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const theme: Theme = useTheme();
-	const darkMode = useDarkMode();
+	const {darkMode} = useDarkMode();
 	const isSmallerThan900: boolean = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(
 		props.item?.priorityId ?? 1
@@ -76,6 +76,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const [name, setName] = React.useState<string>(props.item?.name ?? '');
 	const [tooltipOpened, setTooltipOpened] = React.useState<boolean>(false);
 	const {t} = useTranslation();
+	g;
 	const descriptionEditorRef: RefObject<MDXEditorMethods> =
 		React.useRef<MDXEditorMethods>(null);
 	const {enqueueSnackbar} = useSnackbar();
