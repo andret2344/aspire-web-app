@@ -19,6 +19,7 @@ import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
 import {WishlistListPage} from '../../Pages/WishlistListPage';
 import {WishList} from '../../Entity/WishList';
 import {renderForTest} from '../Utils/RenderForTest';
+import {getWishlistTestData} from '../__utils__/DataFactory';
 
 describe('WishlistListPage', (): void => {
 	beforeEach((): void => {
@@ -32,29 +33,12 @@ describe('WishlistListPage', (): void => {
 		localStorage.clear();
 	});
 
-	const mockWishlistData: WishList = {
-		id: 1,
-		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				wishlistId: 1,
-				description: 'Check out this link: https://example.com',
-				name: 'Item 1',
-				priorityId: 3,
-				hidden: false
-			}
-		],
-		hasPassword: false
-	};
-
 	test('renders correctly with wishlist data', async (): Promise<void> => {
 		// arrange
 		mockedUseParams.mockReturnValue({
 			id: 1
 		});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
+		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -62,7 +46,7 @@ describe('WishlistListPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(screen.getByText(mockWishlistData.name)).toBeInTheDocument();
+			expect(screen.getByText('Mock Wishlist 1')).toBeInTheDocument();
 			expect(screen.getByText('Item 1')).toBeInTheDocument();
 		});
 	});
@@ -72,7 +56,7 @@ describe('WishlistListPage', (): void => {
 		mockedUseParams.mockReturnValue({
 			id: 1
 		});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
+		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -105,7 +89,7 @@ describe('WishlistListPage', (): void => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
+		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -122,7 +106,7 @@ describe('WishlistListPage', (): void => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
+		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -147,7 +131,7 @@ describe('WishlistListPage', (): void => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
+		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -167,9 +151,10 @@ describe('WishlistListPage', (): void => {
 	test('add item', async (): Promise<void> => {
 		// arrange
 		user.setup();
+		const wishlistTestData: WishList[] = getWishlistTestData(1);
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
-		mockedAddWishlistItem.mockResolvedValue(mockWishlistData);
+		mockedGetWishlists.mockResolvedValue(wishlistTestData);
+		mockedAddWishlistItem.mockResolvedValue(wishlistTestData[0]);
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
