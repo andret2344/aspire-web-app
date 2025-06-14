@@ -99,7 +99,6 @@ export function WishlistListPage(): React.ReactElement {
 		wishlistId: number,
 		newPassword: string
 	): void {
-		console.log(wishlistId, newPassword);
 		const index: number = findWishlistIndexById(wishlistId);
 		wishlists[index] = {
 			...wishlists[index],
