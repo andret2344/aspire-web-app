@@ -135,7 +135,7 @@ export function WishlistItemComponent(
 
 	function handleEditButton(event: React.MouseEvent): void {
 		event.stopPropagation();
-		return props.onEdit?.(props.item);
+		return props.onEdit!(props.item);
 	}
 
 	return (

@@ -159,7 +159,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		});
 
 		// assert
-		expect(screen.getByText('set-wishlist-password')).toBeInTheDocument();
+		expect(screen.getByText('confirm')).toBeInTheDocument();
 	});
 
 	test('cancel button works correctly in the password modal', async (): Promise<void> => {
@@ -178,7 +178,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		});
 
 		// assert
-		expect(screen.getByText('set-wishlist-password')).toBeInTheDocument();
+		expect(screen.getByText('confirm')).toBeInTheDocument();
 		fireEvent.click(screen.getByTestId('wishlist-password-modal-cancel'));
 	});
 

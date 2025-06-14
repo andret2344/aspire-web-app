@@ -60,7 +60,9 @@ describe('login page', (): void => {
 		// act
 		const passwordInput: HTMLElement =
 			screen.getByPlaceholderText('password');
-		const toggleButton: HTMLElement = screen.getByTestId('visibilityIcon');
+		const toggleButton: HTMLElement = screen.getByTestId(
+			'password-visibility-icon'
+		);
 
 		// assert
 		expect(passwordInput).toHaveAttribute('type', 'password');

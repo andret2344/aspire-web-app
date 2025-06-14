@@ -65,7 +65,7 @@ interface EditItemModalProps {
 
 export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const theme: Theme = useTheme();
-	const darkMode = useDarkMode();
+	const {darkMode} = useDarkMode();
 	const isSmallerThan900: boolean = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(
 		props.item?.priorityId ?? 1
