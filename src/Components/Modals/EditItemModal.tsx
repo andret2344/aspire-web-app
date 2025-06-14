@@ -306,7 +306,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 						data-testid='test-mdx'
 					>
 						<MDXEditor
-							className={darkMode ? 'dark-theme' : 'dupa'}
+							className={darkMode ? 'dark-theme' : ''}
 							markdown={props.item?.description ?? ''}
 							plugins={[
 								headingsPlugin({

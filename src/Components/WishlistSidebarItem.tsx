@@ -24,6 +24,7 @@ interface WishlistSidebarItemProps {
 	readonly active: boolean;
 	readonly onRemove: () => void;
 	readonly onNameEdit: (newName: string) => void;
+	readonly onPasswordChange: (newPassword: string) => void;
 }
 
 export function WishlistSidebarItem(
@@ -103,17 +104,17 @@ export function WishlistSidebarItem(
 	}
 
 	function handlePasswordClear(): void {
-		// TODO: Waiting for backend
-		console.log('TODO');
-		// clearWishlistPassword(props.wishlist.id)
-		// 	.then((): string | number =>
-		// 		enqueueSnackbar(t('password-cleared'), {variant: 'success'})
-		// 	)
-		// 	.catch((): string | number =>
-		// 		enqueueSnackbar(t('something-went-wrong'), {
-		// 			variant: 'error'
-		// 		})
-		// 	);
+		setWishlistPassword(props.wishlist.id, '')
+			.then((): void => {
+				enqueueSnackbar(t('password-cleared'), {variant: 'success'});
+				props.onPasswordChange('');
+				setPasswordModalOpened(false);
+			})
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
+			);
 	}
 
 	function renderTypographyName(): React.ReactElement {
@@ -180,6 +181,7 @@ export function WishlistSidebarItem(
 			enqueueSnackbar(t('password-changed'), {
 				variant: 'success'
 			});
+			props.onPasswordChange(password);
 			setPasswordModalOpened(false);
 		});
 	}

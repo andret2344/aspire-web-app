@@ -95,6 +95,19 @@ export function WishlistListPage(): React.ReactElement {
 		setAddItemModalOpened(true);
 	}
 
+	function handlePasswordChange(
+		wishlistId: number,
+		newPassword: string
+	): void {
+		console.log(wishlistId, newPassword);
+		const index: number = findWishlistIndexById(wishlistId);
+		wishlists[index] = {
+			...wishlists[index],
+			hasPassword: !!newPassword
+		};
+		setWishlists([...wishlists]);
+	}
+
 	function renderWishlistSidebarItem(wishlist: WishList): React.ReactElement {
 		return (
 			<WishlistSidebarItem
@@ -104,6 +117,9 @@ export function WishlistListPage(): React.ReactElement {
 				onRemove={handleDeleteClick}
 				onNameEdit={(newName: string): void =>
 					handleNameEdit(wishlist.id, newName)
+				}
+				onPasswordChange={(newPassword: string): void =>
+					handlePasswordChange(wishlist.id, newPassword)
 				}
 			/>
 		);
