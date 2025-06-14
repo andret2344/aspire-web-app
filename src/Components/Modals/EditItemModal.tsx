@@ -76,7 +76,6 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const [name, setName] = React.useState<string>(props.item?.name ?? '');
 	const [tooltipOpened, setTooltipOpened] = React.useState<boolean>(false);
 	const {t} = useTranslation();
-
 	const descriptionEditorRef: RefObject<MDXEditorMethods> =
 		React.useRef<MDXEditorMethods>(null);
 	const {enqueueSnackbar} = useSnackbar();
