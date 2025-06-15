@@ -45,7 +45,7 @@ module.exports = defineConfig([
 			)
 		),
 
-		ignores: ['eslint.config.js'],
+		ignores: ['eslint.config.js', 'webpack/**'],
 
 		rules: {
 			'no-unused-vars': 'off',
