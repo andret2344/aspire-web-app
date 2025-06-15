@@ -17,13 +17,14 @@ import {
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {getApiConfig} from '../Services/ApiInstance';
-import {WishlistPasswordModal} from './WishlistPasswordModal';
+import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
 
 interface WishlistSidebarItemProps {
 	readonly wishlist: WishList;
 	readonly active: boolean;
 	readonly onRemove: () => void;
 	readonly onNameEdit: (newName: string) => void;
+	readonly onPasswordChange: (newPassword: string) => void;
 }
 
 export function WishlistSidebarItem(
@@ -102,6 +103,20 @@ export function WishlistSidebarItem(
 			: renderInputName();
 	}
 
+	function handlePasswordClear(): void {
+		setWishlistPassword(props.wishlist.id, '')
+			.then((): void => {
+				enqueueSnackbar(t('password-cleared'), {variant: 'success'});
+				props.onPasswordChange('');
+				setPasswordModalOpened(false);
+			})
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
+			);
+	}
+
 	function renderTypographyName(): React.ReactElement {
 		return (
 			<Typography
@@ -166,6 +181,7 @@ export function WishlistSidebarItem(
 			enqueueSnackbar(t('password-changed'), {
 				variant: 'success'
 			});
+			props.onPasswordChange(password);
 			setPasswordModalOpened(false);
 		});
 	}
@@ -227,11 +243,12 @@ export function WishlistSidebarItem(
 						</IconButton>
 					</Box>
 				</Box>
-				<WishlistPasswordModal
+				<WishlistSetupPasswordModal
 					wishlist={props.wishlist}
-					onClose={handlePasswordModalClose}
 					open={passwordModalOpened}
 					onAccept={handlePasswordAccept}
+					onClear={handlePasswordClear}
+					onClose={handlePasswordModalClose}
 				/>
 			</Link>
 		);

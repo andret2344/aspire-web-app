@@ -27,7 +27,6 @@ export function AuthContainer(
 					sm: 'center'
 				},
 				height: '100vh',
-				minHeight: '700px',
 				overflowX: 'auto'
 			}}
 		>
@@ -45,9 +44,9 @@ export function AuthContainer(
 					},
 					width: {
 						xs: '100%',
-						sm: '350px'
+						sm: '450px'
 					},
-					minWidth: '300px',
+					minWidth: '400px',
 					margin: {
 						xs: '0px',
 						sm: '10px 20px 10px 20px'

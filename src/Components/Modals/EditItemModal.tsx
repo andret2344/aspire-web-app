@@ -52,6 +52,7 @@ import {
 	UndoRedo
 } from '@mdxeditor/editor';
 import {AspireModal} from './AspireModal';
+import {useDarkMode} from '../DarkModeContext';
 
 interface EditItemModalProps {
 	readonly wishlistId: number;
@@ -64,6 +65,7 @@ interface EditItemModalProps {
 
 export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const theme: Theme = useTheme();
+	const {darkMode} = useDarkMode();
 	const isSmallerThan900: boolean = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(
 		props.item?.priorityId ?? 1
@@ -303,6 +305,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 						data-testid='test-mdx'
 					>
 						<MDXEditor
+							className={darkMode ? 'dark-theme' : ''}
 							markdown={props.item?.description ?? ''}
 							plugins={[
 								headingsPlugin({
