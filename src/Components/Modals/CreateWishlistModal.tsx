@@ -1,4 +1,11 @@
-import {Box, Button, TextField, useMediaQuery, useTheme} from '@mui/material';
+import {
+	Box,
+	Button,
+	TextField,
+	Theme,
+	useMediaQuery,
+	useTheme
+} from '@mui/material';
 import React from 'react';
 import {addWishlist} from '../../Services/WishListService';
 import {WishList} from '../../Entity/WishList';
@@ -14,7 +21,7 @@ interface WishlistModalProps {
 export function CreateWishlistModal(
 	props: WishlistModalProps
 ): React.ReactElement {
-	const theme = useTheme();
+	const theme: Theme = useTheme();
 	const {t} = useTranslation();
 	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
 	const [wishlistName, setWishlistName] = React.useState<string>('');

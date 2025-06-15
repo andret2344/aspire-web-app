@@ -5,7 +5,7 @@ const webpack = require('webpack');
 module.exports = {
 	entry: path.resolve(__dirname, '..', './src/index.tsx'),
 	resolve: {
-		extensions: ['.tsx', '.ts', '.js']
+		extensions: ['.tsx', '.ts', '.js', '.css']
 	},
 	module: {
 		rules: [

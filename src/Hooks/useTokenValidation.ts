@@ -11,7 +11,11 @@ export function useTokenValidation(timeout?: number): TokenValidationResult {
 	const [loading, setLoading] = React.useState<boolean>(true);
 
 	React.useEffect((): void => {
-		timeout ? setTimeout(run, timeout) : run();
+		if (timeout) {
+			setTimeout(run, timeout);
+		} else {
+			run();
+		}
 	}, [timeout]);
 
 	function run(): void {

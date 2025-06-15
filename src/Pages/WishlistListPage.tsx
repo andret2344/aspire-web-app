@@ -61,7 +61,7 @@ export function WishlistListPage(): React.ReactElement {
 				navigate('/error');
 			});
 		setHiddenItems([]);
-	}, [tokenValid, activeWishlistId]);
+	}, [enqueueSnackbar, navigate, t, tokenLoading, tokenValid]);
 
 	if (tokenLoading) {
 		return <></>;
