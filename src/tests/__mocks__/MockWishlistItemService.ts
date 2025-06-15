@@ -1,13 +1,13 @@
-import * as WishlistItemService from '../../../src/Services/WishlistItemService';
+import * as WishlistItemService from '../../main/Services/WishlistItemService';
 
 export const mockedEditWishlistItem = jest.fn();
 export const mockedAddWishlistItem = jest.fn();
 export const mockedRemoveWishlistItem = jest.fn();
 export const mockedGetWishlistHiddenItems = jest.fn();
 
-jest.mock('../../../src/Services/WishlistItemService', () => ({
+jest.mock('../../main/Services/WishlistItemService', () => ({
 	...jest.requireActual<typeof WishlistItemService>(
-		'../../../src/Services/WishlistItemService'
+		'../../main/Services/WishlistItemService'
 	),
 	editWishlistItem: mockedEditWishlistItem,
 	addWishlistItem: mockedAddWishlistItem,

@@ -218,7 +218,7 @@ export function WishlistSidebarItem(
 						}}
 					>
 						<IconButton
-							data-testid={`shareIcon-${props.wishlist.id}`}
+							data-testid={`share-icon-button-${props.wishlist.id}`}
 							onClick={copyUrlToClipboard}
 							size='large'
 							aria-label='share'

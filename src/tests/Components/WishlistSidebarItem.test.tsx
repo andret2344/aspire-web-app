@@ -2,11 +2,11 @@ import {
 	mockedSetWishlistPassword,
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
-import {WishlistSidebarItem} from '../../Components/WishlistSidebarItem';
-import {WishList} from '../../Entity/WishList';
+import {WishlistSidebarItem} from '../../main/Components/WishlistSidebarItem';
+import {WishList} from '../../main/Entity/WishList';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {renderForTest} from '../Utils/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 
 describe('WishlistSidebarItem', (): void => {

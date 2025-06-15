@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import '../../assets/fonts.css';
+import '../../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {Link as Anchor, useNavigate} from 'react-router-dom';

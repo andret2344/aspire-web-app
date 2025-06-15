@@ -1,14 +1,14 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
-import {VerifyEmailPage} from '../../Pages/VerifyEmailPage';
+import {VerifyEmailPage} from '../../main/Pages/VerifyEmailPage';
 import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../Utils/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('VerifyEmailPage', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	test('renders correctly', (): void => {
+	it('renders correctly', (): void => {
 		// arrange
 		renderForTest(<VerifyEmailPage />);
 
@@ -25,15 +25,15 @@ describe('VerifyEmailPage', (): void => {
 		expect(resendButton).toBeInTheDocument();
 	});
 
-	test('resend handle click', async (): Promise<void> => {
+	it('handles resend button click', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		renderForTest(<VerifyEmailPage />);
 
 		// act
-		const resendButton: HTMLElement = screen.getByRole('button', {
-			name: 'resend-email'
-		});
+		const resendButton: HTMLElement = screen.getByTestId(
+			'resend-email-button'
+		);
 		await user.click(resendButton);
 
 		// assert

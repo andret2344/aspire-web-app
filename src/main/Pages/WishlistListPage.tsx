@@ -14,7 +14,7 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import '../../assets/fonts.css';
+import '../../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {WishList} from '../Entity/WishList';
@@ -55,6 +55,10 @@ export function WishlistListPage(): React.ReactElement {
 			return;
 		}
 		getWishlists()
+			.then((wishlists) => {
+				console.dir(wishlists, {depth: 5});
+				return wishlists;
+			})
 			.then(setWishlists)
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});

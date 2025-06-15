@@ -6,7 +6,7 @@ import {
 	TextField,
 	Tooltip
 } from '@mui/material';
-import '../../../assets/fonts.css';
+import '../../../../assets/fonts.css';
 import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
 import React from 'react';
 import {WishList} from '../../Entity/WishList';

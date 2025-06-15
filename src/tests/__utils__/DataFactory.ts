@@ -1,7 +1,8 @@
-import {WishList} from '../../Entity/WishList';
-import {WishlistItem} from '../../Entity/WishlistItem';
+import {WishList, WishListDto} from '../../main/Entity/WishList';
+import {WishlistItem, WishlistItemDto} from '../../main/Entity/WishlistItem';
 
-export function getWishlistTestData(...itemsCount: number[]): WishList[] {
+// for future use
+export function generateWishlistTestData(...itemsCount: number[]): WishList[] {
 	return itemsCount.map(
 		(itemsCount: number, currentId: number): WishList => ({
 			id: currentId,
@@ -20,4 +21,53 @@ export function getWishlistTestData(...itemsCount: number[]): WishList[] {
 			hasPassword: false
 		})
 	);
+}
+
+export function getSampleWishlistDto(): WishListDto {
+	return {
+		id: 1,
+		uuid: 'random-uuid',
+		name: 'Mock Wishlist',
+		wishlist_items: [
+			{
+				id: 1,
+				wishlist_id: 1,
+				description: 'test description',
+				name: 'Item 1',
+				priority_id: 3,
+				hidden: false
+			}
+		],
+		has_password: false
+	};
+}
+
+export function getSampleWishlist(): WishList {
+	return {
+		id: 1,
+		uuid: 'random-uuid',
+		name: 'Mock Wishlist',
+		wishlistItems: [
+			{
+				id: 1,
+				wishlistId: 1,
+				description: 'test description',
+				name: 'Item 1',
+				priorityId: 3,
+				hidden: false
+			}
+		],
+		hasPassword: false
+	};
+}
+
+export function getSampleWishlistItemDto(name?: string): WishlistItemDto {
+	return {
+		id: 1,
+		wishlist_id: 1,
+		description: name ?? 'Item description',
+		name: 'Item 1',
+		priority_id: 3,
+		hidden: false
+	};
 }

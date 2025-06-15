@@ -16,10 +16,9 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
-import {WishlistListPage} from '../../Pages/WishlistListPage';
-import {WishList} from '../../Entity/WishList';
-import {renderForTest} from '../Utils/RenderForTest';
-import {getWishlistTestData} from '../__utils__/DataFactory';
+import {WishlistListPage} from '../../main/Pages/WishlistListPage';
+import {WishList} from '../../main/Entity/WishList';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('WishlistListPage', (): void => {
 	beforeEach((): void => {
@@ -33,12 +32,29 @@ describe('WishlistListPage', (): void => {
 		localStorage.clear();
 	});
 
+	const mockWishlistData: WishList = {
+		id: 1,
+		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
+		name: 'Mock Wishlist',
+		wishlistItems: [
+			{
+				id: 1,
+				wishlistId: 1,
+				description: 'Check out this link: https://example.com',
+				name: 'Item 1',
+				priorityId: 3,
+				hidden: false
+			}
+		],
+		hasPassword: false
+	};
+
 	test('renders correctly with wishlist data', async (): Promise<void> => {
 		// arrange
 		mockedUseParams.mockReturnValue({
 			id: 1
 		});
-		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
+		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -46,7 +62,7 @@ describe('WishlistListPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(screen.getByText('Mock Wishlist 1')).toBeInTheDocument();
+			expect(screen.getByText('Mock Wishlist')).toBeInTheDocument();
 			expect(screen.getByText('Item 1')).toBeInTheDocument();
 		});
 	});
@@ -56,7 +72,7 @@ describe('WishlistListPage', (): void => {
 		mockedUseParams.mockReturnValue({
 			id: 1
 		});
-		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
+		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -89,7 +105,7 @@ describe('WishlistListPage', (): void => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
+		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -106,7 +122,7 @@ describe('WishlistListPage', (): void => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
+		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -131,7 +147,7 @@ describe('WishlistListPage', (): void => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue(getWishlistTestData(1));
+		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -151,10 +167,9 @@ describe('WishlistListPage', (): void => {
 	test('add item', async (): Promise<void> => {
 		// arrange
 		user.setup();
-		const wishlistTestData: WishList[] = getWishlistTestData(1);
 		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue(wishlistTestData);
-		mockedAddWishlistItem.mockResolvedValue(wishlistTestData[0]);
+		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
+		mockedAddWishlistItem.mockResolvedValue(mockWishlistData);
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
@@ -420,7 +435,7 @@ describe('WishlistListPage', (): void => {
 		// act
 		await act((): RenderResult => renderForTest(<WishlistListPage />));
 		const shareIcon = await waitFor(
-			(): HTMLElement => screen.getByTestId('shareIcon-1')
+			(): HTMLElement => screen.getByTestId('share-icon-button-1')
 		);
 		await user.click(shareIcon);
 
@@ -445,7 +460,7 @@ describe('WishlistListPage', (): void => {
 			.fn()
 			.mockRejectedValue(new Error('Failed to write to clipboard'));
 		const shareIcon = await waitFor(
-			(): HTMLElement => screen.getByTestId('shareIcon-1')
+			(): HTMLElement => screen.getByTestId('share-icon-button-1')
 		);
 		await user.click(shareIcon);
 

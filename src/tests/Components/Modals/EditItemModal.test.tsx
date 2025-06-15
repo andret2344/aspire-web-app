@@ -7,12 +7,12 @@ import {
 import '../../__mocks__/MockMDXEditor';
 import '@testing-library/jest-dom';
 import React from 'react';
-import {WishList} from '../../../Entity/WishList';
-import {EditItemModal} from '../../../Components/Modals/EditItemModal';
+import {WishList} from '../../../main/Entity/WishList';
+import {EditItemModal} from '../../../main/Components/Modals/EditItemModal';
 import {fireEvent, screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {WishlistItem} from '../../../Entity/WishlistItem';
-import {renderForTest} from '../../Utils/RenderForTest';
+import {WishlistItem} from '../../../main/Entity/WishlistItem';
+import {renderForTest} from '../../__utils__/RenderForTest';
 
 describe('EditItemModal', (): void => {
 	beforeEach((): void => localStorage.clear());

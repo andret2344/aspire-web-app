@@ -5,8 +5,8 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
-import {renderForTest} from '../Utils/RenderForTest';
-import {LoginPage} from '../../Pages/LoginPage';
+import {renderForTest} from '../__utils__/RenderForTest';
+import {LoginPage} from '../../main/Pages/LoginPage';
 
 describe('login page', (): void => {
 	beforeEach((): void => localStorage.clear());

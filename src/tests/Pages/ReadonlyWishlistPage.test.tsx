@@ -4,9 +4,9 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {fireEvent, screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
-import {ReadonlyWishlistPage} from '../../Pages/ReadonlyWishlistPage';
-import {renderForTest} from '../Utils/RenderForTest';
-import {WishList} from '../../Entity/WishList';
+import {ReadonlyWishlistPage} from '../../main/Pages/ReadonlyWishlistPage';
+import {renderForTest} from '../__utils__/RenderForTest';
+import {WishList} from '../../main/Entity/WishList';
 import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
 
 describe('ReadonlyWishlistPage', (): void => {

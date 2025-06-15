@@ -45,6 +45,7 @@ export function VerifyEmailPage(): React.ReactElement {
 				</VerifyEmailTypography>
 			</Box>
 			<Button
+				data-testid='resend-email-button'
 				onClick={handleClick}
 				variant='contained'
 				sx={{

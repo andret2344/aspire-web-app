@@ -1,10 +1,10 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {renderForTest} from '../../Utils/RenderForTest';
-import {WishList} from '../../../Entity/WishList';
+import {renderForTest} from '../../__utils__/RenderForTest';
+import {WishList} from '../../../main/Entity/WishList';
 import user from '@testing-library/user-event';
-import {WishlistInputPasswordModal} from '../../../Components/Modals/WishlistInputPasswordModal';
+import {WishlistInputPasswordModal} from '../../../main/Components/Modals/WishlistInputPasswordModal';
 
 describe('WishlistInputPasswordModal', (): void => {
 	const mockWishlistData: WishList = {
