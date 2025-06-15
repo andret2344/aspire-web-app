@@ -55,10 +55,6 @@ export function WishlistListPage(): React.ReactElement {
 			return;
 		}
 		getWishlists()
-			.then((wishlists) => {
-				console.dir(wishlists, {depth: 5});
-				return wishlists;
-			})
 			.then(setWishlists)
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
