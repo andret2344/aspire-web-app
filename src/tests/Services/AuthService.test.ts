@@ -200,7 +200,7 @@ describe('AuthService', (): void => {
 	test('refresh token', async (): Promise<void> => {
 		// arrange
 		const mockResponseData = {
-			accessToken: 'access-token'
+			access: 'access-token'
 		};
 		const mock = new MockAdapter(apiInstance);
 		mock.onPost(`${getApiConfig().backend}/account/login/refresh`).reply(
@@ -213,7 +213,7 @@ describe('AuthService', (): void => {
 
 		//assert
 		expect(result).toBeDefined();
-		expect(result).toEqual(mockResponseData.accessToken);
+		expect(result).toEqual(mockResponseData.access);
 	});
 
 	test('refresh token rejected', async (): Promise<void> => {
