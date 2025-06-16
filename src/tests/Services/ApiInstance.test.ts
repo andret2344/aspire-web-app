@@ -110,7 +110,7 @@ describe('ApiInstance', (): void => {
 		// act
 		try {
 			await apiInstance(originalRequestConfig);
-		} catch (error) {
+		} catch (ignored) {
 			// assert
 			expect(mockedRefreshToken).toHaveBeenCalledTimes(0);
 		}

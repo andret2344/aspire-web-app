@@ -28,8 +28,6 @@ import {
 } from '../../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-// eslint-disable-next-line import/no-unresolved
-import '@mdxeditor/editor/style.css';
 import {
 	BlockTypeSelect,
 	BoldItalicUnderlineToggles,
@@ -76,8 +74,8 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	const [name, setName] = React.useState<string>(props.item?.name ?? '');
 	const [tooltipOpened, setTooltipOpened] = React.useState<boolean>(false);
 	const {t} = useTranslation();
-	const descriptionEditorRef: RefObject<MDXEditorMethods> =
-		React.useRef<MDXEditorMethods>(null);
+	const descriptionEditorRef: RefObject<MDXEditorMethods | null> =
+		React.useRef<MDXEditorMethods | null>(null);
 	const {enqueueSnackbar} = useSnackbar();
 
 	function handleChangePriority(event: SelectChangeEvent<number>): void {

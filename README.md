@@ -8,7 +8,7 @@ This is the frontend part of Aspire, The Aspiration Abyss.
 
 ## Prepare for development
 
-### Open project dir
+### Open the project dir
 
     cd aspire-web-app
 
@@ -35,8 +35,12 @@ This is the frontend part of Aspire, The Aspiration Abyss.
 
 ### Run tests
 
-yarn test
+    yarn test
 
 ### Run tests with coverage
 
-yarn test:ci
+    yarn test:ci
+
+### Run linter
+
+    yarn lint
