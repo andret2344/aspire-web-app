@@ -139,8 +139,8 @@ export async function refreshToken(): Promise<string | undefined> {
 			}
 		);
 
-		saveAccessToken(result.data.accessToken);
-		return result.data.accessToken;
+		saveAccessToken(result.data.access);
+		return result.data.access;
 	} catch (err) {
 		if (isAxiosError(err)) {
 			console.error(err.response);
