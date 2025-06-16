@@ -1,0 +1,71 @@
+const {defineConfig} = require('eslint/config');
+const tsParser = require('@typescript-eslint/parser');
+const {fixupConfigRules} = require('@eslint/compat');
+const js = require('@eslint/js');
+const {FlatCompat} = require('@eslint/eslintrc');
+
+const compat = new FlatCompat({
+	baseDirectory: __dirname,
+	recommendedConfig: js.configs.recommended,
+	allConfig: js.configs.all
+});
+
+module.exports = defineConfig([
+	{
+		languageOptions: {
+			parser: tsParser,
+			ecmaVersion: 'latest',
+			sourceType: 'module',
+			parserOptions: {}
+		},
+
+		settings: {
+			react: {
+				version: 'detect'
+			},
+
+			'import/resolver': {
+				node: {
+					extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
+				}
+			}
+		},
+
+		extends: fixupConfigRules(
+			compat.extends(
+				'plugin:react/recommended',
+				'plugin:react-hooks/recommended',
+				'plugin:@typescript-eslint/recommended',
+				'plugin:import/errors',
+				'plugin:import/warnings',
+				'plugin:import/typescript',
+				'plugin:jsx-a11y/recommended',
+				'prettier',
+				'plugin:prettier/recommended'
+			)
+		),
+
+		ignores: ['eslint.config.js', 'webpack/**'],
+
+		rules: {
+			'no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					vars: 'all',
+					args: 'all',
+					caughtErrors: 'all',
+					caughtErrorsIgnorePattern: '^ignore',
+					ignoreRestSiblings: false,
+					reportUsedIgnorePattern: false
+				}
+			],
+			'@typescript-eslint/no-var-requires': 'off',
+			'react/prop-types': 'off',
+			'react/jsx-uses-react': 'off',
+			'react/react-in-jsx-scope': 'off',
+			'@typescript-eslint/explicit-module-boundary-types': 'off',
+			'jsx-a11y/no-autofocus': 'off'
+		}
+	}
+]);
