@@ -3,8 +3,8 @@ import React from 'react';
 import {screen} from '@testing-library/dom';
 import {act, fireEvent, RenderResult} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {DeleteWishlistModal} from '../../../Components/Modals/DeleteWishlistModal';
-import {renderForTest} from '../../Utils/RenderForTest';
+import {DeleteWishlistModal} from '../../../main/Components/Modals/DeleteWishlistModal';
+import {renderForTest} from '../../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 
 describe('DeleteWishlistModal', (): void => {

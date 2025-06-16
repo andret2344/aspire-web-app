@@ -1,9 +1,9 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {ToggleColorModeComponent} from '../../Components/ToggleColorModeComponent';
+import {ToggleColorModeComponent} from '../../main/Components/ToggleColorModeComponent';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../Utils/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('ToggleColorModeComponent', (): void => {
 	test('renders light icon', (): void => {

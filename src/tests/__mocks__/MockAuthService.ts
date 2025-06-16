@@ -1,4 +1,4 @@
-import * as AuthService from '../../../src/Services/AuthService';
+import * as AuthService from '../../main/Services/AuthService';
 
 export const mockedLogIn = jest.fn();
 export const mockedLogout = jest.fn();
@@ -12,9 +12,9 @@ export const mockedIsTokenValid = jest.fn();
 export const mockedSaveAccessToken = jest.fn();
 export const mockedGetRefreshToken = jest.fn();
 
-jest.mock('../../../src/Services/AuthService', () => ({
+jest.mock('../../main/Services/AuthService', () => ({
 	...jest.requireActual<typeof AuthService>(
-		'../../../src/Services/AuthService'
+		'../../main/Services/AuthService'
 	),
 	logIn: mockedLogIn,
 	logout: mockedLogout,

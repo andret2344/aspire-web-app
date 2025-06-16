@@ -1,11 +1,11 @@
 import MockAdapter from 'axios-mock-adapter';
-import {getConfig} from '../../Services/EnvironmentHelper';
+import {Config, getConfig} from '../../main/Services/EnvironmentHelper';
 import axios from 'axios';
 
 describe('EnvironmentHelper', (): void => {
 	test('get config and return undefined', async (): Promise<void> => {
 		// act
-		const config = await getConfig();
+		const config: Config | undefined = await getConfig();
 
 		// assert
 		expect(config).toBe(undefined);

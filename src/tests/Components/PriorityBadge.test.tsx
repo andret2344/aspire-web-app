@@ -1,8 +1,8 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {PriorityBadge} from '../../Components/PriorityBadge';
-import {renderForTest} from '../Utils/RenderForTest';
+import {PriorityBadge} from '../../main/Components/PriorityBadge';
+import {renderForTest} from '../__utils__/RenderForTest';
 import {RenderResult} from '@testing-library/react';
 
 describe('PriorityBadge', (): void => {

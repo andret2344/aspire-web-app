@@ -7,9 +7,9 @@ import {mockedNavigate} from '../__mocks__/MockCommonService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {PasswordReminderPage} from '../../Pages/PasswordReminderPage';
+import {PasswordReminderPage} from '../../main/Pages/PasswordReminderPage';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../Utils/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 import {act, RenderResult} from '@testing-library/react';
 
 describe('PasswordReminderPage', (): void => {

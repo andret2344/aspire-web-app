@@ -14,7 +14,7 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import '../../assets/fonts.css';
+import '../../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {WishList} from '../Entity/WishList';

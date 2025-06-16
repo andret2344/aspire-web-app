@@ -3,8 +3,8 @@ import '@testing-library/jest-dom';
 import {screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {useTranslation} from 'react-i18next';
-import {LanguagePicker} from '../../Components/LanguagePicker';
-import {renderForTest} from '../Utils/RenderForTest';
+import {LanguagePicker} from '../../main/Components/LanguagePicker';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 jest.mock('react-i18next', () => ({
 	useTranslation: jest.fn()

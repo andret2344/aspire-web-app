@@ -4,9 +4,9 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {CreateWishlistModal} from '../../../Components/Modals/CreateWishlistModal';
-import {WishList} from '../../../Entity/WishList';
-import {renderForTest} from '../../Utils/RenderForTest';
+import {CreateWishlistModal} from '../../../main/Components/Modals/CreateWishlistModal';
+import {WishList} from '../../../main/Entity/WishList';
+import {renderForTest} from '../../__utils__/RenderForTest';
 import {act, fireEvent, RenderResult} from '@testing-library/react';
 
 describe('WishlistModal', (): void => {

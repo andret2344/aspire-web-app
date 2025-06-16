@@ -1,5 +1,5 @@
 import React from 'react';
-import {None} from '../../Types/None';
+import {None} from '../../main/Types/None';
 
 export const mockedUseParams: jest.Mock = jest.fn();
 export const mockedNavigate: jest.Mock = jest.fn();

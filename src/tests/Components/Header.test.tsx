@@ -4,9 +4,9 @@ import React from 'react';
 import {screen} from '@testing-library/dom';
 import {act, RenderResult} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {Header} from '../../Components/Header';
+import {Header} from '../../main/Components/Header';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../Utils/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('Header', (): void => {
 	test('render with a valid token', (): void => {

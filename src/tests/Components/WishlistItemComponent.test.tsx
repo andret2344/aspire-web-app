@@ -1,11 +1,11 @@
 import {mockedRemoveWishlistItem} from '../__mocks__/MockWishlistItemService';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {renderForTest} from '../Utils/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 import React, {act} from 'react';
-import {WishlistItemComponent} from '../../Components/WishlistItemComponent';
-import {WishlistItem} from '../../Entity/WishlistItem';
+import {WishlistItemComponent} from '../../main/Components/WishlistItemComponent';
+import {WishlistItem} from '../../main/Entity/WishlistItem';
 
 describe('WishlistItemComponent', (): void => {
 	const mockWishlistItem: WishlistItem = {
