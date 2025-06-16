@@ -1,5 +1,5 @@
 import {render, RenderResult} from '@testing-library/react';
-import {DarkModeProvider} from '../../Components/DarkModeContext';
+import {DarkModeProvider} from '../../main/Components/DarkModeContext';
 import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {SnackbarProvider} from 'notistack';

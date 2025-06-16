@@ -27,14 +27,12 @@ module.exports = {
 	testMatch: ['**/?(*.)+(spec|test).(ts|tsx)'],
 	collectCoverage: true,
 	collectCoverageFrom: [
-		'src/**/*.{ts,tsx}',
-		'!src/**/*.{types,stories,constants,test,spec}.{ts,tsx}',
-		'!src/App.tsx',
-		'!src/index.{ts,tsx,html}',
-		'!src/Styles/**',
-		'!src/Types/**',
-		'!src/tests/Utils/**',
-		'!src/i18n.ts'
+		'src/main/**/*.{ts,tsx}',
+		'!src/main/App.tsx',
+		'!src/main/index.{ts,tsx,html}',
+		'!src/main/Styles/**',
+		'!src/main/Types/**',
+		'!src/main/i18n.ts'
 	],
 	reporters: [
 		'default',

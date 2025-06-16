@@ -5,9 +5,9 @@ import React from 'react';
 
 import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {RegisterPage} from '../../Pages/RegisterPage';
+import {RegisterPage} from '../../main/Pages/RegisterPage';
 import {screen} from '@testing-library/dom';
-import {renderForTest} from '../Utils/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 import {mockedGetWishlists} from '../__mocks__/MockWishlistService';
 
 describe('register page', (): void => {

@@ -7,8 +7,8 @@ import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
 
-import {NewPasswordPage} from '../../Pages/NewPasswordPage';
-import {renderForTest} from '../Utils/RenderForTest';
+import {NewPasswordPage} from '../../main/Pages/NewPasswordPage';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('NewPasswordPage', (): void => {
 	test('renders correctly', (): void => {

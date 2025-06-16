@@ -16,9 +16,9 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
-import {WishlistListPage} from '../../Pages/WishlistListPage';
-import {WishList} from '../../Entity/WishList';
-import {renderForTest} from '../Utils/RenderForTest';
+import {WishlistListPage} from '../../main/Pages/WishlistListPage';
+import {WishList} from '../../main/Entity/WishList';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('WishlistListPage', (): void => {
 	beforeEach((): void => {
@@ -62,7 +62,7 @@ describe('WishlistListPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(screen.getByText(mockWishlistData.name)).toBeInTheDocument();
+			expect(screen.getByText('Mock Wishlist')).toBeInTheDocument();
 			expect(screen.getByText('Item 1')).toBeInTheDocument();
 		});
 	});
@@ -435,7 +435,7 @@ describe('WishlistListPage', (): void => {
 		// act
 		await act((): RenderResult => renderForTest(<WishlistListPage />));
 		const shareIcon = await waitFor(
-			(): HTMLElement => screen.getByTestId('shareIcon-1')
+			(): HTMLElement => screen.getByTestId('share-icon-button-1')
 		);
 		await user.click(shareIcon);
 
@@ -460,7 +460,7 @@ describe('WishlistListPage', (): void => {
 			.fn()
 			.mockRejectedValue(new Error('Failed to write to clipboard'));
 		const shareIcon = await waitFor(
-			(): HTMLElement => screen.getByTestId('shareIcon-1')
+			(): HTMLElement => screen.getByTestId('share-icon-button-1')
 		);
 		await user.click(shareIcon);
 

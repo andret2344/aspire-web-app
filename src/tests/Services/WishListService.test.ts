@@ -6,60 +6,30 @@ import {
 	removeWishlist,
 	setWishlistPassword,
 	updateWishlistName
-} from '../../Services/WishListService';
+} from '../../main/Services/WishListService';
 import {waitFor} from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
-import apiInstance, {getApiConfig} from '../../Services/ApiInstance';
+import apiInstance, {getApiConfig} from '../../main/Services/ApiInstance';
 import axios, {AxiosError} from 'axios';
-import {WishList, WishListDto} from '../../Entity/WishList';
-import {headers} from '../../Services/AuthService';
+import {WishList} from '../../main/Entity/WishList';
+import {headers} from '../../main/Services/AuthService';
+import {
+	getSampleWishlist,
+	getSampleWishlistDto
+} from '../__utils__/DataFactory';
 
 describe('WishListService', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	const mockWishlistDto: WishListDto = {
-		id: 1,
-		uuid: 'random-uuid',
-		name: 'Mock Wishlist',
-		wishlist_items: [
-			{
-				id: 1,
-				wishlist_id: 1,
-				description: 'test description',
-				name: 'Item 1',
-				priority_id: 3,
-				hidden: false
-			}
-		],
-		has_password: false
-	};
-
-	const mockWishlist: WishList = {
-		id: 1,
-		uuid: 'random-uuid',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				wishlistId: 1,
-				description: 'test description',
-				name: 'Item 1',
-				priorityId: 3,
-				hidden: false
-			}
-		],
-		hasPassword: false
-	};
-
 	test('get wishlists', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onGet('/wishlist').reply(200, [mockWishlistDto]);
+		mock.onGet('/wishlist').reply(200, [getSampleWishlistDto()]);
 
 		// act
 		await waitFor(getWishlists).then((wishlists: WishList[]): void =>
 			// assert
-			expect(wishlists).toStrictEqual([mockWishlist])
+			expect(wishlists).toStrictEqual([getSampleWishlist()])
 		);
 	});
 
@@ -80,12 +50,12 @@ describe('WishListService', (): void => {
 	test('get wishlist by id', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onGet('/wishlist/1').reply(200, mockWishlistDto);
+		mock.onGet('/wishlist/1').reply(200, getSampleWishlistDto());
 
 		// act
 		await getWishlist(1).then((wishlist: WishList | null): void => {
 			// assert
-			expect(wishlist).toEqual(mockWishlist);
+			expect(wishlist).toEqual(getSampleWishlist());
 		});
 	});
 
@@ -109,14 +79,14 @@ describe('WishListService', (): void => {
 		const baseUrl = getApiConfig().backend;
 		mock.onGet(`${baseUrl}/wishlist/by_uuid/uuid`, {headers}).reply(
 			200,
-			mockWishlistDto
+			getSampleWishlistDto()
 		);
 
 		// act
 		await getReadonlyWishlistByUUID('uuid').then(
 			(wishlist: WishList | null): void => {
 				// assert
-				expect(wishlist).toEqual(mockWishlist);
+				expect(wishlist).toEqual(getSampleWishlist());
 			}
 		);
 	});
@@ -141,13 +111,13 @@ describe('WishListService', (): void => {
 	test('add wishlist', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onPost('/wishlist').reply(200, mockWishlist);
+		mock.onPost('/wishlist').reply(200, getSampleWishlist());
 
 		// act
 		await waitFor((): Promise<WishList | null> => addWishlist('test')).then(
 			(wishlist: WishList | null): void => {
 				// assert
-				expect(wishlist).toEqual(mockWishlist);
+				expect(wishlist).toEqual(getSampleWishlist());
 			}
 		);
 	});

@@ -1,34 +1,17 @@
 import MockAdapter from 'axios-mock-adapter';
-import apiInstance from '../../Services/ApiInstance';
+import apiInstance from '../../main/Services/ApiInstance';
 import {waitFor} from '@testing-library/react';
-import {WishlistItemDto} from '../../Entity/WishlistItem';
+import {WishlistItemDto} from '../../main/Entity/WishlistItem';
 import {
 	addWishlistItem,
 	editWishlistItem,
 	getWishlistHiddenItems,
 	removeWishlistItem
-} from '../../Services/WishlistItemService';
+} from '../../main/Services/WishlistItemService';
+import {getSampleWishlistItemDto} from '../__utils__/DataFactory';
 
 describe('WishListItemService', (): void => {
 	beforeEach((): void => localStorage.clear());
-
-	const mockWishlistItemDto: WishlistItemDto = {
-		id: 1,
-		wishlist_id: 1,
-		description: 'test description',
-		name: 'Item 1',
-		priority_id: 3,
-		hidden: false
-	};
-
-	const mockUpdatedWishlistItemDto: WishlistItemDto = {
-		id: 1,
-		wishlist_id: 1,
-		description: 'updated test description',
-		name: 'updated',
-		priority_id: 3,
-		hidden: false
-	};
 
 	test('add wishlist item', async (): Promise<void> => {
 		// arrange
@@ -40,7 +23,7 @@ describe('WishListItemService', (): void => {
 		const hidden = false;
 		mock.onPost(`/${wishlistId}/wishlistitem`).reply(
 			200,
-			mockWishlistItemDto
+			getSampleWishlistItemDto()
 		);
 
 		// act
@@ -55,7 +38,7 @@ describe('WishListItemService', (): void => {
 				)
 		).then((wishlistItemDto: WishlistItemDto | null): void => {
 			// assert
-			expect(wishlistItemDto).toStrictEqual(mockWishlistItemDto);
+			expect(wishlistItemDto).toStrictEqual(getSampleWishlistItemDto());
 		});
 	});
 
@@ -110,7 +93,7 @@ describe('WishListItemService', (): void => {
 		const hidden = false;
 		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			200,
-			mockUpdatedWishlistItemDto
+			getSampleWishlistItemDto('updated name')
 		);
 
 		// act
@@ -126,7 +109,9 @@ describe('WishListItemService', (): void => {
 				)
 		).then((wishlistItemDto: WishlistItemDto | null): void => {
 			// assert
-			expect(wishlistItemDto).toStrictEqual(mockUpdatedWishlistItemDto);
+			expect(wishlistItemDto).toStrictEqual(
+				getSampleWishlistItemDto('updated name')
+			);
 		});
 	});
 
@@ -141,7 +126,7 @@ describe('WishListItemService', (): void => {
 		const hidden = false;
 		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			500,
-			mockUpdatedWishlistItemDto
+			getSampleWishlistItemDto('updated name')
 		);
 		const logSpy = jest.spyOn(console, 'error');
 

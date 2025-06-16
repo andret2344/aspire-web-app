@@ -6,8 +6,8 @@ import {
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {ProfilePage} from '../../Pages/ProfilePage';
-import {renderForTest} from '../Utils/RenderForTest';
+import {ProfilePage} from '../../main/Pages/ProfilePage';
+import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 import {act, RenderResult} from '@testing-library/react';
 

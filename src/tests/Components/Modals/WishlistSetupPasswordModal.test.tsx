@@ -1,9 +1,9 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {WishlistSetupPasswordModal} from '../../../Components/Modals/WishlistSetupPasswordModal';
-import {renderForTest} from '../../Utils/RenderForTest';
-import {WishList} from '../../../Entity/WishList';
+import {WishlistSetupPasswordModal} from '../../../main/Components/Modals/WishlistSetupPasswordModal';
+import {renderForTest} from '../../__utils__/RenderForTest';
+import {WishList} from '../../../main/Entity/WishList';
 import user from '@testing-library/user-event';
 
 describe('WishlistSetupPasswordModal', (): void => {
