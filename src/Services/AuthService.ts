@@ -36,7 +36,8 @@ export async function logIn(email: string, password: string): Promise<number> {
 		saveAccessToken(result.data.access);
 		saveRefreshToken(result.data.refresh);
 		return result.status;
-	} catch (err) {
+	} catch (error: unknown) {
+		console.error(error);
 		return 401;
 	}
 }
