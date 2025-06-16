@@ -15,14 +15,16 @@ import {PasswordReminderPage} from './Pages/PasswordReminderPage';
 import {NewPasswordPage} from './Pages/NewPasswordPage';
 import './i18n';
 import {Header} from './Components/Header';
+import {refreshToken} from './Services/AuthService';
 
 export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
 
 	React.useEffect((): void => {
-		getConfig()
-			.then(setConfig)
-			.finally((): void => setLoaded(true));
+		Promise.all([
+			getConfig().then(setConfig),
+			refreshToken().then()
+		]).finally((): void => setLoaded(true));
 	}, []);
 
 	if (!loaded) {

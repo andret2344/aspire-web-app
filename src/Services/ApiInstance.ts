@@ -6,6 +6,11 @@ import axios, {
 	InternalAxiosRequestConfig
 } from 'axios';
 import {Config} from './EnvironmentHelper';
+import {identity} from '../Utils/utils';
+
+type RetryInternalAxiosRequestConfig = InternalAxiosRequestConfig & {
+	readonly _retry: boolean;
+};
 
 let fetchedConfig: Config | undefined = undefined;
 
@@ -39,11 +44,8 @@ export function setConfig(config: Config | undefined): void {
 	}
 }
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 apiInstance.interceptors.request.use(
-	async (
-		config: InternalAxiosRequestConfig
-	): Promise<InternalAxiosRequestConfig<any>> => {
+	(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
 		const token: string | null = getAccessToken();
 		if (token) {
 			config.headers['Authorization'] = createTokenHeader(token);
@@ -53,23 +55,28 @@ apiInstance.interceptors.request.use(
 );
 
 apiInstance.interceptors.response.use(
-	(response: AxiosResponse): AxiosResponse<any, any> => response,
-	async (error: AxiosError): Promise<AxiosResponse<any>> => {
-		const originalRequest: InternalAxiosRequestConfig<any> | undefined =
-			error.config;
-
-		if (error.response?.status === 401 && originalRequest) {
-			const newToken: string | undefined = await refreshToken();
-			if (newToken) {
-				originalRequest.headers['Authorization'] =
-					createTokenHeader(newToken);
-				saveAccessToken(newToken);
-				return apiInstance(originalRequest);
-			}
+	identity<AxiosResponse>,
+	async (error: AxiosError): Promise<AxiosResponse> => {
+		const originalRequest: RetryInternalAxiosRequestConfig | undefined =
+			error.config as RetryInternalAxiosRequestConfig | undefined;
+		if (!originalRequest || originalRequest._retry) {
+			return Promise.reject(error);
 		}
-		return Promise.reject(error);
+
+		if (error.response?.status !== 401) {
+			return Promise.reject(error);
+		}
+
+		const newToken: string | undefined = await refreshToken();
+		if (!newToken) {
+			return Promise.reject(error);
+		}
+
+		saveAccessToken(newToken);
+		apiInstance.defaults.headers.common['Authorization'] =
+			createTokenHeader(newToken);
+		return apiInstance(originalRequest);
 	}
 );
-/* eslint-enable  @typescript-eslint/no-explicit-any */
 
 export default apiInstance;
