@@ -15,7 +15,7 @@ import user from '@testing-library/user-event';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
-import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
+import {act, RenderResult, waitFor} from '@testing-library/react';
 import {WishlistListPage} from '../../main/Pages/WishlistListPage';
 import {WishList} from '../../main/Entity/WishList';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -183,11 +183,11 @@ describe('WishlistListPage', (): void => {
 		const input: HTMLInputElement = screen
 			.getByTestId('edit-item-modal-input-name')
 			.querySelector('input') as HTMLInputElement;
-		await act(async (): Promise<void> => user.type(input, 'New item'));
+		await user.type(input, 'New item');
 		const confirmButton: HTMLElement = screen.getByTestId(
 			'edit-item-modal-confirm'
 		);
-		await act(async (): Promise<void> => user.click(confirmButton));
+		await user.click(confirmButton);
 
 		// assert
 		expect(mockedAddWishlistItem).toHaveBeenCalledTimes(1);
@@ -314,13 +314,11 @@ describe('WishlistListPage', (): void => {
 		await act((): RenderResult => renderForTest(<WishlistListPage />));
 		const addNewWishlistButton: HTMLElement =
 			screen.getByTestId('open-modal-button');
-		await act(async (): Promise<void> => user.click(addNewWishlistButton));
+		await user.click(addNewWishlistButton);
 		const input: HTMLInputElement = screen
 			.getByTestId('input-wishlist-name')
 			.querySelector('input') as HTMLInputElement;
-		await act((): boolean =>
-			fireEvent.change(input, {target: {value: newWishlist.name}})
-		);
+		await user.type(input, newWishlist.name);
 		const saveButton: HTMLElement = screen.getByTestId('button-save');
 		await act(async (): Promise<void> => user.click(saveButton));
 
@@ -378,16 +376,10 @@ describe('WishlistListPage', (): void => {
 				renderForTest(<WishlistListPage />)
 		);
 
-		await act(
-			(): Promise<void> =>
-				user.click(screen.getByTestId('delete-wishlist-1'))
-		);
+		await user.click(screen.getByTestId('delete-wishlist-1'));
 
-		await act(
-			(): Promise<void> =>
-				user.click(
-					screen.getByTestId('delete-wishlist-modal-button-cancel')
-				)
+		await user.click(
+			screen.getByTestId('delete-wishlist-modal-button-cancel')
 		);
 
 		// assert
@@ -408,17 +400,11 @@ describe('WishlistListPage', (): void => {
 				renderForTest(<WishlistListPage />)
 		);
 
-		await act(
-			(): Promise<void> =>
-				user.click(screen.getByLabelText('delete-wishlist-1'))
-		);
+		await user.click(screen.getByLabelText('delete-wishlist-1'));
 
 		// assert
-		await act(
-			(): Promise<void> =>
-				user.click(
-					screen.getByTestId('delete-wishlist-modal-button-delete')
-				)
+		await user.click(
+			screen.getByTestId('delete-wishlist-modal-button-delete')
 		);
 		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 		expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
@@ -434,13 +420,13 @@ describe('WishlistListPage', (): void => {
 
 		// act
 		await act((): RenderResult => renderForTest(<WishlistListPage />));
-		const shareIcon = await waitFor(
+		const shareIcon: HTMLElement = await waitFor(
 			(): HTMLElement => screen.getByTestId('share-icon-button-1')
 		);
 		await user.click(shareIcon);
 
 		// assert
-		const clipboardText = await navigator.clipboard.readText();
+		const clipboardText: string = await navigator.clipboard.readText();
 		expect(clipboardText).toBe(
 			'http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15'
 		);
@@ -459,7 +445,7 @@ describe('WishlistListPage', (): void => {
 		navigator.clipboard.writeText = jest
 			.fn()
 			.mockRejectedValue(new Error('Failed to write to clipboard'));
-		const shareIcon = await waitFor(
+		const shareIcon: HTMLElement = await waitFor(
 			(): HTMLElement => screen.getByTestId('share-icon-button-1')
 		);
 		await user.click(shareIcon);
