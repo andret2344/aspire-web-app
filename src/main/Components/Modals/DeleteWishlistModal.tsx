@@ -18,12 +18,11 @@ export function DeleteWishlistModal(
 	function createTitle(): React.ReactElement {
 		return (
 			<Trans
+				i18nKey='delete-confirmation'
 				values={{wishlist: props.wishlistName}}
+				components={{strong: <strong />}}
 				data-testid='delete-confirmation'
-			>
-				Are you sure you want to delete the{' '}
-				<strong>{props.wishlistName}</strong> wishlist?
-			</Trans>
+			/>
 		);
 	}
 
