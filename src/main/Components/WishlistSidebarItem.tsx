@@ -121,6 +121,7 @@ export function WishlistSidebarItem(
 		return (
 			<Typography
 				aria-label='wishlist-name'
+				data-testid='wishlist-name'
 				onClick={handleNameClick}
 				sx={{
 					textAlign: 'center',
