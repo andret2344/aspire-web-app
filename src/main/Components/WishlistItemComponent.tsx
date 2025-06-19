@@ -27,7 +27,7 @@ interface WishlistItemComponentProps {
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
 	readonly onVisibilityClick?: (itemId: number, changedTo: boolean) => void;
-	readonly loadingVisibility?: boolean;
+	readonly loadingVisibility: boolean;
 	readonly onRemove?: (wishlistId: number, itemId: number) => void;
 }
 
@@ -50,23 +50,28 @@ export function WishlistItemComponent(
 	}
 
 	function renderVisibilityIcon(): React.ReactElement {
-		if (!props.onVisibilityClick) {
-			return <></>;
-		}
 		if (props.loadingVisibility) {
-			return <CircularProgress />;
+			return <CircularProgress data-testid='item-loading-progress' />;
 		}
 		if (props.item.hidden) {
 			return (
-				<VisibilityOffOutlinedIcon onClick={handleVisibilityClick} />
+				<VisibilityOffOutlinedIcon
+					onClick={handleVisibilityClick}
+					data-testid='item-hidden-icon'
+				/>
 			);
 		}
-		return <VisibilityIcon onClick={handleVisibilityClick} />;
+		return (
+			<VisibilityIcon
+				onClick={handleVisibilityClick}
+				data-testid='item-visible-icon'
+			/>
+		);
 	}
 
 	function handleVisibilityClick(event: React.MouseEvent): void {
 		event.stopPropagation();
-		props.onVisibilityClick?.(props.item.id, !props.item.hidden);
+		props.onVisibilityClick!(props.item.id, !props.item.hidden);
 	}
 
 	function renderVisibilityIconCell(): React.ReactElement {
@@ -147,7 +152,7 @@ export function WishlistItemComponent(
 				size='large'
 				aria-label='delete'
 				onClick={handleRemoveButton}
-				data-testid='remove-wishlist-item'
+				data-testid={`remove-wishlist-item-${props.wishlistId}-${props.item.id}`}
 			>
 				<DeleteIcon
 					sx={{

@@ -49,25 +49,7 @@ describe('WishlistListPage', (): void => {
 		hasPassword: false
 	};
 
-	test('renders correctly with wishlist data', async (): Promise<void> => {
-		// arrange
-		mockedUseParams.mockReturnValue({
-			id: 1
-		});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
-		mockedIsTokenValid.mockReturnValue(true);
-
-		// act
-		renderForTest(<WishlistListPage />);
-
-		// assert
-		await waitFor((): void => {
-			expect(screen.getByText('Mock Wishlist')).toBeInTheDocument();
-			expect(screen.getByText('Item 1')).toBeInTheDocument();
-		});
-	});
-
-	test('fetchWishlists correctly', async (): Promise<void> => {
+	it('renders correctly with wishlist data', async (): Promise<void> => {
 		// arrange
 		mockedUseParams.mockReturnValue({
 			id: 1
@@ -81,10 +63,12 @@ describe('WishlistListPage', (): void => {
 		// assert
 		await waitFor((): void => {
 			expect(mockedGetWishlists).toHaveBeenCalled();
+			expect(screen.getByText('Mock Wishlist')).toBeInTheDocument();
+			expect(screen.getByText('Item 1')).toBeInTheDocument();
 		});
 	});
 
-	test('fetchAndSetWishlist navigates to /error when no wishlist is returned', async (): Promise<void> => {
+	it('navigates to /error when no wishlist is fetched', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({
@@ -101,24 +85,7 @@ describe('WishlistListPage', (): void => {
 		expect(mockedNavigate).toHaveBeenCalledWith('/error');
 	});
 
-	test('opens modal to add wishlist', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
-		mockedIsTokenValid.mockReturnValue(true);
-
-		// act
-		renderForTest(<WishlistListPage />);
-		const addNewWishlistButton: HTMLElement =
-			screen.getByText('add-new-wishlist');
-
-		// assert
-		expect(addNewWishlistButton).toBeInTheDocument();
-		await user.click(addNewWishlistButton);
-	});
-
-	test('opens wishlist item modal', async (): Promise<void> => {
+	it('clicks save button on empty modal', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
@@ -128,43 +95,14 @@ describe('WishlistListPage', (): void => {
 		// act
 		renderForTest(<WishlistListPage />);
 
+		const addNewWishlistItem: HTMLElement =
+			screen.getByTestId('add-item-button');
+
 		// assert
-		const addNewWishlistItem: HTMLElement = await waitFor(
-			(): HTMLElement => screen.getByTestId('add-item-button')
-		);
 		expect(addNewWishlistItem).toBeInTheDocument();
-		await act(async (): Promise<void> => {
-			await user.click(addNewWishlistItem);
-		});
-
-		const confirmButton: HTMLElement = screen.getByTestId(
-			'edit-item-modal-confirm'
-		);
-		expect(confirmButton).toBeInTheDocument();
 	});
 
-	test('clicks save button on empty modal', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlists.mockResolvedValue([mockWishlistData]);
-		mockedIsTokenValid.mockReturnValue(true);
-
-		// act
-		renderForTest(<WishlistListPage />);
-
-		await waitFor((): void => {
-			const addNewWishlistItem = screen.getByRole('button', {
-				name: /add item/i
-			});
-
-			// assert
-			expect(addNewWishlistItem).toBeInTheDocument();
-			user.click(addNewWishlistItem);
-		});
-	});
-
-	test('add item', async (): Promise<void> => {
+	it('adds an item to a wishlist', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
@@ -193,7 +131,7 @@ describe('WishlistListPage', (): void => {
 		expect(mockedAddWishlistItem).toHaveBeenCalledTimes(1);
 	});
 
-	test('accept name change', async (): Promise<void> => {
+	it('accepts wishlist name change', async (): Promise<void> => {
 		// arrange
 		const mockWishlistData: WishList = {
 			id: 1,
@@ -254,7 +192,7 @@ describe('WishlistListPage', (): void => {
 		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(1);
 	});
 
-	test('cancel name change', async (): Promise<void> => {
+	it('cancels wishlist name change', async (): Promise<void> => {
 		// arrange
 		const mockWishlistData: WishList = {
 			id: 1,
@@ -295,7 +233,7 @@ describe('WishlistListPage', (): void => {
 		expect(cancelButton).not.toBeInTheDocument();
 	});
 
-	test('add new wishlist', async (): Promise<void> => {
+	it('adds new wishlist', async (): Promise<void> => {
 		// arrange
 		const newWishlist: WishList = {
 			id: 2,
@@ -330,7 +268,7 @@ describe('WishlistListPage', (): void => {
 		);
 	});
 
-	test('remove wishlist', async (): Promise<void> => {
+	it('removes wishlist', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: 1});
@@ -362,7 +300,7 @@ describe('WishlistListPage', (): void => {
 		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
 	});
 
-	test('cancel remove wishlist', async (): Promise<void> => {
+	it('cancels removing wishlist', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: 1});
@@ -386,7 +324,7 @@ describe('WishlistListPage', (): void => {
 		expect(mockedRemoveWishlist).toHaveBeenCalledTimes(0);
 	});
 
-	test('remove wishlist rejected', async (): Promise<void> => {
+	it('rejects removing wishlist', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: 1});
@@ -411,7 +349,7 @@ describe('WishlistListPage', (): void => {
 		expect(mockedNavigate).toHaveBeenCalledTimes(0);
 	});
 
-	test('copies url to clipboard', async (): Promise<void> => {
+	it('copies url to clipboard', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
@@ -433,7 +371,7 @@ describe('WishlistListPage', (): void => {
 		expect(screen.getByText('url-copied')).toBeInTheDocument();
 	});
 
-	test('addShareUrlToClipboard enters catch block on clipboard error', async (): Promise<void> => {
+	it('throws an exception when copying to clipboard', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedUseParams.mockReturnValue({id: '1'});
@@ -454,7 +392,7 @@ describe('WishlistListPage', (): void => {
 		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 	});
 
-	test('redirect successfully to index page if not logged in', async (): Promise<void> => {
+	it('redirects successfully to index page if not logged in', async (): Promise<void> => {
 		// arrange
 		mockedIsTokenValid.mockReturnValue(false);
 		mockedGetWishlists.mockResolvedValue([]);

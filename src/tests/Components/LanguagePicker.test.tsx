@@ -6,8 +6,6 @@ import {LanguagePicker} from '../../main/Components/LanguagePicker';
 import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('LanguagePicker', (): void => {
-	const mockChangeLanguage: jest.Mock = jest.fn();
-
 	test('renders correctly', (): void => {
 		// arrange
 		renderForTest(<LanguagePicker />);
