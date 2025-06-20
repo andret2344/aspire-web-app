@@ -178,9 +178,7 @@ export function WishlistSidebarItem(
 		id: number,
 		password: string
 	): Promise<void> {
-		console.log('HANDLE PASSWORD ACCEPT');
 		await setWishlistPassword(id, password).then((): void => {
-			console.log('THEN');
 			enqueueSnackbar(t('password-changed'), {
 				variant: 'success'
 			});
