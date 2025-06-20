@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, AxiosResponse, isAxiosError} from 'axios';
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
@@ -131,22 +131,15 @@ export function getAccessToken(): string | null {
 }
 
 export async function refreshToken(): Promise<string | undefined> {
-	try {
-		const result: AxiosResponse = await apiInstance.post(
-			'/account/login/refresh',
-			{
-				refresh: getRefreshToken()
-			}
-		);
-
-		saveAccessToken(result.data.access);
-		return result.data.access;
-	} catch (err) {
-		if (isAxiosError(err)) {
-			console.error(err.response);
+	const result: AxiosResponse = await apiInstance.post(
+		'/account/login/refresh',
+		{
+			refresh: getRefreshToken()
 		}
-		console.error(err);
-	}
+	);
+
+	saveAccessToken(result.data.access);
+	return result.data.access;
 }
 
 export function isTokenValid(): boolean {

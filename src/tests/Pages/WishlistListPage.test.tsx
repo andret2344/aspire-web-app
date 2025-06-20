@@ -1,7 +1,8 @@
 import {
 	mockedAddWishlist,
 	mockedGetWishlists,
-	mockedRemoveWishlist
+	mockedRemoveWishlist,
+	mockedSetWishlistPassword
 } from '../__mocks__/MockWishlistService';
 import {
 	mockedAddWishlistItem,
@@ -22,7 +23,8 @@ import {WishList} from '../../main/Entity/WishList';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {
 	getSampleUpdatedWishlist,
-	getSampleWishlist
+	getSampleWishlist,
+	getSampleWishlistWithPassword
 } from '../__utils__/DataFactory';
 
 describe('WishlistListPage', (): void => {
@@ -154,6 +156,54 @@ describe('WishlistListPage', (): void => {
 			expect(
 				screen.getByText('Mock Wishlist updated')
 			).toBeInTheDocument();
+		});
+
+		it('handles password change', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			mockedUseParams.mockReturnValue({id: 1});
+			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedIsTokenValid.mockReturnValue(true);
+			mockedSetWishlistPassword.mockResolvedValue(void 0);
+
+			// act
+			await act((): RenderResult => renderForTest(<WishlistListPage />));
+
+			await user.click(screen.getByTestId('hidden-items-icon-button'));
+			const input: HTMLInputElement = screen
+				.getByTestId('wishlist-password-modal-input')
+				.querySelector('input') as HTMLInputElement;
+			await user.type(input, ' updated');
+			await user.click(
+				screen.getByTestId('wishlist-password-modal-confirm')
+			);
+
+			// assert
+			expect(screen.queryByTestId('icon-lock-open')).toBeNull();
+			expect(screen.queryByTestId('icon-lock')).not.toBeNull();
+		});
+
+		it('handles visibility click', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			mockedUseParams.mockReturnValue({id: 1});
+			mockedGetWishlists.mockResolvedValue([
+				getSampleWishlistWithPassword()
+			]);
+			mockedIsTokenValid.mockReturnValue(true);
+			mockedEditWishlistItem.mockResolvedValue(void 0);
+
+			// act
+			await act((): RenderResult => renderForTest(<WishlistListPage />));
+
+			await user.click(screen.getByTestId('item-visible-icon'));
+
+			// assert
+			await waitFor((): void => {
+				expect(screen.queryByText('Check out this link')).toBeNull();
+				expect(screen.queryByTestId('item-visible-icon')).toBeNull();
+				expect(screen.queryByTestId('item-hidden-icon')).not.toBeNull();
+			});
 		});
 	});
 

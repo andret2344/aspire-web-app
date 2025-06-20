@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import axios, {AxiosResponse} from 'axios';
+import axios, {AxiosResponse, isAxiosError} from 'axios';
 import apiInstance, {getApiConfig} from '../../main/Services/ApiInstance';
 import {
 	changePassword,
@@ -219,15 +219,15 @@ describe('AuthService', (): void => {
 	test('refresh token rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		const logSpy = jest.spyOn(console, 'error');
 		mock.onPost('/account/login/refresh').reply(500);
 
 		// act
-		await refreshToken().then((result): void => {
+		await refreshToken()
 			// assert
-			expect(result).toBeUndefined();
-			expect(logSpy).toHaveBeenCalled();
-		});
+			.then((): void => fail('Should not reach this point'))
+			.catch((error: Error): void =>
+				expect(isAxiosError(error)).toBeTruthy()
+			);
 	});
 
 	test('is token valid should return false if the token has no exp field', (): void => {

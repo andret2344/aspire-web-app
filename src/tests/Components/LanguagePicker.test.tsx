@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {screen} from '@testing-library/react';
+import {screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {LanguagePicker} from '../../main/Components/LanguagePicker';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -41,6 +41,8 @@ describe('LanguagePicker', (): void => {
 		await userEvent.click(polishItem);
 
 		// assert
-		expect(screen.queryByText('Polski')).toBeNull();
+		await waitFor((): void => {
+			expect(screen.queryByText('Polski')).toBeNull();
+		});
 	});
 });

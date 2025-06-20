@@ -137,7 +137,7 @@ export function WishlistListPage(): React.ReactElement {
 			newWishlist
 		]);
 		toggleWishlistModal();
-		navigate(`/wishlists/${newWishlist?.id}`);
+		navigate(`/wishlists/${newWishlist.id}`);
 		enqueueSnackbar(t('wishlist-created'), {variant: 'success'});
 	}
 
@@ -197,7 +197,7 @@ export function WishlistListPage(): React.ReactElement {
 	): React.ReactElement {
 		return (
 			<WishlistItemComponent
-				key={wishlistItem?.id}
+				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}
 				wishlistId={activeWishlistId}
@@ -212,19 +212,12 @@ export function WishlistListPage(): React.ReactElement {
 	function handleVisibilityClick(itemId: number, changedTo: boolean): void {
 		setLoadingVisibilityItem(itemId);
 		const wishlistIndex: number = findWishlistIndexById(activeWishlistId);
-		if (wishlistIndex < 0) {
-			return;
-		}
 		const wishlistItems: WishlistItem[] =
-			wishlists[wishlistIndex]?.wishlistItems;
-		const itemIndex: number =
-			wishlistItems?.findIndex(
-				(i: WishlistItem): boolean => i.id === itemId
-			) ?? -1;
-		const item: WishlistItem | undefined = wishlistItems?.[itemIndex];
-		if (!item) {
-			return;
-		}
+			wishlists[wishlistIndex].wishlistItems;
+		const itemIndex: number = wishlistItems.findIndex(
+			(i: WishlistItem): boolean => i.id === itemId
+		);
+		const item: WishlistItem = wishlistItems[itemIndex];
 		editWishlistItem(
 			activeWishlistId,
 			item.id,
