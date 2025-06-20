@@ -118,7 +118,7 @@ export function WishlistSetupPasswordModal(
 						<Button
 							data-testid='wishlist-password-modal-clear'
 							onClick={handleClearButton}
-							disabled={!props.wishlist?.hasPassword}
+							disabled={!props.wishlist.hasPassword}
 							color='error'
 							variant='contained'
 							endIcon={<InfoOutlineIcon />}

@@ -78,13 +78,11 @@ export function ProfilePage(): React.ReactElement {
 			data.newPassword,
 			data.newPasswordConfirm
 		)
-			.then((response: number): void => {
-				if ([200, 201].includes(response)) {
-					enqueueSnackbar(`${t('password-changed')}`, {
-						variant: 'success'
-					});
-					reset();
-				}
+			.then((): void => {
+				enqueueSnackbar(`${t('password-changed')}`, {
+					variant: 'success'
+				});
+				reset();
 			})
 			.catch((): void => {
 				enqueueSnackbar(t('password-invalid'), {variant: 'error'});

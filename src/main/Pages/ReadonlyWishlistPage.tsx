@@ -151,7 +151,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 										{t('name')}
 									</TableCell>
 									<TableCell
-										width='10%'
+										width='5%'
 										align='center'
 									>
 										{t('priority')}

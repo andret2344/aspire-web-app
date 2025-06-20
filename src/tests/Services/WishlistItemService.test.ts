@@ -9,6 +9,7 @@ import {
 	removeWishlistItem
 } from '../../main/Services/WishlistItemService';
 import {getSampleWishlistItemDto} from '../__utils__/DataFactory';
+import {isAxiosError} from 'axios';
 
 describe('WishListItemService', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -76,10 +77,12 @@ describe('WishListItemService', (): void => {
 					priorityId,
 					hidden
 				)
-		).then((result: WishlistItemDto | null): void => {
+		)
 			// assert
-			expect(result).toBeNull();
-		});
+			.then((): void => fail('Should not reach this point'))
+			.catch((error: Error): void =>
+				expect(isAxiosError(error)).toBeTruthy()
+			);
 	});
 
 	test('edit wishlist item', async (): Promise<void> => {
@@ -128,7 +131,6 @@ describe('WishListItemService', (): void => {
 			500,
 			getSampleWishlistItemDto('updated name')
 		);
-		const logSpy = jest.spyOn(console, 'error');
 
 		// act
 		await waitFor(
@@ -141,10 +143,12 @@ describe('WishListItemService', (): void => {
 					priorityId,
 					hidden
 				)
-		).then((): void => {
+		)
 			// assert
-			expect(logSpy).toHaveBeenCalled();
-		});
+			.then((): void => fail('Should not reach this point'))
+			.catch((error: Error): void =>
+				expect(isAxiosError(error)).toBeTruthy()
+			);
 	});
 
 	test('remove wishlist item', async (): Promise<void> => {
@@ -176,14 +180,15 @@ describe('WishListItemService', (): void => {
 		mock.onDelete(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			500
 		);
-		const logSpy = jest.spyOn(console, 'error');
 
 		// act
 		await waitFor(
 			(): Promise<void> => removeWishlistItem(wishlistId, wishlistItemId)
-		).then((): void => {
+		)
 			// assert
-			expect(logSpy).toHaveBeenCalled();
-		});
+			.then((): void => fail('Should not reach this point'))
+			.catch((error: Error): void =>
+				expect(isAxiosError(error)).toBeTruthy()
+			);
 	});
 });

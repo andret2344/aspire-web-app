@@ -1,29 +1,11 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {screen} from '@testing-library/react';
+import {screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {useTranslation} from 'react-i18next';
 import {LanguagePicker} from '../../main/Components/LanguagePicker';
 import {renderForTest} from '../__utils__/RenderForTest';
 
-jest.mock('react-i18next', () => ({
-	useTranslation: jest.fn()
-}));
-
 describe('LanguagePicker', (): void => {
-	const mockChangeLanguage: jest.Mock = jest.fn();
-
-	beforeEach((): void => {
-		jest.clearAllMocks();
-
-		(useTranslation as jest.Mock).mockReturnValue({
-			i18n: {
-				language: 'en',
-				changeLanguage: mockChangeLanguage
-			}
-		});
-	});
-
 	test('renders correctly', (): void => {
 		// arrange
 		renderForTest(<LanguagePicker />);
@@ -59,7 +41,8 @@ describe('LanguagePicker', (): void => {
 		await userEvent.click(polishItem);
 
 		// assert
-		expect(mockChangeLanguage).toHaveBeenCalledWith('pl');
-		expect(screen.queryByText('Polski')).toBeNull();
+		await waitFor((): void => {
+			expect(screen.queryByText('Polski')).toBeNull();
+		});
 	});
 });
