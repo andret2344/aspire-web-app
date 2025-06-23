@@ -151,7 +151,6 @@ export function Header(): React.ReactElement {
 								{t('log-out')}
 							</MenuItem>
 						</Menu>
-						<LanguagePicker />
 					</Box>
 				</Box>
 			</Container>

@@ -4,11 +4,18 @@ import {useTranslation} from 'react-i18next';
 import Menu from '@mui/material/Menu';
 import TranslateIcon from '@mui/icons-material/Translate';
 import {getLanguages, Language} from '../Entity/Language';
-import {IconButton, MenuItem} from '@mui/material';
+import {
+	Button,
+	IconButton,
+	MenuItem,
+	TextField,
+	Typography
+} from '@mui/material';
 
 export function LanguagePicker(): React.ReactElement {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const {i18n} = useTranslation();
+	const currentLanguage = i18n.language;
 
 	function handleClick(event: React.MouseEvent<HTMLButtonElement>): void {
 		setAnchorEl(event.currentTarget);
@@ -42,15 +49,23 @@ export function LanguagePicker(): React.ReactElement {
 		);
 	}
 
+	function renderLanguageName(language: Language): React.ReactElement | null {
+		if (language.code === currentLanguage)
+			return (
+				<Button
+					onClick={handleClick}
+					sx={{fontFamily: 'Montserrat', marginLeft: '5px'}}
+					variant='contained'
+				>
+					{language.name}
+				</Button>
+			);
+		return null;
+	}
+
 	return (
 		<div className='LanguagePicker'>
-			<IconButton onClick={handleClick}>
-				<TranslateIcon
-					color='inherit'
-					sx={{color: 'white'}}
-					fontSize='large'
-				/>
-			</IconButton>
+			{getLanguages().map(renderLanguageName)}
 			<Menu
 				id='basic-menu'
 				anchorEl={anchorEl}
