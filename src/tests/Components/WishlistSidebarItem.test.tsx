@@ -3,53 +3,24 @@ import {
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
 import {WishlistSidebarItem} from '../../main/Components/WishlistSidebarItem';
-import {WishList} from '../../main/Entity/WishList';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
+import React from 'react';
+import {
+	getSampleWishlist,
+	getSampleWishlistWithPassword
+} from '../__utils__/DataFactory';
 
 describe('WishlistSidebarItem', (): void => {
 	beforeEach((): void => localStorage.clear());
-
-	const mockWishlistData: WishList = {
-		id: 1,
-		uuid: 'random uuid',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				wishlistId: 1,
-				description: 'test description',
-				name: 'Item 1',
-				priorityId: 3
-			}
-		],
-		hasPassword: false
-	};
-
-	const mockWishlistDataWithPassword: WishList = {
-		id: 1,
-		uuid: 'random uuid',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				wishlistId: 1,
-				description: 'test description',
-				name: 'Item 1',
-				priorityId: 3,
-				hidden: true
-			}
-		],
-		hasPassword: true
-	};
 
 	it('renders correctly without password', (): void => {
 		// arrange
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				active={false}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -68,7 +39,7 @@ describe('WishlistSidebarItem', (): void => {
 		// arrange
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistDataWithPassword}
+				wishlist={getSampleWishlistWithPassword()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -86,10 +57,10 @@ describe('WishlistSidebarItem', (): void => {
 	it('handles name change with success', async (): Promise<void> => {
 		// arrange
 		const handleNameChange: jest.Mock = jest.fn();
-		mockedUpdateWishlistName.mockResolvedValue(mockWishlistData);
+		mockedUpdateWishlistName.mockResolvedValue(getSampleWishlist());
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={handleNameChange}
@@ -121,10 +92,10 @@ describe('WishlistSidebarItem', (): void => {
 	it('handles name change with empty name', async (): Promise<void> => {
 		// arrange
 		const handleNameChange: jest.Mock = jest.fn();
-		mockedUpdateWishlistName.mockResolvedValue(mockWishlistData);
+		mockedUpdateWishlistName.mockResolvedValue(getSampleWishlist());
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={handleNameChange}
@@ -154,7 +125,7 @@ describe('WishlistSidebarItem', (): void => {
 		mockedUpdateWishlistName.mockRejectedValue(void 0);
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={handleNameChange}
@@ -187,7 +158,7 @@ describe('WishlistSidebarItem', (): void => {
 		// arrange
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -210,7 +181,7 @@ describe('WishlistSidebarItem', (): void => {
 		mockedSetWishlistPassword.mockResolvedValue(null);
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -232,7 +203,7 @@ describe('WishlistSidebarItem', (): void => {
 		mockedSetWishlistPassword.mockResolvedValue(null);
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -262,7 +233,7 @@ describe('WishlistSidebarItem', (): void => {
 		mockedSetWishlistPassword.mockResolvedValue(null);
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistDataWithPassword}
+				wishlist={getSampleWishlistWithPassword()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -292,7 +263,7 @@ describe('WishlistSidebarItem', (): void => {
 		mockedSetWishlistPassword.mockRejectedValue(null);
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={mockWishlistDataWithPassword}
+				wishlist={getSampleWishlistWithPassword()}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -315,5 +286,73 @@ describe('WishlistSidebarItem', (): void => {
 		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 		expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
 		expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, '');
+	});
+
+	describe('clipboard', (): void => {
+		beforeEach((): void => {
+			Object.defineProperty(global.navigator, 'clipboard', {
+				value: {
+					writeText: jest.fn(),
+					readText: jest.fn()
+				},
+				configurable: true
+			});
+			localStorage.clear();
+		});
+
+		it('copies url to clipboard', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			renderForTest(
+				<WishlistSidebarItem
+					wishlist={getSampleWishlistWithPassword()}
+					active={true}
+					onRemove={(): void => undefined}
+					onNameEdit={(): void => undefined}
+					onPasswordChange={(): void => undefined}
+				/>
+			);
+			const shareIcon: HTMLElement = await waitFor(
+				(): HTMLElement => screen.getByTestId('share-icon-button-1')
+			);
+
+			// act
+			await user.click(shareIcon);
+
+			// assert
+			const clipboardText: string = await navigator.clipboard.readText();
+			expect(clipboardText).toBe(
+				'http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15'
+			);
+			expect(screen.getByText('url-copied')).toBeInTheDocument();
+		});
+
+		it('throws an exception when copying to clipboard', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			renderForTest(
+				<WishlistSidebarItem
+					wishlist={getSampleWishlistWithPassword()}
+					active={true}
+					onRemove={(): void => undefined}
+					onNameEdit={(): void => undefined}
+					onPasswordChange={(): void => undefined}
+				/>
+			);
+			navigator.clipboard.writeText = jest
+				.fn()
+				.mockRejectedValue(new Error('Failed to write to clipboard'));
+			const shareIcon: HTMLElement = await waitFor(
+				(): HTMLElement => screen.getByTestId('share-icon-button-1')
+			);
+
+			// act
+			await user.click(shareIcon);
+
+			// assert
+			expect(
+				screen.getByText('something-went-wrong')
+			).toBeInTheDocument();
+		});
 	});
 });

@@ -16,7 +16,7 @@ import {AuthContainer} from '../Components/AuthContainer';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {Link as Anchor, useNavigate} from 'react-router-dom';
 import {RegisterApiError, signUp} from '../Services/AuthService';
-import {AxiosError, AxiosResponse} from 'axios';
+import {AxiosError} from 'axios';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
@@ -73,11 +73,9 @@ export function RegisterPage(): React.ReactElement {
 		}
 
 		signUp(data.email, data.password)
-			.then((response: AxiosResponse): void => {
-				if ([200, 201].includes(response.status)) {
-					navigate('/');
-					enqueueSnackbar(t('account-created'), {variant: 'success'});
-				}
+			.then((): void => {
+				navigate('/');
+				enqueueSnackbar(t('account-created'), {variant: 'success'});
 			})
 			.catch((response: AxiosError<RegisterApiError>): void => {
 				const registerApiError: RegisterApiError | undefined =

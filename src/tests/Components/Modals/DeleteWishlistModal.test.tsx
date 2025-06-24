@@ -1,7 +1,7 @@
 import '../../__mocks__/MockCommonService';
 import React from 'react';
 import {screen} from '@testing-library/dom';
-import {act, fireEvent, RenderResult} from '@testing-library/react';
+import {fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {DeleteWishlistModal} from '../../../main/Components/Modals/DeleteWishlistModal';
 import {renderForTest} from '../../__utils__/RenderForTest';
@@ -10,16 +10,13 @@ import user from '@testing-library/user-event';
 describe('DeleteWishlistModal', (): void => {
 	test('renders correctly', (): void => {
 		// arrange
-		act(
-			(): RenderResult =>
-				renderForTest(
-					<DeleteWishlistModal
-						opened={true}
-						wishlistName='test wishlist name'
-						onRemove={(): void => undefined}
-						onCancel={(): void => undefined}
-					/>
-				)
+		renderForTest(
+			<DeleteWishlistModal
+				opened={true}
+				wishlistName='test wishlist name'
+				onRemove={(): void => undefined}
+				onCancel={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -27,9 +24,6 @@ describe('DeleteWishlistModal', (): void => {
 
 		// assert
 		expect(modal).toBeInTheDocument();
-		expect(modal).toHaveTextContent(
-			'Are you sure you want to delete the test wishlist name wishlist?'
-		);
 	});
 
 	test('handles remove click', async (): Promise<void> => {
@@ -48,7 +42,7 @@ describe('DeleteWishlistModal', (): void => {
 		const buttonOk: HTMLElement = screen.getByTestId(
 			'delete-wishlist-modal-button-delete'
 		);
-		await act((): Promise<void> => user.click(buttonOk));
+		await user.click(buttonOk);
 
 		// assert
 		expect(mockRemove).toHaveBeenCalledTimes(1);

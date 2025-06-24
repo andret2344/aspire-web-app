@@ -1,5 +1,6 @@
 import {
 	Box,
+	CircularProgress,
 	Collapse,
 	IconButton,
 	TableCell,
@@ -18,12 +19,15 @@ import {useSnackbar} from 'notistack';
 import MarkdownView from 'react-showdown';
 import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
 	readonly wishlistId: number;
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
+	readonly onVisibilityClick?: (itemId: number, changedTo: boolean) => void;
+	readonly loadingVisibility: boolean;
 	readonly onRemove?: (wishlistId: number, itemId: number) => void;
 }
 
@@ -45,19 +49,62 @@ export function WishlistItemComponent(
 		return <KeyboardArrowUpIcon />;
 	}
 
-	function renderVisiblityIcon(): React.ReactElement {
-		if (!props.item.hidden) {
+	function renderVisibilityIcon(): React.ReactElement {
+		if (props.loadingVisibility) {
+			return <CircularProgress data-testid='item-loading-progress' />;
+		}
+		if (props.item.hidden) {
+			return (
+				<VisibilityOffOutlinedIcon
+					onClick={handleVisibilityClick}
+					data-testid='item-hidden-icon'
+				/>
+			);
+		}
+		return (
+			<VisibilityIcon
+				onClick={handleVisibilityClick}
+				data-testid='item-visible-icon'
+			/>
+		);
+	}
+
+	function handleVisibilityClick(event: React.MouseEvent): void {
+		event.stopPropagation();
+		props.onVisibilityClick!(props.item.id, !props.item.hidden);
+	}
+
+	function renderVisibilityIconCell(): React.ReactElement {
+		if (!props.onVisibilityClick) {
 			return <></>;
 		}
 		return (
-			<VisibilityOffOutlinedIcon
-				sx={{
-					position: 'absolute',
-					top: '0',
-					left: '0',
-					margin: '0.3em'
-				}}
-			/>
+			<TableCell align='center'>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'center',
+						alignItems: 'center'
+					}}
+				>
+					{renderVisibilityIcon()}
+				</Box>
+			</TableCell>
+		);
+	}
+
+	function renderActionButtonsCell(): React.ReactElement {
+		if (!props.onEdit && !props.onRemove) {
+			return <></>;
+		}
+		return (
+			<TableCell>
+				<Box sx={{display: 'flex', flexDirection: 'row'}}>
+					{renderEditButton()}
+					{renderRemoveButton()}
+				</Box>
+			</TableCell>
 		);
 	}
 
@@ -105,7 +152,7 @@ export function WishlistItemComponent(
 				size='large'
 				aria-label='delete'
 				onClick={handleRemoveButton}
-				data-testid='remove-wishlist-item'
+				data-testid={`remove-wishlist-item-${props.wishlistId}-${props.item.id}`}
 			>
 				<DeleteIcon
 					sx={{
@@ -153,7 +200,6 @@ export function WishlistItemComponent(
 				onClick={handleToggleExpandButton}
 			>
 				<TableCell>
-					{renderVisiblityIcon()}
 					<IconButton
 						aria-label='expand row'
 						size='small'
@@ -173,6 +219,7 @@ export function WishlistItemComponent(
 				>
 					{props.item.name}
 				</TableCell>
+				{renderVisibilityIconCell()}
 				<TableCell align='center'>
 					<Box
 						sx={{
@@ -185,16 +232,7 @@ export function WishlistItemComponent(
 						<PriorityBadge priorityId={props.item.priorityId} />
 					</Box>
 				</TableCell>
-				<TableCell
-					style={{
-						display: `${props.onEdit || props.onRemove ? 'block' : 'none'}`
-					}}
-				>
-					<Box sx={{display: 'flex', flexDirection: 'row'}}>
-						{renderEditButton()}
-						{renderRemoveButton()}
-					</Box>
-				</TableCell>
+				{renderActionButtonsCell()}
 			</TableRow>
 			<TableRow>
 				<TableCell

@@ -28,6 +28,7 @@ import {EditItemModal} from '../Components/Modals/EditItemModal';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
+import {editWishlistItem} from '../Services/WishlistItemService';
 
 export function WishlistListPage(): React.ReactElement {
 	type Params = {readonly id?: string};
@@ -45,6 +46,8 @@ export function WishlistListPage(): React.ReactElement {
 	const [editingWishlistItem, setEditingWishlistItem] = React.useState<
 		WishlistItem | undefined
 	>(undefined);
+	const [loadingVisibilityItem, setLoadingVisibilityItem] =
+		React.useState<number>(-1);
 	const {enqueueSnackbar} = useSnackbar();
 	const theme: Theme = useTheme();
 	const {tokenLoading, tokenValid} = useTokenValidation();
@@ -134,7 +137,7 @@ export function WishlistListPage(): React.ReactElement {
 			newWishlist
 		]);
 		toggleWishlistModal();
-		navigate(`/wishlists/${newWishlist?.id}`);
+		navigate(`/wishlists/${newWishlist.id}`);
 		enqueueSnackbar(t('wishlist-created'), {variant: 'success'});
 	}
 
@@ -194,14 +197,43 @@ export function WishlistListPage(): React.ReactElement {
 	): React.ReactElement {
 		return (
 			<WishlistItemComponent
-				key={wishlistItem?.id}
+				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}
 				wishlistId={activeWishlistId}
+				loadingVisibility={loadingVisibilityItem === wishlistItem.id}
 				onEdit={handleItemEdit}
+				onVisibilityClick={handleVisibilityClick}
 				onRemove={handleItemRemove}
 			/>
 		);
+	}
+
+	function handleVisibilityClick(itemId: number, changedTo: boolean): void {
+		setLoadingVisibilityItem(itemId);
+		const wishlistIndex: number = findWishlistIndexById(activeWishlistId);
+		const wishlistItems: WishlistItem[] =
+			wishlists[wishlistIndex].wishlistItems;
+		const itemIndex: number = wishlistItems.findIndex(
+			(i: WishlistItem): boolean => i.id === itemId
+		);
+		const item: WishlistItem = wishlistItems[itemIndex];
+		editWishlistItem(
+			activeWishlistId,
+			item.id,
+			item.name,
+			item.description,
+			item.priorityId,
+			changedTo
+		)
+			.then((): void => {
+				wishlists[wishlistIndex].wishlistItems[itemIndex] = {
+					...item,
+					hidden: changedTo
+				};
+				setWishlists([...wishlists]);
+			})
+			.finally((): void => setLoadingVisibilityItem(-1));
 	}
 
 	function renderItems(): React.ReactNode[] {
@@ -297,7 +329,13 @@ export function WishlistListPage(): React.ReactElement {
 											{t('name')}
 										</TableCell>
 										<TableCell
-											width='10%'
+											width='5%'
+											align='center'
+										>
+											{t('visibility')}
+										</TableCell>
+										<TableCell
+											width='5%'
 											align='center'
 										>
 											{t('priority')}

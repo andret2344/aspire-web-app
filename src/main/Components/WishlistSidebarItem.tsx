@@ -53,9 +53,9 @@ export function WishlistSidebarItem(
 
 	function renderPasswordIcon(): React.ReactElement {
 		if (!props.wishlist.hasPassword) {
-			return <LockOpenOutlinedIcon />;
+			return <LockOpenOutlinedIcon data-testid='icon-lock-open' />;
 		}
-		return <LockOutlinedIcon />;
+		return <LockOutlinedIcon data-testid='icon-lock' />;
 	}
 
 	function handleNameChange(
@@ -121,6 +121,7 @@ export function WishlistSidebarItem(
 		return (
 			<Typography
 				aria-label='wishlist-name'
+				data-testid='wishlist-name'
 				onClick={handleNameClick}
 				sx={{
 					textAlign: 'center',

@@ -55,13 +55,11 @@ export function NewPasswordPage(): React.ReactElement {
 		}
 
 		resetPassword(data.password, data.passwordRepeat, params.token)
-			.then((response: number): void => {
-				if ([200, 201].includes(response)) {
-					enqueueSnackbar('password-changed', {
-						variant: 'success'
-					});
-					navigate('/');
-				}
+			.then((): void => {
+				enqueueSnackbar('password-changed', {
+					variant: 'success'
+				});
+				navigate('/');
 			})
 			.catch((): void => {
 				enqueueSnackbar('something-went-wrong', {
