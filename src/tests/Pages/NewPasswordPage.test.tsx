@@ -11,7 +11,7 @@ import {NewPasswordPage} from '../../main/Pages/NewPasswordPage';
 import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('NewPasswordPage', (): void => {
-	test('renders correctly', (): void => {
+	it('renders correctly', (): void => {
 		// arrange
 		renderForTest(<NewPasswordPage />);
 
@@ -24,7 +24,7 @@ describe('NewPasswordPage', (): void => {
 		expect(changePasswordButton).toBeInTheDocument();
 	});
 
-	test('renders small correctly', (): void => {
+	it('renders small correctly', (): void => {
 		// arrange
 		mockedUseMediaQuery.mockReturnValueOnce(true);
 		renderForTest(<NewPasswordPage />);
@@ -38,7 +38,7 @@ describe('NewPasswordPage', (): void => {
 		expect(changePasswordButton).toBeInTheDocument();
 	});
 
-	test('Redirect to main page when password reset successfully', async (): Promise<void> => {
+	it('redirects to main page when password reset successfully', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedResetPassword.mockResolvedValue(200);
@@ -71,7 +71,7 @@ describe('NewPasswordPage', (): void => {
 		});
 	});
 
-	test('render error snackbar when server respond error', async (): Promise<void> => {
+	it('renders error snackbar when server respond error', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedResetPassword.mockRejectedValue(500);
@@ -99,7 +99,7 @@ describe('NewPasswordPage', (): void => {
 		});
 	});
 
-	test('check passwords are not equal', async (): Promise<void> => {
+	it('renders error when passwords are not equal', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		renderForTest(<NewPasswordPage />);
@@ -126,7 +126,7 @@ describe('NewPasswordPage', (): void => {
 		expect(mockedResetPassword).toHaveBeenCalledTimes(0);
 	});
 
-	test('click on show password buttons', async (): Promise<void> => {
+	it('shows password on button click', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		renderForTest(<NewPasswordPage />);

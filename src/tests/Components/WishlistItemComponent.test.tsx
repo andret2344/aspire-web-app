@@ -1,7 +1,7 @@
 import {mockedRemoveWishlistItem} from '../__mocks__/MockWishlistItemService';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {renderForTest} from '../__utils__/RenderForTest';
+import {renderForTest, tableWrapper} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 import React, {act} from 'react';
 import {WishlistItemComponent} from '../../main/Components/WishlistItemComponent';
@@ -25,57 +25,224 @@ describe('WishlistItemComponent', (): void => {
 		hidden: true
 	};
 
-	test('render correctly', (): void => {
+	it('renders without edit handler', async (): Promise<void> => {
 		// arrange
+		user.setup();
 		renderForTest(
-			<WishlistItemComponent
-				item={mockWishlistItem}
-				wishlistId={1}
-				position={1}
-				onEdit={jest.fn()}
-				onRemove={jest.fn()}
-			/>
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onRemove={(): void => undefined}
+				/>
+			)
 		);
 
 		// act
-		const wishlistItemTitle: HTMLElement = screen.getByText('Item 1');
+		const iconEdit: HTMLElement | null = screen.queryByTestId(
+			'edit-wishlist-item-1-1'
+		);
+		const iconRemove: HTMLElement | null = screen.queryByTestId(
+			'remove-wishlist-item-1-1'
+		);
 
 		// assert
-		expect(wishlistItemTitle).toBeInTheDocument();
+		expect(iconEdit).toBeNull();
+		expect(iconRemove).not.toBeNull();
 	});
 
-	test('renders correctly hidden', (): void => {
+	it('renders without remove handler', async (): Promise<void> => {
 		// arrange
+		user.setup();
 		renderForTest(
-			<WishlistItemComponent
-				item={mockWishlistItemHidden}
-				wishlistId={1}
-				position={1}
-				onEdit={jest.fn()}
-				onRemove={jest.fn()}
-			/>
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={(): void => undefined}
+				/>
+			)
 		);
 
 		// act
-		const wishlistItemTitle: HTMLElement = screen.getByText('Item 1');
+		const iconEdit: HTMLElement | null = screen.queryByTestId(
+			'edit-wishlist-item-1-1'
+		);
+		const iconRemove: HTMLElement | null = screen.queryByTestId(
+			'remove-wishlist-item-1-1'
+		);
 
 		// assert
-		expect(wishlistItemTitle).toBeInTheDocument();
+		expect(iconEdit).not.toBeNull();
+		expect(iconRemove).toBeNull();
 	});
 
-	test('handle item edit', async (): Promise<void> => {
+	it('renders without action handlers', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		renderForTest(
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+				/>
+			)
+		);
+
+		// act
+		const iconEdit: HTMLElement | null = screen.queryByTestId(
+			'edit-wishlist-item-1-1'
+		);
+		const iconRemove: HTMLElement | null = screen.queryByTestId(
+			'remove-wishlist-item-1-1'
+		);
+
+		// assert
+		expect(iconEdit).toBeNull();
+		expect(iconRemove).toBeNull();
+	});
+
+	it('renders without visibility handler', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		renderForTest(
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={(): void => undefined}
+					onRemove={(): void => undefined}
+				/>
+			)
+		);
+
+		// act
+		const progress: HTMLElement | null = screen.queryByTestId(
+			'item-loading-progress'
+		);
+		const iconHidden: HTMLElement | null =
+			screen.queryByTestId('item-hidden-icon');
+		const iconVisible: HTMLElement | null =
+			screen.queryByTestId('item-visible-icon');
+
+		// assert
+		expect(progress).toBeNull();
+		expect(iconHidden).toBeNull();
+		expect(iconVisible).toBeNull();
+	});
+
+	it('renders no visibility icons when loading', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		renderForTest(
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItemHidden}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={true}
+					onEdit={(): void => undefined}
+					onVisibilityClick={(): void => undefined}
+					onRemove={(): void => undefined}
+				/>
+			)
+		);
+
+		// act
+		const iconVisible: HTMLElement | null =
+			screen.queryByTestId('item-visible-icon');
+		const iconHidden: HTMLElement | null =
+			screen.queryByTestId('item-hidden-icon');
+
+		// assert
+		expect(iconVisible).toBeNull();
+		expect(iconHidden).toBeNull();
+	});
+
+	it('handles hide item', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		const handleVisibilityClick: jest.Mock = jest.fn();
+		renderForTest(
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={(): void => undefined}
+					onVisibilityClick={handleVisibilityClick}
+					onRemove={(): void => undefined}
+				/>
+			)
+		);
+
+		// act
+		const iconHidden: HTMLElement = screen.getByTestId('item-visible-icon');
+		await user.click(iconHidden);
+		const wishlistItemDescription: HTMLElement | null =
+			screen.queryByText('test description');
+
+		// assert
+		expect(wishlistItemDescription).toBeNull();
+		expect(handleVisibilityClick).toHaveBeenCalledTimes(1);
+		expect(handleVisibilityClick).toHaveBeenCalledWith(1, true);
+	});
+
+	it('handles show item', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		const handleVisibilityClick: jest.Mock = jest.fn();
+		renderForTest(
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItemHidden}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={(): void => undefined}
+					onVisibilityClick={handleVisibilityClick}
+					onRemove={(): void => undefined}
+				/>
+			)
+		);
+
+		// act
+		const iconHidden: HTMLElement = screen.getByTestId('item-hidden-icon');
+		await user.click(iconHidden);
+		const wishlistItemDescription: HTMLElement | null =
+			screen.queryByText('test description');
+
+		// assert
+		expect(wishlistItemDescription).toBeNull();
+		expect(handleVisibilityClick).toHaveBeenCalledTimes(1);
+		expect(handleVisibilityClick).toHaveBeenCalledWith(1, false);
+	});
+
+	it('handles item edit', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		const handleEditButtonClick: jest.Mock = jest.fn();
 
 		renderForTest(
-			<WishlistItemComponent
-				item={mockWishlistItem}
-				wishlistId={1}
-				position={1}
-				onEdit={handleEditButtonClick}
-				onRemove={jest.fn()}
-			/>
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={handleEditButtonClick}
+					onRemove={(): void => undefined}
+				/>
+			)
 		);
 
 		// act
@@ -89,18 +256,21 @@ describe('WishlistItemComponent', (): void => {
 		expect(handleEditButtonClick).toHaveBeenCalledWith(mockWishlistItem);
 	});
 
-	test('handle item row expands', async (): Promise<void> => {
+	it('handles item row expands', async (): Promise<void> => {
 		// arrange
 		user.setup();
 
 		renderForTest(
-			<WishlistItemComponent
-				item={mockWishlistItem}
-				wishlistId={1}
-				position={1}
-				onEdit={jest.fn()}
-				onRemove={jest.fn()}
-			/>
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={(): void => undefined}
+					onRemove={(): void => undefined}
+				/>
+			)
 		);
 
 		// act
@@ -111,25 +281,28 @@ describe('WishlistItemComponent', (): void => {
 		expect(screen.getByText('test description')).toBeInTheDocument();
 	});
 
-	test('handle remove item with success', async (): Promise<void> => {
+	it('handles remove item with success', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		const handleRemoveButtonClick: jest.Mock = jest.fn();
 		mockedRemoveWishlistItem.mockResolvedValue(mockWishlistItem);
 
 		renderForTest(
-			<WishlistItemComponent
-				item={mockWishlistItem}
-				wishlistId={1}
-				position={1}
-				onEdit={jest.fn()}
-				onRemove={handleRemoveButtonClick}
-			/>
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={(): void => undefined}
+					onRemove={handleRemoveButtonClick}
+				/>
+			)
 		);
 
 		// act
 		const removeItemButton: HTMLElement = screen.getByTestId(
-			'remove-wishlist-item'
+			'remove-wishlist-item-1-1'
 		);
 		await user.click(removeItemButton);
 
@@ -138,25 +311,28 @@ describe('WishlistItemComponent', (): void => {
 		expect(handleRemoveButtonClick).toHaveBeenCalledWith(1, 1);
 	});
 
-	test('handle remove item edit with fail', async (): Promise<void> => {
+	it('handles remove item edit with fail', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		const handleEditButtonClick: jest.Mock = jest.fn();
 		mockedRemoveWishlistItem.mockRejectedValue(void 0);
 
 		renderForTest(
-			<WishlistItemComponent
-				item={mockWishlistItem}
-				wishlistId={1}
-				position={1}
-				onEdit={jest.fn()}
-				onRemove={handleEditButtonClick}
-			/>
+			tableWrapper(
+				<WishlistItemComponent
+					item={mockWishlistItem}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={(): void => undefined}
+					onRemove={handleEditButtonClick}
+				/>
+			)
 		);
 
 		// act
 		const removeItemButton: HTMLElement = screen.getByTestId(
-			'remove-wishlist-item'
+			'remove-wishlist-item-1-1'
 		);
 		await user.click(removeItemButton);
 
