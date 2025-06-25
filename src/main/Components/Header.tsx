@@ -13,7 +13,6 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import {Logout, Settings} from '@mui/icons-material';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {logout} from '../Services/AuthService';
-import {LanguagePicker} from './LanguagePicker';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
 

@@ -369,8 +369,7 @@ export function ProfilePage(): React.ReactElement {
 							sx={{
 								width: '80%',
 								display: 'flex',
-								// flexDirection: 'column',
-								alignItems:"center",
+								alignItems: 'center',
 								justifyContent: 'center',
 								paddingTop: '40px'
 							}}
