@@ -23,7 +23,7 @@ export function App(): React.ReactElement {
 	React.useEffect((): void => {
 		Promise.all([
 			getConfig().then(setConfig),
-			// refreshToken().then()
+			refreshToken().then()
 		]).finally((): void => setLoaded(true));
 	}, []);
 
