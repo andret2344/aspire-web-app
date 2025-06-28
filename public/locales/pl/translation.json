@@ -42,7 +42,7 @@
 	"new-password": "Nowe hasło",
 	"confirm-password": "Potwierdź hasło",
 	"account-created": "Konto zostało utworzone",
-	"theme-settings": "Motyw",
+	"user-settings": "Ustawienia użytkownika",
 	"change-theme-color": "Zmień kolor motywu",
 	"change-language": "Zmień język",
 	"password-settings": "Ustawienia zabezpieczeń",
@@ -67,6 +67,5 @@
 	"passwords-not-equal": "Hasła są różne",
 	"wishlist-renamed": "Zmieniono nazwę listy życzeń",
 	"wishlist-created": "Utworzono nową listę życzeń",
-	"type-description-here": "Opis...",
-	"language": "Język"
+	"type-description-here": "Opis..."
 }

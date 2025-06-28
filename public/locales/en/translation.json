@@ -42,7 +42,7 @@
 	"new-password": "New password",
 	"confirm-password": "Confirm password",
 	"account-created": "Successfully created an account",
-	"theme-settings": "Theme",
+	"user-settings": "User settings",
 	"change-theme-color": "Change theme color",
 	"change-language": "Change language",
 	"password-settings": "Password settings",
@@ -67,6 +67,5 @@
 	"passwords-not-equal": "Passwords are not equal",
 	"wishlist-renamed": "Wishlist name changed successfully",
 	"wishlist-created": "Wishlist created",
-	"type-description-here": "Type description here",
-	"language": "Language"
+	"type-description-here": "Type description here"
 }

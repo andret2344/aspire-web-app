@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ReactCountryFlag} from 'react-country-flag';
 import {useTranslation} from 'react-i18next';
 import Menu from '@mui/material/Menu';
-import {getLanguages, Language} from '../Entity/Language';
+import {getLanguageByCode, getLanguages, Language} from '../Entity/Language';
 import {Button, MenuItem} from '@mui/material';
 
 export function LanguagePicker(): React.ReactElement {
@@ -42,23 +42,22 @@ export function LanguagePicker(): React.ReactElement {
 		);
 	}
 
-	function renderLanguageName(language: Language): React.ReactElement | null {
-		if (language.code === currentLanguage)
-			return (
-				<Button
-					onClick={handleClick}
-					sx={{fontFamily: 'Montserrat', marginLeft: '5px'}}
-					variant='contained'
-				>
-					{language.name}
-				</Button>
-			);
-		return null;
+	function renderLanguageName(code: string): React.ReactElement | null {
+		const language = getLanguageByCode(code);
+		return (
+			<Button
+				onClick={handleClick}
+				sx={{fontFamily: 'Montserrat', marginLeft: '5px'}}
+				variant='contained'
+			>
+				{language?.name}
+			</Button>
+		);
 	}
 
 	return (
 		<div className='LanguagePicker'>
-			{getLanguages().map(renderLanguageName)}
+			{renderLanguageName(currentLanguage)}
 			<Menu
 				id='basic-menu'
 				anchorEl={anchorEl}

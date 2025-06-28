@@ -322,15 +322,16 @@ export function ProfilePage(): React.ReactElement {
 								}}
 							>
 								<Typography sx={{fontFamily: 'Montserrat'}}>
-									{t('theme-settings')}
+									{t('user-settings')}
 								</Typography>
 							</Box>
 						</Box>
 						<Box
 							sx={{
-								width: '80%',
+								width: '70%',
 								display: 'flex',
 								flexDirection: 'column',
+								justifyItems: 'flex-end',
 								alignItems: 'center',
 								paddingTop: '40px'
 							}}
@@ -342,42 +343,17 @@ export function ProfilePage(): React.ReactElement {
 									toggleDarkMode={toggleDarkMode}
 								/>
 							</Typography>
-						</Box>
-					</Box>
-					<Box sx={{display: 'flex'}}>
-						<Box
-							sx={{
-								height: '100%',
-								width: '30%'
-							}}
-						>
 							<Box
 								sx={{
-									width: '100%',
-									height: '40px',
-									borderBottom: '1px solid #adadad',
 									display: 'flex',
 									alignItems: 'center'
 								}}
 							>
 								<Typography sx={{fontFamily: 'Montserrat'}}>
-									{t('language')}
+									{t('change-language')}:
 								</Typography>
+								<LanguagePicker />
 							</Box>
-						</Box>
-						<Box
-							sx={{
-								width: '80%',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								paddingTop: '40px'
-							}}
-						>
-							<Typography sx={{fontFamily: 'Montserrat'}}>
-								{t('change-language')}:
-							</Typography>
-							<LanguagePicker />
 						</Box>
 					</Box>
 				</Paper>
