@@ -21,8 +21,6 @@ export function getLanguages(): Language[] {
 }
 
 export function getLanguageByCode(code: string): Language | undefined {
-	const language = [LANGUAGE_ENGLISH, LANGUAGE_POLISH].find(
-		(language) => language.code === code
-	);
+	const language = getLanguages().find((language: Language): boolean => language.code === code);
 	return language;
 }
