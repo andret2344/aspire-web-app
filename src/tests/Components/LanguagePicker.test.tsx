@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {screen, waitFor} from '@testing-library/react';
+import {screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {LanguagePicker} from '../../main/Components/LanguagePicker';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -11,38 +11,40 @@ describe('LanguagePicker', (): void => {
 		renderForTest(<LanguagePicker />);
 
 		// act
-		const iconButton: HTMLElement = screen.getByRole('button');
+		const languageButton: HTMLElement = screen.getByRole('button');
 
 		// assert
-		expect(iconButton).toBeInTheDocument();
+		expect(languageButton).toBeInTheDocument();
 	});
 
-	test('opens the menu when the icon button is clicked', async (): Promise<void> => {
+	test('opens the menu when the button is clicked', async (): Promise<void> => {
 		// arrange
 		renderForTest(<LanguagePicker />);
-		const iconButton: HTMLElement = screen.getByRole('button');
+		const languageButton: HTMLElement = screen.getByRole('button');
 
 		// act
-		await userEvent.click(iconButton);
+		await userEvent.click(languageButton);
+		const list = screen.getByRole('menu');
+		const listItem = within(list).getByText(/polski/i);
 
 		// assert
-		expect(screen.getByText('English')).toBeInTheDocument();
-		expect(screen.getByText('Polski')).toBeInTheDocument();
+		expect(listItem).toBeInTheDocument();
 	});
 
 	test('changes the language and closes menu', async (): Promise<void> => {
 		// arrange
 		renderForTest(<LanguagePicker />);
-		const iconButton: HTMLElement = screen.getByRole('button');
+		const languageButton: HTMLElement = screen.getByRole('button');
 
 		// act
-		await userEvent.click(iconButton);
-		const polishItem: HTMLElement = screen.getByText('Polski');
+		await userEvent.click(languageButton);
+		const polishItem: HTMLElement = screen.getByText(/polski/i);
 		await userEvent.click(polishItem);
 
 		// assert
 		await waitFor((): void => {
-			expect(screen.queryByText('Polski')).toBeNull();
+			const newButton: HTMLElement = screen.getByRole('button');
+			expect(newButton).toHaveTextContent(/polski/i)
 		});
 	});
 });

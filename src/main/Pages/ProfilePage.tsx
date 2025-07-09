@@ -18,6 +18,7 @@ import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '../Components/ToggleColorModeComponent';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
+import {LanguagePicker} from '../Components/LanguagePicker';
 
 export function ProfilePage(): React.ReactElement {
 	type Inputs = {
@@ -321,15 +322,16 @@ export function ProfilePage(): React.ReactElement {
 								}}
 							>
 								<Typography sx={{fontFamily: 'Montserrat'}}>
-									{t('theme-settings')}
+									{t('user-settings')}
 								</Typography>
 							</Box>
 						</Box>
 						<Box
 							sx={{
-								width: '80%',
+								width: '70%',
 								display: 'flex',
 								flexDirection: 'column',
+								justifyItems: 'flex-end',
 								alignItems: 'center',
 								paddingTop: '40px'
 							}}
@@ -341,6 +343,17 @@ export function ProfilePage(): React.ReactElement {
 									toggleDarkMode={toggleDarkMode}
 								/>
 							</Typography>
+							<Box
+								sx={{
+									display: 'flex',
+									alignItems: 'center'
+								}}
+							>
+								<Typography sx={{fontFamily: 'Montserrat'}}>
+									{t('change-language')}:
+								</Typography>
+								<LanguagePicker />
+							</Box>
 						</Box>
 					</Box>
 				</Paper>
