@@ -89,6 +89,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	): React.ReactElement {
 		return (
 			<WishlistItemComponent
+				loadingVisibility={false}
 				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}

@@ -24,6 +24,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
 	readonly wishlistId: number;
+	readonly canBeHidden?: boolean;
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
 	readonly onVisibilityClick?: (itemId: number, changedTo: boolean) => void;
@@ -70,8 +71,10 @@ export function WishlistItemComponent(
 	}
 
 	function handleVisibilityClick(event: React.MouseEvent): void {
-		event.stopPropagation();
-		props.onVisibilityClick!(props.item.id, !props.item.hidden);
+		if (props.canBeHidden) {
+			event.stopPropagation();
+			props.onVisibilityClick!(props.item.id, !props.item.hidden);
+		}
 	}
 
 	function renderVisibilityIconCell(): React.ReactElement {

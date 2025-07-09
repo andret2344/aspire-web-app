@@ -105,7 +105,13 @@ export function WishlistListPage(): React.ReactElement {
 		const index: number = findWishlistIndexById(wishlistId);
 		wishlists[index] = {
 			...wishlists[index],
-			hasPassword: !!newPassword
+			hasPassword: !!newPassword,
+			wishlistItems: wishlists[index].wishlistItems.map(
+				(element: WishlistItem): WishlistItem => ({
+					...element,
+					hidden: false
+				})
+			)
 		};
 		setWishlists([...wishlists]);
 	}
@@ -201,6 +207,7 @@ export function WishlistListPage(): React.ReactElement {
 				item={wishlistItem}
 				position={index + 1}
 				wishlistId={activeWishlistId}
+				canBeHidden={findWishlistById(activeWishlistId)?.hasPassword}
 				loadingVisibility={loadingVisibilityItem === wishlistItem.id}
 				onEdit={handleItemEdit}
 				onVisibilityClick={handleVisibilityClick}

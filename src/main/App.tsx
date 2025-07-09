@@ -22,8 +22,8 @@ export function App(): React.ReactElement {
 
 	React.useEffect((): void => {
 		Promise.all([
-			getConfig().then(setConfig),
-			refreshToken().then()
+			getConfig().then(setConfig).catch(),
+			refreshToken().then().catch()
 		]).finally((): void => setLoaded(true));
 	}, []);
 
