@@ -3,7 +3,7 @@ import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest, tableWrapper} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
-import React, {act} from 'react';
+import React from 'react';
 import {WishlistItemComponent} from '../../main/Components/WishlistItemComponent';
 import {WishlistItem} from '../../main/Entity/WishlistItem';
 
@@ -174,6 +174,7 @@ describe('WishlistItemComponent', (): void => {
 		renderForTest(
 			tableWrapper(
 				<WishlistItemComponent
+					canBeHidden={true}
 					item={mockWishlistItem}
 					wishlistId={1}
 					position={1}
@@ -204,6 +205,7 @@ describe('WishlistItemComponent', (): void => {
 		renderForTest(
 			tableWrapper(
 				<WishlistItemComponent
+					canBeHidden={true}
 					item={mockWishlistItemHidden}
 					wishlistId={1}
 					position={1}
@@ -225,6 +227,36 @@ describe('WishlistItemComponent', (): void => {
 		expect(wishlistItemDescription).toBeNull();
 		expect(handleVisibilityClick).toHaveBeenCalledTimes(1);
 		expect(handleVisibilityClick).toHaveBeenCalledWith(1, false);
+	});
+
+	it('handles visibility icon click to expand the description', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		const handleVisibilityClick: jest.Mock = jest.fn();
+		renderForTest(
+			tableWrapper(
+				<WishlistItemComponent
+					canBeHidden={false}
+					item={mockWishlistItemHidden}
+					wishlistId={1}
+					position={1}
+					loadingVisibility={false}
+					onEdit={(): void => undefined}
+					onVisibilityClick={handleVisibilityClick}
+					onRemove={(): void => undefined}
+				/>
+			)
+		);
+
+		// act
+		const iconHidden: HTMLElement = screen.getByTestId('item-hidden-icon');
+		await user.click(iconHidden);
+		const wishlistItemDescription: HTMLElement =
+			screen.getByText('test description');
+
+		// assert
+		expect(wishlistItemDescription).toBeInTheDocument();
+		expect(handleVisibilityClick).toHaveBeenCalledTimes(0);
 	});
 
 	it('handles item edit', async (): Promise<void> => {
@@ -275,10 +307,12 @@ describe('WishlistItemComponent', (): void => {
 
 		// act
 		const itemRow: HTMLElement = screen.getByTestId('wishlist-item-row');
-		await act(async (): Promise<void> => user.click(itemRow));
+		await user.click(itemRow);
+		const descriptionElement: HTMLElement =
+			screen.getByText('test description');
 
 		// assert
-		expect(screen.getByText('test description')).toBeInTheDocument();
+		expect(descriptionElement).toBeInTheDocument();
 	});
 
 	it('handles remove item with success', async (): Promise<void> => {
