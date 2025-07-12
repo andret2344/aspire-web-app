@@ -2,15 +2,13 @@ import {
 	Box,
 	CircularProgress,
 	Collapse,
+	Grid,
 	IconButton,
-	TableCell,
-	TableRow,
 	Typography
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {WishlistItem} from '../Entity/WishlistItem';
 import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
@@ -20,6 +18,7 @@ import MarkdownView from 'react-showdown';
 import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -52,21 +51,30 @@ export function WishlistItemComponent(
 
 	function renderVisibilityIcon(): React.ReactElement {
 		if (props.loadingVisibility) {
-			return <CircularProgress data-testid='item-loading-progress' />;
-		}
-		if (props.item.hidden) {
 			return (
-				<VisibilityOffOutlinedIcon
-					onClick={handleVisibilityClick}
-					data-testid='item-hidden-icon'
+				<CircularProgress
+					data-testid='item-loading-progress'
+					size={32}
 				/>
 			);
 		}
+		if (props.item.hidden) {
+			return (
+				<IconButton
+					onClick={handleVisibilityClick}
+					data-testid='item-hidden-icon'
+				>
+					<VisibilityOffOutlinedIcon />
+				</IconButton>
+			);
+		}
 		return (
-			<VisibilityIcon
+			<IconButton
 				onClick={handleVisibilityClick}
 				data-testid='item-visible-icon'
-			/>
+			>
+				<VisibilityIcon />
+			</IconButton>
 		);
 	}
 
@@ -81,34 +89,7 @@ export function WishlistItemComponent(
 		if (!props.onVisibilityClick) {
 			return <></>;
 		}
-		return (
-			<TableCell align='center'>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'center',
-						alignItems: 'center'
-					}}
-				>
-					{renderVisibilityIcon()}
-				</Box>
-			</TableCell>
-		);
-	}
-
-	function renderActionButtonsCell(): React.ReactElement {
-		if (!props.onEdit && !props.onRemove) {
-			return <></>;
-		}
-		return (
-			<TableCell>
-				<Box sx={{display: 'flex', flexDirection: 'row'}}>
-					{renderEditButton()}
-					{renderRemoveButton()}
-				</Box>
-			</TableCell>
-		);
+		return <Grid size={1}>{renderVisibilityIcon()}</Grid>;
 	}
 
 	function renderEditButton(): React.ReactElement {
@@ -117,25 +98,11 @@ export function WishlistItemComponent(
 		}
 		return (
 			<IconButton
-				sx={{
-					marginLeft: {
-						xs: '0',
-						md: '15px'
-					}
-				}}
 				aria-label='edit'
-				size='large'
 				onClick={handleEditButton}
 				data-testid={`edit-wishlist-item-${props.wishlistId}-${props.item.id}`}
 			>
-				<EditIcon
-					sx={{
-						fontSize: {
-							xs: '25px',
-							md: '35px'
-						}
-					}}
-				/>
+				<EditIcon />
 			</IconButton>
 		);
 	}
@@ -145,27 +112,15 @@ export function WishlistItemComponent(
 			return <></>;
 		}
 		return (
-			<IconButton
-				sx={{
-					margin: {
-						xs: '0',
-						md: '0 15px'
-					}
-				}}
-				size='large'
-				aria-label='delete'
-				onClick={handleRemoveButton}
-				data-testid={`remove-wishlist-item-${props.wishlistId}-${props.item.id}`}
-			>
-				<DeleteIcon
-					sx={{
-						fontSize: {
-							xs: '25px',
-							md: '35px'
-						}
-					}}
-				/>
-			</IconButton>
+			<Grid size={1}>
+				<IconButton
+					aria-label='delete'
+					onClick={handleRemoveButton}
+					data-testid={`remove-wishlist-item-${props.wishlistId}-${props.item.id}`}
+				>
+					<DeleteForeverOutlined color='error' />
+				</IconButton>
+			</Grid>
 		);
 	}
 
@@ -189,10 +144,24 @@ export function WishlistItemComponent(
 	}
 
 	return (
-		<React.Fragment>
-			<TableRow
+		<div
+			data-testid='wishlist-item-row'
+			style={{
+				backgroundColor: 'darkblue',
+				borderRadius: '12px',
+				padding: '8px',
+				margin: '16px'
+			}}
+		>
+			<Grid
+				columns={24}
+				alignItems='center'
+				justifyContent='center'
+				direction='row'
 				key={props.item.id}
-				data-testid='wishlist-item-row'
+				container
+				spacing={1}
+				data-testid='wishlist-item-row-grid'
 				sx={{
 					borderBottom: 'unset',
 					position: 'relative'
@@ -202,61 +171,48 @@ export function WishlistItemComponent(
 				}}
 				onClick={handleToggleExpandButton}
 			>
-				<TableCell>
-					<IconButton
-						aria-label='expand row'
-						size='small'
-					>
+				<Grid>
+					<IconButton aria-label='expand row'>
 						{renderExpandButton()}
 					</IconButton>
-				</TableCell>
-				<TableCell align='left'>{props.position}</TableCell>
-				<TableCell
-					align='left'
+				</Grid>
+				<Grid>
+					<Typography
+						color='#888888'
+						variant='body2'
+						padding='8px'
+					>
+						<em>#{props.position}</em>
+					</Typography>
+				</Grid>
+				<Grid
+					size='grow'
 					sx={{
-						maxWidth: '150px',
 						whiteSpace: 'nowrap',
 						overflow: 'hidden',
 						textOverflow: 'ellipsis'
 					}}
 				>
+					{renderEditButton()}
 					{props.item.name}
-				</TableCell>
+				</Grid>
 				{renderVisibilityIconCell()}
-				<TableCell align='center'>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'center',
-							alignItems: 'center'
-						}}
-					>
-						<PriorityBadge priorityId={props.item.priorityId} />
-					</Box>
-				</TableCell>
-				{renderActionButtonsCell()}
-			</TableRow>
-			<TableRow>
-				<TableCell
-					style={{paddingBottom: 0, paddingTop: 0}}
-					colSpan={6}
-				>
-					<Collapse
-						in={open}
-						timeout='auto'
-						unmountOnExit
-					>
-						<Box sx={{margin: 1}}>
-							<Typography component='div'>
-								<MarkdownView
-									markdown={props.item.description}
-								/>
-							</Typography>
-						</Box>
-					</Collapse>
-				</TableCell>
-			</TableRow>
-		</React.Fragment>
+				<Grid size={1}>
+					<PriorityBadge priorityId={props.item.priorityId} />
+				</Grid>
+				{renderRemoveButton()}
+			</Grid>
+			<Collapse
+				in={open}
+				timeout='auto'
+				unmountOnExit
+			>
+				<Box sx={{margin: 1}}>
+					<Typography component='div'>
+						<MarkdownView markdown={props.item.description} />
+					</Typography>
+				</Box>
+			</Collapse>
+		</div>
 	);
 }

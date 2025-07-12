@@ -1,18 +1,4 @@
-import {
-	Box,
-	Button,
-	Grid,
-	IconButton,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Theme,
-	useTheme
-} from '@mui/material';
+import {Box, Button, Grid, IconButton, Theme, useTheme} from '@mui/material';
 import React from 'react';
 import '../../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -318,46 +304,7 @@ export function WishlistListPage(): React.ReactElement {
 						maxHeight={{xs: 'none', md: '100%'}}
 						paddingBottom='50px'
 					>
-						<TableContainer component={Paper}>
-							<Table aria-label='collapsible table'>
-								<TableHead>
-									<TableRow>
-										<TableCell
-											width='5%'
-											align='left'
-										/>
-										<TableCell
-											align='left'
-											width='5%'
-										>
-											{t('item-no')}
-										</TableCell>
-										<TableCell align='left'>
-											{t('name')}
-										</TableCell>
-										<TableCell
-											width='5%'
-											align='center'
-										>
-											{t('visibility')}
-										</TableCell>
-										<TableCell
-											width='5%'
-											align='center'
-										>
-											{t('priority')}
-										</TableCell>
-										<TableCell
-											width='10%'
-											align='center'
-										>
-											{t('action')}
-										</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>{renderItems()}</TableBody>
-							</Table>
-						</TableContainer>
+						{renderItems()}
 						<Box
 							aria-label='add item box'
 							sx={{
@@ -372,7 +319,7 @@ export function WishlistListPage(): React.ReactElement {
 								data-testid='add-item-button'
 								aria-label='Add item'
 								onClick={openEditModal}
-								sx={{margin: '25px', padding: '25px'}}
+								sx={{margin: '12px', padding: '12px'}}
 							>
 								<AddCircleOutlineIcon fontSize='large' />
 							</IconButton>

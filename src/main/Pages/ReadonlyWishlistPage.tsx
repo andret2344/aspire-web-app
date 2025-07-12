@@ -1,17 +1,5 @@
 import React from 'react';
-import {
-	Box,
-	Grid,
-	IconButton,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Theme
-} from '@mui/material';
+import {Box, Grid, IconButton, Theme} from '@mui/material';
 import {getThemeColor} from '../Styles/theme';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {WishList} from '../Entity/WishList';
@@ -128,40 +116,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 						{wishlist.name}
 						{renderPasswordButton()}
 					</Box>
-					<TableContainer
-						sx={{
-							maxHeight: '75vh',
-							overflowY: 'auto'
-						}}
-						component={Paper}
-					>
-						<Table aria-label='collapsible table'>
-							<TableHead>
-								<TableRow>
-									<TableCell
-										width='5%'
-										align='left'
-									/>
-									<TableCell
-										align='left'
-										width='5%'
-									>
-										{t('item-no')}
-									</TableCell>
-									<TableCell align='left'>
-										{t('name')}
-									</TableCell>
-									<TableCell
-										width='5%'
-										align='center'
-									>
-										{t('priority')}
-									</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>{renderItems()}</TableBody>
-						</Table>
-					</TableContainer>
+					{renderItems()}
 				</Grid>
 			)}
 			<WishlistInputPasswordModal

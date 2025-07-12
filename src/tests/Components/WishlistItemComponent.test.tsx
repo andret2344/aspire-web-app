@@ -1,7 +1,7 @@
 import {mockedRemoveWishlistItem} from '../__mocks__/MockWishlistItemService';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {renderForTest, tableWrapper} from '../__utils__/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 import React from 'react';
 import {WishlistItemComponent} from '../../main/Components/WishlistItemComponent';
@@ -29,15 +29,13 @@ describe('WishlistItemComponent', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onRemove={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onRemove={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -57,15 +55,13 @@ describe('WishlistItemComponent', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -85,14 +81,12 @@ describe('WishlistItemComponent', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+			/>
 		);
 
 		// act
@@ -112,16 +106,14 @@ describe('WishlistItemComponent', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={(): void => undefined}
-					onRemove={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={(): void => undefined}
+				onRemove={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -143,17 +135,15 @@ describe('WishlistItemComponent', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItemHidden}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={true}
-					onEdit={(): void => undefined}
-					onVisibilityClick={(): void => undefined}
-					onRemove={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItemHidden}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={true}
+				onEdit={(): void => undefined}
+				onVisibilityClick={(): void => undefined}
+				onRemove={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -172,18 +162,16 @@ describe('WishlistItemComponent', (): void => {
 		user.setup();
 		const handleVisibilityClick: jest.Mock = jest.fn();
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					canBeHidden={true}
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={(): void => undefined}
-					onVisibilityClick={handleVisibilityClick}
-					onRemove={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				canBeHidden={true}
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={(): void => undefined}
+				onVisibilityClick={handleVisibilityClick}
+				onRemove={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -203,18 +191,16 @@ describe('WishlistItemComponent', (): void => {
 		user.setup();
 		const handleVisibilityClick: jest.Mock = jest.fn();
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					canBeHidden={true}
-					item={mockWishlistItemHidden}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={(): void => undefined}
-					onVisibilityClick={handleVisibilityClick}
-					onRemove={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				canBeHidden={true}
+				item={mockWishlistItemHidden}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={(): void => undefined}
+				onVisibilityClick={handleVisibilityClick}
+				onRemove={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -234,18 +220,16 @@ describe('WishlistItemComponent', (): void => {
 		user.setup();
 		const handleVisibilityClick: jest.Mock = jest.fn();
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					canBeHidden={false}
-					item={mockWishlistItemHidden}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={(): void => undefined}
-					onVisibilityClick={handleVisibilityClick}
-					onRemove={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				canBeHidden={false}
+				item={mockWishlistItemHidden}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={(): void => undefined}
+				onVisibilityClick={handleVisibilityClick}
+				onRemove={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -265,16 +249,14 @@ describe('WishlistItemComponent', (): void => {
 		const handleEditButtonClick: jest.Mock = jest.fn();
 
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={handleEditButtonClick}
-					onRemove={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={handleEditButtonClick}
+				onRemove={(): void => undefined}
+			/>
 		);
 
 		// act
@@ -293,20 +275,20 @@ describe('WishlistItemComponent', (): void => {
 		user.setup();
 
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={(): void => undefined}
-					onRemove={(): void => undefined}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={(): void => undefined}
+				onRemove={(): void => undefined}
+			/>
 		);
 
 		// act
-		const itemRow: HTMLElement = screen.getByTestId('wishlist-item-row');
+		const itemRow: HTMLElement = screen.getByTestId(
+			'wishlist-item-row-grid'
+		);
 		await user.click(itemRow);
 		const descriptionElement: HTMLElement =
 			screen.getByText('test description');
@@ -322,16 +304,14 @@ describe('WishlistItemComponent', (): void => {
 		mockedRemoveWishlistItem.mockResolvedValue(mockWishlistItem);
 
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={(): void => undefined}
-					onRemove={handleRemoveButtonClick}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={(): void => undefined}
+				onRemove={handleRemoveButtonClick}
+			/>
 		);
 
 		// act
@@ -352,16 +332,14 @@ describe('WishlistItemComponent', (): void => {
 		mockedRemoveWishlistItem.mockRejectedValue(void 0);
 
 		renderForTest(
-			tableWrapper(
-				<WishlistItemComponent
-					item={mockWishlistItem}
-					wishlistId={1}
-					position={1}
-					loadingVisibility={false}
-					onEdit={(): void => undefined}
-					onRemove={handleEditButtonClick}
-				/>
-			)
+			<WishlistItemComponent
+				item={mockWishlistItem}
+				wishlistId={1}
+				position={1}
+				loadingVisibility={false}
+				onEdit={(): void => undefined}
+				onRemove={handleEditButtonClick}
+			/>
 		);
 
 		// act
