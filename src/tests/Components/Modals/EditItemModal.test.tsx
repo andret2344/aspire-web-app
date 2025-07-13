@@ -103,9 +103,8 @@ describe('EditItemModal', (): void => {
 		await user.type(inputName, 'New name');
 		await user.click(prioritySelect);
 
-		const secondOptionPriority: HTMLElement = await screen.findByText(
-			/Przydałoby mi się, gdyż często odczuwam brak./i
-		);
+		const secondOptionPriority: HTMLElement =
+			await screen.findByTestId('priority-item-2');
 		await user.click(secondOptionPriority);
 		await user.click(saveButton);
 

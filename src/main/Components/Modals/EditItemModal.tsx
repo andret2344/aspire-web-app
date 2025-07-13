@@ -252,8 +252,9 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							<MenuItem
 								key={priorityItem.value}
 								value={priorityItem.value}
+								data-testid={`priority-item-${priorityItem.value}`}
 							>
-								{`${priorityItem.value}\u00A0\u00A0 ${priorityItem.description}`}
+								{`${priorityItem.value}\u00A0\u00A0 ${t(priorityItem.descriptionKey)}`}
 							</MenuItem>
 						)
 					)}
