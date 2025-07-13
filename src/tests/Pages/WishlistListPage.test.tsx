@@ -2,7 +2,8 @@ import {
 	mockedAddWishlist,
 	mockedGetWishlists,
 	mockedRemoveWishlist,
-	mockedSetWishlistPassword
+	mockedSetWishlistPassword,
+	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
 import {
 	mockedAddWishlistItem,
@@ -22,9 +23,8 @@ import {WishlistListPage} from '../../main/Pages/WishlistListPage';
 import {WishList} from '../../main/Entity/WishList';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {
-	getSampleUpdatedWishlist,
 	getSampleWishlist,
-	getSampleWishlistWithPassword
+	getSampleWishlistDto
 } from '../__utils__/DataFactory';
 
 describe('WishlistListPage', (): void => {
@@ -68,7 +68,7 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedRemoveWishlist.mockResolvedValue(void 0);
 
@@ -94,7 +94,7 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedRemoveWishlist.mockResolvedValue(void 0);
 
@@ -114,7 +114,7 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedRemoveWishlist.mockRejectedValue(void 0);
 
@@ -138,9 +138,11 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedIsTokenValid.mockReturnValue(true);
-			mockedRemoveWishlist.mockRejectedValue(void 0);
+			mockedUpdateWishlistName.mockResolvedValue(
+				getSampleWishlist({name: 'Mock Wishlist updated'})
+			);
 
 			// act
 			await act((): RenderResult => renderForTest(<WishlistListPage />));
@@ -162,7 +164,7 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedSetWishlistPassword.mockResolvedValue(void 0);
 
@@ -188,7 +190,7 @@ describe('WishlistListPage', (): void => {
 			user.setup();
 			mockedUseParams.mockReturnValue({id: 1});
 			mockedGetWishlists.mockResolvedValue([
-				getSampleWishlistWithPassword()
+				getSampleWishlistDto({has_password: true})
 			]);
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
@@ -212,8 +214,8 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
-			mockedAddWishlistItem.mockResolvedValue(getSampleWishlist());
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
+			mockedAddWishlistItem.mockResolvedValue(getSampleWishlistDto());
 			mockedIsTokenValid.mockReturnValue(true);
 
 			// act
@@ -241,9 +243,9 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedUpdateWishlistItem.mockResolvedValue(
-				getSampleUpdatedWishlist()
+				getSampleWishlist({name: 'Mock Wishlist updated'})
 			);
 			mockedIsTokenValid.mockReturnValue(true);
 			await act((): RenderResult => renderForTest(<WishlistListPage />));
@@ -271,7 +273,7 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedIsTokenValid.mockReturnValue(true);
 			await act((): RenderResult => renderForTest(<WishlistListPage />));
 
@@ -295,7 +297,7 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			user.setup();
 			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedRemoveWishlistItem.mockResolvedValue(undefined);
 			mockedIsTokenValid.mockReturnValue(true);
 

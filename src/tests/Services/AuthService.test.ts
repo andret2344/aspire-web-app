@@ -202,6 +202,7 @@ describe('AuthService', (): void => {
 		const mockResponseData = {
 			access: 'access-token'
 		};
+		localStorage.setItem('refreshToken', 'existing-refresh-token');
 		const mock = new MockAdapter(apiInstance);
 		mock.onPost(`${getApiConfig().backend}/account/login/refresh`).reply(
 			200,
@@ -219,6 +220,7 @@ describe('AuthService', (): void => {
 	test('refresh token rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
+		localStorage.setItem('refreshToken', 'existing-refresh-token');
 		mock.onPost('/account/login/refresh').reply(500);
 
 		// act

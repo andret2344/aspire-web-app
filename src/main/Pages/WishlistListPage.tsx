@@ -3,7 +3,7 @@ import React from 'react';
 import '../../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
-import {WishList} from '../Entity/WishList';
+import {mapWishlistArrayFromDto, WishList} from '../Entity/WishList';
 import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
 import {getWishlists, removeWishlist} from '../Services/WishListService';
 import {CreateWishlistModal} from '../Components/Modals/CreateWishlistModal';
@@ -49,6 +49,7 @@ export function WishlistListPage(): React.ReactElement {
 			return;
 		}
 		getWishlists()
+			.then(mapWishlistArrayFromDto)
 			.then(setWishlists)
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});

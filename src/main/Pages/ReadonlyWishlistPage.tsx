@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Grid, IconButton, Theme} from '@mui/material';
 import {getThemeColor} from '../Styles/theme';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {WishList} from '../Entity/WishList';
+import {mapWishlistFromDto, WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {getReadonlyWishlistByUUID} from '../Services/WishListService';
@@ -27,6 +27,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 
 	React.useEffect((): void => {
 		getReadonlyWishlistByUUID(params.uuid)
+			.then(mapWishlistFromDto)
 			.then(setWishlist)
 			.catch((): void => {
 				navigate('/error');

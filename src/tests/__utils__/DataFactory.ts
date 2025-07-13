@@ -1,29 +1,43 @@
 import {WishList, WishListDto} from '../../main/Entity/WishList';
 import {WishlistItem, WishlistItemDto} from '../../main/Entity/WishlistItem';
 
-// for future use
-export function generateWishlistTestData(...itemsCount: number[]): WishList[] {
-	return itemsCount.map(
-		(itemsCount: number, currentId: number): WishList => ({
-			id: currentId,
-			uuid: `b838027b-9177-43d6-918e-${String(currentId).padStart(12, '0')}`,
-			name: `Mock Wishlist ${currentId}`,
-			wishlistItems: Array.from(Array(itemsCount).keys()).map(
-				(id: number): WishlistItem => ({
-					id,
-					description: `Check out this link: https://example.com/${currentId}/${id}`,
-					name: `Item ${id}`,
-					priorityId: 3,
-					hidden: false
-				})
-			),
-			hasPassword: false
-		})
-	);
+export function getSampleWishlist(
+	overrides: Partial<WishList> = {
+		id: 1,
+		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
+		name: 'Mock Wishlist',
+		wishlistItems: [
+			{
+				id: 1,
+				description: 'Check out this link: https://example.com',
+				name: 'Item 1',
+				priorityId: 3,
+				hidden: false
+			}
+		],
+		hasPassword: false
+	}
+): WishList {
+	return {
+		id: 1,
+		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
+		name: 'Mock Wishlist',
+		wishlistItems: [
+			{
+				id: 1,
+				description: 'Check out this link: https://example.com',
+				name: 'Item 1',
+				priorityId: 3,
+				hidden: false
+			}
+		],
+		hasPassword: false,
+		...overrides
+	};
 }
 
-export function getSampleWishlistDto(): WishListDto {
-	return {
+export function getSampleWishlistDto(
+	overrides: Partial<WishListDto> = {
 		id: 1,
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
 		name: 'Mock Wishlist',
@@ -37,60 +51,23 @@ export function getSampleWishlistDto(): WishListDto {
 			}
 		],
 		has_password: false
-	};
-}
-
-export function getSampleWishlist(): WishList {
+	}
+): WishListDto {
 	return {
 		id: 1,
 		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
 		name: 'Mock Wishlist',
-		wishlistItems: [
+		wishlist_items: [
 			{
 				id: 1,
 				description: 'Check out this link: https://example.com',
 				name: 'Item 1',
-				priorityId: 3,
+				priority_id: 3,
 				hidden: false
 			}
 		],
-		hasPassword: false
-	};
-}
-
-export function getSampleWishlistWithPassword(): WishList {
-	return {
-		id: 1,
-		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				description: 'Check out this link: https://example.com',
-				name: 'Item 1',
-				priorityId: 3,
-				hidden: false
-			}
-		],
-		hasPassword: true
-	};
-}
-
-export function getSampleUpdatedWishlist(): WishList {
-	return {
-		id: 1,
-		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
-		name: 'Mock Wishlist updated',
-		wishlistItems: [
-			{
-				id: 1,
-				description: 'Check out this link: https://example.com',
-				name: 'Item 1',
-				priorityId: 3,
-				hidden: false
-			}
-		],
-		hasPassword: false
+		has_password: false,
+		...overrides
 	};
 }
 

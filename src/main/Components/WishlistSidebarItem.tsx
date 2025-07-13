@@ -64,22 +64,24 @@ export function WishlistSidebarItem(
 		setEditedName(event.target.value);
 	}
 
-	async function handleNameSubmit(): Promise<void> {
-		if (editedName) {
-			updateWishlistName(props.wishlist.id, editedName)
-				.then((): void => {
-					props.onNameEdit(editedName);
-					enqueueSnackbar(t('wishlist-renamed'), {
-						variant: 'success'
-					});
-				})
-				.catch((): string | number =>
-					enqueueSnackbar(t('something-went-wrong'), {
-						variant: 'error'
-					})
-				);
-		}
+	function handleNameSubmit(): void {
 		setEditedName(undefined);
+		if (!editedName || editedName === props.wishlist.name) {
+			return;
+		}
+		console.log('name changed');
+		updateWishlistName(props.wishlist.id, editedName)
+			.then((): void => {
+				props.onNameEdit(editedName);
+				enqueueSnackbar(t('wishlist-renamed'), {
+					variant: 'success'
+				});
+			})
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
+			);
 	}
 
 	function copyUrlToClipboard(): void {
