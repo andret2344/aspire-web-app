@@ -5,32 +5,15 @@ import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 import React from 'react';
 import {WishlistItemComponent} from '../../main/Components/WishlistItemComponent';
-import {WishlistItem} from '../../main/Entity/WishlistItem';
+import {getSampleWishlistItem} from '../__utils__/DataFactory';
 
 describe('WishlistItemComponent', (): void => {
-	const mockWishlistItem: WishlistItem = {
-		id: 1,
-		wishlistId: 1,
-		name: 'Item 1',
-		description: '# test description',
-		priorityId: 2
-	};
-
-	const mockWishlistItemHidden: WishlistItem = {
-		id: 1,
-		wishlistId: 1,
-		name: 'Item 1',
-		description: 'test description',
-		priorityId: 2,
-		hidden: true
-	};
-
 	it('renders without edit handler', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
@@ -56,7 +39,7 @@ describe('WishlistItemComponent', (): void => {
 		user.setup();
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
@@ -82,7 +65,7 @@ describe('WishlistItemComponent', (): void => {
 		user.setup();
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
@@ -107,7 +90,7 @@ describe('WishlistItemComponent', (): void => {
 		user.setup();
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
@@ -136,12 +119,12 @@ describe('WishlistItemComponent', (): void => {
 		user.setup();
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItemHidden}
+				item={getSampleWishlistItem({hidden: true})}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={true}
 				onEdit={(): void => undefined}
-				onVisibilityClick={(): void => undefined}
+				onItemUpdate={(): void => undefined}
 				onRemove={(): void => undefined}
 			/>
 		);
@@ -164,12 +147,12 @@ describe('WishlistItemComponent', (): void => {
 		renderForTest(
 			<WishlistItemComponent
 				canBeHidden={true}
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
 				onEdit={(): void => undefined}
-				onVisibilityClick={handleVisibilityClick}
+				onItemUpdate={handleVisibilityClick}
 				onRemove={(): void => undefined}
 			/>
 		);
@@ -183,7 +166,7 @@ describe('WishlistItemComponent', (): void => {
 		// assert
 		expect(wishlistItemDescription).toBeNull();
 		expect(handleVisibilityClick).toHaveBeenCalledTimes(1);
-		expect(handleVisibilityClick).toHaveBeenCalledWith(1, true);
+		expect(handleVisibilityClick).toHaveBeenCalledWith(1, {hidden: true});
 	});
 
 	it('handles show item', async (): Promise<void> => {
@@ -193,12 +176,12 @@ describe('WishlistItemComponent', (): void => {
 		renderForTest(
 			<WishlistItemComponent
 				canBeHidden={true}
-				item={mockWishlistItemHidden}
+				item={getSampleWishlistItem({hidden: true})}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
 				onEdit={(): void => undefined}
-				onVisibilityClick={handleVisibilityClick}
+				onItemUpdate={handleVisibilityClick}
 				onRemove={(): void => undefined}
 			/>
 		);
@@ -212,7 +195,7 @@ describe('WishlistItemComponent', (): void => {
 		// assert
 		expect(wishlistItemDescription).toBeNull();
 		expect(handleVisibilityClick).toHaveBeenCalledTimes(1);
-		expect(handleVisibilityClick).toHaveBeenCalledWith(1, false);
+		expect(handleVisibilityClick).toHaveBeenCalledWith(1, {hidden: false});
 	});
 
 	it('handles visibility icon click to expand the description', async (): Promise<void> => {
@@ -222,12 +205,12 @@ describe('WishlistItemComponent', (): void => {
 		renderForTest(
 			<WishlistItemComponent
 				canBeHidden={false}
-				item={mockWishlistItemHidden}
+				item={getSampleWishlistItem({hidden: true})}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
 				onEdit={(): void => undefined}
-				onVisibilityClick={handleVisibilityClick}
+				onItemUpdate={handleVisibilityClick}
 				onRemove={(): void => undefined}
 			/>
 		);
@@ -236,7 +219,7 @@ describe('WishlistItemComponent', (): void => {
 		const iconHidden: HTMLElement = screen.getByTestId('item-hidden-icon');
 		await user.click(iconHidden);
 		const wishlistItemDescription: HTMLElement =
-			screen.getByText('test description');
+			screen.getByText('Item description');
 
 		// assert
 		expect(wishlistItemDescription).toBeInTheDocument();
@@ -250,7 +233,7 @@ describe('WishlistItemComponent', (): void => {
 
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
@@ -267,7 +250,9 @@ describe('WishlistItemComponent', (): void => {
 
 		// assert
 		expect(handleEditButtonClick).toHaveBeenCalledTimes(1);
-		expect(handleEditButtonClick).toHaveBeenCalledWith(mockWishlistItem);
+		expect(handleEditButtonClick).toHaveBeenCalledWith(
+			getSampleWishlistItem()
+		);
 	});
 
 	it('handles item row expands', async (): Promise<void> => {
@@ -276,7 +261,7 @@ describe('WishlistItemComponent', (): void => {
 
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
@@ -291,7 +276,7 @@ describe('WishlistItemComponent', (): void => {
 		);
 		await user.click(itemRow);
 		const descriptionElement: HTMLElement =
-			screen.getByText('test description');
+			screen.getByText('Item description');
 
 		// assert
 		expect(descriptionElement).toBeInTheDocument();
@@ -301,11 +286,11 @@ describe('WishlistItemComponent', (): void => {
 		// arrange
 		user.setup();
 		const handleRemoveButtonClick: jest.Mock = jest.fn();
-		mockedRemoveWishlistItem.mockResolvedValue(mockWishlistItem);
+		mockedRemoveWishlistItem.mockResolvedValue(void 0);
 
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}
@@ -333,7 +318,7 @@ describe('WishlistItemComponent', (): void => {
 
 		renderForTest(
 			<WishlistItemComponent
-				item={mockWishlistItem}
+				item={getSampleWishlistItem()}
 				wishlistId={1}
 				position={1}
 				loadingVisibility={false}

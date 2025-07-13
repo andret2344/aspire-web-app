@@ -9,7 +9,7 @@ import {
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
-import {WishlistItem} from '../Entity/WishlistItem';
+import {WishlistItem, WishlistItemDto} from '../Entity/WishlistItem';
 import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
 import {removeWishlistItem} from '../Services/WishlistItemService';
@@ -26,7 +26,10 @@ interface WishlistItemComponentProps {
 	readonly canBeHidden?: boolean;
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
-	readonly onVisibilityClick?: (itemId: number, changedTo: boolean) => void;
+	readonly onItemUpdate?: (
+		itemId: number,
+		update: Partial<WishlistItemDto>
+	) => void;
 	readonly loadingVisibility: boolean;
 	readonly onRemove?: (wishlistId: number, itemId: number) => void;
 }
@@ -54,7 +57,7 @@ export function WishlistItemComponent(
 			return (
 				<CircularProgress
 					data-testid='item-loading-progress'
-					size={32}
+					size={24}
 				/>
 			);
 		}
@@ -81,12 +84,12 @@ export function WishlistItemComponent(
 	function handleVisibilityClick(event: React.MouseEvent): void {
 		if (props.canBeHidden) {
 			event.stopPropagation();
-			props.onVisibilityClick!(props.item.id, !props.item.hidden);
+			props.onItemUpdate!(props.item.id, {hidden: !props.item.hidden});
 		}
 	}
 
 	function renderVisibilityIconCell(): React.ReactElement {
-		if (!props.onVisibilityClick) {
+		if (!props.onItemUpdate) {
 			return <></>;
 		}
 		return <Grid size={1}>{renderVisibilityIcon()}</Grid>;

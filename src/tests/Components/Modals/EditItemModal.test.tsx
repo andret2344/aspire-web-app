@@ -2,7 +2,7 @@ import {mockedGetWishlist} from '../../__mocks__/MockWishlistService';
 import {mockedUseMediaQuery} from '../../__mocks__/MockMaterialUI';
 import {
 	mockedAddWishlistItem,
-	mockedEditWishlistItem
+	mockedUpdateWishlistItem
 } from '../../__mocks__/MockWishlistItemService';
 import '../../__mocks__/MockMDXEditor';
 import '@testing-library/jest-dom';
@@ -24,7 +24,6 @@ describe('EditItemModal', (): void => {
 		wishlistItems: [
 			{
 				id: 1,
-				wishlistId: 1,
 				description: 'test description',
 				name: 'Item 1',
 				priorityId: 3,
@@ -41,7 +40,6 @@ describe('EditItemModal', (): void => {
 		wishlistItems: [
 			{
 				id: 1,
-				wishlistId: 1,
 				description: 'test description',
 				name: 'Item 1',
 				priorityId: 3,
@@ -58,7 +56,6 @@ describe('EditItemModal', (): void => {
 		wishlistItems: [
 			{
 				id: 1,
-				wishlistId: 1,
 				description: 'updated test description',
 				name: 'Item 1 updated',
 				priorityId: 2,
@@ -70,7 +67,6 @@ describe('EditItemModal', (): void => {
 
 	const newMockWishlistItem: WishlistItem = {
 		id: 2,
-		wishlistId: 1,
 		description: 'this is totally new wishlist item created by test',
 		name: 'new wishlist item',
 		priorityId: 3,
@@ -79,7 +75,7 @@ describe('EditItemModal', (): void => {
 
 	test('input change', async (): Promise<void> => {
 		// arrange
-		mockedEditWishlistItem.mockResolvedValue(updatedMockWishlistData);
+		mockedUpdateWishlistItem.mockResolvedValue(updatedMockWishlistData);
 		mockedGetWishlist.mockReturnValue(updatedMockWishlistData);
 		mockedUseMediaQuery.mockReturnValueOnce(false);
 		user.setup();
@@ -114,7 +110,7 @@ describe('EditItemModal', (): void => {
 		await user.click(saveButton);
 
 		// assert
-		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(1);
+		expect(mockedUpdateWishlistItem).toHaveBeenCalledTimes(1);
 	});
 
 	test('tooltip works properly when no password', (): void => {

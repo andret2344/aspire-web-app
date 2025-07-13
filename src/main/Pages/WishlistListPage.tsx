@@ -8,13 +8,18 @@ import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
 import {getWishlists, removeWishlist} from '../Services/WishListService';
 import {CreateWishlistModal} from '../Components/Modals/CreateWishlistModal';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {WishlistItem} from '../Entity/WishlistItem';
+import {
+	mapWishlistItemFromDto,
+	mapWishlistItemToDto,
+	WishlistItem,
+	WishlistItemDto
+} from '../Entity/WishlistItem';
 import {DeleteWishlistModal} from '../Components/Modals/DeleteWishlistModal';
 import {EditItemModal} from '../Components/Modals/EditItemModal';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
-import {editWishlistItem} from '../Services/WishlistItemService';
+import {updateWishlistItem} from '../Services/WishlistItemService';
 
 export function WishlistListPage(): React.ReactElement {
 	type Params = {readonly id?: string};
@@ -196,13 +201,16 @@ export function WishlistListPage(): React.ReactElement {
 				canBeHidden={findWishlistById(activeWishlistId)?.hasPassword}
 				loadingVisibility={loadingVisibilityItem === wishlistItem.id}
 				onEdit={handleItemEdit}
-				onVisibilityClick={handleVisibilityClick}
+				onItemUpdate={handleItemUpdate}
 				onRemove={handleItemRemove}
 			/>
 		);
 	}
 
-	function handleVisibilityClick(itemId: number, changedTo: boolean): void {
+	function handleItemUpdate(
+		itemId: number,
+		updated: Partial<WishlistItemDto>
+	): void {
 		setLoadingVisibilityItem(itemId);
 		const wishlistIndex: number = findWishlistIndexById(activeWishlistId);
 		const wishlistItems: WishlistItem[] =
@@ -211,19 +219,11 @@ export function WishlistListPage(): React.ReactElement {
 			(i: WishlistItem): boolean => i.id === itemId
 		);
 		const item: WishlistItem = wishlistItems[itemIndex];
-		editWishlistItem(
-			activeWishlistId,
-			item.id,
-			item.name,
-			item.description,
-			item.priorityId,
-			changedTo
-		)
+		const itemDto: WishlistItemDto = mapWishlistItemToDto(item, updated);
+		updateWishlistItem(activeWishlistId, itemDto)
 			.then((): void => {
-				wishlists[wishlistIndex].wishlistItems[itemIndex] = {
-					...item,
-					hidden: changedTo
-				};
+				wishlists[wishlistIndex].wishlistItems[itemIndex] =
+					mapWishlistItemFromDto(itemDto);
 				setWishlists([...wishlists]);
 			})
 			.finally((): void => setLoadingVisibilityItem(-1));
@@ -232,13 +232,7 @@ export function WishlistListPage(): React.ReactElement {
 	function renderItems(): React.ReactNode[] {
 		const activeWishlistItems: WishlistItem[] =
 			findWishlistById(activeWishlistId)?.wishlistItems ?? [];
-		const items: WishlistItem[] = [
-			...activeWishlistItems,
-			...hiddenItems
-		].map(
-			(item: WishlistItem): WishlistItem =>
-				item.wishlistId ? item : {...item, wishlistId: activeWishlistId}
-		);
+		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
 		return items.map(renderWishlistItem);
 	}
 

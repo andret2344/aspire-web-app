@@ -6,8 +6,8 @@ import {
 } from '../__mocks__/MockWishlistService';
 import {
 	mockedAddWishlistItem,
-	mockedEditWishlistItem,
-	mockedRemoveWishlistItem
+	mockedRemoveWishlistItem,
+	mockedUpdateWishlistItem
 } from '../__mocks__/MockWishlistItemService';
 import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
@@ -191,7 +191,7 @@ describe('WishlistListPage', (): void => {
 				getSampleWishlistWithPassword()
 			]);
 			mockedIsTokenValid.mockReturnValue(true);
-			mockedEditWishlistItem.mockResolvedValue(void 0);
+			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 
 			// act
 			await act((): RenderResult => renderForTest(<WishlistListPage />));
@@ -242,7 +242,7 @@ describe('WishlistListPage', (): void => {
 			user.setup();
 			mockedUseParams.mockReturnValue({id: '1'});
 			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
-			mockedEditWishlistItem.mockResolvedValue(
+			mockedUpdateWishlistItem.mockResolvedValue(
 				getSampleUpdatedWishlist()
 			);
 			mockedIsTokenValid.mockReturnValue(true);
@@ -264,7 +264,7 @@ describe('WishlistListPage', (): void => {
 			await user.click(confirmButton);
 
 			// assert
-			expect(mockedEditWishlistItem).toHaveBeenCalledTimes(1);
+			expect(mockedUpdateWishlistItem).toHaveBeenCalledTimes(1);
 		});
 
 		it('handles item name change cancel', async (): Promise<void> => {

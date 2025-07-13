@@ -1,7 +1,7 @@
 import {WishList, WishListDto} from '../Entity/WishList';
 import axios, {AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from './ApiInstance';
-import {mapWishlistItem} from '../Entity/WishlistItem';
+import {mapWishlistItemFromDto} from '../Entity/WishlistItem';
 import {requestConfig} from './AuthService';
 
 export async function getWishlists(): Promise<WishList[]> {
@@ -72,7 +72,7 @@ export function mapWishlist(wishlist: WishListDto): WishList {
 	const {wishlist_items, has_password, ...rest} = wishlist;
 	return {
 		...rest,
-		wishlistItems: wishlist_items.map(mapWishlistItem),
+		wishlistItems: wishlist_items.map(mapWishlistItemFromDto),
 		hasPassword: has_password
 	};
 }

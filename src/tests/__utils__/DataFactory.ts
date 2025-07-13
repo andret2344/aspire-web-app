@@ -11,7 +11,6 @@ export function generateWishlistTestData(...itemsCount: number[]): WishList[] {
 			wishlistItems: Array.from(Array(itemsCount).keys()).map(
 				(id: number): WishlistItem => ({
 					id,
-					wishlistId: currentId,
 					description: `Check out this link: https://example.com/${currentId}/${id}`,
 					name: `Item ${id}`,
 					priorityId: 3,
@@ -31,7 +30,6 @@ export function getSampleWishlistDto(): WishListDto {
 		wishlist_items: [
 			{
 				id: 1,
-				wishlist_id: 1,
 				description: 'Check out this link: https://example.com',
 				name: 'Item 1',
 				priority_id: 3,
@@ -50,7 +48,6 @@ export function getSampleWishlist(): WishList {
 		wishlistItems: [
 			{
 				id: 1,
-				wishlistId: 1,
 				description: 'Check out this link: https://example.com',
 				name: 'Item 1',
 				priorityId: 3,
@@ -69,7 +66,6 @@ export function getSampleWishlistWithPassword(): WishList {
 		wishlistItems: [
 			{
 				id: 1,
-				wishlistId: 1,
 				description: 'Check out this link: https://example.com',
 				name: 'Item 1',
 				priorityId: 3,
@@ -88,7 +84,6 @@ export function getSampleUpdatedWishlist(): WishList {
 		wishlistItems: [
 			{
 				id: 1,
-				wishlistId: 1,
 				description: 'Check out this link: https://example.com',
 				name: 'Item 1',
 				priorityId: 3,
@@ -99,13 +94,57 @@ export function getSampleUpdatedWishlist(): WishList {
 	};
 }
 
-export function getSampleWishlistItemDto(name?: string): WishlistItemDto {
+export function getSampleWishlistItemDto(
+	overrides: Partial<WishlistItemDto> = {
+		id: 1,
+		name: 'Item name',
+		description: 'Item description',
+		priority_id: 1,
+		hidden: false
+	}
+): WishlistItemDto {
 	return {
 		id: 1,
-		wishlist_id: 1,
-		description: name ?? 'Item description',
 		name: 'Item 1',
+		description: 'Item description',
 		priority_id: 3,
+		hidden: false,
+		...overrides
+	};
+}
+
+export function getSampleWishlistItemDtoWithoutId(
+	overrides: Partial<Omit<WishlistItemDto, 'id'>> = {
+		name: 'Item name',
+		description: 'Item description',
+		priority_id: 1,
 		hidden: false
+	}
+): Omit<WishlistItemDto, 'id'> {
+	return {
+		name: 'Item 1',
+		description: 'Item description',
+		priority_id: 3,
+		hidden: false,
+		...overrides
+	};
+}
+
+export function getSampleWishlistItem(
+	overrides: Partial<WishlistItem> = {
+		id: 1,
+		name: 'Item name',
+		description: 'Item description',
+		priorityId: 1,
+		hidden: false
+	}
+): WishlistItem {
+	return {
+		id: 1,
+		name: 'Item 1',
+		description: 'Item description',
+		priorityId: 3,
+		hidden: false,
+		...overrides
 	};
 }

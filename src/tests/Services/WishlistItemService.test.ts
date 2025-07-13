@@ -4,24 +4,24 @@ import {waitFor} from '@testing-library/react';
 import {WishlistItemDto} from '../../main/Entity/WishlistItem';
 import {
 	addWishlistItem,
-	editWishlistItem,
 	getWishlistHiddenItems,
-	removeWishlistItem
+	removeWishlistItem,
+	updateWishlistItem
 } from '../../main/Services/WishlistItemService';
-import {getSampleWishlistItemDto} from '../__utils__/DataFactory';
+import {
+	getSampleWishlistItemDto,
+	getSampleWishlistItemDtoWithoutId
+} from '../__utils__/DataFactory';
 import {isAxiosError} from 'axios';
 
 describe('WishListItemService', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	test('add wishlist item', async (): Promise<void> => {
+	it('adds wishlist item', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
-		const name = 'test name';
-		const description = 'test description';
-		const priorityId = 1;
-		const hidden = false;
+
 		mock.onPost(`/${wishlistId}/wishlistitem`).reply(
 			200,
 			getSampleWishlistItemDto()
@@ -30,20 +30,14 @@ describe('WishListItemService', (): void => {
 		// act
 		await waitFor(
 			(): Promise<WishlistItemDto | null> =>
-				addWishlistItem(
-					wishlistId,
-					name,
-					description,
-					priorityId,
-					hidden
-				)
+				addWishlistItem(wishlistId, getSampleWishlistItemDtoWithoutId())
 		).then((wishlistItemDto: WishlistItemDto | null): void => {
 			// assert
 			expect(wishlistItemDto).toStrictEqual(getSampleWishlistItemDto());
 		});
 	});
 
-	test('get wishlist hidden items', async (): Promise<void> => {
+	it('gets wishlist hidden items', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
@@ -57,26 +51,16 @@ describe('WishListItemService', (): void => {
 		expect(result).toEqual([]);
 	});
 
-	test('add wishlist item rejected', async (): Promise<void> => {
+	it('adds wishlist item with fail', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
-		const name = 'test name';
-		const description = 'test description';
-		const priorityId = 1;
-		const hidden = false;
 		mock.onPost(`/${wishlistId}/wishlistitem`).reply(500);
 
 		// act
 		await waitFor(
 			(): Promise<WishlistItemDto | null> =>
-				addWishlistItem(
-					wishlistId,
-					name,
-					description,
-					priorityId,
-					hidden
-				)
+				addWishlistItem(wishlistId, getSampleWishlistItemDtoWithoutId())
 		)
 			// assert
 			.then((): void => fail('Should not reach this point'))
@@ -85,64 +69,42 @@ describe('WishListItemService', (): void => {
 			);
 	});
 
-	test('edit wishlist item', async (): Promise<void> => {
+	it('edits wishlist item with success', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
 		const wishlistItemId = 1;
-		const name = 'test name';
-		const description = 'test description';
-		const priorityId = 1;
-		const hidden = false;
 		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			200,
-			getSampleWishlistItemDto('updated name')
+			getSampleWishlistItemDto({name: 'updated name'})
 		);
 
 		// act
 		await waitFor(
 			(): Promise<WishlistItemDto | null> =>
-				editWishlistItem(
-					wishlistId,
-					wishlistItemId,
-					name,
-					description,
-					priorityId,
-					hidden
-				)
+				updateWishlistItem(wishlistId, getSampleWishlistItemDto())
 		).then((wishlistItemDto: WishlistItemDto | null): void => {
 			// assert
 			expect(wishlistItemDto).toStrictEqual(
-				getSampleWishlistItemDto('updated name')
+				getSampleWishlistItemDto({name: 'updated name'})
 			);
 		});
 	});
 
-	test('edit wishlist item rejected', async (): Promise<void> => {
+	it('edits wishlist item with fail', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
 		const wishlistItemId = 1;
-		const name = 'test name';
-		const description = 'test description';
-		const priorityId = 1;
-		const hidden = false;
 		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
 			500,
-			getSampleWishlistItemDto('updated name')
+			getSampleWishlistItemDto({name: 'updated name'})
 		);
 
 		// act
 		await waitFor(
 			(): Promise<WishlistItemDto | null> =>
-				editWishlistItem(
-					wishlistId,
-					wishlistItemId,
-					name,
-					description,
-					priorityId,
-					hidden
-				)
+				updateWishlistItem(wishlistId, getSampleWishlistItemDto())
 		)
 			// assert
 			.then((): void => fail('Should not reach this point'))
@@ -151,7 +113,7 @@ describe('WishListItemService', (): void => {
 			);
 	});
 
-	test('remove wishlist item', async (): Promise<void> => {
+	it('removes wishlist item with success', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
@@ -172,7 +134,7 @@ describe('WishListItemService', (): void => {
 		});
 	});
 
-	test('remove wishlist item rejected', async (): Promise<void> => {
+	it('removes wishlist item with fail', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
