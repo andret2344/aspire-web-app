@@ -66,17 +66,18 @@ export function WishlistSidebarItem(
 
 	async function handleNameSubmit(): Promise<void> {
 		if (editedName) {
-			try {
-				await updateWishlistName(props.wishlist.id, editedName);
-				props.onNameEdit(editedName);
-				enqueueSnackbar(t('wishlist-renamed'), {
-					variant: 'success'
-				});
-			} catch (err) {
-				enqueueSnackbar(t('something-went-wrong'), {
-					variant: 'error'
-				});
-			}
+			updateWishlistName(props.wishlist.id, editedName)
+				.then((): void => {
+					props.onNameEdit(editedName);
+					enqueueSnackbar(t('wishlist-renamed'), {
+						variant: 'success'
+					});
+				})
+				.catch((): string | number =>
+					enqueueSnackbar(t('something-went-wrong'), {
+						variant: 'error'
+					})
+				);
 		}
 		setEditedName(undefined);
 	}
