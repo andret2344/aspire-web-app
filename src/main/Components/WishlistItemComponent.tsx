@@ -4,59 +4,187 @@ import {
 	Collapse,
 	Grid,
 	IconButton,
+	Menu,
+	MenuItem,
 	Typography
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
-import {WishlistItem, WishlistItemDto} from '../Entity/WishlistItem';
+import {
+	mapWishlistItemFromDto,
+	mapWishlistItemToDto,
+	WishlistItem,
+	WishlistItemDto
+} from '../Entity/WishlistItem';
 import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
-import {removeWishlistItem} from '../Services/WishlistItemService';
+import {
+	removeWishlistItem,
+	updateWishlistItem
+} from '../Services/WishlistItemService';
 import {useSnackbar} from 'notistack';
 import MarkdownView from 'react-showdown';
 import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
+import {getAllPriorities, Priority} from '../Entity/Priority';
+import {WishList} from '../Entity/WishList';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
-	readonly wishlistId: number;
-	readonly canBeHidden?: boolean;
+	readonly wishlist: WishList;
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
-	readonly onItemUpdate?: (
-		itemId: number,
-		update: Partial<WishlistItemDto>
-	) => void;
-	readonly loadingVisibility: boolean;
+	readonly onWishlistEdit?: (wishlist: WishList) => void;
 	readonly onRemove?: (wishlistId: number, itemId: number) => void;
 }
 
 export function WishlistItemComponent(
 	props: WishlistItemComponentProps
 ): React.ReactElement {
+	type ProgressField = (keyof WishlistItemDto)[];
 	const [open, setOpen] = React.useState<boolean>(false);
+	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const {enqueueSnackbar} = useSnackbar();
+	const [circularProgress, setCircularProgress] =
+		React.useState<ProgressField>([]);
 	const {t} = useTranslation();
+
+	/* HANDLERS */
 
 	function handleToggleExpandButton(): void {
 		setOpen((prevOpen: boolean): boolean => !prevOpen);
 	}
 
-	function renderExpandButton(): React.ReactElement {
+	function handleEditButton(event: React.MouseEvent): void {
+		event.stopPropagation();
+		return props.onEdit!(props.item);
+	}
+
+	function handleVisibilityClick(event: React.MouseEvent): void {
+		if (props.wishlist.hasPassword) {
+			event.stopPropagation();
+			handleItemUpdate(props.item.id, 'hidden', !props.item.hidden);
+		}
+	}
+
+	function handlePriorityChoiceOpen(
+		event: React.MouseEvent<HTMLDivElement>
+	): void {
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	}
+
+	function handlePriorityChoiceClose(): void {
+		setAnchorEl(null);
+	}
+
+	function handlePriorityChoice(
+		event: React.MouseEvent<HTMLLIElement>
+	): void {
+		const priorityId: number = event.currentTarget.value;
+		handleItemUpdate(props.item.id, 'priority_id', priorityId);
+		handlePriorityChoiceClose();
+	}
+
+	function handleItemUpdate<K extends keyof WishlistItemDto>(
+		itemId: number,
+		field: K,
+		newValue: WishlistItemDto[K]
+	): void {
+		addToCircularProgress(field);
+		const wishlistItems: WishlistItem[] = props.wishlist.wishlistItems;
+		const itemIndex: number = wishlistItems.findIndex(
+			(i: WishlistItem): boolean => i.id === itemId
+		);
+		const item: WishlistItem = wishlistItems[itemIndex];
+		const itemDto: WishlistItemDto = mapWishlistItemToDto(item, {
+			[field]: newValue
+		});
+		updateWishlistItem(props.wishlist.id, itemDto)
+			.then((): void => {
+				props.wishlist.wishlistItems[itemIndex] =
+					mapWishlistItemFromDto(itemDto);
+				props.onWishlistEdit?.(props.wishlist);
+			})
+			.finally((): void => removeFromCircularProgress(field));
+	}
+
+	function handleRemoveButton(event: React.MouseEvent): void {
+		event.stopPropagation();
+		removeWishlistItem(props.wishlist.id, props.item.id)
+			.then((): void => {
+				props.onRemove!(props.wishlist.id, props.item.id);
+				enqueueSnackbar(t('item-removed'), {
+					variant: 'success'
+				});
+			})
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
+			);
+	}
+
+	/* PROGRESS */
+
+	function addToCircularProgress(field: keyof WishlistItemDto): void {
+		setCircularProgress(
+			(prev: ProgressField): ProgressField => [...prev, field]
+		);
+	}
+
+	function removeFromCircularProgress(field: keyof WishlistItemDto): void {
+		setCircularProgress(
+			(prev: ProgressField): ProgressField =>
+				prev.filter(
+					(item: keyof WishlistItemDto): boolean => item !== field
+				)
+		);
+	}
+
+	/* RENDERING */
+
+	function renderExpandIcon(): React.ReactElement {
 		if (!open) {
 			return <KeyboardArrowDownIcon />;
 		}
 		return <KeyboardArrowUpIcon />;
 	}
 
+	function renderEditButton(): React.ReactElement {
+		if (!props.onEdit) {
+			return <></>;
+		}
+		return (
+			<IconButton
+				aria-label='edit'
+				onClick={handleEditButton}
+				data-testid={`edit-wishlist-item-${props.wishlist.id}-${props.item.id}`}
+			>
+				<EditIcon />
+			</IconButton>
+		);
+	}
+
+	function renderVisibilityGridItem(): React.ReactElement {
+		return (
+			<Grid
+				size={1}
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+			>
+				{renderVisibilityIcon()}
+			</Grid>
+		);
+	}
+
 	function renderVisibilityIcon(): React.ReactElement {
-		if (props.loadingVisibility) {
+		if (circularProgress.includes('hidden')) {
 			return (
 				<CircularProgress
-					data-testid='item-loading-progress'
+					data-testid='progress-loading-hidden'
 					size={24}
 				/>
 			);
@@ -81,36 +209,37 @@ export function WishlistItemComponent(
 		);
 	}
 
-	function handleVisibilityClick(event: React.MouseEvent): void {
-		if (props.canBeHidden) {
-			event.stopPropagation();
-			props.onItemUpdate!(props.item.id, {hidden: !props.item.hidden});
-		}
-	}
-
-	function renderVisibilityIconCell(): React.ReactElement {
-		if (!props.onItemUpdate) {
-			return <></>;
-		}
-		return <Grid size={1}>{renderVisibilityIcon()}</Grid>;
-	}
-
-	function renderEditButton(): React.ReactElement {
-		if (!props.onEdit) {
-			return <></>;
-		}
+	function renderPriorityGridItem(): React.ReactElement {
 		return (
-			<IconButton
-				aria-label='edit'
-				onClick={handleEditButton}
-				data-testid={`edit-wishlist-item-${props.wishlistId}-${props.item.id}`}
+			<Grid
+				size={1}
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
 			>
-				<EditIcon />
-			</IconButton>
+				{renderPriorityChip()}
+			</Grid>
 		);
 	}
 
-	function renderRemoveButton(): React.ReactElement {
+	function renderPriorityChip(): React.ReactElement {
+		if (circularProgress.includes('priority_id')) {
+			return (
+				<CircularProgress
+					data-testid='progress-loading-priority'
+					size={24}
+				/>
+			);
+		}
+		return (
+			<PriorityBadge
+				value={props.item.priorityId}
+				onClick={handlePriorityChoiceOpen}
+			/>
+		);
+	}
+
+	function renderRemoveButtonGridItem(): React.ReactElement {
 		if (!props.onRemove) {
 			return <></>;
 		}
@@ -119,7 +248,7 @@ export function WishlistItemComponent(
 				<IconButton
 					aria-label='delete'
 					onClick={handleRemoveButton}
-					data-testid={`remove-wishlist-item-${props.wishlistId}-${props.item.id}`}
+					data-testid={`remove-wishlist-item-${props.wishlist.id}-${props.item.id}`}
 				>
 					<DeleteForeverOutlined color='error' />
 				</IconButton>
@@ -127,23 +256,17 @@ export function WishlistItemComponent(
 		);
 	}
 
-	async function handleRemoveButton(event: React.MouseEvent): Promise<void> {
-		event.stopPropagation();
-		await removeWishlistItem(props.wishlistId, props.item.id)
-			.then((): void => {
-				props.onRemove!(props.wishlistId, props.item.id);
-				enqueueSnackbar(t('item-removed'), {
-					variant: 'success'
-				});
-			})
-			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
-			);
-	}
-
-	function handleEditButton(event: React.MouseEvent): void {
-		event.stopPropagation();
-		return props.onEdit!(props.item);
+	function renderPriorityMenuItem(priority: Priority): React.ReactElement {
+		return (
+			<MenuItem
+				onClick={handlePriorityChoice}
+				key={priority.value}
+				value={priority.value}
+			>
+				<PriorityBadge value={priority.value} />
+				&nbsp;-&nbsp;{t(priority.descriptionKey)}
+			</MenuItem>
+		);
 	}
 
 	return (
@@ -176,7 +299,7 @@ export function WishlistItemComponent(
 			>
 				<Grid>
 					<IconButton aria-label='expand row'>
-						{renderExpandButton()}
+						{renderExpandIcon()}
 					</IconButton>
 				</Grid>
 				<Grid>
@@ -199,11 +322,9 @@ export function WishlistItemComponent(
 					{renderEditButton()}
 					{props.item.name}
 				</Grid>
-				{renderVisibilityIconCell()}
-				<Grid size={1}>
-					<PriorityBadge priorityId={props.item.priorityId} />
-				</Grid>
-				{renderRemoveButton()}
+				{renderVisibilityGridItem()}
+				{renderPriorityGridItem()}
+				{renderRemoveButtonGridItem()}
 			</Grid>
 			<Collapse
 				in={open}
@@ -216,6 +337,26 @@ export function WishlistItemComponent(
 					</Typography>
 				</Box>
 			</Collapse>
+			<Menu
+				anchorEl={anchorEl}
+				open={anchorEl !== null}
+				onClose={handlePriorityChoiceClose}
+				slotProps={{
+					list: {
+						'aria-labelledby': 'basic-button'
+					}
+				}}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'center'
+				}}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'center'
+				}}
+			>
+				{getAllPriorities().map(renderPriorityMenuItem)}
+			</Menu>
 		</div>
 	);
 }

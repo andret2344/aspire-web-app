@@ -8,7 +8,7 @@ import {RenderResult} from '@testing-library/react';
 describe('PriorityBadge', (): void => {
 	test('renders with correct id', (): void => {
 		// arrange
-		renderForTest(<PriorityBadge priorityId={1} />);
+		renderForTest(<PriorityBadge value={1} />);
 
 		// act
 		const priorityNumber: HTMLElement =
@@ -21,7 +21,7 @@ describe('PriorityBadge', (): void => {
 	test('renders with incorrect id', (): void => {
 		// arrange
 		const render: RenderResult = renderForTest(
-			<PriorityBadge priorityId={-1} />
+			<PriorityBadge value={-1} />
 		);
 
 		// assert

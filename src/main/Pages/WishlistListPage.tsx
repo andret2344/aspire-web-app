@@ -8,18 +8,12 @@ import {WishlistSidebarItem} from '../Components/WishlistSidebarItem';
 import {getWishlists, removeWishlist} from '../Services/WishListService';
 import {CreateWishlistModal} from '../Components/Modals/CreateWishlistModal';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {
-	mapWishlistItemFromDto,
-	mapWishlistItemToDto,
-	WishlistItem,
-	WishlistItemDto
-} from '../Entity/WishlistItem';
+import {WishlistItem} from '../Entity/WishlistItem';
 import {DeleteWishlistModal} from '../Components/Modals/DeleteWishlistModal';
 import {EditItemModal} from '../Components/Modals/EditItemModal';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {useTokenValidation} from '../Hooks/useTokenValidation';
-import {updateWishlistItem} from '../Services/WishlistItemService';
 
 export function WishlistListPage(): React.ReactElement {
 	type Params = {readonly id?: string};
@@ -37,8 +31,7 @@ export function WishlistListPage(): React.ReactElement {
 	const [editingWishlistItem, setEditingWishlistItem] = React.useState<
 		WishlistItem | undefined
 	>(undefined);
-	const [loadingVisibilityItem, setLoadingVisibilityItem] =
-		React.useState<number>(-1);
+
 	const {enqueueSnackbar} = useSnackbar();
 	const theme: Theme = useTheme();
 	const {tokenLoading, tokenValid} = useTokenValidation();
@@ -193,41 +186,25 @@ export function WishlistListPage(): React.ReactElement {
 		wishlistItem: WishlistItem,
 		index: number
 	): React.ReactElement {
+		const wishlist: WishList | undefined =
+			findWishlistById(activeWishlistId);
+		if (!wishlist) {
+			return <></>;
+		}
 		return (
 			<WishlistItemComponent
 				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}
-				wishlistId={activeWishlistId}
-				canBeHidden={findWishlistById(activeWishlistId)?.hasPassword}
-				loadingVisibility={loadingVisibilityItem === wishlistItem.id}
+				wishlist={wishlist}
 				onEdit={handleItemEdit}
-				onItemUpdate={handleItemUpdate}
 				onRemove={handleItemRemove}
+				onWishlistEdit={(wishlist: WishList): void => {
+					wishlists[findWishlistIndexById(wishlist.id)] = wishlist;
+					setWishlists([...wishlists]);
+				}}
 			/>
 		);
-	}
-
-	function handleItemUpdate(
-		itemId: number,
-		updated: Partial<WishlistItemDto>
-	): void {
-		setLoadingVisibilityItem(itemId);
-		const wishlistIndex: number = findWishlistIndexById(activeWishlistId);
-		const wishlistItems: WishlistItem[] =
-			wishlists[wishlistIndex].wishlistItems;
-		const itemIndex: number = wishlistItems.findIndex(
-			(i: WishlistItem): boolean => i.id === itemId
-		);
-		const item: WishlistItem = wishlistItems[itemIndex];
-		const itemDto: WishlistItemDto = mapWishlistItemToDto(item, updated);
-		updateWishlistItem(activeWishlistId, itemDto)
-			.then((): void => {
-				wishlists[wishlistIndex].wishlistItems[itemIndex] =
-					mapWishlistItemFromDto(itemDto);
-				setWishlists([...wishlists]);
-			})
-			.finally((): void => setLoadingVisibilityItem(-1));
 	}
 
 	function renderItems(): React.ReactNode[] {

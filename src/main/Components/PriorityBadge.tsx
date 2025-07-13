@@ -1,13 +1,16 @@
 import {Tooltip, Typography} from '@mui/material';
 import React from 'react';
 import {getPriority, Priority} from '../Entity/Priority';
+import {useTranslation} from 'react-i18next';
 
 interface PriorityBadgeProps {
-	readonly priorityId: number;
+	readonly value: number;
+	readonly onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
-	const priority: Priority | undefined = getPriority(props.priorityId);
+	const priority: Priority | undefined = getPriority(props.value);
+	const {t} = useTranslation();
 
 	if (!priority) {
 		return <></>;
@@ -15,12 +18,15 @@ export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
 
 	return (
 		<Tooltip
-			title={priority.description}
+			title={t(priority.descriptionKey)}
+			arrow
+			disableInteractive
 			style={{
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center'
 			}}
+			onClick={props.onClick}
 		>
 			<Typography
 				data-testid='priority-number'

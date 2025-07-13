@@ -3,25 +3,25 @@ import {getPriorityColor} from '../Styles/theme';
 export interface Priority {
 	readonly value: number;
 	readonly color: string;
-	readonly description: string;
+	readonly descriptionKey: string;
 }
 
 const PRIORITY_HIGH: Priority = {
 	value: 1,
 	color: getPriorityColor(1),
-	description: 'Bardzo tego potrzebuję, pilny, niemalże krytyczna potrzeba.'
+	descriptionKey: 'priority-description-high'
 };
 
 const PRIORITY_MEDIUM: Priority = {
 	value: 2,
 	color: getPriorityColor(2),
-	description: 'Przydałoby mi się, gdyż często odczuwam brak.'
+	descriptionKey: 'priority-description-medium'
 };
 
 const PRIORITY_LOW: Priority = {
 	value: 3,
 	color: getPriorityColor(3),
-	description: 'Jak już naprawdę nie ma innej możliwości, niech będzie.'
+	descriptionKey: 'priority-description-low'
 };
 
 export function getAllPriorities(): Priority[] {
