@@ -73,8 +73,10 @@ export function WishlistItemComponent(
 	function handlePriorityChoiceOpen(
 		event: React.MouseEvent<HTMLDivElement>
 	): void {
-		event.stopPropagation();
-		setAnchorEl(event.currentTarget);
+		if (props.onWishlistEdit) {
+			event.stopPropagation();
+			setAnchorEl(event.currentTarget);
+		}
 	}
 
 	function handlePriorityChoiceClose(): void {
@@ -168,6 +170,9 @@ export function WishlistItemComponent(
 	}
 
 	function renderVisibilityGridItem(): React.ReactElement {
+		if (!props.onWishlistEdit) {
+			return <></>;
+		}
 		return (
 			<Grid
 				size={1}
@@ -263,7 +268,10 @@ export function WishlistItemComponent(
 				key={priority.value}
 				value={priority.value}
 			>
-				<PriorityBadge value={priority.value} />
+				<PriorityBadge
+					value={priority.value}
+					data-testid={`priority-menu-item-${priority.value}`}
+				/>
 				&nbsp;-&nbsp;{t(priority.descriptionKey)}
 			</MenuItem>
 		);

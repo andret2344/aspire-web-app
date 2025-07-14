@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 interface PriorityBadgeProps {
 	readonly value: number;
 	readonly onClick?: React.MouseEventHandler<HTMLDivElement>;
+	readonly 'data-testid'?: string;
 }
 
 export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
@@ -29,7 +30,7 @@ export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
 			onClick={props.onClick}
 		>
 			<Typography
-				data-testid='priority-number'
+				data-testid={props['data-testid'] || 'item-priority-chip'}
 				color='black'
 				sx={{
 					backgroundColor: priority.color,

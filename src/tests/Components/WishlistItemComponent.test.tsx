@@ -1,4 +1,7 @@
-import {mockedRemoveWishlistItem} from '../__mocks__/MockWishlistItemService';
+import {
+	mockedRemoveWishlistItem,
+	mockedUpdateWishlistItem
+} from '../__mocks__/MockWishlistItemService';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -11,207 +14,354 @@ import {
 } from '../__utils__/DataFactory';
 
 describe('WishlistItemComponent', (): void => {
-	it('renders without edit handler', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem()}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onRemove={(): void => undefined}
-			/>
-		);
+	describe('edit and delete', (): void => {
+		it('renders without edit handler', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
+					position={1}
+					onRemove={(): void => undefined}
+				/>
+			);
 
-		// act
-		const iconEdit: HTMLElement | null = screen.queryByTestId(
-			'edit-wishlist-item-1-1'
-		);
-		const iconRemove: HTMLElement | null = screen.queryByTestId(
-			'remove-wishlist-item-1-1'
-		);
+			// act
+			const iconEdit: HTMLElement | null = screen.queryByTestId(
+				'edit-wishlist-item-1-1'
+			);
+			const iconRemove: HTMLElement | null = screen.queryByTestId(
+				'remove-wishlist-item-1-1'
+			);
 
-		// assert
-		expect(iconEdit).toBeNull();
-		expect(iconRemove).not.toBeNull();
+			// assert
+			expect(iconEdit).toBeNull();
+			expect(iconRemove).not.toBeNull();
+		});
+
+		it('renders without remove handler', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
+					position={1}
+					onEdit={(): void => undefined}
+				/>
+			);
+
+			// act
+			const iconEdit: HTMLElement | null = screen.queryByTestId(
+				'edit-wishlist-item-1-1'
+			);
+			const iconRemove: HTMLElement | null = screen.queryByTestId(
+				'remove-wishlist-item-1-1'
+			);
+
+			// assert
+			expect(iconEdit).not.toBeNull();
+			expect(iconRemove).toBeNull();
+		});
+
+		it('renders without action handlers', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
+					position={1}
+				/>
+			);
+
+			// act
+			const iconEdit: HTMLElement | null = screen.queryByTestId(
+				'edit-wishlist-item-1-1'
+			);
+			const iconRemove: HTMLElement | null = screen.queryByTestId(
+				'remove-wishlist-item-1-1'
+			);
+
+			// assert
+			expect(iconEdit).toBeNull();
+			expect(iconRemove).toBeNull();
+		});
+
+		it('handles remove item with success', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			const handleRemoveButtonClick: jest.Mock = jest.fn();
+			mockedRemoveWishlistItem.mockResolvedValue(void 0);
+
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
+					position={1}
+					onEdit={(): void => undefined}
+					onRemove={handleRemoveButtonClick}
+				/>
+			);
+
+			// act
+			const removeItemButton: HTMLElement = screen.getByTestId(
+				'remove-wishlist-item-1-1'
+			);
+			await user.click(removeItemButton);
+
+			// assert
+			expect(handleRemoveButtonClick).toHaveBeenCalledTimes(1);
+			expect(handleRemoveButtonClick).toHaveBeenCalledWith(1, 1);
+		});
+
+		it('handles remove item edit with fail', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			const handleEditButtonClick: jest.Mock = jest.fn();
+			mockedRemoveWishlistItem.mockRejectedValue(void 0);
+
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
+					position={1}
+					onEdit={(): void => undefined}
+					onRemove={handleEditButtonClick}
+				/>
+			);
+
+			// act
+			const removeItemButton: HTMLElement = screen.getByTestId(
+				'remove-wishlist-item-1-1'
+			);
+			await user.click(removeItemButton);
+
+			// assert
+			expect(handleEditButtonClick).toHaveBeenCalledTimes(0);
+			await waitFor((): void =>
+				expect(
+					screen.getByText('something-went-wrong')
+				).toBeInTheDocument()
+			);
+		});
 	});
 
-	it('renders without remove handler', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem()}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onEdit={(): void => undefined}
-			/>
-		);
+	describe('visibility', (): void => {
+		it('renders without inline edit handler', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
+					position={1}
+					onEdit={(): void => undefined}
+					onRemove={(): void => undefined}
+				/>
+			);
 
-		// act
-		const iconEdit: HTMLElement | null = screen.queryByTestId(
-			'edit-wishlist-item-1-1'
-		);
-		const iconRemove: HTMLElement | null = screen.queryByTestId(
-			'remove-wishlist-item-1-1'
-		);
+			// act
+			const progress: HTMLElement | null = screen.queryByTestId(
+				'item-loading-progress'
+			);
+			const iconHidden: HTMLElement | null =
+				screen.queryByTestId('item-hidden-icon');
+			const iconVisible: HTMLElement | null =
+				screen.queryByTestId('item-visible-icon');
 
-		// assert
-		expect(iconEdit).not.toBeNull();
-		expect(iconRemove).toBeNull();
+			// assert
+			expect(progress).toBeNull();
+			expect(iconHidden).toBeNull();
+			expect(iconVisible).toBeNull();
+		});
+
+		xit('renders no visibility icons when loading', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem({hidden: true})}
+					wishlist={getSampleWishlist()}
+					position={1}
+					onEdit={(): void => undefined}
+					onRemove={(): void => undefined}
+				/>
+			);
+
+			// act
+			const iconVisible: HTMLElement | null =
+				screen.queryByTestId('item-visible-icon');
+			const iconHidden: HTMLElement | null =
+				screen.queryByTestId('item-hidden-icon');
+
+			// assert
+			expect(iconVisible).toBeNull();
+			expect(iconHidden).toBeNull();
+		});
+
+		it('handles hide item', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			const handleWishlistEditClick: jest.Mock = jest.fn();
+			mockedUpdateWishlistItem.mockResolvedValue(void 0);
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist({hasPassword: true})}
+					position={1}
+					onEdit={(): void => undefined}
+					onWishlistEdit={handleWishlistEditClick}
+					onRemove={(): void => undefined}
+				/>
+			);
+
+			// act
+			const iconHidden: HTMLElement =
+				screen.getByTestId('item-visible-icon');
+			await user.click(iconHidden);
+			const wishlistItemDescription: HTMLElement | null =
+				screen.queryByText('test description');
+
+			// assert
+			expect(wishlistItemDescription).toBeNull();
+			expect(handleWishlistEditClick).toHaveBeenCalledTimes(1);
+			expect(handleWishlistEditClick).toHaveBeenCalledWith(
+				getSampleWishlist({
+					hasPassword: true,
+					wishlistItems: [getSampleWishlistItem({hidden: true})]
+				})
+			);
+		});
+
+		it('handles show item', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			const handleWishlistEditClick: jest.Mock = jest.fn();
+			mockedUpdateWishlistItem.mockResolvedValue(void 0);
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem({hidden: true})}
+					wishlist={getSampleWishlist({hasPassword: true})}
+					position={1}
+					onEdit={(): void => undefined}
+					onWishlistEdit={handleWishlistEditClick}
+					onRemove={(): void => undefined}
+				/>
+			);
+
+			// act
+			const iconHidden: HTMLElement =
+				screen.getByTestId('item-hidden-icon');
+			await user.click(iconHidden);
+			const wishlistItemDescription: HTMLElement | null =
+				screen.queryByText('test description');
+
+			// assert
+			expect(wishlistItemDescription).toBeNull();
+			expect(handleWishlistEditClick).toHaveBeenCalledTimes(1);
+			expect(handleWishlistEditClick).toHaveBeenCalledWith(
+				getSampleWishlist({
+					hasPassword: true,
+					wishlistItems: [getSampleWishlistItem({hidden: false})]
+				})
+			);
+		});
+
+		it('handles visibility icon click to expand the description', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			const handleWishlistEditClick: jest.Mock = jest.fn();
+			mockedUpdateWishlistItem.mockResolvedValue(void 0);
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem({hidden: true})}
+					wishlist={getSampleWishlist({hasPassword: true})}
+					position={1}
+					onEdit={(): void => undefined}
+					onWishlistEdit={handleWishlistEditClick}
+					onRemove={(): void => undefined}
+				/>
+			);
+
+			// act
+			const iconHidden: HTMLElement =
+				screen.getByTestId('item-hidden-icon');
+			await user.click(iconHidden);
+			const wishlistItemDescription: HTMLElement =
+				screen.getByText('Item description');
+
+			// assert
+			expect(wishlistItemDescription).toBeInTheDocument();
+			expect(handleWishlistEditClick).toHaveBeenCalledTimes(0);
+		});
 	});
 
-	it('renders without action handlers', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem()}
-				wishlist={getSampleWishlist()}
-				position={1}
-			/>
-		);
+	describe('priority', (): void => {
+		it('handles priority change', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			const handleWishlistEditClick: jest.Mock = jest.fn();
+			mockedUpdateWishlistItem.mockResolvedValue(void 0);
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
+					position={1}
+					onEdit={(): void => undefined}
+					onWishlistEdit={handleWishlistEditClick}
+					onRemove={(): void => undefined}
+				/>
+			);
 
-		// act
-		const iconEdit: HTMLElement | null = screen.queryByTestId(
-			'edit-wishlist-item-1-1'
-		);
-		const iconRemove: HTMLElement | null = screen.queryByTestId(
-			'remove-wishlist-item-1-1'
-		);
+			// act
+			const priorityChip: HTMLElement =
+				screen.getByTestId('item-priority-chip');
+			await user.click(priorityChip);
+			const priorityMenuItem: HTMLElement = screen.getByTestId(
+				'priority-menu-item-2'
+			);
+			await user.click(priorityMenuItem);
+			const wishlistItemDescription: HTMLElement | null =
+				screen.queryByText('Item description');
 
-		// assert
-		expect(iconEdit).toBeNull();
-		expect(iconRemove).toBeNull();
-	});
+			// assert
+			expect(wishlistItemDescription).toBeNull();
+			expect(handleWishlistEditClick).toHaveBeenCalledTimes(1);
+			expect(handleWishlistEditClick).toHaveBeenCalledWith(
+				getSampleWishlist({
+					wishlistItems: [getSampleWishlistItem({priorityId: 2})]
+				})
+			);
+		});
 
-	xit('renders without visibility handler', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem()}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onEdit={(): void => undefined}
-				onRemove={(): void => undefined}
-			/>
-		);
+		it('handles row expand without wishlist edit handler', async (): Promise<void> => {
+			// arrange
+			user.setup();
+			const handleWishlistEditClick: jest.Mock = jest.fn();
+			mockedUpdateWishlistItem.mockResolvedValue(void 0);
+			renderForTest(
+				<WishlistItemComponent
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
+					position={1}
+					onEdit={(): void => undefined}
+					onRemove={(): void => undefined}
+				/>
+			);
 
-		// act
-		const progress: HTMLElement | null = screen.queryByTestId(
-			'item-loading-progress'
-		);
-		const iconHidden: HTMLElement | null =
-			screen.queryByTestId('item-hidden-icon');
-		const iconVisible: HTMLElement | null =
-			screen.queryByTestId('item-visible-icon');
+			// act
+			const priorityChip: HTMLElement =
+				screen.getByTestId('item-priority-chip');
+			await user.click(priorityChip);
+			const wishlistItemDescription: HTMLElement =
+				screen.getByText('Item description');
 
-		// assert
-		expect(progress).toBeNull();
-		expect(iconHidden).toBeNull();
-		expect(iconVisible).toBeNull();
-	});
-
-	xit('renders no visibility icons when loading', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem({hidden: true})}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onEdit={(): void => undefined}
-				onRemove={(): void => undefined}
-			/>
-		);
-
-		// act
-		const iconVisible: HTMLElement | null =
-			screen.queryByTestId('item-visible-icon');
-		const iconHidden: HTMLElement | null =
-			screen.queryByTestId('item-hidden-icon');
-
-		// assert
-		expect(iconVisible).toBeNull();
-		expect(iconHidden).toBeNull();
-	});
-
-	xit('handles hide item', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		const handleVisibilityClick: jest.Mock = jest.fn();
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem()}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onEdit={(): void => undefined}
-				onRemove={(): void => undefined}
-			/>
-		);
-
-		// act
-		const iconHidden: HTMLElement = screen.getByTestId('item-visible-icon');
-		await user.click(iconHidden);
-		const wishlistItemDescription: HTMLElement | null =
-			screen.queryByText('test description');
-
-		// assert
-		expect(wishlistItemDescription).toBeNull();
-		expect(handleVisibilityClick).toHaveBeenCalledTimes(1);
-		expect(handleVisibilityClick).toHaveBeenCalledWith(1, {hidden: true});
-	});
-
-	xit('handles show item', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		const handleVisibilityClick: jest.Mock = jest.fn();
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem({hidden: true})}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onEdit={(): void => undefined}
-				onRemove={(): void => undefined}
-			/>
-		);
-
-		// act
-		const iconHidden: HTMLElement = screen.getByTestId('item-hidden-icon');
-		await user.click(iconHidden);
-		const wishlistItemDescription: HTMLElement | null =
-			screen.queryByText('test description');
-
-		// assert
-		expect(wishlistItemDescription).toBeNull();
-		expect(handleVisibilityClick).toHaveBeenCalledTimes(1);
-		expect(handleVisibilityClick).toHaveBeenCalledWith(1, {hidden: false});
-	});
-
-	xit('handles visibility icon click to expand the description', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		const handleVisibilityClick: jest.Mock = jest.fn();
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem({hidden: true})}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onEdit={(): void => undefined}
-				onRemove={(): void => undefined}
-			/>
-		);
-
-		// act
-		const iconHidden: HTMLElement = screen.getByTestId('item-hidden-icon');
-		await user.click(iconHidden);
-		const wishlistItemDescription: HTMLElement =
-			screen.getByText('Item description');
-
-		// assert
-		expect(wishlistItemDescription).toBeInTheDocument();
-		expect(handleVisibilityClick).toHaveBeenCalledTimes(0);
+			// assert
+			expect(wishlistItemDescription).toBeInTheDocument();
+			expect(handleWishlistEditClick).toHaveBeenCalledTimes(0);
+		});
 	});
 
 	it('handles item edit', async (): Promise<void> => {
@@ -266,61 +416,5 @@ describe('WishlistItemComponent', (): void => {
 
 		// assert
 		expect(descriptionElement).toBeInTheDocument();
-	});
-
-	it('handles remove item with success', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		const handleRemoveButtonClick: jest.Mock = jest.fn();
-		mockedRemoveWishlistItem.mockResolvedValue(void 0);
-
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem()}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onEdit={(): void => undefined}
-				onRemove={handleRemoveButtonClick}
-			/>
-		);
-
-		// act
-		const removeItemButton: HTMLElement = screen.getByTestId(
-			'remove-wishlist-item-1-1'
-		);
-		await user.click(removeItemButton);
-
-		// assert
-		expect(handleRemoveButtonClick).toHaveBeenCalledTimes(1);
-		expect(handleRemoveButtonClick).toHaveBeenCalledWith(1, 1);
-	});
-
-	it('handles remove item edit with fail', async (): Promise<void> => {
-		// arrange
-		user.setup();
-		const handleEditButtonClick: jest.Mock = jest.fn();
-		mockedRemoveWishlistItem.mockRejectedValue(void 0);
-
-		renderForTest(
-			<WishlistItemComponent
-				item={getSampleWishlistItem()}
-				wishlist={getSampleWishlist()}
-				position={1}
-				onEdit={(): void => undefined}
-				onRemove={handleEditButtonClick}
-			/>
-		);
-
-		// act
-		const removeItemButton: HTMLElement = screen.getByTestId(
-			'remove-wishlist-item-1-1'
-		);
-		await user.click(removeItemButton);
-
-		// assert
-		expect(handleEditButtonClick).toHaveBeenCalledTimes(0);
-		await waitFor((): void =>
-			expect(screen.getByText('something-went-wrong')).toBeInTheDocument()
-		);
 	});
 });

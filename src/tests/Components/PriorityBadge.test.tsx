@@ -12,7 +12,7 @@ describe('PriorityBadge', (): void => {
 
 		// act
 		const priorityNumber: HTMLElement =
-			screen.getByTestId('priority-number');
+			screen.getByTestId('item-priority-chip');
 
 		// assert
 		expect(priorityNumber).toBeInTheDocument();
