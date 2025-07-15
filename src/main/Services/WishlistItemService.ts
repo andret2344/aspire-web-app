@@ -31,13 +31,9 @@ export async function addWishlistItem(
 export async function updateWishlistItem(
 	wishlistId: number,
 	item: WishlistItemDto
-): Promise<WishlistItemDto | null> {
+): Promise<void> {
 	const {id, ...rest} = item;
-	const result: AxiosResponse<WishlistItemDto> = await apiInstance.put(
-		`/${wishlistId}/wishlistitem/${id}`,
-		rest
-	);
-	return result.data;
+	await apiInstance.put(`/${wishlistId}/wishlistitem/${id}`, rest);
 }
 
 export async function removeWishlistItem(

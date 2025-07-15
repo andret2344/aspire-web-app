@@ -20,7 +20,6 @@ import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {act, RenderResult, waitFor} from '@testing-library/react';
 import {WishlistListPage} from '../../main/Pages/WishlistListPage';
-import {WishList} from '../../main/Entity/WishList';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {
 	getSampleWishlist,
@@ -31,17 +30,16 @@ describe('WishlistListPage', (): void => {
 	describe('wishlist', (): void => {
 		it('handles adding new wishlist correctly', async (): Promise<void> => {
 			// arrange
-			const newWishlist: WishList = {
-				id: 2,
-				uuid: 'b838027b-9177-43d6-918e-67917f1d9b16',
-				name: 'New Mock Wishlist',
-				wishlistItems: [],
-				hasPassword: false
-			};
 			user.setup();
 			mockedUseParams.mockReturnValue({id: '1'});
 			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
-			mockedAddWishlist.mockResolvedValue(newWishlist);
+			mockedAddWishlist.mockResolvedValue(
+				getSampleWishlist({
+					id: 2,
+					name: 'New Mock Wishlist',
+					wishlistItems: []
+				})
+			);
 			mockedIsTokenValid.mockReturnValue(true);
 
 			// act
@@ -52,14 +50,14 @@ describe('WishlistListPage', (): void => {
 			const input: HTMLInputElement = screen
 				.getByTestId('input-wishlist-name')
 				.querySelector('input') as HTMLInputElement;
-			await user.type(input, newWishlist.name);
+			await user.type(input, 'New Mock Wishlist');
 			const saveButton: HTMLElement = screen.getByTestId('button-save');
 			await act(async (): Promise<void> => user.click(saveButton));
 
 			// assert
 			await waitFor((): void =>
 				expect(
-					screen.getAllByText(newWishlist.name).length
+					screen.getAllByText('New Mock Wishlist').length
 				).toBeGreaterThan(0)
 			);
 		});

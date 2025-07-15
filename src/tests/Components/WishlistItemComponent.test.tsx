@@ -177,30 +177,6 @@ describe('WishlistItemComponent', (): void => {
 			expect(iconVisible).toBeNull();
 		});
 
-		xit('renders no visibility icons when loading', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			renderForTest(
-				<WishlistItemComponent
-					item={getSampleWishlistItem({hidden: true})}
-					wishlist={getSampleWishlist()}
-					position={1}
-					onEdit={(): void => undefined}
-					onRemove={(): void => undefined}
-				/>
-			);
-
-			// act
-			const iconVisible: HTMLElement | null =
-				screen.queryByTestId('item-visible-icon');
-			const iconHidden: HTMLElement | null =
-				screen.queryByTestId('item-hidden-icon');
-
-			// assert
-			expect(iconVisible).toBeNull();
-			expect(iconHidden).toBeNull();
-		});
-
 		it('handles hide item', async (): Promise<void> => {
 			// arrange
 			user.setup();
@@ -276,8 +252,8 @@ describe('WishlistItemComponent', (): void => {
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 			renderForTest(
 				<WishlistItemComponent
-					item={getSampleWishlistItem({hidden: true})}
-					wishlist={getSampleWishlist({hasPassword: true})}
+					item={getSampleWishlistItem()}
+					wishlist={getSampleWishlist()}
 					position={1}
 					onEdit={(): void => undefined}
 					onWishlistEdit={handleWishlistEditClick}
@@ -286,9 +262,9 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconHidden: HTMLElement =
-				screen.getByTestId('item-hidden-icon');
-			await user.click(iconHidden);
+			const iconVisible: HTMLElement =
+				screen.getByTestId('item-visible-icon');
+			await user.click(iconVisible);
 			const wishlistItemDescription: HTMLElement =
 				screen.getByText('Item description');
 

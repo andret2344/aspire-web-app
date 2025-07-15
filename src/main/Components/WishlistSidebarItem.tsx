@@ -69,7 +69,6 @@ export function WishlistSidebarItem(
 		if (!editedName || editedName === props.wishlist.name) {
 			return;
 		}
-		console.log('name changed');
 		updateWishlistName(props.wishlist.id, editedName)
 			.then((): void => {
 				props.onNameEdit(editedName);

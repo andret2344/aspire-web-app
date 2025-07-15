@@ -78,11 +78,10 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	): React.ReactElement {
 		return (
 			<WishlistItemComponent
-				loadingVisibility={false}
+				wishlist={wishlist!}
 				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}
-				wishlistId={wishlist!.id}
 			/>
 		);
 	}
@@ -100,26 +99,24 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 			columnSpacing={2}
 			sx={{paddingTop: '56px'}}
 		>
-			{wishlist && (
-				<Grid size={{xs: 12}}>
-					<Box
-						sx={(theme: Theme): SystemStyleObject<Theme> => ({
-							height: '60px',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							width: '100%',
-							backgroundColor: getThemeColor(theme, 'lightBlue'),
-							borderTop: '2px #FFFFFF',
-							paddingLeft: '10px'
-						})}
-					>
-						{wishlist.name}
-						{renderPasswordButton()}
-					</Box>
-					{renderItems()}
-				</Grid>
-			)}
+			<Grid size={{xs: 12}}>
+				<Box
+					sx={(theme: Theme): SystemStyleObject<Theme> => ({
+						height: '60px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						width: '100%',
+						backgroundColor: getThemeColor(theme, 'lightBlue'),
+						borderTop: '2px #FFFFFF',
+						paddingLeft: '10px'
+					})}
+				>
+					{wishlist!.name}
+					{renderPasswordButton()}
+				</Box>
+				{renderItems()}
+			</Grid>
 			<WishlistInputPasswordModal
 				wishlist={wishlist!}
 				open={passwordModalOpened}

@@ -109,7 +109,7 @@ export function WishlistItemComponent(
 			.then((): void => {
 				props.wishlist.wishlistItems[itemIndex] =
 					mapWishlistItemFromDto(itemDto);
-				props.onWishlistEdit?.(props.wishlist);
+				props.onWishlistEdit!(props.wishlist);
 			})
 			.finally((): void => removeFromCircularProgress(field));
 	}
