@@ -34,6 +34,10 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 			});
 	}, [navigate, params.uuid]);
 
+	if (!wishlist) {
+		return <></>;
+	}
+
 	function handlePasswordModalClose(): void {
 		setPasswordModalOpened(false);
 	}
@@ -112,13 +116,13 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 						paddingLeft: '10px'
 					})}
 				>
-					{wishlist!.name}
+					{wishlist.name}
 					{renderPasswordButton()}
 				</Box>
 				{renderItems()}
 			</Grid>
 			<WishlistInputPasswordModal
-				wishlist={wishlist!}
+				wishlist={wishlist}
 				open={passwordModalOpened}
 				onAccept={handlePasswordEnter}
 				onClose={handlePasswordModalClose}

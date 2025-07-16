@@ -53,6 +53,7 @@
 	"wrong-login-or-password": "Niepoprawny login lub hasło. Spróbuj ponownie.",
 	"password-changed": "Hasło zmieniono prawidłowo",
 	"password-invalid": "Coś poszło nie tak! Prawdopodobnie twoje obecne hasło jest nieprawidłowe.",
+	"password-reset-link-sent": "Link do zresetowania hasła został wysłany!",
 	"set-wishlist-password": "Ustaw hasło dla tej listy życzeń",
 	"access-wishlist-password": "Wpisz hasło, by uzyskać dostęp do ukrytych elementów",
 	"hide-item-tooltip": "Jeśli chcesz ukryć ten element, ustaw hasło listy życzeń.",

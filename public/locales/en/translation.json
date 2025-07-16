@@ -53,6 +53,7 @@
 	"wrong-login-or-password": "Wrong login or password. Try again.",
 	"password-changed": "Password changed successfully!",
 	"password-invalid": "Some error occurred! Probably your current password is not valid.",
+	"password-reset-link-sent": "Password reset link sent!",
 	"set-wishlist-password": "Set password for this wishlist",
 	"access-wishlist-password": "Enter the password to access hidden items",
 	"hide-item-tooltip": "If you want to hide this wish, set a password for the wishlist.",

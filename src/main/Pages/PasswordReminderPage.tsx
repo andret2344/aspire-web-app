@@ -39,13 +39,13 @@ export function PasswordReminderPage(): React.ReactElement {
 	function onSubmit(data: Inputs): void {
 		requestResetPassword(data.email)
 			.then((): void => {
-				enqueueSnackbar('Password reset link sent!', {
+				enqueueSnackbar(t('password-reset-link-sent'), {
 					variant: 'success'
 				});
 				navigate('/');
 			})
 			.catch((): void => {
-				enqueueSnackbar('something-went-wrong', {
+				enqueueSnackbar(t('something-went-wrong'), {
 					variant: 'error'
 				});
 			});
