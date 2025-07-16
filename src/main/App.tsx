@@ -14,8 +14,10 @@ import {setConfig} from './Services/ApiInstance';
 import {PasswordReminderPage} from './Pages/PasswordReminderPage';
 import {NewPasswordPage} from './Pages/NewPasswordPage';
 import './i18n';
-import {Header} from './Components/Header';
 import {refreshToken} from './Services/AuthService';
+import {AppLayout} from './Layouts/AppLayout';
+import {AuthLayout} from './Layouts/AuthLayout';
+import {Header} from './Components/Header';
 
 export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -39,45 +41,47 @@ export function App(): React.ReactElement {
 			<CssBaseline />
 			<Header />
 			<Routes>
-				<Route
-					path='/'
-					element={<LoginPage />}
-				/>
-				<Route
-					path='register'
-					element={<RegisterPage />}
-				/>
-				<Route
-					path='wishlists'
-					element={<WishlistListPage />}
-				/>
-				<Route
-					path='wishlists/:id'
-					element={<WishlistListPage />}
-				/>
-				<Route
-					path='wishlist/:uuid'
-					element={<ReadonlyWishlistPage />}
-				/>
-				<Route
-					path='profile'
-					element={<ProfilePage />}
-				/>
+				<Route element={<AuthLayout />}>
+					<Route
+						path='/'
+						element={<LoginPage />}
+					/>
+					<Route
+						path='register'
+						element={<RegisterPage />}
+					/>
+					<Route
+						path='reset-password'
+						element={<PasswordReminderPage />}
+					/>
+					<Route
+						path='new-password/:token'
+						element={<NewPasswordPage />}
+					/>
+				</Route>
+
+				<Route element={<AppLayout />}>
+					<Route
+						path='wishlists'
+						element={<WishlistListPage />}
+					/>
+					<Route
+						path='wishlists/:id'
+						element={<WishlistListPage />}
+					/>
+					<Route
+						path='wishlist/:uuid'
+						element={<ReadonlyWishlistPage />}
+					/>
+					<Route
+						path='profile'
+						element={<ProfilePage />}
+					/>
+				</Route>
+
 				<Route
 					path='*'
 					element={<ErrorPage />}
-				/>
-				<Route
-					path='error'
-					element={<ErrorPage />}
-				/>
-				<Route
-					path='reset-password'
-					element={<PasswordReminderPage />}
-				/>
-				<Route
-					path='new-password/:token'
-					element={<NewPasswordPage />}
 				/>
 			</Routes>
 		</SnackbarProvider>
