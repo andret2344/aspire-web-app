@@ -50,6 +50,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 			<IconButton
 				onClick={props.onToggle}
 				sx={{m: 1}}
+				data-testid='nav-drawer-toggle'
 			>
 				{props.open ? <MenuOpen /> : <Menu />}
 			</IconButton>
@@ -68,6 +69,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 				<ListItemButton
 					component={Link}
 					to='/profile'
+					data-testid='nav-drawer-item-profile'
 				>
 					<ListItemIcon>
 						<Settings />
@@ -79,7 +81,10 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 			<Divider />
 
 			<List>
-				<ListItemButton onClick={handleLogout}>
+				<ListItemButton
+					onClick={handleLogout}
+					data-testid='nav-drawer-item-logout'
+				>
 					<ListItemIcon>
 						<Logout />
 					</ListItemIcon>

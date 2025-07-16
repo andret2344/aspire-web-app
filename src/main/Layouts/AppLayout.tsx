@@ -8,7 +8,7 @@ import {
 } from '../Components/NavDrawer';
 
 export function AppLayout(): React.ReactElement {
-	const [drawerOpen, setDrawerOpen] = React.useState<boolean>(true);
+	const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
 	const width: number = drawerOpen
 		? WIDTH_DRAWER_OPENED
 		: WIDTH_DRAWER_CLOSED;
