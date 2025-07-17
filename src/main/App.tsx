@@ -58,6 +58,10 @@ export function App(): React.ReactElement {
 						path='new-password/:token'
 						element={<NewPasswordPage />}
 					/>
+					<Route
+						path='wishlist/:uuid'
+						element={<ReadonlyWishlistPage />}
+					/>
 				</Route>
 
 				<Route element={<AppLayout />}>
@@ -68,10 +72,6 @@ export function App(): React.ReactElement {
 					<Route
 						path='wishlists/:id'
 						element={<WishlistListPage />}
-					/>
-					<Route
-						path='wishlist/:uuid'
-						element={<ReadonlyWishlistPage />}
 					/>
 					<Route
 						path='profile'
