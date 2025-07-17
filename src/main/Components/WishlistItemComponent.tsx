@@ -6,7 +6,8 @@ import {
 	IconButton,
 	Menu,
 	MenuItem,
-	Typography
+	Typography,
+	Theme
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -31,6 +32,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishList} from '../Entity/WishList';
+import {getThemeColor} from '../Styles/theme';
+import {Container, SystemStyleObject} from '@mui/system';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -278,14 +281,15 @@ export function WishlistItemComponent(
 	}
 
 	return (
-		<div
+		<Box
+			key={props.wishlist.id}
 			data-testid='wishlist-item-row'
-			style={{
-				backgroundColor: 'darkblue',
+			sx={(theme: Theme): SystemStyleObject<Theme> => ({
+				backgroundColor: getThemeColor(theme, 'activeBlue'),
 				borderRadius: '12px',
 				padding: '8px',
 				margin: '16px'
-			}}
+			})}
 		>
 			<Grid
 				columns={24}
@@ -365,6 +369,6 @@ export function WishlistItemComponent(
 			>
 				{getAllPriorities().map(renderPriorityMenuItem)}
 			</Menu>
-		</div>
+		</Box>
 	);
 }
