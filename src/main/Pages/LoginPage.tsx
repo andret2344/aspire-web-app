@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
-import '../../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {logIn} from '../Services/AuthService';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
@@ -31,12 +30,13 @@ export function LoginPage(): React.ReactElement {
 	const {register, handleSubmit} = useForm();
 	const {tokenLoading, tokenValid} = useTokenValidation();
 
-	if (tokenLoading) {
-		return <></>;
-	}
+	React.useEffect((): void => {
+		if (!tokenLoading && tokenValid) {
+			navigate('/wishlists');
+		}
+	});
 
-	if (tokenValid) {
-		navigate('/wishlists');
+	if (tokenLoading) {
 		return <></>;
 	}
 
@@ -68,6 +68,7 @@ export function LoginPage(): React.ReactElement {
 	return (
 		<AuthContainer>
 			<form
+				data-testid='login-page-form'
 				style={{
 					width: '100%',
 					display: 'flex',
@@ -79,6 +80,7 @@ export function LoginPage(): React.ReactElement {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<TextField
+					data-testid='login-page-input-username'
 					autoComplete='new-password'
 					hiddenLabel
 					variant='filled'
@@ -92,6 +94,7 @@ export function LoginPage(): React.ReactElement {
 					{...register('email', {required: true})}
 				/>
 				<TextField
+					data-testid='login-page-input-password'
 					type={showPassword ? 'text' : 'password'}
 					autoComplete='new-password'
 					slotProps={{
@@ -126,6 +129,7 @@ export function LoginPage(): React.ReactElement {
 					{...register('password')}
 				/>
 				<Button
+					data-testid='login-page-button-login'
 					variant='contained'
 					sx={{
 						marginTop: '10px'
@@ -135,6 +139,7 @@ export function LoginPage(): React.ReactElement {
 					{t('log-in')}
 				</Button>
 				<Link
+					data-testid='login-page-button-forgot'
 					component={Anchor}
 					to='/reset-password'
 					marginTop='10px'

@@ -1,6 +1,5 @@
 import {Box, Button, Grid, IconButton, Theme, useTheme} from '@mui/material';
 import React from 'react';
-import '../../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {mapWishlistArrayFromDto, WishList} from '../Entity/WishList';
@@ -21,7 +20,7 @@ export function WishlistListPage(): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
+	const [loading, setLoading] = React.useState<boolean>(true);
 	const [addWishlistModalOpened, setAddWishlistModalOpened] =
 		React.useState<boolean>(false);
 	const [deleteModalOpened, setDeleteModalOpened] =
@@ -47,8 +46,8 @@ export function WishlistListPage(): React.ReactElement {
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
 				navigate('/error');
-			});
-		setHiddenItems([]);
+			})
+			.finally((): void => setLoading(false));
 	}, [tokenValid, tokenLoading]);
 
 	if (tokenLoading) {
@@ -210,8 +209,7 @@ export function WishlistListPage(): React.ReactElement {
 	function renderItems(): React.ReactNode[] {
 		const activeWishlistItems: WishlistItem[] =
 			findWishlistById(activeWishlistId)?.wishlistItems ?? [];
-		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
-		return items.map(renderWishlistItem);
+		return activeWishlistItems.map(renderWishlistItem);
 	}
 
 	function handleEditAccept(wishlistId: number, item: WishlistItem): void {
@@ -219,7 +217,6 @@ export function WishlistListPage(): React.ReactElement {
 			(wishlist: WishList): boolean => wishlist.id === wishlistId
 		);
 		if (editingWishlistItem) {
-			wishlists[found].wishlistItems.push(...hiddenItems);
 			const foundItem: number = wishlists[found].wishlistItems.findIndex(
 				(it: WishlistItem): boolean => it.id === editingWishlistItem.id
 			);
@@ -228,6 +225,77 @@ export function WishlistListPage(): React.ReactElement {
 			wishlists[found].wishlistItems.push(item);
 		}
 		setWishlists([...wishlists]);
+	}
+
+	function renderSidebarGridItem(): React.JSX.Element {
+		if (loading) {
+			return <></>;
+		}
+		return (
+			<Grid
+				size={{xs: 12, md: 3}}
+				overflow={{xs: 'none', md: 'auto'}}
+				height={{xs: 'none', md: '100%'}}
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'flex-start',
+					alignItems: 'center',
+					borderRight: `2px solid ${theme.palette.divider}`
+				}}
+				data-testid='sidebar-grid-item'
+			>
+				{renderSidebarItems()}
+				<Box sx={{padding: '15px'}}>
+					<Button
+						data-testid='open-modal-button'
+						onClick={toggleWishlistModal}
+						variant='outlined'
+						sx={{
+							margin: '15px'
+						}}
+						startIcon={<AddCircleOutlineIcon />}
+					>
+						{t('add-new-wishlist')}
+					</Button>
+				</Box>
+			</Grid>
+		);
+	}
+
+	function renderItemsGridItem(): false | React.JSX.Element {
+		if (activeWishlistId === -1) {
+			return <></>;
+		}
+		return (
+			<Grid
+				size={{xs: 12, md: 9}}
+				overflow={{xs: 'none', md: 'auto'}}
+				maxHeight={{xs: 'none', md: '100%'}}
+				paddingBottom='50px'
+			>
+				{renderItems()}
+				<Box
+					aria-label='add item box'
+					sx={{
+						width: '100%',
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'flex-end',
+						justifyContent: 'flex-end'
+					}}
+				>
+					<IconButton
+						data-testid='add-item-button'
+						aria-label='Add item'
+						onClick={openEditModal}
+						sx={{margin: '12px', padding: '12px'}}
+					>
+						<AddCircleOutlineIcon fontSize='large' />
+					</IconButton>
+				</Box>
+			</Grid>
+		);
 	}
 
 	return (
@@ -242,62 +310,8 @@ export function WishlistListPage(): React.ReactElement {
 				}}
 				container
 			>
-				<Grid
-					size={{xs: 12, md: 3}}
-					overflow={{xs: 'none', md: 'auto'}}
-					height={{xs: 'none', md: '100%'}}
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'flex-start',
-						alignItems: 'center',
-						borderRight: `2px solid ${theme.palette.divider}`
-					}}
-				>
-					{renderSidebarItems()}
-					<Box sx={{padding: '15px'}}>
-						<Button
-							data-testid='open-modal-button'
-							onClick={toggleWishlistModal}
-							variant='outlined'
-							sx={{
-								margin: '15px'
-							}}
-							startIcon={<AddCircleOutlineIcon />}
-						>
-							{t('add-new-wishlist')}
-						</Button>
-					</Box>
-				</Grid>
-				{activeWishlistId !== -1 && (
-					<Grid
-						size={{xs: 12, md: 9}}
-						overflow={{xs: 'none', md: 'auto'}}
-						maxHeight={{xs: 'none', md: '100%'}}
-						paddingBottom='50px'
-					>
-						{renderItems()}
-						<Box
-							aria-label='add item box'
-							sx={{
-								width: '100%',
-								display: 'flex',
-								flexDirection: 'row',
-								alignItems: 'flex-end',
-								justifyContent: 'flex-end'
-							}}
-						>
-							<IconButton
-								data-testid='add-item-button'
-								aria-label='Add item'
-								onClick={openEditModal}
-								sx={{margin: '12px', padding: '12px'}}
-							>
-								<AddCircleOutlineIcon fontSize='large' />
-							</IconButton>
-						</Box>
-					</Grid>
-				)}
+				{renderSidebarGridItem()}
+				{renderItemsGridItem()}
 			</Grid>
 			<CreateWishlistModal
 				opened={addWishlistModalOpened}

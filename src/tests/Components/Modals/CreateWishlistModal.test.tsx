@@ -6,13 +6,12 @@ import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {CreateWishlistModal} from '../../../main/Components/Modals/CreateWishlistModal';
 import {renderForTest} from '../../__utils__/RenderForTest';
-import {act, fireEvent, RenderResult} from '@testing-library/react';
 import {getSampleWishlist} from '../../__utils__/DataFactory';
 
-describe('WishlistModal', (): void => {
+describe('CreateWishlistModal', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	test('renders correctly', (): void => {
+	it('renders', (): void => {
 		// arrange
 		mockedUseMediaQuery.mockReturnValue(false);
 		renderForTest(
@@ -30,7 +29,7 @@ describe('WishlistModal', (): void => {
 		expect(saveButton).toBeInTheDocument();
 	});
 
-	test('clicks enter work correctly', async (): Promise<void> => {
+	it('sends request on enter click', async (): Promise<void> => {
 		// arrange
 		const mockAdd: jest.Mock = jest.fn();
 		mockedAddWishlist.mockResolvedValue(getSampleWishlist());
@@ -38,30 +37,25 @@ describe('WishlistModal', (): void => {
 		user.setup();
 
 		// act
-		await act(
-			(): RenderResult =>
-				renderForTest(
-					<CreateWishlistModal
-						opened={true}
-						onClose={(): void => undefined}
-						onAddWishlist={mockAdd}
-					/>
-				)
+		renderForTest(
+			<CreateWishlistModal
+				opened={true}
+				onClose={(): void => undefined}
+				onAddWishlist={mockAdd}
+			/>
 		);
 		const input: HTMLInputElement = screen
 			.getByTestId('input-wishlist-name')
 			.querySelector('input') as HTMLInputElement;
 
-		await act((): boolean =>
-			fireEvent.change(input, {target: {value: 'new wishlist'}})
-		);
-		await act((): boolean => fireEvent.submit(input));
+		await user.type(input, 'New wishlist');
+		await user.type(input, '{enter}');
 
 		// assert
 		expect(mockAdd).toHaveBeenCalledTimes(1);
 	});
 
-	test('presses enter with empty input', async (): Promise<void> => {
+	test('does not send a request when submitting with an empty input', async (): Promise<void> => {
 		// arrange
 		const mockAdd: jest.Mock = jest.fn();
 		mockedUseMediaQuery.mockReturnValue(true);

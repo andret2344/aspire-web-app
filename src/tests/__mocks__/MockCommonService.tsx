@@ -8,10 +8,7 @@ export const mockedJwtDecode: jest.Mock = jest.fn();
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'),
 	useParams: mockedUseParams,
-	useNavigate: () => mockedNavigate,
-	Navigate: jest.fn(
-		({to}): React.ReactElement => <div data-testid='navigate'>{to}</div>
-	)
+	useNavigate: () => mockedNavigate
 }));
 
 jest.mock('jwt-decode', () => ({

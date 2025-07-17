@@ -15,19 +15,11 @@ export async function getConfig(): Promise<Config | undefined> {
 		return undefined;
 	}
 
-	try {
-		const token: string | undefined = process.env.REACT_APP_API_TOKEN;
+	const token: string | undefined = process.env.REACT_APP_API_TOKEN;
 
-		const response: AxiosResponse<ConfigResponse> =
-			await axios.get<ConfigResponse>(
-				`https://discovery.andret.eu?uuid=${token}`
-			);
-		return response.data.data;
-	} catch (error) {
-		console.error(
-			'Error fetching production config:',
-			(error as Error).message
+	const response: AxiosResponse<ConfigResponse> =
+		await axios.get<ConfigResponse>(
+			`https://discovery.andret.eu?uuid=${token}`
 		);
-		return undefined;
-	}
+	return response.data.data;
 }
