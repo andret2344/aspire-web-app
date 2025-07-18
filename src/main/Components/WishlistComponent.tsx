@@ -1,16 +1,16 @@
 import React from 'react';
-import {Box, IconButton, Input, Link, Theme, Typography} from '@mui/material';
+import {Box, IconButton, Input, Theme, Typography} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {getThemeColor} from '../Styles/theme';
 import {WishList} from '../Entity/WishList';
-import {Link as Anchor} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import {
+	removeWishlist,
 	setWishlistPassword,
 	updateWishlistName
 } from '../Services/WishListService';
@@ -18,18 +18,24 @@ import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {getApiConfig} from '../Services/ApiInstance';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
+import {NavigateFunction, useNavigate} from 'react-router-dom';
+import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
 
-interface WishlistSidebarItemProps {
+interface WishlistComponentProps {
 	readonly wishlist: WishList;
 	readonly active: boolean;
-	readonly onRemove: () => void;
+	readonly onRemove: (wishlistId: number) => void;
 	readonly onNameEdit: (newName: string) => void;
 	readonly onPasswordChange: (newPassword: string) => void;
 }
 
-export function WishlistSidebarItem(
-	props: WishlistSidebarItemProps
+export function WishlistComponent(
+	props: WishlistComponentProps
 ): React.ReactElement {
+	const [deleteModalOpen, setDeleteModalOpen] =
+		React.useState<boolean>(false);
+
+	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 
@@ -102,6 +108,26 @@ export function WishlistSidebarItem(
 		return editedName === undefined
 			? renderTypographyName()
 			: renderInputName();
+	}
+
+	function handleWishlistRemove(): void {
+		removeWishlist(props.wishlist.id)
+			.then((): void => {
+				enqueueSnackbar(t('wishlist-removed'), {variant: 'success'});
+				props.onRemove(props.wishlist.id);
+			})
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
+			)
+			.finally((): void => setDeleteModalOpen(false));
+	}
+
+	function handleDeleteClick(): void {
+		setDeleteModalOpen(true);
+	}
+
+	function handleDeleteCancel(): void {
+		setDeleteModalOpen(false);
 	}
 
 	function handlePasswordClear(): void {
@@ -194,111 +220,72 @@ export function WishlistSidebarItem(
 			);
 	}
 
-	if (props.active) {
-		return (
-			<Link
-				key={props.wishlist.id}
-				sx={(theme: Theme): SystemStyleObject<Theme> => ({
-					color: 'inherit',
-					textDecoration: 'none',
-					cursor: 'pointer',
-					borderRadius: '10px',
-					backgroundColor: getThemeColor(theme, 'activeBlue'),
-					marginTop: '15px',
-					width: '80%',
-					'&:hover': {
-						backgroundColor: '#3f91de'
-					}
-				})}
-				component={Anchor}
-				to={`/wishlists/${props.wishlist.id}`}
-			>
-				<Box
-					sx={{
-						padding: '10px'
-					}}
-				>
-					{renderName()}
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'center'
-						}}
-					>
-						<IconButton
-							data-testid={`share-icon-button-${props.wishlist.id}`}
-							onClick={copyUrlToClipboard}
-							size='large'
-							aria-label='share'
-						>
-							<ShareIcon />
-						</IconButton>
-						<IconButton
-							data-testid='hidden-items-icon-button'
-							onClick={handlePasswordModalOpen}
-							size='large'
-							aria-label='access-password-modal'
-						>
-							{renderPasswordIcon()}
-						</IconButton>
-						<IconButton
-							onClick={props.onRemove}
-							size='large'
-							data-testid={`delete-wishlist-${props.wishlist.id}`}
-							aria-label={`delete-wishlist-${props.wishlist.id}`}
-						>
-							<DeleteIcon />
-						</IconButton>
-					</Box>
-				</Box>
-				<WishlistSetupPasswordModal
-					wishlist={props.wishlist}
-					open={passwordModalOpened}
-					onAccept={handlePasswordAccept}
-					onClear={handlePasswordClear}
-					onClose={handlePasswordModalClose}
-				/>
-			</Link>
-		);
+	function handleItemClick(): void {
+		navigate(`/wishlist/${props.wishlist.uuid}`);
 	}
+
 	return (
-		<Link
+		<Box
+			onClick={handleItemClick}
 			sx={(theme: Theme): SystemStyleObject<Theme> => ({
 				color: 'inherit',
 				textDecoration: 'none',
 				cursor: 'pointer',
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
 				borderRadius: '10px',
-				backgroundColor: getThemeColor(theme, 'blue'),
-				marginTop: '15px',
-				width: '80%',
+				backgroundColor: getThemeColor(theme, 'activeBlue'),
+				margin: '15px',
+				padding: '10px',
+				width: '90%',
 				'&:hover': {
 					backgroundColor: '#3f91de'
 				}
 			})}
-			component={Anchor}
-			to={`/wishlists/${props.wishlist.id}`}
 		>
-			<Box>
-				<Typography
-					sx={{
-						textAlign: 'center',
-						textDecoration: 'none',
-						margin: '10px',
-						fontFamily: 'Montserrat',
-						fontSize: {
-							xs: '20px',
-							md: '25px'
-						},
-						fontWeight: 500
-					}}
+			{renderName()}
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'center'
+				}}
+			>
+				<IconButton
+					data-testid={`share-icon-button-${props.wishlist.id}`}
+					onClick={copyUrlToClipboard}
+					size='large'
+					aria-label='share'
 				>
-					{props.wishlist.name}
-				</Typography>
+					<ShareIcon />
+				</IconButton>
+				<IconButton
+					data-testid='hidden-items-icon-button'
+					onClick={handlePasswordModalOpen}
+					size='large'
+					aria-label='access-password-modal'
+				>
+					{renderPasswordIcon()}
+				</IconButton>
+				<IconButton
+					onClick={handleDeleteClick}
+					size='large'
+					data-testid={`delete-wishlist-${props.wishlist.id}`}
+					aria-label={`delete-wishlist-${props.wishlist.id}`}
+				>
+					<DeleteIcon />
+				</IconButton>
 			</Box>
-		</Link>
+			<WishlistSetupPasswordModal
+				wishlist={props.wishlist}
+				open={passwordModalOpened}
+				onAccept={handlePasswordAccept}
+				onClear={handlePasswordClear}
+				onClose={handlePasswordModalClose}
+			/>
+			<DeleteWishlistModal
+				opened={deleteModalOpen}
+				onCancel={handleDeleteCancel}
+				onRemove={handleWishlistRemove}
+				wishlistName={props.wishlist?.name ?? ''}
+			/>
+		</Box>
 	);
 }

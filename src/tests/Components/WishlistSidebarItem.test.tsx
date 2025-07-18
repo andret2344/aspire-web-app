@@ -2,7 +2,7 @@ import {
 	mockedSetWishlistPassword,
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
-import {WishlistSidebarItem} from '../../main/Components/WishlistSidebarItem';
+import {WishlistComponent} from '../../main/Components/WishlistComponent';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -16,7 +16,7 @@ describe('WishlistSidebarItem', (): void => {
 	it('renders correctly without password', (): void => {
 		// arrange
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist()}
 				active={false}
 				onRemove={(): void => undefined}
@@ -35,7 +35,7 @@ describe('WishlistSidebarItem', (): void => {
 	it('renders correctly with password', (): void => {
 		// arrange
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist({hasPassword: true})}
 				active={true}
 				onRemove={(): void => undefined}
@@ -56,7 +56,7 @@ describe('WishlistSidebarItem', (): void => {
 		const handleNameChange: jest.Mock = jest.fn();
 		mockedUpdateWishlistName.mockResolvedValue(getSampleWishlist());
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
@@ -91,7 +91,7 @@ describe('WishlistSidebarItem', (): void => {
 		const handleNameChange: jest.Mock = jest.fn();
 		mockedUpdateWishlistName.mockResolvedValue(getSampleWishlist());
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
@@ -121,7 +121,7 @@ describe('WishlistSidebarItem', (): void => {
 		const handleNameChange: jest.Mock = jest.fn();
 		mockedUpdateWishlistName.mockRejectedValue(void 0);
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
@@ -154,7 +154,7 @@ describe('WishlistSidebarItem', (): void => {
 	it('renders warning when trying to hide item', async (): Promise<void> => {
 		// arrange
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
@@ -177,7 +177,7 @@ describe('WishlistSidebarItem', (): void => {
 		// arrange
 		mockedSetWishlistPassword.mockResolvedValue(null);
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
@@ -199,7 +199,7 @@ describe('WishlistSidebarItem', (): void => {
 		// arrange
 		mockedSetWishlistPassword.mockResolvedValue(null);
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist()}
 				active={true}
 				onRemove={(): void => undefined}
@@ -229,7 +229,7 @@ describe('WishlistSidebarItem', (): void => {
 		// arrange
 		mockedSetWishlistPassword.mockResolvedValue(null);
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist({hasPassword: true})}
 				active={true}
 				onRemove={(): void => undefined}
@@ -259,7 +259,7 @@ describe('WishlistSidebarItem', (): void => {
 		// arrange
 		mockedSetWishlistPassword.mockRejectedValue(null);
 		renderForTest(
-			<WishlistSidebarItem
+			<WishlistComponent
 				wishlist={getSampleWishlist({hasPassword: true})}
 				active={true}
 				onRemove={(): void => undefined}
@@ -301,7 +301,7 @@ describe('WishlistSidebarItem', (): void => {
 			// arrange
 			user.setup();
 			renderForTest(
-				<WishlistSidebarItem
+				<WishlistComponent
 					wishlist={getSampleWishlist({hasPassword: true})}
 					active={true}
 					onRemove={(): void => undefined}
@@ -328,7 +328,7 @@ describe('WishlistSidebarItem', (): void => {
 			// arrange
 			user.setup();
 			renderForTest(
-				<WishlistSidebarItem
+				<WishlistComponent
 					wishlist={getSampleWishlist({hasPassword: true})}
 					active={true}
 					onRemove={(): void => undefined}
