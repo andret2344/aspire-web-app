@@ -64,22 +64,23 @@ export function WishlistSidebarItem(
 		setEditedName(event.target.value);
 	}
 
-	async function handleNameSubmit(): Promise<void> {
-		if (editedName) {
-			try {
-				await updateWishlistName(props.wishlist.id, editedName);
+	function handleNameSubmit(): void {
+		setEditedName(undefined);
+		if (!editedName || editedName === props.wishlist.name) {
+			return;
+		}
+		updateWishlistName(props.wishlist.id, editedName)
+			.then((): void => {
 				props.onNameEdit(editedName);
 				enqueueSnackbar(t('wishlist-renamed'), {
 					variant: 'success'
 				});
-			} catch (err) {
+			})
+			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {
 					variant: 'error'
-				});
-				console.error(err);
-			}
-		}
-		setEditedName(undefined);
+				})
+			);
 	}
 
 	function copyUrlToClipboard(): void {

@@ -1,30 +1,29 @@
 import {WishList, WishListDto} from '../Entity/WishList';
 import axios, {AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from './ApiInstance';
-import {mapWishlistItem} from '../Entity/WishlistItem';
 import {requestConfig} from './AuthService';
 
-export async function getWishlists(): Promise<WishList[]> {
+export async function getWishlists(): Promise<WishListDto[]> {
 	const result: AxiosResponse<WishListDto[]> =
 		await apiInstance.get<WishListDto[]>('/wishlist');
-	return result.data.map(mapWishlist);
+	return result.data;
 }
 
-export async function getWishlist(id: number): Promise<WishList> {
+export async function getWishlist(id: number): Promise<WishListDto> {
 	const result: AxiosResponse<WishListDto> =
 		await apiInstance.get<WishListDto>(`/wishlist/${id}`);
-	return mapWishlist(result.data);
+	return result.data;
 }
 
 export async function getReadonlyWishlistByUUID(
 	uuid: string
-): Promise<WishList> {
+): Promise<WishListDto> {
 	const baseUrl: string = getApiConfig().backend;
 	const result: AxiosResponse<WishListDto> = await axios.get<WishListDto>(
 		`${baseUrl}/wishlist/by_uuid/${uuid}`,
 		requestConfig
 	);
-	return mapWishlist(result.data);
+	return result.data;
 }
 
 export async function addWishlist(name: string): Promise<WishList> {
@@ -66,13 +65,4 @@ export async function updateWishlistName(
 	);
 
 	return result.data;
-}
-
-export function mapWishlist(wishlist: WishListDto): WishList {
-	const {wishlist_items, has_password, ...rest} = wishlist;
-	return {
-		...rest,
-		wishlistItems: wishlist_items.map(mapWishlistItem),
-		hasPassword: has_password
-	};
 }

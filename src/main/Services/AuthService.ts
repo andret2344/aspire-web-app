@@ -131,10 +131,14 @@ export function getAccessToken(): string | null {
 }
 
 export async function refreshToken(): Promise<string | undefined> {
+	const refreshToken: string | null = getRefreshToken();
+	if (!refreshToken) {
+		return;
+	}
 	const result: AxiosResponse = await apiInstance.post(
 		'/account/login/refresh',
 		{
-			refresh: getRefreshToken()
+			refresh: refreshToken
 		}
 	);
 

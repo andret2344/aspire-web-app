@@ -8,11 +8,11 @@ import {RenderResult} from '@testing-library/react';
 describe('PriorityBadge', (): void => {
 	test('renders with correct id', (): void => {
 		// arrange
-		renderForTest(<PriorityBadge priorityId={1} />);
+		renderForTest(<PriorityBadge value={1} />);
 
 		// act
 		const priorityNumber: HTMLElement =
-			screen.getByTestId('priority-number');
+			screen.getByTestId('item-priority-chip');
 
 		// assert
 		expect(priorityNumber).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe('PriorityBadge', (): void => {
 	test('renders with incorrect id', (): void => {
 		// arrange
 		const render: RenderResult = renderForTest(
-			<PriorityBadge priorityId={-1} />
+			<PriorityBadge value={-1} />
 		);
 
 		// assert

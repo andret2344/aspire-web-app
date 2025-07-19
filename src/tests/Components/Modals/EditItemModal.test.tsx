@@ -2,94 +2,43 @@ import {mockedGetWishlist} from '../../__mocks__/MockWishlistService';
 import {mockedUseMediaQuery} from '../../__mocks__/MockMaterialUI';
 import {
 	mockedAddWishlistItem,
-	mockedEditWishlistItem
+	mockedUpdateWishlistItem
 } from '../../__mocks__/MockWishlistItemService';
 import '../../__mocks__/MockMDXEditor';
 import '@testing-library/jest-dom';
 import React from 'react';
-import {WishList} from '../../../main/Entity/WishList';
 import {EditItemModal} from '../../../main/Components/Modals/EditItemModal';
 import {fireEvent, screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {WishlistItem} from '../../../main/Entity/WishlistItem';
 import {renderForTest} from '../../__utils__/RenderForTest';
+import {
+	getSampleWishlistDto,
+	getSampleWishlistItem,
+	getSampleWishlistItemDto
+} from '../../__utils__/DataFactory';
+import {WishlistItemDto} from '../../../main/Entity/WishlistItem';
 
 describe('EditItemModal', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	const mockWishlistData: WishList = {
-		id: 1,
-		uuid: 'random uuid',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				wishlistId: 1,
-				description: 'test description',
-				name: 'Item 1',
-				priorityId: 3,
-				hidden: false
-			}
-		],
-		hasPassword: false
-	};
-
-	const mockWishlistDataWithPassword: WishList = {
-		id: 1,
-		uuid: 'random uuid',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				wishlistId: 1,
-				description: 'test description',
-				name: 'Item 1',
-				priorityId: 3,
-				hidden: true
-			}
-		],
-		hasPassword: true
-	};
-
-	const updatedMockWishlistData: WishList = {
-		id: 1,
-		uuid: 'random uuid',
-		name: 'Mock Wishlist',
-		wishlistItems: [
-			{
-				id: 1,
-				wishlistId: 1,
-				description: 'updated test description',
-				name: 'Item 1 updated',
-				priorityId: 2,
-				hidden: false
-			}
-		],
-		hasPassword: false
-	};
-
-	const newMockWishlistItem: WishlistItem = {
-		id: 2,
-		wishlistId: 1,
-		description: 'this is totally new wishlist item created by test',
-		name: 'new wishlist item',
-		priorityId: 3,
-		hidden: false
-	};
-
 	test('input change', async (): Promise<void> => {
 		// arrange
-		mockedEditWishlistItem.mockResolvedValue(updatedMockWishlistData);
-		mockedGetWishlist.mockReturnValue(updatedMockWishlistData);
+		const item: WishlistItemDto = getSampleWishlistItemDto({
+			name: 'New name'
+		});
+		mockedUpdateWishlistItem.mockResolvedValue(item);
+		mockedGetWishlist.mockReturnValue(
+			getSampleWishlistDto({wishlist_items: [item]})
+		);
 		mockedUseMediaQuery.mockReturnValueOnce(false);
 		user.setup();
 		renderForTest(
 			<EditItemModal
-				wishlistId={mockWishlistData.id}
+				wishlistId={1}
 				opened={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
-				item={mockWishlistData.wishlistItems[0]}
+				item={getSampleWishlistItem()}
 			/>
 		);
 
@@ -107,22 +56,21 @@ describe('EditItemModal', (): void => {
 		await user.type(inputName, 'New name');
 		await user.click(prioritySelect);
 
-		const secondOptionPriority: HTMLElement = await screen.findByText(
-			/Przydałoby mi się, gdyż często odczuwam brak./i
-		);
+		const secondOptionPriority: HTMLElement =
+			await screen.findByTestId('priority-item-2');
 		await user.click(secondOptionPriority);
 		await user.click(saveButton);
 
 		// assert
-		expect(mockedEditWishlistItem).toHaveBeenCalledTimes(1);
+		expect(mockedUpdateWishlistItem).toHaveBeenCalledTimes(1);
 	});
 
 	test('tooltip works properly when no password', (): void => {
 		// arrange
 		renderForTest(
 			<EditItemModal
-				wishlistId={mockWishlistData.id}
-				item={mockWishlistData.wishlistItems[0]}
+				wishlistId={1}
+				item={getSampleWishlistItem()}
 				opened={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
@@ -141,8 +89,8 @@ describe('EditItemModal', (): void => {
 		renderForTest(
 			<EditItemModal
 				wishlistPassword={true}
-				wishlistId={mockWishlistData.id}
-				item={mockWishlistDataWithPassword.wishlistItems[0]}
+				wishlistId={1}
+				item={getSampleWishlistItem({hidden: true})}
 				opened={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
@@ -158,12 +106,18 @@ describe('EditItemModal', (): void => {
 
 	test('add new item', async (): Promise<void> => {
 		// arrange
-		mockedAddWishlistItem.mockReturnValue(newMockWishlistItem);
+		mockedAddWishlistItem.mockReturnValue(
+			getSampleWishlistItem({
+				id: 2,
+				description: 'New Item',
+				name: 'new wishlist item'
+			})
+		);
 		mockedUseMediaQuery.mockReturnValueOnce(true);
 		user.setup();
 		renderForTest(
 			<EditItemModal
-				wishlistId={mockWishlistData.id}
+				wishlistId={1}
 				opened={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
@@ -193,7 +147,7 @@ describe('EditItemModal', (): void => {
 		user.setup();
 		renderForTest(
 			<EditItemModal
-				wishlistId={mockWishlistData.id}
+				wishlistId={1}
 				opened={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
@@ -220,11 +174,11 @@ describe('EditItemModal', (): void => {
 		user.setup();
 		renderForTest(
 			<EditItemModal
-				wishlistId={mockWishlistData.id}
+				wishlistId={1}
 				opened={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
-				item={mockWishlistData.wishlistItems[0]}
+				item={getSampleWishlistItem()}
 			/>
 		);
 
@@ -243,7 +197,7 @@ describe('EditItemModal', (): void => {
 		user.setup();
 		renderForTest(
 			<EditItemModal
-				wishlistId={mockWishlistData.id}
+				wishlistId={1}
 				opened={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}

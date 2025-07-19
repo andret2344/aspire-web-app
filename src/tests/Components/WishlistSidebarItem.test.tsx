@@ -8,10 +8,7 @@ import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 import React from 'react';
-import {
-	getSampleWishlist,
-	getSampleWishlistWithPassword
-} from '../__utils__/DataFactory';
+import {getSampleWishlist} from '../__utils__/DataFactory';
 
 describe('WishlistSidebarItem', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -39,7 +36,7 @@ describe('WishlistSidebarItem', (): void => {
 		// arrange
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={getSampleWishlistWithPassword()}
+				wishlist={getSampleWishlist({hasPassword: true})}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -233,7 +230,7 @@ describe('WishlistSidebarItem', (): void => {
 		mockedSetWishlistPassword.mockResolvedValue(null);
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={getSampleWishlistWithPassword()}
+				wishlist={getSampleWishlist({hasPassword: true})}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -263,7 +260,7 @@ describe('WishlistSidebarItem', (): void => {
 		mockedSetWishlistPassword.mockRejectedValue(null);
 		renderForTest(
 			<WishlistSidebarItem
-				wishlist={getSampleWishlistWithPassword()}
+				wishlist={getSampleWishlist({hasPassword: true})}
 				active={true}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
@@ -305,7 +302,7 @@ describe('WishlistSidebarItem', (): void => {
 			user.setup();
 			renderForTest(
 				<WishlistSidebarItem
-					wishlist={getSampleWishlistWithPassword()}
+					wishlist={getSampleWishlist({hasPassword: true})}
 					active={true}
 					onRemove={(): void => undefined}
 					onNameEdit={(): void => undefined}
@@ -332,7 +329,7 @@ describe('WishlistSidebarItem', (): void => {
 			user.setup();
 			renderForTest(
 				<WishlistSidebarItem
-					wishlist={getSampleWishlistWithPassword()}
+					wishlist={getSampleWishlist({hasPassword: true})}
 					active={true}
 					onRemove={(): void => undefined}
 					onNameEdit={(): void => undefined}

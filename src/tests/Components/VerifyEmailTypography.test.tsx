@@ -9,7 +9,7 @@ describe('VerifyEmailTypography', (): void => {
 		// arrange
 		renderForTest(
 			<VerifyEmailTypography>
-				<div data-testid='verify-email-child'>hello</div>
+				<span data-testid='verify-email-child'>hello</span>
 			</VerifyEmailTypography>
 		);
 
