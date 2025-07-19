@@ -1,4 +1,4 @@
-import {Box, Button, Grid, Theme, useTheme} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import React from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {mapWishlistArrayFromDto, WishList} from '../Entity/WishList';
@@ -20,7 +20,6 @@ export function WishlistListPage(): React.ReactElement {
 		React.useState<boolean>(false);
 
 	const {enqueueSnackbar} = useSnackbar();
-	const theme: Theme = useTheme();
 	const {tokenLoading, tokenValid} = useTokenValidation();
 
 	React.useEffect((): void => {
@@ -76,6 +75,32 @@ export function WishlistListPage(): React.ReactElement {
 		setWishlists([...wishlists]);
 	}
 
+	function renderWishlistsGridItem(): false | React.JSX.Element {
+		return (
+			<Grid
+				size={12}
+				overflow={{xs: 'none', md: 'auto'}}
+				maxHeight={{xs: 'none', md: '100%'}}
+				paddingBottom='50px'
+			>
+				{renderWishlistButtons()}
+				<Grid sx={{padding: '15px'}}>
+					<Button
+						data-testid='open-modal-button'
+						onClick={(): void => setAddWishlistModalOpened(true)}
+						variant='outlined'
+						sx={{
+							margin: '15px'
+						}}
+						startIcon={<AddCircleOutlineIcon />}
+					>
+						{t('add-new-wishlist')}
+					</Button>
+				</Grid>
+			</Grid>
+		);
+	}
+
 	function renderWishlistButtons(): React.ReactNode[] {
 		return wishlists.map(renderWishlistButton);
 	}
@@ -91,7 +116,6 @@ export function WishlistListPage(): React.ReactElement {
 			<WishlistComponent
 				key={wishlist.id}
 				wishlist={wishlist}
-				active={true}
 				onRemove={handleWishlistRemove}
 				onNameEdit={(newName: string): void =>
 					handleNameEdit(wishlist.id, newName)
@@ -120,36 +144,16 @@ export function WishlistListPage(): React.ReactElement {
 	return (
 		<>
 			<Grid
-				overflow={{xs: 'none', md: 'auto'}}
-				height={{xs: 'none', md: '100%'}}
 				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'flex-start',
-					alignItems: 'center',
-					borderRight: `2px solid ${theme.palette.divider}`,
 					paddingBottom: 'auto',
+					flexGrow: 1,
 					height: '100vh',
 					overflowY: 'auto',
 					paddingTop: '56px'
 				}}
-				data-testid='page-wishlist-list-grid-container'
 				container
 			>
-				{renderWishlistButtons()}
-				<Box sx={{padding: '15px'}}>
-					<Button
-						data-testid='open-modal-button'
-						onClick={(): void => setAddWishlistModalOpened(true)}
-						variant='outlined'
-						sx={{
-							margin: '15px'
-						}}
-						startIcon={<AddCircleOutlineIcon />}
-					>
-						{t('add-new-wishlist')}
-					</Button>
-				</Box>
+				{renderWishlistsGridItem()}
 			</Grid>
 			<CreateWishlistModal
 				opened={addWishlistModalOpened}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, IconButton, Input, Theme, Typography} from '@mui/material';
+import {Box, Grid, IconButton, Input, Theme, Typography} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
@@ -23,7 +23,6 @@ import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
 
 interface WishlistComponentProps {
 	readonly wishlist: WishList;
-	readonly active: boolean;
 	readonly onRemove: (wishlistId: number) => void;
 	readonly onNameEdit: (newName: string) => void;
 	readonly onPasswordChange: (newPassword: string) => void;
@@ -34,26 +33,27 @@ export function WishlistComponent(
 ): React.ReactElement {
 	const [deleteModalOpen, setDeleteModalOpen] =
 		React.useState<boolean>(false);
-
-	const navigate: NavigateFunction = useNavigate();
-	const {enqueueSnackbar} = useSnackbar();
-	const {t} = useTranslation();
-
 	const [editedName, setEditedName] = React.useState<string | undefined>(
 		undefined
 	);
 	const [passwordModalOpened, setPasswordModalOpened] =
 		React.useState<boolean>(false);
 
+	const navigate: NavigateFunction = useNavigate();
+	const {enqueueSnackbar} = useSnackbar();
+	const {t} = useTranslation();
+
 	function handlePasswordModalClose(): void {
 		setPasswordModalOpened(false);
 	}
 
-	function handlePasswordModalOpen(): void {
+	function handlePasswordIconClick(event: React.MouseEvent): void {
+		event.stopPropagation();
 		setPasswordModalOpened(true);
 	}
 
-	function handleNameClick(): void {
+	function handleNameClick(event: React.MouseEvent): void {
+		event.stopPropagation();
 		setEditedName(props.wishlist.name);
 	}
 
@@ -89,7 +89,8 @@ export function WishlistComponent(
 			);
 	}
 
-	function copyUrlToClipboard(): void {
+	function handleShareIconClick(event: React.MouseEvent): void {
+		event.stopPropagation();
 		navigator.clipboard
 			.writeText(
 				`${getApiConfig().frontend}/wishlist/${props.wishlist.uuid}`
@@ -122,7 +123,8 @@ export function WishlistComponent(
 			.finally((): void => setDeleteModalOpen(false));
 	}
 
-	function handleDeleteClick(): void {
+	function handleDeleteIconClick(event: React.MouseEvent): void {
+		event.stopPropagation();
 		setDeleteModalOpen(true);
 	}
 
@@ -146,56 +148,28 @@ export function WishlistComponent(
 
 	function renderTypographyName(): React.ReactElement {
 		return (
-			<Typography
-				aria-label='wishlist-name'
-				data-testid='wishlist-name'
-				onClick={handleNameClick}
-				sx={{
-					textAlign: 'center',
-					textDecoration: 'none',
-					fontFamily: 'Montserrat',
-					fontSize: '25px',
-					fontWeight: 500
-				}}
-			>
-				{props.wishlist.name}
+			<Typography data-testid='wishlist-name'>
 				<IconButton
 					size='small'
-					sx={{marginLeft: '5px'}}
+					onClick={handleNameClick}
 				>
 					<EditIcon data-testid='edit-icon' />
 				</IconButton>
+				{props.wishlist.name}
 			</Typography>
 		);
 	}
 
 	function renderInputName(): React.ReactElement {
 		return (
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center'
-				}}
-			>
+			<Box>
+				<DoneIcon data-testid='wishlist-edit-done' />
 				<Input
 					data-testid='wishlist-edit-name-input'
 					defaultValue={editedName}
 					onChange={handleNameChange}
 					onBlur={handleNameSubmit}
 					autoFocus
-					sx={{
-						marginBottom: '10px',
-						textDecoration: 'none',
-						fontFamily: 'Montserrat',
-						fontSize: '25px',
-						fontWeight: 500
-					}}
-				/>
-				<DoneIcon
-					data-testid='wishlist-edit-done'
-					fontSize='medium'
-					sx={{marginLeft: '10px'}}
 				/>
 			</Box>
 		);
@@ -221,58 +195,103 @@ export function WishlistComponent(
 	}
 
 	function handleItemClick(): void {
-		navigate(`/wishlist/${props.wishlist.uuid}`);
+		if (editedName === undefined) {
+			navigate(`/wishlists/${props.wishlist.id}`);
+		}
 	}
 
 	return (
 		<Box
-			onClick={handleItemClick}
+			data-testid='wishlist-row'
 			sx={(theme: Theme): SystemStyleObject<Theme> => ({
-				color: 'inherit',
-				textDecoration: 'none',
-				cursor: 'pointer',
-				borderRadius: '10px',
 				backgroundColor: getThemeColor(theme, 'activeBlue'),
-				margin: '15px',
-				padding: '10px',
-				width: '90%',
-				'&:hover': {
-					backgroundColor: '#3f91de'
-				}
+				borderRadius: '12px',
+				padding: '8px',
+				margin: '16px'
 			})}
 		>
-			{renderName()}
-			<Box
+			<Grid
+				columns={24}
+				alignItems='center'
+				justifyContent='center'
+				direction='row'
+				container
+				spacing={1}
+				data-testid='wishlist-item-row-grid'
 				sx={{
-					display: 'flex',
-					justifyContent: 'center'
+					borderBottom: 'unset',
+					position: 'relative'
 				}}
+				style={{
+					cursor: 'pointer'
+				}}
+				onClick={handleItemClick}
 			>
-				<IconButton
-					data-testid={`share-icon-button-${props.wishlist.id}`}
-					onClick={copyUrlToClipboard}
-					size='large'
-					aria-label='share'
+				<Grid>
+					<Typography
+						color='#888888'
+						variant='body2'
+						padding='8px'
+					>
+						<em>#{props.wishlist.id}</em>
+					</Typography>
+				</Grid>
+				<Grid
+					size='grow'
+					sx={{
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis'
+					}}
 				>
-					<ShareIcon />
-				</IconButton>
-				<IconButton
-					data-testid='hidden-items-icon-button'
-					onClick={handlePasswordModalOpen}
-					size='large'
-					aria-label='access-password-modal'
+					{renderName()}
+				</Grid>
+				<Grid
+					size={1}
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
 				>
-					{renderPasswordIcon()}
-				</IconButton>
-				<IconButton
-					onClick={handleDeleteClick}
-					size='large'
-					data-testid={`delete-wishlist-${props.wishlist.id}`}
-					aria-label={`delete-wishlist-${props.wishlist.id}`}
+					<IconButton
+						data-testid={`share-icon-button-${props.wishlist.id}`}
+						onClick={handleShareIconClick}
+						size='large'
+						aria-label='share'
+					>
+						<ShareIcon />
+					</IconButton>
+				</Grid>
+				<Grid
+					size={1}
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
 				>
-					<DeleteIcon />
-				</IconButton>
-			</Box>
+					<IconButton
+						data-testid='hidden-items-icon-button'
+						onClick={handlePasswordIconClick}
+						size='large'
+						aria-label='access-password-modal'
+					>
+						{renderPasswordIcon()}
+					</IconButton>
+				</Grid>
+				<Grid
+					size={1}
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
+				>
+					<IconButton
+						onClick={handleDeleteIconClick}
+						size='large'
+						data-testid={`delete-wishlist-${props.wishlist.id}`}
+						aria-label={`delete-wishlist-${props.wishlist.id}`}
+					>
+						<DeleteIcon />
+					</IconButton>
+				</Grid>
+			</Grid>
 			<WishlistSetupPasswordModal
 				wishlist={props.wishlist}
 				open={passwordModalOpened}

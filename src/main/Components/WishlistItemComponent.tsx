@@ -6,6 +6,7 @@ import {
 	IconButton,
 	Menu,
 	MenuItem,
+	Theme,
 	Typography
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -31,6 +32,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishList} from '../Entity/WishList';
+import {getThemeColor} from '../Styles/theme';
+import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -278,21 +281,20 @@ export function WishlistItemComponent(
 	}
 
 	return (
-		<div
+		<Box
 			data-testid='wishlist-item-row'
-			style={{
-				backgroundColor: 'darkblue',
+			sx={(theme: Theme): SystemStyleObject<Theme> => ({
+				backgroundColor: getThemeColor(theme, 'activeBlue'),
 				borderRadius: '12px',
 				padding: '8px',
 				margin: '16px'
-			}}
+			})}
 		>
 			<Grid
 				columns={24}
 				alignItems='center'
 				justifyContent='center'
 				direction='row'
-				key={props.item.id}
 				container
 				spacing={1}
 				data-testid='wishlist-item-row-grid'
@@ -319,6 +321,7 @@ export function WishlistItemComponent(
 						<em>#{props.position}</em>
 					</Typography>
 				</Grid>
+				<Grid>{renderEditButton()}</Grid>
 				<Grid
 					size='grow'
 					sx={{
@@ -327,7 +330,6 @@ export function WishlistItemComponent(
 						textOverflow: 'ellipsis'
 					}}
 				>
-					{renderEditButton()}
 					{props.item.name}
 				</Grid>
 				{renderVisibilityGridItem()}
@@ -365,6 +367,6 @@ export function WishlistItemComponent(
 			>
 				{getAllPriorities().map(renderPriorityMenuItem)}
 			</Menu>
-		</div>
+		</Box>
 	);
 }

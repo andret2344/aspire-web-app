@@ -1,4 +1,4 @@
-import {Box, Grid, IconButton} from '@mui/material';
+import {Grid, IconButton} from '@mui/material';
 import React from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
@@ -137,7 +137,7 @@ export function WishlistPage(): React.ReactElement {
 				paddingBottom='50px'
 			>
 				{renderItems()}
-				<Box
+				<Grid
 					aria-label='add item box'
 					sx={{
 						width: '100%',
@@ -155,7 +155,7 @@ export function WishlistPage(): React.ReactElement {
 					>
 						<AddCircleOutlineIcon fontSize='large' />
 					</IconButton>
-				</Box>
+				</Grid>
 			</Grid>
 		);
 	}
