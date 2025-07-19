@@ -3,32 +3,16 @@ import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {WishlistSetupPasswordModal} from '../../../main/Components/Modals/WishlistSetupPasswordModal';
 import {renderForTest} from '../../__utils__/RenderForTest';
-import {WishList} from '../../../main/Entity/WishList';
 import user from '@testing-library/user-event';
+import {getSampleWishlist} from '../../__utils__/DataFactory';
 
 describe('WishlistSetupPasswordModal', (): void => {
-	const mockWishlistData: WishList = {
-		id: 1,
-		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
-		name: 'Mock Wishlist',
-		wishlistItems: [],
-		hasPassword: false
-	};
-
-	const mockWishlistDataWithPassword: WishList = {
-		id: 1,
-		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
-		name: 'Mock Wishlist',
-		wishlistItems: [],
-		hasPassword: true
-	};
-
 	it('renders modal correctly', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
 			<WishlistSetupPasswordModal
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				onClose={(): void => undefined}
 				onClear={(): void => undefined}
 				onAccept={(): void => undefined}
@@ -48,7 +32,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 		user.setup();
 		renderForTest(
 			<WishlistSetupPasswordModal
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				onAccept={(): void => undefined}
 				onClear={(): void => undefined}
 				onClose={(): void => undefined}
@@ -75,7 +59,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 		const mockAccept: jest.Mock = jest.fn();
 		renderForTest(
 			<WishlistSetupPasswordModal
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				onAccept={mockAccept}
 				onClear={(): void => undefined}
 				onClose={(): void => undefined}
@@ -105,7 +89,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 		const mockClear: jest.Mock = jest.fn();
 		renderForTest(
 			<WishlistSetupPasswordModal
-				wishlist={mockWishlistDataWithPassword}
+				wishlist={getSampleWishlist({hasPassword: true})}
 				onAccept={(): void => undefined}
 				onClear={mockClear}
 				onClose={(): void => undefined}
@@ -131,7 +115,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 		const mockClose: jest.Mock = jest.fn();
 		renderForTest(
 			<WishlistSetupPasswordModal
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				onAccept={(): void => undefined}
 				onClear={(): void => undefined}
 				onClose={mockClose}

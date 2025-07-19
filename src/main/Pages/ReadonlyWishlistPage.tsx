@@ -1,20 +1,8 @@
 import React from 'react';
-import {
-	Box,
-	Grid,
-	IconButton,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Theme
-} from '@mui/material';
+import {Box, Grid, IconButton, Theme} from '@mui/material';
 import {getThemeColor} from '../Styles/theme';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {WishList} from '../Entity/WishList';
+import {mapWishlistFromDto, WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {getReadonlyWishlistByUUID} from '../Services/WishListService';
@@ -39,11 +27,16 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 
 	React.useEffect((): void => {
 		getReadonlyWishlistByUUID(params.uuid)
+			.then(mapWishlistFromDto)
 			.then(setWishlist)
 			.catch((): void => {
 				navigate('/error');
 			});
 	}, [navigate, params.uuid]);
+
+	if (!wishlist) {
+		return <></>;
+	}
 
 	function handlePasswordModalClose(): void {
 		setPasswordModalOpened(false);
@@ -89,10 +82,10 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	): React.ReactElement {
 		return (
 			<WishlistItemComponent
+				wishlist={wishlist!}
 				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}
-				wishlistId={wishlist!.id}
 			/>
 		);
 	}
@@ -110,61 +103,26 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 			columnSpacing={2}
 			sx={{paddingTop: '56px'}}
 		>
-			{wishlist && (
-				<Grid size={{xs: 12}}>
-					<Box
-						sx={(theme: Theme): SystemStyleObject<Theme> => ({
-							height: '60px',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							width: '100%',
-							backgroundColor: getThemeColor(theme, 'lightBlue'),
-							borderTop: '2px #FFFFFF',
-							paddingLeft: '10px'
-						})}
-					>
-						{wishlist.name}
-						{renderPasswordButton()}
-					</Box>
-					<TableContainer
-						sx={{
-							maxHeight: '75vh',
-							overflowY: 'auto'
-						}}
-						component={Paper}
-					>
-						<Table aria-label='collapsible table'>
-							<TableHead>
-								<TableRow>
-									<TableCell
-										width='5%'
-										align='left'
-									/>
-									<TableCell
-										align='left'
-										width='5%'
-									>
-										{t('item-no')}
-									</TableCell>
-									<TableCell align='left'>
-										{t('name')}
-									</TableCell>
-									<TableCell
-										width='5%'
-										align='center'
-									>
-										{t('priority')}
-									</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>{renderItems()}</TableBody>
-						</Table>
-					</TableContainer>
-				</Grid>
-			)}
+			<Grid size={{xs: 12}}>
+				<Box
+					sx={(theme: Theme): SystemStyleObject<Theme> => ({
+						height: '60px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						width: '100%',
+						backgroundColor: getThemeColor(theme, 'lightBlue'),
+						borderTop: '2px #FFFFFF',
+						paddingLeft: '10px'
+					})}
+				>
+					{wishlist.name}
+					{renderPasswordButton()}
+				</Box>
+				{renderItems()}
+			</Grid>
 			<WishlistInputPasswordModal
-				wishlist={wishlist!}
+				wishlist={wishlist}
 				open={passwordModalOpened}
 				onAccept={handlePasswordEnter}
 				onClose={handlePasswordModalClose}

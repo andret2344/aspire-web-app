@@ -2,25 +2,17 @@ import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../../__utils__/RenderForTest';
-import {WishList} from '../../../main/Entity/WishList';
 import user from '@testing-library/user-event';
 import {WishlistInputPasswordModal} from '../../../main/Components/Modals/WishlistInputPasswordModal';
+import {getSampleWishlist} from '../../__utils__/DataFactory';
 
 describe('WishlistInputPasswordModal', (): void => {
-	const mockWishlistData: WishList = {
-		id: 1,
-		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
-		name: 'Mock Wishlist',
-		wishlistItems: [],
-		hasPassword: true
-	};
-
 	it('renders modal correctly', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
 			<WishlistInputPasswordModal
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 				open={true}
@@ -39,7 +31,7 @@ describe('WishlistInputPasswordModal', (): void => {
 		user.setup();
 		renderForTest(
 			<WishlistInputPasswordModal
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				onAccept={(): void => undefined}
 				onClose={(): void => undefined}
 				open={true}
@@ -65,7 +57,7 @@ describe('WishlistInputPasswordModal', (): void => {
 		const mockAccept: jest.Mock = jest.fn();
 		renderForTest(
 			<WishlistInputPasswordModal
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				onAccept={mockAccept}
 				onClose={(): void => undefined}
 				open={true}
@@ -94,7 +86,7 @@ describe('WishlistInputPasswordModal', (): void => {
 		const mockClose: jest.Mock = jest.fn();
 		renderForTest(
 			<WishlistInputPasswordModal
-				wishlist={mockWishlistData}
+				wishlist={getSampleWishlist()}
 				onAccept={(): void => undefined}
 				onClose={mockClose}
 				open={true}

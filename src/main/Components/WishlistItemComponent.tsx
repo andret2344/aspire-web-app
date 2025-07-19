@@ -2,175 +2,135 @@ import {
 	Box,
 	CircularProgress,
 	Collapse,
+	Grid,
 	IconButton,
-	TableCell,
-	TableRow,
-	Typography
+	Menu,
+	MenuItem,
+	Theme,
+	Typography,
+	useMediaQuery,
+	useTheme
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {WishlistItem} from '../Entity/WishlistItem';
+import {
+	mapWishlistItemFromDto,
+	mapWishlistItemToDto,
+	WishlistItem,
+	WishlistItemDto
+} from '../Entity/WishlistItem';
 import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
-import {removeWishlistItem} from '../Services/WishlistItemService';
+import {
+	removeWishlistItem,
+	updateWishlistItem
+} from '../Services/WishlistItemService';
 import {useSnackbar} from 'notistack';
 import MarkdownView from 'react-showdown';
 import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
+import {getAllPriorities, Priority} from '../Entity/Priority';
+import {WishList} from '../Entity/WishList';
+import {getThemeColor} from '../Styles/theme';
+import {SystemStyleObject} from '@mui/system';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
-	readonly wishlistId: number;
+	readonly wishlist: WishList;
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
-	readonly onVisibilityClick?: (itemId: number, changedTo: boolean) => void;
-	readonly loadingVisibility: boolean;
+	readonly onWishlistEdit?: (wishlist: WishList) => void;
 	readonly onRemove?: (wishlistId: number, itemId: number) => void;
 }
 
 export function WishlistItemComponent(
 	props: WishlistItemComponentProps
 ): React.ReactElement {
+	type ProgressField = (keyof WishlistItemDto)[];
 	const [open, setOpen] = React.useState<boolean>(false);
+	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const {enqueueSnackbar} = useSnackbar();
+	const [circularProgress, setCircularProgress] =
+		React.useState<ProgressField>([]);
+	const [menuAnchorEl, setMenuAnchorEl] = React.useState<HTMLElement | null>(
+		null
+	);
 	const {t} = useTranslation();
+	const theme: Theme = useTheme();
+	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 
-	function handleToggleExpandButton(): void {
+	/* HANDLERS */
+
+	function handleRowClick(): void {
 		setOpen((prevOpen: boolean): boolean => !prevOpen);
 	}
 
-	function renderExpandButton(): React.ReactElement {
-		if (!open) {
-			return <KeyboardArrowDownIcon />;
-		}
-		return <KeyboardArrowUpIcon />;
-	}
-
-	function renderVisibilityIcon(): React.ReactElement {
-		if (props.loadingVisibility) {
-			return <CircularProgress data-testid='item-loading-progress' />;
-		}
-		if (props.item.hidden) {
-			return (
-				<VisibilityOffOutlinedIcon
-					onClick={handleVisibilityClick}
-					data-testid='item-hidden-icon'
-				/>
-			);
-		}
-		return (
-			<VisibilityIcon
-				onClick={handleVisibilityClick}
-				data-testid='item-visible-icon'
-			/>
-		);
+	function handleEditButton(event: React.MouseEvent): void {
+		event.stopPropagation();
+		return props.onEdit!(props.item);
 	}
 
 	function handleVisibilityClick(event: React.MouseEvent): void {
-		event.stopPropagation();
-		props.onVisibilityClick!(props.item.id, !props.item.hidden);
-	}
-
-	function renderVisibilityIconCell(): React.ReactElement {
-		if (!props.onVisibilityClick) {
-			return <></>;
+		if (props.wishlist.hasPassword) {
+			event.stopPropagation();
+			handleItemUpdate(props.item.id, 'hidden', !props.item.hidden);
 		}
-		return (
-			<TableCell align='center'>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'center',
-						alignItems: 'center'
-					}}
-				>
-					{renderVisibilityIcon()}
-				</Box>
-			</TableCell>
-		);
 	}
 
-	function renderActionButtonsCell(): React.ReactElement {
-		if (!props.onEdit && !props.onRemove) {
-			return <></>;
+	function handlePriorityChoiceOpen(
+		event: React.MouseEvent<HTMLElement>
+	): void {
+		if (props.onWishlistEdit) {
+			event.stopPropagation();
+			setAnchorEl(event.currentTarget);
 		}
-		return (
-			<TableCell>
-				<Box sx={{display: 'flex', flexDirection: 'row'}}>
-					{renderEditButton()}
-					{renderRemoveButton()}
-				</Box>
-			</TableCell>
-		);
 	}
 
-	function renderEditButton(): React.ReactElement {
-		if (!props.onEdit) {
-			return <></>;
-		}
-		return (
-			<IconButton
-				sx={{
-					marginLeft: {
-						xs: '0',
-						md: '15px'
-					}
-				}}
-				aria-label='edit'
-				size='large'
-				onClick={handleEditButton}
-				data-testid={`edit-wishlist-item-${props.wishlistId}-${props.item.id}`}
-			>
-				<EditIcon
-					sx={{
-						fontSize: {
-							xs: '25px',
-							md: '35px'
-						}
-					}}
-				/>
-			</IconButton>
-		);
+	function handlePriorityChoiceClose(): void {
+		setAnchorEl(null);
 	}
 
-	function renderRemoveButton(): React.ReactElement {
-		if (!props.onRemove) {
-			return <></>;
-		}
-		return (
-			<IconButton
-				sx={{
-					margin: {
-						xs: '0',
-						md: '0 15px'
-					}
-				}}
-				size='large'
-				aria-label='delete'
-				onClick={handleRemoveButton}
-				data-testid={`remove-wishlist-item-${props.wishlistId}-${props.item.id}`}
-			>
-				<DeleteIcon
-					sx={{
-						fontSize: {
-							xs: '25px',
-							md: '35px'
-						}
-					}}
-				/>
-			</IconButton>
-		);
+	function handlePriorityChoice(
+		event: React.MouseEvent<HTMLLIElement>
+	): void {
+		const priorityId: number = event.currentTarget.value;
+		handleItemUpdate(props.item.id, 'priority_id', priorityId);
+		handlePriorityChoiceClose();
 	}
 
-	async function handleRemoveButton(event: React.MouseEvent): Promise<void> {
-		event.stopPropagation();
-		await removeWishlistItem(props.wishlistId, props.item.id)
+	function handleItemUpdate<K extends keyof WishlistItemDto>(
+		itemId: number,
+		field: K,
+		newValue: WishlistItemDto[K]
+	): void {
+		addToCircularProgress(field);
+		const wishlistItems: WishlistItem[] = props.wishlist.wishlistItems;
+		const itemIndex: number = wishlistItems.findIndex(
+			(i: WishlistItem): boolean => i.id === itemId
+		);
+		const item: WishlistItem = wishlistItems[itemIndex];
+		const itemDto: WishlistItemDto = mapWishlistItemToDto(item, {
+			[field]: newValue
+		});
+		updateWishlistItem(props.wishlist.id, itemDto)
 			.then((): void => {
-				props.onRemove!(props.wishlistId, props.item.id);
+				props.wishlist.wishlistItems[itemIndex] =
+					mapWishlistItemFromDto(itemDto);
+				props.onWishlistEdit!(props.wishlist);
+			})
+			.finally((): void => removeFromCircularProgress(field));
+	}
+
+	function handleRemoveButton(event: React.MouseEvent<HTMLElement>): void {
+		event.stopPropagation();
+		handleMenuClose(event);
+		removeWishlistItem(props.wishlist.id, props.item.id)
+			.then((): void => {
+				props.onRemove!(props.wishlist.id, props.item.id);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
@@ -180,80 +140,287 @@ export function WishlistItemComponent(
 			);
 	}
 
-	function handleEditButton(event: React.MouseEvent): void {
+	/* MENU */
+
+	function handleMenuOpen(event: React.MouseEvent<HTMLElement>): void {
 		event.stopPropagation();
-		return props.onEdit!(props.item);
+		setMenuAnchorEl(event.currentTarget);
+	}
+
+	function handleMenuClose(event: React.MouseEvent<HTMLElement>): void {
+		event.stopPropagation();
+		setMenuAnchorEl(null);
+	}
+
+	/* PROGRESS */
+
+	function addToCircularProgress(field: keyof WishlistItemDto): void {
+		setCircularProgress(
+			(prev: ProgressField): ProgressField => [...prev, field]
+		);
+	}
+
+	function removeFromCircularProgress(field: keyof WishlistItemDto): void {
+		setCircularProgress(
+			(prev: ProgressField): ProgressField =>
+				prev.filter(
+					(item: keyof WishlistItemDto): boolean => item !== field
+				)
+		);
+	}
+
+	/* RENDERING */
+
+	function renderExpandIcon(): React.ReactElement {
+		if (!open) {
+			return <KeyboardArrowDownIcon />;
+		}
+		return <KeyboardArrowUpIcon />;
+	}
+
+	function renderEditButton(): React.ReactElement {
+		if (!props.onEdit) {
+			return <></>;
+		}
+		return (
+			<IconButton
+				aria-label='edit'
+				onClick={handleEditButton}
+				data-testid={`edit-wishlist-item-${props.wishlist.id}-${props.item.id}`}
+			>
+				<EditIcon />
+			</IconButton>
+		);
+	}
+
+	function renderVisibilityGridItem(): React.ReactElement {
+		if (!props.onWishlistEdit) {
+			return <></>;
+		}
+		return (
+			<Grid
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+			>
+				{renderVisibilityIcon()}
+			</Grid>
+		);
+	}
+
+	function renderVisibilityIcon(): React.ReactElement {
+		if (circularProgress.includes('hidden')) {
+			return (
+				<CircularProgress
+					data-testid='progress-loading-hidden'
+					size={24}
+				/>
+			);
+		}
+		if (props.item.hidden) {
+			return (
+				<IconButton
+					onClick={handleVisibilityClick}
+					data-testid='item-hidden-icon'
+				>
+					<VisibilityOffOutlinedIcon />
+				</IconButton>
+			);
+		}
+		return (
+			<IconButton
+				onClick={handleVisibilityClick}
+				data-testid='item-visible-icon'
+			>
+				<VisibilityIcon />
+			</IconButton>
+		);
+	}
+
+	function renderPriorityGridItem(): React.ReactElement {
+		return (
+			<Grid
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+			>
+				{renderPriorityChip()}
+			</Grid>
+		);
+	}
+
+	function renderPriorityChip(): React.ReactElement {
+		if (circularProgress.includes('priority_id')) {
+			return (
+				<CircularProgress
+					data-testid='progress-loading-priority'
+					size={24}
+				/>
+			);
+		}
+		return (
+			<PriorityBadge
+				value={props.item.priorityId}
+				onClick={handlePriorityChoiceOpen}
+			/>
+		);
+	}
+
+	function renderRemoveButtonGridItem(): React.ReactElement {
+		if (!props.onRemove) {
+			return <></>;
+		}
+		return (
+			<Grid
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+			>
+				<IconButton
+					aria-label='delete'
+					onClick={handleRemoveButton}
+					data-testid={`remove-wishlist-item-${props.wishlist.id}-${props.item.id}`}
+				>
+					<DeleteForeverOutlined color='error' />
+				</IconButton>
+			</Grid>
+		);
+	}
+
+	function renderPriorityMenuItem(priority: Priority): React.ReactElement {
+		return (
+			<MenuItem
+				onClick={handlePriorityChoice}
+				key={priority.value}
+				value={priority.value}
+			>
+				<PriorityBadge
+					value={priority.value}
+					data-testid={`priority-menu-item-${priority.value}`}
+				/>
+				&nbsp;-&nbsp;{t(priority.descriptionKey)}
+			</MenuItem>
+		);
+	}
+
+	function renderIcons(): React.JSX.Element {
+		if (!isMobile) {
+			return (
+				<>
+					{renderPriorityGridItem()}
+					{renderRemoveButtonGridItem()}
+				</>
+			);
+		}
+		return (
+			<Grid>
+				<IconButton
+					onClick={handleMenuOpen}
+					data-testid='wishlist-item-button-more'
+				>
+					<MoreHorizIcon />
+				</IconButton>
+				<Menu
+					anchorEl={menuAnchorEl}
+					open={Boolean(menuAnchorEl)}
+					onClose={handleMenuClose}
+				>
+					<MenuItem onClick={handlePriorityChoiceOpen}>
+						{renderPriorityChip()}
+					</MenuItem>
+					<MenuItem onClick={handleRemoveButton}>
+						<DeleteForeverOutlined
+							color='error'
+							data-testid='menu-item-remove'
+						/>
+					</MenuItem>
+				</Menu>
+			</Grid>
+		);
 	}
 
 	return (
-		<React.Fragment>
-			<TableRow
-				key={props.item.id}
-				data-testid='wishlist-item-row'
+		<Box
+			data-testid='wishlist-item-row'
+			sx={(theme: Theme): SystemStyleObject<Theme> => ({
+				backgroundColor: getThemeColor(theme, 'activeBlue'),
+				borderRadius: '12px',
+				padding: '8px',
+				margin: '16px'
+			})}
+		>
+			<Grid
+				alignItems='center'
+				justifyContent='center'
+				container
+				spacing={1}
+				data-testid={`wishlist-item-row-grid-${props.wishlist.id}-${props.item.id}`}
 				sx={{
 					borderBottom: 'unset',
-					position: 'relative'
-				}}
-				style={{
+					position: 'relative',
 					cursor: 'pointer'
 				}}
-				onClick={handleToggleExpandButton}
+				onClick={handleRowClick}
 			>
-				<TableCell>
-					<IconButton
-						aria-label='expand row'
-						size='small'
-					>
-						{renderExpandButton()}
+				<Grid>
+					<IconButton aria-label='expand row'>
+						{renderExpandIcon()}
 					</IconButton>
-				</TableCell>
-				<TableCell align='left'>{props.position}</TableCell>
-				<TableCell
-					align='left'
+				</Grid>
+				<Grid>
+					<Typography
+						color='#888888'
+						variant='body2'
+						padding='0.5rem'
+					>
+						<em>#{props.position}</em>
+					</Typography>
+				</Grid>
+				<Grid>{renderEditButton()}</Grid>
+				<Grid
+					size='grow'
 					sx={{
-						maxWidth: '150px',
 						whiteSpace: 'nowrap',
 						overflow: 'hidden',
 						textOverflow: 'ellipsis'
 					}}
 				>
 					{props.item.name}
-				</TableCell>
-				{renderVisibilityIconCell()}
-				<TableCell align='center'>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'center',
-							alignItems: 'center'
-						}}
-					>
-						<PriorityBadge priorityId={props.item.priorityId} />
-					</Box>
-				</TableCell>
-				{renderActionButtonsCell()}
-			</TableRow>
-			<TableRow>
-				<TableCell
-					style={{paddingBottom: 0, paddingTop: 0}}
-					colSpan={6}
-				>
-					<Collapse
-						in={open}
-						timeout='auto'
-						unmountOnExit
-					>
-						<Box sx={{margin: 1}}>
-							<Typography component='div'>
-								<MarkdownView
-									markdown={props.item.description}
-								/>
-							</Typography>
-						</Box>
-					</Collapse>
-				</TableCell>
-			</TableRow>
-		</React.Fragment>
+				</Grid>
+				{renderVisibilityGridItem()}
+				{renderIcons()}
+			</Grid>
+			<Collapse
+				in={open}
+				timeout='auto'
+				unmountOnExit
+			>
+				<Box sx={{margin: 1}}>
+					<Typography component='div'>
+						<MarkdownView markdown={props.item.description} />
+					</Typography>
+				</Box>
+			</Collapse>
+			<Menu
+				anchorEl={anchorEl}
+				open={anchorEl !== null}
+				onClose={handlePriorityChoiceClose}
+				slotProps={{
+					list: {
+						'aria-labelledby': 'basic-button'
+					}
+				}}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'center'
+				}}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'center'
+				}}
+			>
+				{getAllPriorities().map(renderPriorityMenuItem)}
+			</Menu>
+		</Box>
 	);
 }

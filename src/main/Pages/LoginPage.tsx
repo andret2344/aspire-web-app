@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
-import '../../../assets/fonts.css';
 import {AuthContainer} from '../Components/AuthContainer';
 import {logIn} from '../Services/AuthService';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
