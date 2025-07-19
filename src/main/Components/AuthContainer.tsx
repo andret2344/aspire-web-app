@@ -1,6 +1,5 @@
 import {Container, Paper, Typography} from '@mui/material';
 import React from 'react';
-import '../../../assets/fonts.css';
 import {None} from '../Types/None';
 import {useTranslation} from 'react-i18next';
 

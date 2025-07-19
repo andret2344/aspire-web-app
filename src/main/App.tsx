@@ -1,4 +1,3 @@
-import './Styles/styles.css';
 import React from 'react';
 import {CssBaseline} from '@mui/material';
 import {Route, Routes} from 'react-router-dom';
