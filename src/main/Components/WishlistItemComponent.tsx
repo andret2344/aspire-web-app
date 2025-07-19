@@ -385,7 +385,6 @@ export function WishlistItemComponent(
 						textOverflow: 'ellipsis'
 					}}
 				>
-					{renderEditButton()}
 					{props.item.name}
 				</Grid>
 				{renderVisibilityGridItem()}
