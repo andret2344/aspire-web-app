@@ -30,7 +30,7 @@ export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
 			onClick={props.onClick}
 		>
 			<Typography
-				data-testid={props['data-testid'] || 'item-priority-chip'}
+				data-testid={props['data-testid'] ?? 'item-priority-chip'}
 				color='black'
 				sx={{
 					backgroundColor: priority.color,
