@@ -43,19 +43,26 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 					width: width,
 					transition: 'width 0.3s',
 					overflowX: 'hidden',
-					mt: '64px'
+					mt: '56px'
 				}
 			}}
 		>
-			<IconButton
-				onClick={props.onToggle}
-				sx={{m: 1}}
-				data-testid='nav-drawer-toggle'
-			>
-				{props.open ? <MenuOpen /> : <Menu />}
-			</IconButton>
-
 			<List>
+				<IconButton
+					data-testid='nav-drawer-toggle'
+					onClick={props.onToggle}
+					sx={{
+						borderRadius: 0,
+						width: '100%'
+					}}
+				>
+					{props.open ? (
+						<MenuOpen />
+					) : (
+						<Menu sx={{marginLeft: '-2.5px'}} />
+					)}
+				</IconButton>
+
 				<ListItemButton
 					component={Link}
 					to='/wishlists'
