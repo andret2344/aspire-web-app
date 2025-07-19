@@ -371,7 +371,7 @@ export function WishlistItemComponent(
 					<Typography
 						color='#888888'
 						variant='body2'
-						padding='8px'
+						padding='0.5rem'
 					>
 						<em>#{props.position}</em>
 					</Typography>

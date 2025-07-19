@@ -22,7 +22,7 @@ export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
 			title={t(priority.descriptionKey)}
 			arrow
 			disableInteractive
-			style={{
+			sx={{
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center'

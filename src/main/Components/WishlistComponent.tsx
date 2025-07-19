@@ -228,7 +228,7 @@ export function WishlistComponent(
 					<Typography
 						color='#888888'
 						variant='body2'
-						padding='8px'
+						padding='0.5rem'
 					>
 						<em>#{props.wishlist.id}</em>
 					</Typography>
