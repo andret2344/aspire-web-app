@@ -3,7 +3,7 @@ import {mockedIsTokenValid, mockedSignUp} from '../__mocks__/MockAuthService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import React from 'react';
 
-import {act, fireEvent, RenderResult, waitFor} from '@testing-library/react';
+import {fireEvent, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {RegisterPage} from '../../main/Pages/RegisterPage';
 import {screen} from '@testing-library/dom';
@@ -275,7 +275,7 @@ describe('register page', (): void => {
 		mockedGetWishlists.mockResolvedValue([]);
 
 		// act
-		await act((): RenderResult => renderForTest(<RegisterPage />));
+		renderForTest(<RegisterPage />);
 
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);

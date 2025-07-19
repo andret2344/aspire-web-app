@@ -1,12 +1,13 @@
 import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedGetReadonlyWishlistByUUID} from '../__mocks__/MockWishlistService';
+import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
+
 import React from 'react';
 import '@testing-library/jest-dom';
 import {fireEvent, screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
 import {ReadonlyWishlistPage} from '../../main/Pages/ReadonlyWishlistPage';
 import {renderForTest} from '../__utils__/RenderForTest';
-import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
 import {GENERIC_UUID, getSampleWishlistDto} from '../__utils__/DataFactory';
 
 describe('ReadonlyWishlistPage', (): void => {
