@@ -1,4 +1,3 @@
-import './Styles/styles.css';
 import React from 'react';
 import {CssBaseline} from '@mui/material';
 import {Route, Routes} from 'react-router-dom';
@@ -59,6 +58,10 @@ export function App(): React.ReactElement {
 						path='new-password/:token'
 						element={<NewPasswordPage />}
 					/>
+					<Route
+						path='wishlist/:uuid'
+						element={<ReadonlyWishlistPage />}
+					/>
 				</Route>
 
 				<Route element={<AppLayout />}>
@@ -69,10 +72,6 @@ export function App(): React.ReactElement {
 					<Route
 						path='wishlists/:id'
 						element={<WishlistPage />}
-					/>
-					<Route
-						path='wishlist/:uuid'
-						element={<ReadonlyWishlistPage />}
 					/>
 					<Route
 						path='profile'

@@ -3,8 +3,6 @@ import React from 'react';
 export const mockedSetMarkdown: jest.Mock = jest.fn();
 export const mockedGetMarkdown: jest.Mock = jest.fn();
 
-jest.mock('@mdxeditor/editor/style.css', () => ({}));
-
 jest.mock('@mdxeditor/editor', () => ({
 	// eslint-disable-next-line react/display-name
 	MDXEditor: React.forwardRef(
