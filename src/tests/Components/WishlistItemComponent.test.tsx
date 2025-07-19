@@ -384,7 +384,7 @@ describe('WishlistItemComponent', (): void => {
 
 		// act
 		const itemRow: HTMLElement = screen.getByTestId(
-			'wishlist-item-row-grid'
+			'wishlist-item-row-grid-1-1'
 		);
 		await user.click(itemRow);
 		const descriptionElement: HTMLElement =
