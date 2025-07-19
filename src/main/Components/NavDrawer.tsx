@@ -33,6 +33,20 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 		navigate('/');
 	}
 
+	function renderMenuIcon(): React.JSX.Element {
+		if (props.open) {
+			return <MenuOpen />;
+		}
+		return <Menu sx={{marginLeft: '-0.125rem'}} />;
+	}
+
+	function renderListItemText(text: string): React.ReactElement {
+		if (!props.open) {
+			return <></>;
+		}
+		return <ListItemText primary={text} />;
+	}
+
 	return (
 		<Drawer
 			variant='permanent'
@@ -56,11 +70,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						width: '100%'
 					}}
 				>
-					{props.open ? (
-						<MenuOpen />
-					) : (
-						<Menu sx={{marginLeft: '-2.5px'}} />
-					)}
+					{renderMenuIcon()}
 				</IconButton>
 
 				<ListItemButton
@@ -70,7 +80,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 					<ListItemIcon>
 						<ListAlt />
 					</ListItemIcon>
-					{props.open && <ListItemText primary={t('wishlists')} />}
+					{renderListItemText(t('wishlists'))}
 				</ListItemButton>
 
 				<ListItemButton
@@ -81,7 +91,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 					<ListItemIcon>
 						<Settings />
 					</ListItemIcon>
-					{props.open && <ListItemText primary={t('settings')} />}
+					{renderListItemText(t('settings'))}
 				</ListItemButton>
 			</List>
 
@@ -95,7 +105,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 					<ListItemIcon>
 						<Logout />
 					</ListItemIcon>
-					{props.open && <ListItemText primary={t('log-out')} />}
+					{renderListItemText(t('log-out'))}
 				</ListItemButton>
 			</List>
 		</Drawer>
