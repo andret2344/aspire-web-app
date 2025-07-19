@@ -341,7 +341,6 @@ export function WishlistItemComponent(
 
 	return (
 		<Box
-			key={props.wishlist.id}
 			data-testid='wishlist-item-row'
 			sx={(theme: Theme): SystemStyleObject<Theme> => ({
 				backgroundColor: getThemeColor(theme, 'activeBlue'),
@@ -353,7 +352,6 @@ export function WishlistItemComponent(
 			<Grid
 				alignItems='center'
 				justifyContent='center'
-				key={props.item.id}
 				container
 				spacing={1}
 				data-testid={`wishlist-item-row-grid-${props.wishlist.id}-${props.item.id}`}
