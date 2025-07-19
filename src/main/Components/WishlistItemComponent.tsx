@@ -311,27 +311,26 @@ export function WishlistItemComponent(
 					{renderRemoveButtonGridItem()}
 				</>
 			);
-		} else {
-			return (
-				<Grid>
-					<IconButton onClick={handleMenuOpen}>
-						<MoreHorizIcon />
-					</IconButton>
-					<Menu
-						anchorEl={menuAnchorEl}
-						open={Boolean(menuAnchorEl)}
-						onClose={handleMenuClose}
-					>
-						<MenuItem onClick={handlePriorityChoiceOpen}>
-							{renderPriorityChip()}
-						</MenuItem>
-						<MenuItem onClick={handleRemoveButton}>
-							<DeleteForeverOutlined color='error' />
-						</MenuItem>
-					</Menu>
-				</Grid>
-			);
 		}
+		return (
+			<Grid>
+				<IconButton onClick={handleMenuOpen}>
+					<MoreHorizIcon />
+				</IconButton>
+				<Menu
+					anchorEl={menuAnchorEl}
+					open={Boolean(menuAnchorEl)}
+					onClose={handleMenuClose}
+				>
+					<MenuItem onClick={handlePriorityChoiceOpen}>
+						{renderPriorityChip()}
+					</MenuItem>
+					<MenuItem onClick={handleRemoveButton}>
+						<DeleteForeverOutlined color='error' />
+					</MenuItem>
+				</Menu>
+			</Grid>
+		);
 	}
 
 	return (
