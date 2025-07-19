@@ -9,7 +9,6 @@ import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function WishlistListPage(): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
@@ -20,12 +19,8 @@ export function WishlistListPage(): React.ReactElement {
 		React.useState<boolean>(false);
 
 	const {enqueueSnackbar} = useSnackbar();
-	const {tokenLoading, tokenValid} = useTokenValidation();
 
 	React.useEffect((): void => {
-		if (tokenLoading || !tokenValid) {
-			return;
-		}
 		getWishlists()
 			.then(mapWishlistArrayFromDto)
 			.then(setWishlists)
@@ -34,16 +29,7 @@ export function WishlistListPage(): React.ReactElement {
 				navigate('/error');
 			})
 			.finally((): void => setLoading(false));
-	}, [tokenValid, tokenLoading]);
-
-	if (tokenLoading) {
-		return <></>;
-	}
-
-	if (!tokenValid) {
-		navigate('/');
-		return <></>;
-	}
+	}, []);
 
 	function findWishlistIndexById(wishlistId: number): number {
 		return wishlists.findIndex(
@@ -144,6 +130,7 @@ export function WishlistListPage(): React.ReactElement {
 	return (
 		<>
 			<Grid
+				data-testid='wishlist-list-page-grid-main'
 				sx={{
 					paddingBottom: 'auto',
 					flexGrow: 1,

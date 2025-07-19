@@ -17,7 +17,6 @@ import {useDarkMode} from '../Components/DarkModeContext';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '../Components/ToggleColorModeComponent';
 import {useTranslation} from 'react-i18next';
-import {useTokenValidation} from '../Hooks/useTokenValidation';
 import {LanguagePicker} from '../Components/LanguagePicker';
 
 export function ProfilePage(): React.ReactElement {
@@ -34,7 +33,6 @@ export function ProfilePage(): React.ReactElement {
 	const {darkMode, toggleDarkMode} = useDarkMode();
 	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
-	const {tokenLoading, tokenValid} = useTokenValidation();
 	const {
 		handleSubmit,
 		register,
@@ -43,15 +41,6 @@ export function ProfilePage(): React.ReactElement {
 		formState: {errors}
 	} = useForm<Inputs>();
 	const {t} = useTranslation();
-
-	if (tokenLoading) {
-		return <></>;
-	}
-
-	if (!tokenValid) {
-		navigate('/');
-		return <></>;
-	}
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);

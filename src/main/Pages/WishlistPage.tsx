@@ -9,7 +9,6 @@ import {WishlistItem} from '../Entity/WishlistItem';
 import {EditItemModal} from '../Components/Modals/EditItemModal';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function WishlistPage(): React.ReactElement {
 	type Params = {readonly id?: string};
@@ -27,14 +26,10 @@ export function WishlistPage(): React.ReactElement {
 	>(undefined);
 
 	const {enqueueSnackbar} = useSnackbar();
-	const {tokenLoading, tokenValid} = useTokenValidation();
-	const activeWishlistId: number = +(params?.id ?? -1);
+	const wishlistId: number = +(params?.id ?? -1);
 
 	React.useEffect((): void => {
-		if (tokenLoading || !tokenValid) {
-			return;
-		}
-		getWishlist(activeWishlistId)
+		getWishlist(wishlistId)
 			.then(mapWishlistFromDto)
 			.then(setWishlist)
 			.catch((): void => {
@@ -42,16 +37,7 @@ export function WishlistPage(): React.ReactElement {
 				navigate('/error');
 			})
 			.finally((): void => setLoading(false));
-	}, [tokenValid, tokenLoading]);
-
-	if (tokenLoading) {
-		return <></>;
-	}
-
-	if (!tokenValid) {
-		navigate('/');
-		return <></>;
-	}
+	}, []);
 
 	if (loading) {
 		return <></>;
@@ -125,16 +111,20 @@ export function WishlistPage(): React.ReactElement {
 		);
 	}
 
-	function renderItemsGridItem(): false | React.JSX.Element {
-		if (activeWishlistId === -1) {
-			return <></>;
-		}
-		return (
+	return (
+		<>
 			<Grid
-				size={12}
-				overflow={{xs: 'none', md: 'auto'}}
-				maxHeight={{xs: 'none', md: '100%'}}
-				paddingBottom='50px'
+				data-testid='wishlist-page-grid-main'
+				sx={{
+					paddingBottom: '50px',
+					flexGrow: 1,
+					height: '100vh',
+					overflowY: 'auto',
+					paddingTop: '56px',
+					overflow: {xs: 'none', md: 'auto'},
+					maxHeight: {xs: 'none', md: '100%'}
+				}}
+				container
 			>
 				{renderItems()}
 				<Grid
@@ -157,26 +147,9 @@ export function WishlistPage(): React.ReactElement {
 					</IconButton>
 				</Grid>
 			</Grid>
-		);
-	}
-
-	return (
-		<>
-			<Grid
-				sx={{
-					paddingBottom: 'auto',
-					flexGrow: 1,
-					height: '100vh',
-					overflowY: 'auto',
-					paddingTop: '56px'
-				}}
-				container
-			>
-				{renderItemsGridItem()}
-			</Grid>
 			<EditItemModal
 				key={editingWishlistItem?.id}
-				wishlistId={activeWishlistId}
+				wishlistId={wishlistId}
 				wishlistPassword={wishlist?.hasPassword}
 				opened={addItemModalOpened}
 				onClose={closeEditModal}

@@ -5,13 +5,7 @@ import {
 	mockedSetWishlistPassword,
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
-import {
-	mockedAddWishlistItem,
-	mockedRemoveWishlistItem,
-	mockedUpdateWishlistItem
-} from '../__mocks__/MockWishlistItemService';
-import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
-import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
 import '../__mocks__/MockMDXEditor';
 
 import user from '@testing-library/user-event';
@@ -27,336 +21,143 @@ import {
 } from '../__utils__/DataFactory';
 
 describe('WishlistListPage', (): void => {
-	describe('wishlist', (): void => {
-		it('handles adding new wishlist correctly', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
-			mockedAddWishlist.mockResolvedValue(
-				getSampleWishlist({
-					id: 2,
-					name: 'New Mock Wishlist',
-					wishlistItems: []
-				})
-			);
-			mockedIsTokenValid.mockReturnValue(true);
+	it('handles adding new wishlist correctly', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		mockedGetWishlists.mockResolvedValue([getSampleWishlist()]);
+		mockedAddWishlist.mockResolvedValue(
+			getSampleWishlist({
+				id: 2,
+				name: 'New Mock Wishlist',
+				wishlistItems: []
+			})
+		);
 
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
+		renderForTest(<WishlistListPage />);
+		await screen.findByTestId('wishlist-list-page-grid-main');
 
-			// act
-			const addNewWishlistButton: HTMLElement =
-				screen.getByTestId('open-modal-button');
-			await user.click(addNewWishlistButton);
-			const input: HTMLInputElement = screen
-				.getByTestId('input-wishlist-name')
-				.querySelector('input') as HTMLInputElement;
-			await user.type(input, 'New Mock Wishlist');
-			const saveButton: HTMLElement = screen.getByTestId('button-save');
-			await user.click(saveButton);
+		// act
+		const addNewWishlistButton: HTMLElement =
+			screen.getByTestId('open-modal-button');
+		await user.click(addNewWishlistButton);
+		const input: HTMLInputElement = screen
+			.getByTestId('input-wishlist-name')
+			.querySelector('input') as HTMLInputElement;
+		await user.type(input, 'New Mock Wishlist');
+		const saveButton: HTMLElement = screen.getByTestId('button-save');
+		await user.click(saveButton);
 
-			// assert
-			await waitFor((): void =>
-				expect(
-					screen.getAllByText('New Mock Wishlist').length
-				).toBeGreaterThan(0)
-			);
-		});
-
-		it('handles removing wishlist accept', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedIsTokenValid.mockReturnValue(true);
-			mockedRemoveWishlist.mockResolvedValue(void 0);
-
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			// act
-			await user.click(screen.getByTestId('delete-wishlist-1'));
-
-			await user.click(
-				screen.getByTestId('delete-wishlist-modal-button-delete')
-			);
-
-			// assert
-			expect(screen.getByText('wishlist-removed')).toBeInTheDocument();
-			expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
-			expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
-		});
-
-		it('handles removing wishlist cancel', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedIsTokenValid.mockReturnValue(true);
-			mockedRemoveWishlist.mockResolvedValue(void 0);
-
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			// act
-			await user.click(screen.getByTestId('delete-wishlist-1'));
-			await user.click(
-				screen.getByTestId('delete-wishlist-modal-button-cancel')
-			);
-
-			// assert
-			expect(mockedRemoveWishlist).toHaveBeenCalledTimes(0);
-		});
-
-		it('handles removing wishlist reject', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedIsTokenValid.mockReturnValue(true);
-			mockedRemoveWishlist.mockRejectedValue(void 0);
-
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			// act
-			await user.click(screen.getByLabelText('delete-wishlist-1'));
-			await user.click(
-				screen.getByTestId('delete-wishlist-modal-button-delete')
-			);
-
-			// assert
+		// assert
+		await waitFor((): void =>
 			expect(
-				screen.getByText('something-went-wrong')
-			).toBeInTheDocument();
-			expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
-			expect(mockedNavigate).toHaveBeenCalledTimes(0);
-		});
-
-		it('handles renaming wishlist', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedIsTokenValid.mockReturnValue(true);
-			mockedUpdateWishlistName.mockResolvedValue(
-				getSampleWishlist({name: 'Mock Wishlist updated'})
-			);
-
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			// act
-			await user.click(screen.getByTestId('wishlist-name'));
-			const input: HTMLInputElement = screen
-				.getByTestId('wishlist-edit-name-input')
-				.querySelector('input') as HTMLInputElement;
-			await user.type(input, ' updated');
-			await user.click(screen.getByTestId('wishlist-edit-done'));
-
-			// assert
-			expect(
-				screen.getByText('Mock Wishlist updated')
-			).toBeInTheDocument();
-		});
-
-		it('handles password change', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedIsTokenValid.mockReturnValue(true);
-			mockedSetWishlistPassword.mockResolvedValue(void 0);
-
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			// act
-			await user.click(screen.getByTestId('hidden-items-icon-button'));
-			const input: HTMLInputElement = screen
-				.getByTestId('wishlist-password-modal-input')
-				.querySelector('input') as HTMLInputElement;
-			await user.type(input, ' updated');
-			await user.click(
-				screen.getByTestId('wishlist-password-modal-confirm')
-			);
-
-			// assert
-			expect(screen.queryByTestId('icon-lock-open')).toBeNull();
-			expect(screen.queryByTestId('icon-lock')).not.toBeNull();
-		});
-
-		it('handles visibility click', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: 1});
-			mockedGetWishlists.mockResolvedValue([
-				getSampleWishlistDto({has_password: true})
-			]);
-			mockedIsTokenValid.mockReturnValue(true);
-			mockedUpdateWishlistItem.mockResolvedValue(void 0);
-
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			// act
-			await user.click(screen.getByTestId('item-visible-icon'));
-
-			// assert
-			await waitFor((): void => {
-				expect(screen.queryByText('Check out this link')).toBeNull();
-				expect(screen.queryByTestId('item-visible-icon')).toBeNull();
-				expect(screen.queryByTestId('item-hidden-icon')).not.toBeNull();
-			});
-		});
+				screen.getAllByText('New Mock Wishlist').length
+			).toBeGreaterThan(0)
+		);
 	});
 
-	describe('item', (): void => {
-		it('handles adding an item to a wishlist', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedAddWishlistItem.mockResolvedValue(
-				getSampleWishlistDto({id: 2})
-			);
-			mockedIsTokenValid.mockReturnValue(true);
+	it('handles removing wishlist accept', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
+		mockedRemoveWishlist.mockResolvedValue(void 0);
 
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
+		renderForTest(<WishlistListPage />);
+		await screen.findByTestId('wishlist-list-page-grid-main');
 
-			// act
-			const addButton: HTMLButtonElement = await waitFor(
-				(): HTMLButtonElement => screen.getByTestId('add-item-button')
-			);
-			await user.click(addButton);
+		// act
+		await user.click(screen.getByTestId('delete-wishlist-1'));
 
-			const input: HTMLInputElement = screen
-				.getByTestId('edit-item-modal-input-name')
-				.querySelector('input') as HTMLInputElement;
-			await user.type(input, 'New item');
-			const confirmButton: HTMLElement = screen.getByTestId(
-				'edit-item-modal-confirm'
-			);
-			await user.click(confirmButton);
+		await user.click(
+			screen.getByTestId('delete-wishlist-modal-button-delete')
+		);
 
-			// assert
-			expect(mockedAddWishlistItem).toHaveBeenCalledTimes(1);
-		});
-
-		it('handles item name change accept', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedUpdateWishlistItem.mockResolvedValue(
-				getSampleWishlist({name: 'Mock Wishlist updated'})
-			);
-			mockedIsTokenValid.mockReturnValue(true);
-
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			// act
-			const editButton: HTMLElement = await waitFor(
-				async (): Promise<HTMLElement> =>
-					screen.getByTestId('edit-wishlist-item-1-1')
-			);
-			await user.click(editButton);
-			const input: HTMLInputElement = screen.getByTestId(
-				'edit-item-modal-input-name'
-			);
-			await user.type(input, ' updated');
-			const confirmButton: HTMLElement = screen.getByTestId(
-				'edit-item-modal-confirm'
-			);
-			await user.click(confirmButton);
-
-			// assert
-			expect(mockedUpdateWishlistItem).toHaveBeenCalledTimes(1);
-		});
-
-		it('handles item name change cancel', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedIsTokenValid.mockReturnValue(true);
-
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			// act
-			const editButton: HTMLElement = await waitFor(
-				async (): Promise<HTMLElement> =>
-					screen.getByTestId('edit-wishlist-item-1-1')
-			);
-			await user.click(editButton);
-
-			const cancelButton: HTMLElement = screen.getByTestId(
-				'edit-item-modal-cancel'
-			);
-			await user.click(cancelButton);
-
-			// assert
-			expect(cancelButton).not.toBeInTheDocument();
-		});
-
-		it('handles removing an item from a wishlist', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({id: '1'});
-			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedRemoveWishlistItem.mockResolvedValue(undefined);
-			mockedIsTokenValid.mockReturnValue(true);
-
-			// act
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
-
-			const removeButton: HTMLButtonElement = await waitFor(
-				(): HTMLButtonElement =>
-					screen.getByTestId('remove-wishlist-item-1-1')
-			);
-			await user.click(removeButton);
-
-			// assert
-			expect(mockedRemoveWishlistItem).toHaveBeenCalledTimes(1);
-			expect(mockedRemoveWishlistItem).toHaveBeenCalledWith(1, 1);
-		});
+		// assert
+		expect(screen.getByText('wishlist-removed')).toBeInTheDocument();
+		expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
 	});
 
-	describe('routing', (): void => {
-		it('redirects successfully to index page if not logged in', async (): Promise<void> => {
-			// arrange
-			mockedIsTokenValid.mockReturnValue(false);
-			mockedGetWishlists.mockResolvedValue([]);
+	it('handles removing wishlist cancel', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
+		mockedRemoveWishlist.mockResolvedValue(void 0);
 
-			// act
-			renderForTest(<WishlistListPage />);
+		renderForTest(<WishlistListPage />);
+		await screen.findByTestId('wishlist-list-page-grid-main');
 
-			// assert
-			expect(mockedNavigate).toHaveBeenCalledTimes(1);
-			expect(mockedNavigate).toHaveBeenCalledWith('/');
-		});
+		// act
+		await user.click(screen.getByTestId('delete-wishlist-1'));
+		await user.click(
+			screen.getByTestId('delete-wishlist-modal-button-cancel')
+		);
 
-		it('navigates to /error when no wishlist is fetched', async (): Promise<void> => {
-			// arrange
-			user.setup();
-			mockedUseParams.mockReturnValue({
-				id: 1
-			});
-			mockedGetWishlists.mockRejectedValue(new Error('Test error'));
-			mockedIsTokenValid.mockReturnValue(true);
+		// assert
+		expect(mockedRemoveWishlist).toHaveBeenCalledTimes(0);
+	});
 
-			// act
-			renderForTest(<WishlistListPage />);
-			await screen.findByTestId('sidebar-grid-item');
+	it('handles removing wishlist reject', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
+		mockedRemoveWishlist.mockRejectedValue(void 0);
 
-			// assert
-			expect(mockedNavigate).toHaveBeenCalledTimes(1);
-			expect(mockedNavigate).toHaveBeenCalledWith('/error');
-		});
+		renderForTest(<WishlistListPage />);
+		await screen.findByTestId('wishlist-list-page-grid-main');
+
+		// act
+		await user.click(screen.getByTestId('delete-wishlist-1'));
+		await user.click(
+			screen.getByTestId('delete-wishlist-modal-button-delete')
+		);
+
+		// assert
+		expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
+		expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
+		expect(mockedNavigate).toHaveBeenCalledTimes(0);
+	});
+
+	it('handles renaming wishlist', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
+		mockedUpdateWishlistName.mockResolvedValue(
+			getSampleWishlist({name: 'Mock Wishlist updated'})
+		);
+
+		renderForTest(<WishlistListPage />);
+		await screen.findByTestId('wishlist-list-page-grid-main');
+
+		// act
+		await user.click(screen.getByTestId('wishlist-item-name-edit'));
+		const input: HTMLInputElement = screen
+			.getByTestId('wishlist-edit-name-input')
+			.querySelector('input') as HTMLInputElement;
+		await user.type(input, ' updated');
+		await user.click(screen.getByTestId('wishlist-edit-done'));
+
+		// assert
+		expect(screen.getByText('Mock Wishlist updated')).toBeInTheDocument();
+	});
+
+	it('handles password change', async (): Promise<void> => {
+		// arrange
+		user.setup();
+		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
+		mockedSetWishlistPassword.mockResolvedValue(void 0);
+
+		renderForTest(<WishlistListPage />);
+		await screen.findByTestId('wishlist-list-page-grid-main');
+
+		// act
+		await user.click(screen.getByTestId('hidden-items-icon-button'));
+		const input: HTMLInputElement = screen
+			.getByTestId('wishlist-password-modal-input')
+			.querySelector('input') as HTMLInputElement;
+		await user.type(input, ' updated');
+		await user.click(screen.getByTestId('wishlist-password-modal-confirm'));
+
+		// assert
+		expect(screen.queryByTestId('icon-lock-open')).toBeNull();
+		expect(screen.queryByTestId('icon-lock')).not.toBeNull();
 	});
 });

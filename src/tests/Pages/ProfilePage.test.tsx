@@ -1,4 +1,3 @@
-import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {
 	mockedChangePassword,
 	mockedIsTokenValid
@@ -26,15 +25,6 @@ describe('ProfilePage', (): void => {
 		// assert
 		expect(passwordSettingsText).toBeInTheDocument();
 		expect(saveButton).toBeInTheDocument();
-	});
-
-	test('navigates without token', (): void => {
-		// arrange
-		renderForTest(<ProfilePage />);
-
-		// assert
-		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/');
 	});
 
 	test('check passwords are not equal', async (): Promise<void> => {
@@ -153,17 +143,5 @@ describe('ProfilePage', (): void => {
 		expect(showPasswordButton).toBeInTheDocument();
 		expect(showPasswordRepeatButton).toBeInTheDocument();
 		expect(showPasswordRepeatConfButton).toBeInTheDocument();
-	});
-
-	test('redirect successfully to index page if not logged in', async (): Promise<void> => {
-		// arrange
-		mockedIsTokenValid.mockReturnValue(false);
-
-		// act
-		renderForTest(<ProfilePage />);
-
-		// assert
-		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/');
 	});
 });

@@ -148,10 +148,11 @@ export function WishlistComponent(
 
 	function renderTypographyName(): React.ReactElement {
 		return (
-			<Typography data-testid='wishlist-name'>
+			<Typography>
 				<IconButton
 					size='small'
 					onClick={handleNameClick}
+					data-testid='wishlist-item-name-edit'
 				>
 					<EditIcon data-testid='edit-icon' />
 				</IconButton>
@@ -286,7 +287,6 @@ export function WishlistComponent(
 						onClick={handleDeleteIconClick}
 						size='large'
 						data-testid={`delete-wishlist-${props.wishlist.id}`}
-						aria-label={`delete-wishlist-${props.wishlist.id}`}
 					>
 						<DeleteIcon />
 					</IconButton>
