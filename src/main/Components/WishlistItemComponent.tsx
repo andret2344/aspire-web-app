@@ -303,7 +303,7 @@ export function WishlistItemComponent(
 		);
 	}
 
-	function renderIcons(): React.JSX.Element {
+	function renderIcons(): React.ReactElement {
 		if (!isMobile) {
 			return (
 				<>

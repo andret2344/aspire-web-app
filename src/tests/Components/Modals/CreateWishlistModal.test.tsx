@@ -11,7 +11,7 @@ import {getSampleWishlist} from '../../__utils__/DataFactory';
 describe('CreateWishlistModal', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	it('renders', (): void => {
+	test('renders correctly', (): void => {
 		// arrange
 		mockedUseMediaQuery.mockReturnValue(false);
 		renderForTest(
