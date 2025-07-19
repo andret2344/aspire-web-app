@@ -1,21 +1,6 @@
-@import "@mdxeditor/editor/style.css";
 @import url('https://fonts.googleapis.com/css2?family=Courgette&family=Montserrat:wght@400;500;700&display=swap');
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    box-sizing: border-box;
-    overflow-y: auto;
-}
+@import "@mdxeditor/editor/style.css";
 
 ::-webkit-scrollbar {
     display: none;
-}
-
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
 }
