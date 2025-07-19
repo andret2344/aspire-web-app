@@ -18,11 +18,11 @@ import {
 import React, {RefObject} from 'react';
 import {
 	addWishlistItem,
-	editWishlistItem
+	updateWishlistItem
 } from '../../Services/WishlistItemService';
 import {getAllPriorities, Priority} from '../../Entity/Priority';
 import {
-	mapWishlistItem,
+	mapWishlistItemFromDto,
 	WishlistItem,
 	WishlistItemDto
 } from '../../Entity/WishlistItem';
@@ -100,43 +100,37 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		event: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
 		event.preventDefault();
-		const wishlistItemDescription: string =
+		const description: string =
 			descriptionEditorRef.current?.getMarkdown() ?? '';
 		if (props.item) {
 			const updatedWishlistItem: WishlistItemDto | null =
-				await editWishlistItem(
-					props.wishlistId,
-					props.item.id,
+				await updateWishlistItem(props.wishlistId, {
+					id: props.item.id,
 					name,
-					wishlistItemDescription,
-					priority,
+					description,
+					priority_id: priority,
 					hidden
-				);
+				});
 			if (updatedWishlistItem) {
 				props.onAccept(
 					props.wishlistId,
-					mapWishlistItem(updatedWishlistItem)
+					mapWishlistItemFromDto(updatedWishlistItem)
 				);
 				props.onClose();
 			}
 		} else {
-			if (priority) {
-				setPriority(1);
-			}
-
 			const newWishlistItem: WishlistItemDto | null =
-				await addWishlistItem(
-					props.wishlistId,
+				await addWishlistItem(props.wishlistId, {
 					name,
-					wishlistItemDescription,
-					priority,
+					description,
+					priority_id: priority,
 					hidden
-				);
+				});
 
 			if (newWishlistItem) {
 				props.onAccept(
 					props.wishlistId,
-					mapWishlistItem(newWishlistItem)
+					mapWishlistItemFromDto(newWishlistItem)
 				);
 				props.onClose();
 				enqueueSnackbar(t('saved'), {variant: 'success'});
@@ -258,8 +252,9 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 							<MenuItem
 								key={priorityItem.value}
 								value={priorityItem.value}
+								data-testid={`priority-item-${priorityItem.value}`}
 							>
-								{`${priorityItem.value}\u00A0\u00A0 ${priorityItem.description}`}
+								{`${priorityItem.value}\u00A0\u00A0 ${t(priorityItem.descriptionKey)}`}
 							</MenuItem>
 						)
 					)}

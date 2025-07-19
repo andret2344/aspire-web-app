@@ -1,26 +1,37 @@
 export interface WishlistItem {
 	readonly id: number;
-	readonly wishlistId: number;
 	readonly name: string;
 	readonly description: string;
 	readonly priorityId: number;
-	readonly hidden?: boolean;
+	readonly hidden: boolean;
 }
 
 export interface WishlistItemDto {
 	readonly id: number;
-	readonly wishlist_id: number;
 	readonly name: string;
 	readonly description: string;
 	readonly priority_id: number;
 	readonly hidden: boolean;
 }
 
-export function mapWishlistItem(wishlistItem: WishlistItemDto): WishlistItem {
-	const {priority_id, wishlist_id, ...rest} = wishlistItem;
+export function mapWishlistItemFromDto(
+	wishlistItem: WishlistItemDto
+): WishlistItem {
+	const {priority_id, ...rest} = wishlistItem;
 	return {
 		...rest,
-		wishlistId: wishlist_id,
 		priorityId: priority_id
+	};
+}
+
+export function mapWishlistItemToDto(
+	wishlistItem: WishlistItem,
+	overrides: Partial<WishlistItemDto>
+): WishlistItemDto {
+	const {priorityId, ...rest} = wishlistItem;
+	return {
+		...rest,
+		priority_id: priorityId,
+		...overrides
 	};
 }

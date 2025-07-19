@@ -5,20 +5,12 @@ import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {CreateWishlistModal} from '../../../main/Components/Modals/CreateWishlistModal';
-import {WishList} from '../../../main/Entity/WishList';
 import {renderForTest} from '../../__utils__/RenderForTest';
 import {act, fireEvent, RenderResult} from '@testing-library/react';
+import {getSampleWishlist} from '../../__utils__/DataFactory';
 
 describe('WishlistModal', (): void => {
 	beforeEach((): void => localStorage.clear());
-
-	const mockWishlistData: WishList = {
-		id: 1,
-		uuid: 'b838027b-9177-43d6-918e-67917f1d9b15',
-		name: 'Mock Wishlist',
-		wishlistItems: [],
-		hasPassword: false
-	};
 
 	test('renders correctly', (): void => {
 		// arrange
@@ -41,7 +33,7 @@ describe('WishlistModal', (): void => {
 	test('clicks enter work correctly', async (): Promise<void> => {
 		// arrange
 		const mockAdd: jest.Mock = jest.fn();
-		mockedAddWishlist.mockResolvedValue(mockWishlistData);
+		mockedAddWishlist.mockResolvedValue(getSampleWishlist());
 		mockedUseMediaQuery.mockReturnValue(false);
 		user.setup();
 

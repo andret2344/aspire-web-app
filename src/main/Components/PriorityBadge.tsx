@@ -1,48 +1,50 @@
-import {Box, Tooltip, Typography} from '@mui/material';
+import {Tooltip, Typography} from '@mui/material';
 import React from 'react';
 import {getPriority, Priority} from '../Entity/Priority';
+import {useTranslation} from 'react-i18next';
 
 interface PriorityBadgeProps {
-	readonly priorityId: number;
+	readonly value: number;
+	readonly onClick?: React.MouseEventHandler<HTMLDivElement>;
+	readonly 'data-testid'?: string;
 }
 
 export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
-	const priority: Priority | undefined = getPriority(props.priorityId);
+	const priority: Priority | undefined = getPriority(props.value);
+	const {t} = useTranslation();
 
 	if (!priority) {
 		return <></>;
 	}
 
 	return (
-		<Tooltip title={priority.description}>
-			<div>
-				<Box
-					sx={{
-						backgroundColor: priority.color,
-						borderRadius: '50%',
-						width: {
-							xs: '30px',
-							md: '40px'
-						},
-						height: {
-							xs: '30px',
-							md: '40px'
-						},
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'center',
-						alignItems: 'center'
-					}}
-					title={priority.description}
-				>
-					<Typography
-						data-testid='priority-number'
-						color='black'
-					>
-						{priority.value}
-					</Typography>
-				</Box>
-			</div>
+		<Tooltip
+			title={t(priority.descriptionKey)}
+			arrow
+			disableInteractive
+			onClick={props.onClick}
+		>
+			<Typography
+				data-testid={props['data-testid'] ?? 'item-priority-chip'}
+				color='black'
+				sx={{
+					backgroundColor: priority.color,
+					borderRadius: '50%',
+					width: {
+						xs: '24px',
+						md: '30px'
+					},
+					height: {
+						xs: '24px',
+						md: '30px'
+					},
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+			>
+				{priority.value}
+			</Typography>
 		</Tooltip>
 	);
 }

@@ -11,7 +11,11 @@ import {waitFor} from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 import apiInstance, {getApiConfig} from '../../main/Services/ApiInstance';
 import axios, {AxiosError} from 'axios';
-import {WishList} from '../../main/Entity/WishList';
+import {
+	mapWishlistArrayFromDto,
+	mapWishlistFromDto,
+	WishList
+} from '../../main/Entity/WishList';
 import {headers} from '../../main/Services/AuthService';
 import {
 	getSampleWishlist,
@@ -27,10 +31,12 @@ describe('WishListService', (): void => {
 		mock.onGet('/wishlist').reply(200, [getSampleWishlistDto()]);
 
 		// act
-		await waitFor(getWishlists).then((wishlists: WishList[]): void =>
-			// assert
-			expect(wishlists).toStrictEqual([getSampleWishlist()])
-		);
+		await waitFor(getWishlists)
+			.then(mapWishlistArrayFromDto)
+			.then((wishlists: WishList[]): void =>
+				// assert
+				expect(wishlists).toStrictEqual([getSampleWishlist()])
+			);
 	});
 
 	test('get wishlists rejected', async (): Promise<void> => {
@@ -53,10 +59,12 @@ describe('WishListService', (): void => {
 		mock.onGet('/wishlist/1').reply(200, getSampleWishlistDto());
 
 		// act
-		await getWishlist(1).then((wishlist: WishList | null): void => {
-			// assert
-			expect(wishlist).toEqual(getSampleWishlist());
-		});
+		await getWishlist(1)
+			.then(mapWishlistFromDto)
+			.then((wishlist: WishList | null): void => {
+				// assert
+				expect(wishlist).toEqual(getSampleWishlist());
+			});
 	});
 
 	test('get wishlist by id rejected', async (): Promise<void> => {
@@ -83,12 +91,12 @@ describe('WishListService', (): void => {
 		);
 
 		// act
-		await getReadonlyWishlistByUUID('uuid').then(
-			(wishlist: WishList | null): void => {
+		await getReadonlyWishlistByUUID('uuid')
+			.then(mapWishlistFromDto)
+			.then((wishlist: WishList | null): void => {
 				// assert
 				expect(wishlist).toEqual(getSampleWishlist());
-			}
-		);
+			});
 	});
 
 	test('get readonly wishlist by uuid rejected', async (): Promise<void> => {

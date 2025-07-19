@@ -29,11 +29,3 @@ export function renderForTestWithoutProvider(
 		</I18nextProvider>
 	);
 }
-
-export function tableWrapper(element: React.ReactElement): React.ReactElement {
-	return (
-		<table>
-			<tbody>{element}</tbody>
-		</table>
-	);
-}
