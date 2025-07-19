@@ -314,7 +314,10 @@ export function WishlistItemComponent(
 		}
 		return (
 			<Grid>
-				<IconButton onClick={handleMenuOpen}>
+				<IconButton
+					onClick={handleMenuOpen}
+					data-testid='wishlist-item-button-more'
+				>
 					<MoreHorizIcon />
 				</IconButton>
 				<Menu
@@ -326,7 +329,10 @@ export function WishlistItemComponent(
 						{renderPriorityChip()}
 					</MenuItem>
 					<MenuItem onClick={handleRemoveButton}>
-						<DeleteForeverOutlined color='error' />
+						<DeleteForeverOutlined
+							color='error'
+							data-testid='menu-item-remove'
+						/>
 					</MenuItem>
 				</Menu>
 			</Grid>
@@ -350,7 +356,7 @@ export function WishlistItemComponent(
 				key={props.item.id}
 				container
 				spacing={1}
-				data-testid='wishlist-item-row-grid'
+				data-testid={`wishlist-item-row-grid-${props.wishlist.id}-${props.item.id}`}
 				sx={{
 					borderBottom: 'unset',
 					position: 'relative',
@@ -367,11 +373,12 @@ export function WishlistItemComponent(
 					<Typography
 						color='#888888'
 						variant='body2'
-						padding='8px'
+						padding='0.5rem'
 					>
 						<em>#{props.position}</em>
 					</Typography>
 				</Grid>
+				<Grid>{renderEditButton()}</Grid>
 				<Grid
 					size='grow'
 					sx={{
@@ -380,7 +387,6 @@ export function WishlistItemComponent(
 						textOverflow: 'ellipsis'
 					}}
 				>
-					{renderEditButton()}
 					{props.item.name}
 				</Grid>
 				{renderVisibilityGridItem()}

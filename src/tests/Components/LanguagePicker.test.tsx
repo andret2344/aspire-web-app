@@ -44,7 +44,7 @@ describe('LanguagePicker', (): void => {
 		// assert
 		await waitFor((): void => {
 			const newButton: HTMLElement = screen.getByRole('button');
-			expect(newButton).toHaveTextContent(/polski/i)
+			expect(newButton).toHaveTextContent(/polski/i);
 		});
 	});
 });
