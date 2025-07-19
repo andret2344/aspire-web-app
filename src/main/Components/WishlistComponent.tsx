@@ -244,7 +244,6 @@ export function WishlistComponent(
 					{renderName()}
 				</Grid>
 				<Grid
-					size={1}
 					display='flex'
 					justifyContent='center'
 					alignItems='center'
@@ -259,7 +258,6 @@ export function WishlistComponent(
 					</IconButton>
 				</Grid>
 				<Grid
-					size={1}
 					display='flex'
 					justifyContent='center'
 					alignItems='center'
@@ -274,7 +272,6 @@ export function WishlistComponent(
 					</IconButton>
 				</Grid>
 				<Grid
-					size={1}
 					display='flex'
 					justifyContent='center'
 					alignItems='center'

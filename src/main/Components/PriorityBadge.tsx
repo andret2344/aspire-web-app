@@ -22,11 +22,6 @@ export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
 			title={t(priority.descriptionKey)}
 			arrow
 			disableInteractive
-			sx={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center'
-			}}
 			onClick={props.onClick}
 		>
 			<Typography
@@ -43,7 +38,9 @@ export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
 						xs: '24px',
 						md: '30px'
 					},
-					justifySelf: 'center'
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center'
 				}}
 			>
 				{priority.value}
