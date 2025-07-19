@@ -6,11 +6,14 @@ import {
 	IconButton,
 	Menu,
 	MenuItem,
+	Theme,
 	Typography,
-	Theme
+	useMediaQuery,
+	useTheme
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import {
 	mapWishlistItemFromDto,
@@ -33,7 +36,7 @@ import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishList} from '../Entity/WishList';
 import {getThemeColor} from '../Styles/theme';
-import {Container, SystemStyleObject} from '@mui/system';
+import {SystemStyleObject} from '@mui/system';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -53,11 +56,16 @@ export function WishlistItemComponent(
 	const {enqueueSnackbar} = useSnackbar();
 	const [circularProgress, setCircularProgress] =
 		React.useState<ProgressField>([]);
+	const [menuAnchorEl, setMenuAnchorEl] = React.useState<HTMLElement | null>(
+		null
+	);
 	const {t} = useTranslation();
+	const theme: Theme = useTheme();
+	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 
 	/* HANDLERS */
 
-	function handleToggleExpandButton(): void {
+	function handleRowClick(): void {
 		setOpen((prevOpen: boolean): boolean => !prevOpen);
 	}
 
@@ -74,7 +82,7 @@ export function WishlistItemComponent(
 	}
 
 	function handlePriorityChoiceOpen(
-		event: React.MouseEvent<HTMLDivElement>
+		event: React.MouseEvent<HTMLElement>
 	): void {
 		if (props.onWishlistEdit) {
 			event.stopPropagation();
@@ -117,8 +125,9 @@ export function WishlistItemComponent(
 			.finally((): void => removeFromCircularProgress(field));
 	}
 
-	function handleRemoveButton(event: React.MouseEvent): void {
+	function handleRemoveButton(event: React.MouseEvent<HTMLElement>): void {
 		event.stopPropagation();
+		handleMenuClose(event);
 		removeWishlistItem(props.wishlist.id, props.item.id)
 			.then((): void => {
 				props.onRemove!(props.wishlist.id, props.item.id);
@@ -129,6 +138,18 @@ export function WishlistItemComponent(
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
 			);
+	}
+
+	/* MENU */
+
+	function handleMenuOpen(event: React.MouseEvent<HTMLElement>): void {
+		event.stopPropagation();
+		setMenuAnchorEl(event.currentTarget);
+	}
+
+	function handleMenuClose(event: React.MouseEvent<HTMLElement>): void {
+		event.stopPropagation();
+		setMenuAnchorEl(null);
 	}
 
 	/* PROGRESS */
@@ -178,7 +199,6 @@ export function WishlistItemComponent(
 		}
 		return (
 			<Grid
-				size={1}
 				display='flex'
 				justifyContent='center'
 				alignItems='center'
@@ -220,7 +240,6 @@ export function WishlistItemComponent(
 	function renderPriorityGridItem(): React.ReactElement {
 		return (
 			<Grid
-				size={1}
 				display='flex'
 				justifyContent='center'
 				alignItems='center'
@@ -252,7 +271,11 @@ export function WishlistItemComponent(
 			return <></>;
 		}
 		return (
-			<Grid size={1}>
+			<Grid
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+			>
 				<IconButton
 					aria-label='delete'
 					onClick={handleRemoveButton}
@@ -280,6 +303,36 @@ export function WishlistItemComponent(
 		);
 	}
 
+	function renderIcons(): React.JSX.Element {
+		if (!isMobile) {
+			return (
+				<>
+					{renderPriorityGridItem()}
+					{renderRemoveButtonGridItem()}
+				</>
+			);
+		}
+		return (
+			<Grid>
+				<IconButton onClick={handleMenuOpen}>
+					<MoreHorizIcon />
+				</IconButton>
+				<Menu
+					anchorEl={menuAnchorEl}
+					open={Boolean(menuAnchorEl)}
+					onClose={handleMenuClose}
+				>
+					<MenuItem onClick={handlePriorityChoiceOpen}>
+						{renderPriorityChip()}
+					</MenuItem>
+					<MenuItem onClick={handleRemoveButton}>
+						<DeleteForeverOutlined color='error' />
+					</MenuItem>
+				</Menu>
+			</Grid>
+		);
+	}
+
 	return (
 		<Box
 			key={props.wishlist.id}
@@ -292,22 +345,18 @@ export function WishlistItemComponent(
 			})}
 		>
 			<Grid
-				columns={24}
 				alignItems='center'
 				justifyContent='center'
-				direction='row'
 				key={props.item.id}
 				container
 				spacing={1}
 				data-testid='wishlist-item-row-grid'
 				sx={{
 					borderBottom: 'unset',
-					position: 'relative'
-				}}
-				style={{
+					position: 'relative',
 					cursor: 'pointer'
 				}}
-				onClick={handleToggleExpandButton}
+				onClick={handleRowClick}
 			>
 				<Grid>
 					<IconButton aria-label='expand row'>
@@ -335,8 +384,7 @@ export function WishlistItemComponent(
 					{props.item.name}
 				</Grid>
 				{renderVisibilityGridItem()}
-				{renderPriorityGridItem()}
-				{renderRemoveButtonGridItem()}
+				{renderIcons()}
 			</Grid>
 			<Collapse
 				in={open}

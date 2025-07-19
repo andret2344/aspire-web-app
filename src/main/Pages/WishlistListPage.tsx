@@ -1,6 +1,5 @@
 import {Box, Button, Grid, IconButton, Theme, useTheme} from '@mui/material';
 import React from 'react';
-import '../../../assets/fonts.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {mapWishlistArrayFromDto, WishList} from '../Entity/WishList';

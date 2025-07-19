@@ -1,5 +1,21 @@
 @import "@mdxeditor/editor/style.css";
+@import url('https://fonts.googleapis.com/css2?family=Courgette&family=Montserrat:wght@400;500;700&display=swap');
 
-[class*="popupContainer"] {
-    z-index: 2000 !important;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
 }
