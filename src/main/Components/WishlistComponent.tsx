@@ -212,18 +212,14 @@ export function WishlistComponent(
 			})}
 		>
 			<Grid
-				columns={24}
 				alignItems='center'
 				justifyContent='center'
-				direction='row'
 				container
 				spacing={1}
 				data-testid={`wishlist-row-grid-${props.wishlist.id}`}
 				sx={{
 					borderBottom: 'unset',
-					position: 'relative'
-				}}
-				style={{
+					position: 'relative',
 					cursor: 'pointer'
 				}}
 				onClick={handleItemClick}

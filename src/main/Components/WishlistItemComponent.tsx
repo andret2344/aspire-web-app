@@ -341,7 +341,6 @@ export function WishlistItemComponent(
 
 	return (
 		<Box
-			key={props.wishlist.id}
 			data-testid='wishlist-item-row'
 			sx={(theme: Theme): SystemStyleObject<Theme> => ({
 				backgroundColor: getThemeColor(theme, 'activeBlue'),

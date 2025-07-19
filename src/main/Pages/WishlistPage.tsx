@@ -58,29 +58,23 @@ export function WishlistPage(): React.ReactElement {
 	}
 
 	function handleItemRemove(itemId: number): void {
-		if (!wishlist) {
-			return;
-		}
-		const foundItem: number = wishlist.wishlistItems.findIndex(
+		const foundItem: number = wishlist!.wishlistItems.findIndex(
 			(item: WishlistItem): boolean => item.id === itemId
 		);
-		wishlist.wishlistItems.splice(foundItem, 1);
-		setWishlist({...wishlist});
+		wishlist!.wishlistItems.splice(foundItem, 1);
+		setWishlist({...wishlist!});
 	}
 
 	function handleEditAccept(item: WishlistItem): void {
-		if (!wishlist) {
-			return;
-		}
 		if (editingWishlistItem) {
-			const foundItem: number = wishlist.wishlistItems.findIndex(
+			const foundItem: number = wishlist!.wishlistItems.findIndex(
 				(it: WishlistItem): boolean => it.id === editingWishlistItem.id
 			);
-			wishlist.wishlistItems[foundItem] = item;
+			wishlist!.wishlistItems[foundItem] = item;
 		} else {
-			wishlist.wishlistItems.push(item);
+			wishlist!.wishlistItems.push(item);
 		}
-		setWishlist({...wishlist});
+		setWishlist({...wishlist!});
 	}
 
 	function renderItems(): React.ReactNode[] {
@@ -93,15 +87,12 @@ export function WishlistPage(): React.ReactElement {
 		wishlistItem: WishlistItem,
 		index: number
 	): React.ReactElement {
-		if (!wishlist) {
-			return <></>;
-		}
 		return (
 			<WishlistItemComponent
 				key={wishlistItem.id}
 				item={wishlistItem}
 				position={index + 1}
-				wishlist={wishlist}
+				wishlist={wishlist!}
 				onEdit={handleItemEdit}
 				onRemove={handleItemRemove}
 				onWishlistEdit={(wishlist: WishList): void => {
@@ -112,19 +103,21 @@ export function WishlistPage(): React.ReactElement {
 	}
 
 	return (
-		<>
+		<Grid
+			data-testid='wishlist-page-grid-main'
+			sx={{
+				paddingBottom: '50px',
+				flexGrow: 1,
+				height: '100vh',
+				overflowY: 'auto',
+				paddingTop: '56px'
+			}}
+			container
+		>
 			<Grid
-				data-testid='wishlist-page-grid-main'
 				sx={{
-					paddingBottom: '50px',
-					flexGrow: 1,
-					height: '100vh',
-					overflowY: 'auto',
-					paddingTop: '56px',
-					overflow: {xs: 'none', md: 'auto'},
-					maxHeight: {xs: 'none', md: '100%'}
+					width: '100%'
 				}}
-				container
 			>
 				{renderItems()}
 				<Grid
@@ -156,6 +149,6 @@ export function WishlistPage(): React.ReactElement {
 				onAccept={handleEditAccept}
 				item={editingWishlistItem}
 			/>
-		</>
+		</Grid>
 	);
 }

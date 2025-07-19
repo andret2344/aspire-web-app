@@ -61,32 +61,6 @@ export function WishlistListPage(): React.ReactElement {
 		setWishlists([...wishlists]);
 	}
 
-	function renderWishlistsGridItem(): false | React.JSX.Element {
-		return (
-			<Grid
-				size={12}
-				overflow={{xs: 'none', md: 'auto'}}
-				maxHeight={{xs: 'none', md: '100%'}}
-				paddingBottom='50px'
-			>
-				{renderWishlistButtons()}
-				<Grid sx={{padding: '15px'}}>
-					<Button
-						data-testid='open-modal-button'
-						onClick={(): void => setAddWishlistModalOpened(true)}
-						variant='outlined'
-						sx={{
-							margin: '15px'
-						}}
-						startIcon={<AddCircleOutlineIcon />}
-					>
-						{t('add-new-wishlist')}
-					</Button>
-				</Grid>
-			</Grid>
-		);
-	}
-
 	function renderWishlistButtons(): React.ReactNode[] {
 		return wishlists.map(renderWishlistButton);
 	}
@@ -127,25 +101,42 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	return (
-		<>
+		<Grid
+			data-testid='wishlist-list-page-grid-main'
+			sx={{
+				paddingBottom: 'auto',
+				flexGrow: 1,
+				height: '100vh',
+				overflowY: 'auto',
+				paddingTop: '56px'
+			}}
+			container
+		>
 			<Grid
-				data-testid='wishlist-list-page-grid-main'
 				sx={{
-					paddingBottom: 'auto',
-					flexGrow: 1,
-					height: '100vh',
-					overflowY: 'auto',
-					paddingTop: '56px'
+					width: '100%'
 				}}
-				container
 			>
-				{renderWishlistsGridItem()}
+				{renderWishlistButtons()}
+				<Grid sx={{padding: '15px'}}>
+					<Button
+						data-testid='open-modal-button'
+						onClick={(): void => setAddWishlistModalOpened(true)}
+						variant='outlined'
+						sx={{
+							margin: '15px'
+						}}
+						startIcon={<AddCircleOutlineIcon />}
+					>
+						{t('add-new-wishlist')}
+					</Button>
+				</Grid>
 			</Grid>
 			<CreateWishlistModal
 				opened={addWishlistModalOpened}
 				onAddWishlist={addNewWishlist}
 				onClose={(): void => setAddWishlistModalOpened(false)}
 			/>
-		</>
+		</Grid>
 	);
 }
