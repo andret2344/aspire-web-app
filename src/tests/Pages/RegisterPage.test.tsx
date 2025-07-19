@@ -9,7 +9,7 @@ import {RegisterPage} from '../../main/Pages/RegisterPage';
 import {screen} from '@testing-library/dom';
 import {renderForTest} from '../__utils__/RenderForTest';
 
-describe('register page', (): void => {
+describe('RegisterPage', (): void => {
 	beforeEach((): void => localStorage.clear());
 
 	test('renders', (): void => {
