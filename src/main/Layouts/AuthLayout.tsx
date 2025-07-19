@@ -13,9 +13,9 @@ export function AuthLayout(): React.ReactElement {
 		if (tokenValid) {
 			navigate('/wishlists');
 		}
-	}, []);
+	}, [tokenLoading, tokenValid, navigate]);
 
-	if (tokenLoading) {
+	if (tokenLoading || tokenValid) {
 		return <></>;
 	}
 	return <Outlet />;

@@ -24,9 +24,9 @@ export function AppLayout(): React.ReactElement {
 		if (!tokenValid) {
 			navigate('/');
 		}
-	}, []);
+	}, [tokenLoading, tokenValid, navigate]);
 
-	if (tokenLoading) {
+	if (tokenLoading || !tokenValid) {
 		return <></>;
 	}
 

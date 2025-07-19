@@ -1,4 +1,3 @@
-import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
@@ -8,7 +7,6 @@ import {renderForTest} from '../__utils__/RenderForTest';
 describe('Header', (): void => {
 	it('renders', (): void => {
 		// arrange
-		mockedIsTokenValid.mockReturnValue(true);
 		renderForTest(<Header />);
 
 		// act
