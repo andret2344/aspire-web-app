@@ -218,7 +218,7 @@ export function WishlistComponent(
 				direction='row'
 				container
 				spacing={1}
-				data-testid='wishlist-item-row-grid'
+				data-testid={`wishlist-row-grid-${props.wishlist.id}`}
 				sx={{
 					borderBottom: 'unset',
 					position: 'relative'
@@ -303,7 +303,7 @@ export function WishlistComponent(
 				opened={deleteModalOpen}
 				onCancel={handleDeleteCancel}
 				onRemove={handleWishlistRemove}
-				wishlistName={props.wishlist?.name ?? ''}
+				wishlistName={props.wishlist.name}
 			/>
 		</Box>
 	);

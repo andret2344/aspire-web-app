@@ -314,7 +314,10 @@ export function WishlistItemComponent(
 		}
 		return (
 			<Grid>
-				<IconButton onClick={handleMenuOpen}>
+				<IconButton
+					onClick={handleMenuOpen}
+					data-testid='wishlist-item-button-more'
+				>
 					<MoreHorizIcon />
 				</IconButton>
 				<Menu
@@ -326,7 +329,10 @@ export function WishlistItemComponent(
 						{renderPriorityChip()}
 					</MenuItem>
 					<MenuItem onClick={handleRemoveButton}>
-						<DeleteForeverOutlined color='error' />
+						<DeleteForeverOutlined
+							color='error'
+							data-testid='menu-item-remove'
+						/>
 					</MenuItem>
 				</Menu>
 			</Grid>
@@ -349,7 +355,7 @@ export function WishlistItemComponent(
 				justifyContent='center'
 				container
 				spacing={1}
-				data-testid='wishlist-item-row-grid'
+				data-testid={`wishlist-item-row-grid-${props.wishlist.id}-${props.item.id}`}
 				sx={{
 					borderBottom: 'unset',
 					position: 'relative',

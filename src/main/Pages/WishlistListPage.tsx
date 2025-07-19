@@ -118,8 +118,7 @@ export function WishlistListPage(): React.ReactElement {
 			...prevWishlists,
 			newWishlist
 		]);
-		setAddWishlistModalOpened(true);
-		navigate(`/wishlists/${newWishlist.id}`);
+		setAddWishlistModalOpened(false);
 		enqueueSnackbar(t('wishlist-created'), {variant: 'success'});
 	}
 
