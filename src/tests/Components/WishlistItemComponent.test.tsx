@@ -2,6 +2,7 @@ import {
 	mockedRemoveWishlistItem,
 	mockedUpdateWishlistItem
 } from '../__mocks__/MockWishlistItemService';
+import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -14,6 +15,29 @@ import {
 } from '../__utils__/DataFactory';
 
 describe('WishlistItemComponent', (): void => {
+	it('opens and closes menu on small width', async (): Promise<void> => {
+		mockedUseMediaQuery.mockReturnValue(true);
+		renderForTest(
+			<WishlistItemComponent
+				item={getSampleWishlistItem()}
+				wishlist={getSampleWishlist()}
+				position={1}
+				onRemove={(): void => undefined}
+			/>
+		);
+		const buttonMore: HTMLElement = screen.getByTestId(
+			'wishlist-item-button-more'
+		);
+
+		// act
+		await user.click(buttonMore);
+
+		// assert
+		const menuItemRemove: HTMLElement =
+			screen.getByTestId('menu-item-remove');
+		expect(menuItemRemove).toBeInTheDocument();
+	});
+
 	describe('edit and delete', (): void => {
 		it('renders without edit handler', async (): Promise<void> => {
 			// arrange

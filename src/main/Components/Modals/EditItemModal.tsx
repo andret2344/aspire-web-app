@@ -57,7 +57,7 @@ interface EditItemModalProps {
 	readonly wishlistPassword?: boolean;
 	readonly opened: boolean;
 	readonly onClose: () => void;
-	readonly onAccept: (wishlistId: number, item: WishlistItem) => void;
+	readonly onAccept: (item: WishlistItem) => void;
 	readonly item?: WishlistItem;
 }
 
@@ -112,10 +112,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 					hidden
 				});
 			if (updatedWishlistItem) {
-				props.onAccept(
-					props.wishlistId,
-					mapWishlistItemFromDto(updatedWishlistItem)
-				);
+				props.onAccept(mapWishlistItemFromDto(updatedWishlistItem));
 				props.onClose();
 			}
 		} else {
@@ -128,10 +125,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 				});
 
 			if (newWishlistItem) {
-				props.onAccept(
-					props.wishlistId,
-					mapWishlistItemFromDto(newWishlistItem)
-				);
+				props.onAccept(mapWishlistItemFromDto(newWishlistItem));
 				props.onClose();
 				enqueueSnackbar(t('saved'), {variant: 'success'});
 			} else {

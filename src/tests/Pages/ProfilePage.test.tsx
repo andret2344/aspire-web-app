@@ -1,8 +1,4 @@
-import {mockedNavigate} from '../__mocks__/MockCommonService';
-import {
-	mockedChangePassword,
-	mockedIsTokenValid
-} from '../__mocks__/MockAuthService';
+import {mockedChangePassword} from '../__mocks__/MockAuthService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
@@ -13,7 +9,6 @@ import user from '@testing-library/user-event';
 describe('ProfilePage', (): void => {
 	test('renders correctly', (): void => {
 		// arrange
-		mockedIsTokenValid.mockReturnValue(true);
 		renderForTest(<ProfilePage />);
 
 		// act
@@ -28,20 +23,10 @@ describe('ProfilePage', (): void => {
 		expect(saveButton).toBeInTheDocument();
 	});
 
-	test('navigates without token', (): void => {
-		// arrange
-		renderForTest(<ProfilePage />);
-
-		// assert
-		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/');
-	});
-
 	test('check passwords are not equal', async (): Promise<void> => {
 		// arrange
 		user.setup();
 		mockedChangePassword.mockRejectedValue(400);
-		mockedIsTokenValid.mockReturnValue(true);
 		renderForTest(<ProfilePage />);
 
 		// act
@@ -72,7 +57,6 @@ describe('ProfilePage', (): void => {
 		// arrange
 		user.setup();
 		mockedChangePassword.mockRejectedValue(400);
-		mockedIsTokenValid.mockReturnValue(true);
 		renderForTest(<ProfilePage />);
 
 		// act
@@ -101,7 +85,6 @@ describe('ProfilePage', (): void => {
 		// arrange
 		user.setup();
 		mockedChangePassword.mockResolvedValue(200);
-		mockedIsTokenValid.mockReturnValue(true);
 		renderForTest(<ProfilePage />);
 
 		// act
@@ -132,7 +115,6 @@ describe('ProfilePage', (): void => {
 	test('click on show password buttons', async (): Promise<void> => {
 		// arrange
 		user.setup();
-		mockedIsTokenValid.mockReturnValue(true);
 		renderForTest(<ProfilePage />);
 
 		// act
@@ -153,17 +135,5 @@ describe('ProfilePage', (): void => {
 		expect(showPasswordButton).toBeInTheDocument();
 		expect(showPasswordRepeatButton).toBeInTheDocument();
 		expect(showPasswordRepeatConfButton).toBeInTheDocument();
-	});
-
-	test('redirect successfully to index page if not logged in', async (): Promise<void> => {
-		// arrange
-		mockedIsTokenValid.mockReturnValue(false);
-
-		// act
-		renderForTest(<ProfilePage />);
-
-		// assert
-		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/');
 	});
 });

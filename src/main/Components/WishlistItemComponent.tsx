@@ -35,7 +35,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
 import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishList} from '../Entity/WishList';
-import {getThemeColor} from '../Styles/theme';
+import {getThemeColor} from '../Utils/theme';
 import {SystemStyleObject} from '@mui/system';
 
 interface WishlistItemComponentProps {
@@ -344,9 +344,9 @@ export function WishlistItemComponent(
 			data-testid='wishlist-item-row'
 			sx={(theme: Theme): SystemStyleObject<Theme> => ({
 				backgroundColor: getThemeColor(theme, 'activeBlue'),
-				borderRadius: '12px',
-				padding: '8px',
-				margin: '16px'
+				borderRadius: '0.75rem',
+				padding: '0.5rem',
+				margin: '1rem'
 			})}
 		>
 			<Grid

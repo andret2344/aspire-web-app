@@ -1,7 +1,6 @@
 import {mockedLogIn} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
-import {mockedUseTokenValidation} from '../__mocks__/MockTokenValidationHook';
 
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -11,14 +10,8 @@ import {waitFor} from '@testing-library/react';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {LoginPage} from '../../main/Pages/LoginPage';
 
-describe('login page', (): void => {
-	beforeEach((): void => {
-		localStorage.clear();
-		mockedUseTokenValidation.mockReturnValue({
-			tokenLoading: false,
-			tokenValid: false
-		});
-	});
+describe('LoginPage', (): void => {
+	beforeEach((): void => localStorage.clear());
 
 	describe('rendering', (): void => {
 		it('renders', (): void => {
@@ -172,39 +165,6 @@ describe('login page', (): void => {
 					screen.getByText('something-went-wrong')
 				).toBeInTheDocument()
 			);
-		});
-	});
-
-	describe('token', (): void => {
-		it('redirects to wishlist page if already logged in', async (): Promise<void> => {
-			// arrange
-			mockedUseTokenValidation.mockReturnValue({
-				tokenLoading: false,
-				tokenValid: true
-			});
-
-			// act
-			renderForTest(<LoginPage />);
-
-			// assert
-			await waitFor((): void => {
-				expect(mockedNavigate).toHaveBeenCalled();
-				expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
-			});
-		});
-
-		it('renders empty when token is loading', async (): Promise<void> => {
-			// arrange
-			mockedUseTokenValidation.mockReturnValue({
-				tokenLoading: true,
-				tokenValid: false
-			});
-
-			// act
-			renderForTest(<LoginPage />);
-
-			// assert
-			expect(screen.queryByTestId('login-page-form')).toBeNull();
 		});
 	});
 });

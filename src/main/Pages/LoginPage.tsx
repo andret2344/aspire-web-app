@@ -18,7 +18,6 @@ import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function LoginPage(): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
@@ -28,17 +27,6 @@ export function LoginPage(): React.ReactElement {
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 	const {register, handleSubmit} = useForm();
-	const {tokenLoading, tokenValid} = useTokenValidation();
-
-	React.useEffect((): void => {
-		if (!tokenLoading && tokenValid) {
-			navigate('/wishlists');
-		}
-	});
-
-	if (tokenLoading) {
-		return <></>;
-	}
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);
