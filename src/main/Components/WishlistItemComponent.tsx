@@ -344,9 +344,9 @@ export function WishlistItemComponent(
 			data-testid='wishlist-item-row'
 			sx={(theme: Theme): SystemStyleObject<Theme> => ({
 				backgroundColor: getThemeColor(theme, 'activeBlue'),
-				borderRadius: '12px',
-				padding: '8px',
-				margin: '16px'
+				borderRadius: '0.75rem',
+				padding: '0.5rem',
+				margin: '1rem'
 			})}
 		>
 			<Grid
