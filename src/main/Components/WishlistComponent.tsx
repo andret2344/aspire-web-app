@@ -163,8 +163,18 @@ export function WishlistComponent(
 
 	function renderInputName(): React.ReactElement {
 		return (
-			<Box>
-				<DoneIcon data-testid='wishlist-edit-done' />
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center'
+				}}
+			>
+				<IconButton
+					size='small'
+					data-testid='wishlist-edit-done'
+				>
+					<DoneIcon />
+				</IconButton>
 				<Input
 					data-testid='wishlist-edit-name-input'
 					defaultValue={editedName}
