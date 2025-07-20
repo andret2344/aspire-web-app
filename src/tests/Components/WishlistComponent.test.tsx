@@ -106,7 +106,7 @@ describe('WishlistComponent', (): void => {
 				/>
 			);
 
-			await user.click(screen.getByTestId('edit-icon'));
+			await user.click(screen.getByTestId('wishlist-item-name-edit'));
 
 			const input: HTMLInputElement = screen
 				.getByTestId('wishlist-edit-name-input')
@@ -142,7 +142,7 @@ describe('WishlistComponent', (): void => {
 				/>
 			);
 
-			await user.click(screen.getByTestId('edit-icon'));
+			await user.click(screen.getByTestId('wishlist-item-name-edit'));
 
 			const input: HTMLInputElement = screen
 				.getByTestId('wishlist-edit-name-input')
@@ -171,7 +171,7 @@ describe('WishlistComponent', (): void => {
 				/>
 			);
 
-			await user.click(screen.getByTestId('edit-icon'));
+			await user.click(screen.getByTestId('wishlist-item-name-edit'));
 
 			const input: HTMLInputElement = screen
 				.getByTestId('wishlist-edit-name-input')

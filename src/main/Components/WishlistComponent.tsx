@@ -154,7 +154,7 @@ export function WishlistComponent(
 					onClick={handleNameClick}
 					data-testid='wishlist-item-name-edit'
 				>
-					<EditIcon data-testid='edit-icon' />
+					<EditIcon />
 				</IconButton>
 				{props.wishlist.name}
 			</Typography>
