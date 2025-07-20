@@ -9,7 +9,6 @@ import '@testing-library/jest-dom';
 import {ProfilePage} from '../../main/Pages/ProfilePage';
 import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
-import {act, RenderResult} from '@testing-library/react';
 
 describe('ProfilePage', (): void => {
 	test('renders correctly', (): void => {
@@ -161,7 +160,7 @@ describe('ProfilePage', (): void => {
 		mockedIsTokenValid.mockReturnValue(false);
 
 		// act
-		await act((): RenderResult => renderForTest(<ProfilePage />));
+		renderForTest(<ProfilePage />);
 
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);

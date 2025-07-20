@@ -18,7 +18,7 @@ import user from '@testing-library/user-event';
 import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
-import {act, RenderResult, waitFor} from '@testing-library/react';
+import {waitFor} from '@testing-library/react';
 import {WishlistListPage} from '../../main/Pages/WishlistListPage';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {
@@ -42,8 +42,10 @@ describe('WishlistListPage', (): void => {
 			);
 			mockedIsTokenValid.mockReturnValue(true);
 
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
+
 			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
 			const addNewWishlistButton: HTMLElement =
 				screen.getByTestId('open-modal-button');
 			await user.click(addNewWishlistButton);
@@ -52,7 +54,7 @@ describe('WishlistListPage', (): void => {
 				.querySelector('input') as HTMLInputElement;
 			await user.type(input, 'New Mock Wishlist');
 			const saveButton: HTMLElement = screen.getByTestId('button-save');
-			await act(async (): Promise<void> => user.click(saveButton));
+			await user.click(saveButton);
 
 			// assert
 			await waitFor((): void =>
@@ -70,13 +72,11 @@ describe('WishlistListPage', (): void => {
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedRemoveWishlist.mockResolvedValue(void 0);
 
-			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
-			await act(
-				(): Promise<void> =>
-					user.click(screen.getByTestId('delete-wishlist-1'))
-			);
+			// act
+			await user.click(screen.getByTestId('delete-wishlist-1'));
 
 			await user.click(
 				screen.getByTestId('delete-wishlist-modal-button-delete')
@@ -96,9 +96,10 @@ describe('WishlistListPage', (): void => {
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedRemoveWishlist.mockResolvedValue(void 0);
 
-			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
+			// act
 			await user.click(screen.getByTestId('delete-wishlist-1'));
 			await user.click(
 				screen.getByTestId('delete-wishlist-modal-button-cancel')
@@ -116,9 +117,10 @@ describe('WishlistListPage', (): void => {
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedRemoveWishlist.mockRejectedValue(void 0);
 
-			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
+			// act
 			await user.click(screen.getByLabelText('delete-wishlist-1'));
 			await user.click(
 				screen.getByTestId('delete-wishlist-modal-button-delete')
@@ -142,9 +144,10 @@ describe('WishlistListPage', (): void => {
 				getSampleWishlist({name: 'Mock Wishlist updated'})
 			);
 
-			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
+			// act
 			await user.click(screen.getByTestId('wishlist-name'));
 			const input: HTMLInputElement = screen
 				.getByTestId('wishlist-edit-name-input')
@@ -166,9 +169,10 @@ describe('WishlistListPage', (): void => {
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedSetWishlistPassword.mockResolvedValue(void 0);
 
-			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
+			// act
 			await user.click(screen.getByTestId('hidden-items-icon-button'));
 			const input: HTMLInputElement = screen
 				.getByTestId('wishlist-password-modal-input')
@@ -193,9 +197,10 @@ describe('WishlistListPage', (): void => {
 			mockedIsTokenValid.mockReturnValue(true);
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 
-			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
+			// act
 			await user.click(screen.getByTestId('item-visible-icon'));
 
 			// assert
@@ -213,16 +218,19 @@ describe('WishlistListPage', (): void => {
 			user.setup();
 			mockedUseParams.mockReturnValue({id: '1'});
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
-			mockedAddWishlistItem.mockResolvedValue(getSampleWishlistDto());
+			mockedAddWishlistItem.mockResolvedValue(
+				getSampleWishlistDto({id: 2})
+			);
 			mockedIsTokenValid.mockReturnValue(true);
 
-			// act
 			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
+			// act
 			const addButton: HTMLButtonElement = await waitFor(
 				(): HTMLButtonElement => screen.getByTestId('add-item-button')
 			);
-			await act(async (): Promise<void> => user.click(addButton));
+			await user.click(addButton);
 
 			const input: HTMLInputElement = screen
 				.getByTestId('edit-item-modal-input-name')
@@ -246,14 +254,16 @@ describe('WishlistListPage', (): void => {
 				getSampleWishlist({name: 'Mock Wishlist updated'})
 			);
 			mockedIsTokenValid.mockReturnValue(true);
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
 			// act
 			const editButton: HTMLElement = await waitFor(
 				async (): Promise<HTMLElement> =>
 					screen.getByTestId('edit-wishlist-item-1-1')
 			);
-			await act(async (): Promise<void> => user.click(editButton));
+			await user.click(editButton);
 			const input: HTMLInputElement = screen.getByTestId(
 				'edit-item-modal-input-name'
 			);
@@ -273,7 +283,9 @@ describe('WishlistListPage', (): void => {
 			mockedUseParams.mockReturnValue({id: '1'});
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedIsTokenValid.mockReturnValue(true);
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
 			// act
 			const editButton: HTMLElement = await waitFor(
@@ -301,6 +313,7 @@ describe('WishlistListPage', (): void => {
 
 			// act
 			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
 			const removeButton: HTMLButtonElement = await waitFor(
 				(): HTMLButtonElement =>
@@ -321,7 +334,7 @@ describe('WishlistListPage', (): void => {
 			mockedGetWishlists.mockResolvedValue([]);
 
 			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+			renderForTest(<WishlistListPage />);
 
 			// assert
 			expect(mockedNavigate).toHaveBeenCalledTimes(1);
@@ -338,7 +351,8 @@ describe('WishlistListPage', (): void => {
 			mockedIsTokenValid.mockReturnValue(true);
 
 			// act
-			await act((): RenderResult => renderForTest(<WishlistListPage />));
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
 
 			// assert
 			expect(mockedNavigate).toHaveBeenCalledTimes(1);
