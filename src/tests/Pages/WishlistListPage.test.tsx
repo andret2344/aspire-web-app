@@ -67,6 +67,9 @@ describe('WishlistListPage', (): void => {
 			renderForTest(<WishlistListPage />);
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
+			renderForTest(<WishlistListPage />);
+			await screen.findByTestId('sidebar-grid-item');
+
 			// act
 			const addNewWishlistButton: HTMLElement =
 				screen.getByTestId('open-modal-button');
