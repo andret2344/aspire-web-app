@@ -30,7 +30,7 @@ module.exports = {
 		'src/main/**/*.{ts,tsx}',
 		'!src/main/App.tsx',
 		'!src/main/index.{ts,tsx,html}',
-		'!src/main/Styles/**',
+		'!src/main/Utils/**',
 		'!src/main/Types/**',
 		'!src/main/i18n.ts'
 	],

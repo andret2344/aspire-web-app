@@ -15,7 +15,6 @@ import {requestResetPassword} from '../Services/AuthService';
 import {useSnackbar} from 'notistack';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function PasswordReminderPage(): React.ReactElement {
 	type Inputs = {readonly email: string};
@@ -25,16 +24,6 @@ export function PasswordReminderPage(): React.ReactElement {
 	const {enqueueSnackbar} = useSnackbar();
 	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
 	const {register, handleSubmit} = useForm<Inputs>();
-	const {tokenLoading, tokenValid} = useTokenValidation();
-
-	if (tokenLoading) {
-		return <></>;
-	}
-
-	if (tokenValid) {
-		navigate('/wishlists');
-		return <></>;
-	}
 
 	function onSubmit(data: Inputs): void {
 		requestResetPassword(data.email)

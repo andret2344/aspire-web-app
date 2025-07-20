@@ -1,8 +1,5 @@
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
-import {
-	mockedIsTokenValid,
-	mockedRequestResetPassword
-} from '../__mocks__/MockAuthService';
+import {mockedRequestResetPassword} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
@@ -87,17 +84,5 @@ describe('PasswordReminderPage', (): void => {
 		await waitFor((): void => {
 			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
 		});
-	});
-
-	test('redirect successfully to wishlist page if already logged in', async (): Promise<void> => {
-		// arrange
-		mockedIsTokenValid.mockReturnValue(true);
-
-		// act
-		renderForTest(<PasswordReminderPage />);
-
-		// assert
-		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
 	});
 });

@@ -18,7 +18,6 @@ import {RegisterApiError, signUp} from '../Services/AuthService';
 import {AxiosError} from 'axios';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 interface IFormInput {
 	readonly email: string;
@@ -35,7 +34,6 @@ export function RegisterPage(): React.ReactElement {
 		React.useState<boolean>(false);
 	const navigate = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
-	const {tokenLoading, tokenValid} = useTokenValidation();
 
 	const {
 		register,
@@ -43,15 +41,6 @@ export function RegisterPage(): React.ReactElement {
 		formState: {errors},
 		handleSubmit
 	} = useForm<IFormInput>();
-
-	if (tokenLoading) {
-		return <></>;
-	}
-
-	if (tokenValid) {
-		navigate('/wishlists');
-		return <></>;
-	}
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);

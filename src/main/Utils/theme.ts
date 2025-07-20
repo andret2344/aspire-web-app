@@ -31,7 +31,7 @@ const darkColors: Colors = {
 	activeBlue: 'rgba(0, 109, 209, 0.4)'
 };
 
-export const lightTheme = createTheme({
+export const lightTheme: Theme = createTheme({
 	palette: {
 		mode: 'light',
 		primary: {
@@ -41,7 +41,7 @@ export const lightTheme = createTheme({
 	}
 });
 
-export const darkTheme = createTheme({
+export const darkTheme: Theme = createTheme({
 	palette: {
 		mode: 'dark',
 		primary: {

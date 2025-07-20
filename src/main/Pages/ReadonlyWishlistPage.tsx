@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Grid, IconButton, Theme} from '@mui/material';
-import {getThemeColor} from '../Styles/theme';
+import {getThemeColor} from '../Utils/theme';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {mapWishlistFromDto, WishList} from '../Entity/WishList';
 import {WishlistItem} from '../Entity/WishlistItem';
