@@ -17,6 +17,7 @@ import {refreshToken} from './Services/AuthService';
 import {AppLayout} from './Layouts/AppLayout';
 import {AuthLayout} from './Layouts/AuthLayout';
 import {Header} from './Components/Header';
+import {WishlistPage} from './Pages/WishlistPage';
 
 export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -57,10 +58,6 @@ export function App(): React.ReactElement {
 						path='new-password/:token'
 						element={<NewPasswordPage />}
 					/>
-					<Route
-						path='wishlist/:uuid'
-						element={<ReadonlyWishlistPage />}
-					/>
 				</Route>
 
 				<Route element={<AppLayout />}>
@@ -70,13 +67,18 @@ export function App(): React.ReactElement {
 					/>
 					<Route
 						path='wishlists/:id'
-						element={<WishlistListPage />}
+						element={<WishlistPage />}
 					/>
 					<Route
 						path='profile'
 						element={<ProfilePage />}
 					/>
 				</Route>
+
+				<Route
+					path='wishlist/:uuid'
+					element={<ReadonlyWishlistPage />}
+				/>
 
 				<Route
 					path='*'

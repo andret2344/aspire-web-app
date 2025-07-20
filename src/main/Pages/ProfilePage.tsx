@@ -10,14 +10,12 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {changePassword} from '../Services/AuthService';
-import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import {useSnackbar} from 'notistack';
 import {useDarkMode} from '../Components/DarkModeContext';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '../Components/ToggleColorModeComponent';
 import {useTranslation} from 'react-i18next';
-import {useTokenValidation} from '../Hooks/useTokenValidation';
 import {LanguagePicker} from '../Components/LanguagePicker';
 
 export function ProfilePage(): React.ReactElement {
@@ -32,9 +30,7 @@ export function ProfilePage(): React.ReactElement {
 	const [showPasswordRepeatConfirmation, setShowPasswordRepeatConfirmation] =
 		React.useState<boolean>(false);
 	const {darkMode, toggleDarkMode} = useDarkMode();
-	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
-	const {tokenLoading, tokenValid} = useTokenValidation();
 	const {
 		handleSubmit,
 		register,
@@ -43,15 +39,6 @@ export function ProfilePage(): React.ReactElement {
 		formState: {errors}
 	} = useForm<Inputs>();
 	const {t} = useTranslation();
-
-	if (tokenLoading) {
-		return <></>;
-	}
-
-	if (!tokenValid) {
-		navigate('/');
-		return <></>;
-	}
 
 	function handleClickShowPassword(): void {
 		setShowPassword((prev: boolean): boolean => !prev);

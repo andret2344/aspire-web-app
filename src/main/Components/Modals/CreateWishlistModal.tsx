@@ -70,6 +70,7 @@ export function CreateWishlistModal(
 				}}
 			>
 				<Button
+					data-testid='button-cancel'
 					variant='outlined'
 					color='error'
 					sx={{
