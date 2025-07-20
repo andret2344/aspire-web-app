@@ -47,6 +47,7 @@ describe('AuthService', (): void => {
 			email,
 			password
 		}).reply(200, mockResponseData);
+		jest.spyOn(console, 'error').mockImplementation();
 
 		// act
 		const response = await logIn(email, password);
@@ -55,7 +56,7 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(200);
 	});
 
-	test('Handle error when login is not successful', async () => {
+	test('handle error when login is not successful', async () => {
 		// arrange
 		const email = 'test@example.com';
 		const password = 'Testowe123!';

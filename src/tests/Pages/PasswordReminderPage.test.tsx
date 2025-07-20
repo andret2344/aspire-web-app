@@ -10,7 +10,6 @@ import '@testing-library/jest-dom';
 import {PasswordReminderPage} from '../../main/Pages/PasswordReminderPage';
 import user from '@testing-library/user-event';
 import {renderForTest} from '../__utils__/RenderForTest';
-import {act, RenderResult} from '@testing-library/react';
 
 describe('PasswordReminderPage', (): void => {
 	test('renders correctly', (): void => {
@@ -95,7 +94,7 @@ describe('PasswordReminderPage', (): void => {
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
-		await act((): RenderResult => renderForTest(<PasswordReminderPage />));
+		renderForTest(<PasswordReminderPage />);
 
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);

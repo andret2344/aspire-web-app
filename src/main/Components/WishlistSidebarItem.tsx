@@ -179,13 +179,19 @@ export function WishlistSidebarItem(
 		id: number,
 		password: string
 	): Promise<void> {
-		await setWishlistPassword(id, password).then((): void => {
-			enqueueSnackbar(t('password-changed'), {
-				variant: 'success'
-			});
-			props.onPasswordChange(password);
-			setPasswordModalOpened(false);
-		});
+		setWishlistPassword(id, password)
+			.then((): void => {
+				enqueueSnackbar(t('password-changed'), {
+					variant: 'success'
+				});
+				props.onPasswordChange(password);
+				setPasswordModalOpened(false);
+			})
+			.catch((): string | number =>
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
+			);
 	}
 
 	if (props.active) {
