@@ -134,12 +134,21 @@ export function DescriptionModal(
 					}}
 				>
 					<Button
-						data-testid='edit-item-modal-confirm'
+						data-testid='modal-description-confirm'
 						type='submit'
 						variant='contained'
 						disabled={props.loading}
 					>
 						{renderButtonContent()}
+					</Button>
+					<Button
+						data-testid='modal-description-cancel'
+						variant='outlined'
+						color='error'
+						disabled={props.loading}
+						onClick={handleClose}
+					>
+						{t('cancel')}
 					</Button>
 				</Box>
 			</Box>

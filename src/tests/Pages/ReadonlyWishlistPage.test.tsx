@@ -1,6 +1,7 @@
 import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedGetReadonlyWishlistByUUID} from '../__mocks__/MockWishlistService';
 import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
+import '../__mocks__/MockMDXEditor';
 
 import React from 'react';
 import '@testing-library/jest-dom';
