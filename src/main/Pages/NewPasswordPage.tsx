@@ -19,22 +19,25 @@ import {useTranslation} from 'react-i18next';
 export function NewPasswordPage(): React.ReactElement {
 	type Inputs = {readonly password: string; readonly passwordRepeat: string};
 	type Params = {readonly token: string};
+
+	const [isPasswordShown, setIsPasswordShown] =
+		React.useState<boolean>(false);
+	const [isPasswordRepeatShown, setIsPasswordRepeatShown] =
+		React.useState<boolean>(false);
+
 	const {t} = useTranslation();
 	const params: Params = useParams<Params>() as Params;
 	const navigate: NavigateFunction = useNavigate();
 	const theme: Theme = useTheme();
 	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
-	const [showPassword, setShowPassword] = React.useState<boolean>(false);
-	const [showPasswordRepeat, setShowPasswordRepeat] =
-		React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 
 	function handleClickShowPassword(): void {
-		setShowPassword((prev: boolean): boolean => !prev);
+		setIsPasswordShown((prev: boolean): boolean => !prev);
 	}
 
 	function handleClickShowPasswordRepeat(): void {
-		setShowPasswordRepeat((prev: boolean): boolean => !prev);
+		setIsPasswordRepeatShown((prev: boolean): boolean => !prev);
 	}
 
 	const {
@@ -81,7 +84,7 @@ export function NewPasswordPage(): React.ReactElement {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<TextField
-					type={showPassword ? 'text' : 'password'}
+					type={isPasswordShown ? 'text' : 'password'}
 					autoComplete='new-password'
 					slotProps={{
 						input: {
@@ -96,7 +99,7 @@ export function NewPasswordPage(): React.ReactElement {
 										onClick={handleClickShowPassword}
 									>
 										<PasswordVisibilityIcon
-											visible={showPassword}
+											visible={isPasswordShown}
 										/>
 									</IconButton>
 								</InputAdornment>
@@ -115,7 +118,7 @@ export function NewPasswordPage(): React.ReactElement {
 					{...register('password')}
 				/>
 				<TextField
-					type={showPasswordRepeat ? 'text' : 'password'}
+					type={isPasswordRepeatShown ? 'text' : 'password'}
 					autoComplete='new-password'
 					slotProps={{
 						input: {
@@ -132,7 +135,7 @@ export function NewPasswordPage(): React.ReactElement {
 										onClick={handleClickShowPasswordRepeat}
 									>
 										<PasswordVisibilityIcon
-											visible={showPasswordRepeat}
+											visible={isPasswordRepeatShown}
 										/>
 									</IconButton>
 								</InputAdornment>

@@ -13,7 +13,7 @@ import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
 
 interface WishlistModalProps {
-	readonly opened: boolean;
+	readonly open: boolean;
 	readonly onClose: () => void;
 	readonly onAddWishlist: (newWishlist: WishList) => void;
 }
@@ -21,10 +21,11 @@ interface WishlistModalProps {
 export function CreateWishlistModal(
 	props: WishlistModalProps
 ): React.ReactElement {
+	const [wishlistName, setWishlistName] = React.useState<string>('');
+
 	const theme: Theme = useTheme();
 	const {t} = useTranslation();
-	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
-	const [wishlistName, setWishlistName] = React.useState<string>('');
+	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 
 	function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
 		setWishlistName(e.target.value);
@@ -43,7 +44,7 @@ export function CreateWishlistModal(
 		<AspireModal
 			data-testid='add-wishlist-modal'
 			onClose={props.onClose}
-			opened={props.opened}
+			open={props.open}
 			title={t('enter-wishlist-name')}
 			onSubmit={handleSubmit}
 		>
@@ -54,7 +55,7 @@ export function CreateWishlistModal(
 				placeholder={t('name')}
 				value={wishlistName}
 				onChange={handleNameChange}
-				size={isSmallerThan600 ? 'small' : 'medium'}
+				size={isMobile ? 'small' : 'medium'}
 				sx={{
 					width: '300px',
 					marginTop: '15px'

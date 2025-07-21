@@ -1,6 +1,5 @@
-import {Button, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import React from 'react';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {mapWishlistArrayFromDto, WishList} from '../Entity/WishList';
 import {WishlistComponent} from '../Components/WishlistComponent';
 import {getWishlists} from '../Services/WishListService';
@@ -9,15 +8,16 @@ import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
+import {AddButton} from '../Components/AddButton';
 
 export function WishlistListPage(): React.ReactElement {
-	const navigate: NavigateFunction = useNavigate();
-	const {t} = useTranslation();
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
-	const [loading, setLoading] = React.useState<boolean>(true);
-	const [addWishlistModalOpened, setAddWishlistModalOpened] =
+	const [isLoading, setIsLoading] = React.useState<boolean>(true);
+	const [isAddWishlistModalOpened, setIsAddWishlistModalOpened] =
 		React.useState<boolean>(false);
 
+	const navigate: NavigateFunction = useNavigate();
+	const {t} = useTranslation();
 	const {enqueueSnackbar} = useSnackbar();
 
 	React.useEffect((): void => {
@@ -28,7 +28,7 @@ export function WishlistListPage(): React.ReactElement {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
 				navigate('/error');
 			})
-			.finally((): void => setLoading(false));
+			.finally((): void => setIsLoading(false));
 	}, []);
 
 	function findWishlistIndexById(wishlistId: number): number {
@@ -92,12 +92,16 @@ export function WishlistListPage(): React.ReactElement {
 			...prevWishlists,
 			newWishlist
 		]);
-		setAddWishlistModalOpened(false);
+		setIsAddWishlistModalOpened(false);
 		enqueueSnackbar(t('wishlist-created'), {variant: 'success'});
 	}
 
-	if (loading) {
+	if (isLoading) {
 		return <></>;
+	}
+
+	function handleAddClick(): void {
+		setIsAddWishlistModalOpened(true);
 	}
 
 	return (
@@ -118,24 +122,24 @@ export function WishlistListPage(): React.ReactElement {
 				}}
 			>
 				{renderWishlistButtons()}
-				<Grid sx={{padding: '15px'}}>
-					<Button
-						data-testid='open-modal-button'
-						onClick={(): void => setAddWishlistModalOpened(true)}
-						variant='outlined'
-						sx={{
-							margin: '15px'
-						}}
-						startIcon={<AddCircleOutlineIcon />}
-					>
+				<Grid
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
+					sx={{
+						padding: '2rem',
+						paddingBottom: '3rem'
+					}}
+				>
+					<AddButton onClick={handleAddClick}>
 						{t('add-new-wishlist')}
-					</Button>
+					</AddButton>
 				</Grid>
 			</Grid>
 			<CreateWishlistModal
-				opened={addWishlistModalOpened}
+				open={isAddWishlistModalOpened}
 				onAddWishlist={addNewWishlist}
-				onClose={(): void => setAddWishlistModalOpened(false)}
+				onClose={(): void => setIsAddWishlistModalOpened(false)}
 			/>
 		</Grid>
 	);

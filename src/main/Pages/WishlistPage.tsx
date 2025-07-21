@@ -1,6 +1,5 @@
-import {Grid, IconButton} from '@mui/material';
+import {Grid} from '@mui/material';
 import React from 'react';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {mapWishlistFromDto, WishList} from '../Entity/WishList';
 import {getWishlist} from '../Services/WishListService';
@@ -9,23 +8,26 @@ import {WishlistItem} from '../Entity/WishlistItem';
 import {EditItemModal} from '../Components/Modals/EditItemModal';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
+import {AddButton} from '../Components/AddButton';
 
 export function WishlistPage(): React.ReactElement {
 	type Params = {readonly id?: string};
-	const params: Params = useParams<Params>();
-	const navigate: NavigateFunction = useNavigate();
-	const {t} = useTranslation();
+
 	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
 		undefined
 	);
-	const [loading, setLoading] = React.useState<boolean>(true);
-	const [addItemModalOpened, setAddItemModalOpened] =
+	const [isLoading, setIsLoading] = React.useState<boolean>(true);
+	const [isAddItemModalOpened, setIsAddItemModalOpened] =
 		React.useState<boolean>(false);
 	const [editingWishlistItem, setEditingWishlistItem] = React.useState<
 		WishlistItem | undefined
 	>(undefined);
 
+	const params: Params = useParams<Params>();
+	const navigate: NavigateFunction = useNavigate();
+	const {t} = useTranslation();
 	const {enqueueSnackbar} = useSnackbar();
+
 	const wishlistId: number = +(params?.id ?? -1);
 
 	React.useEffect((): void => {
@@ -36,25 +38,25 @@ export function WishlistPage(): React.ReactElement {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
 				navigate('/error');
 			})
-			.finally((): void => setLoading(false));
+			.finally((): void => setIsLoading(false));
 	}, []);
 
-	if (loading) {
+	if (isLoading) {
 		return <></>;
 	}
 
 	function handleItemEdit(item: WishlistItem): void {
 		setEditingWishlistItem(item);
-		setAddItemModalOpened(true);
+		setIsAddItemModalOpened(true);
 	}
 
-	function openEditModal(): void {
+	function openAddClick(): void {
 		setEditingWishlistItem(undefined);
-		setAddItemModalOpened(true);
+		setIsAddItemModalOpened(true);
 	}
 
 	function closeEditModal(): void {
-		setAddItemModalOpened(false);
+		setIsAddItemModalOpened(false);
 	}
 
 	function handleItemRemove(itemId: number): void {
@@ -121,30 +123,24 @@ export function WishlistPage(): React.ReactElement {
 			>
 				{renderItems()}
 				<Grid
-					aria-label='add item box'
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
 					sx={{
-						width: '100%',
-						display: 'flex',
-						flexDirection: 'row',
-						alignItems: 'flex-end',
-						justifyContent: 'flex-end'
+						padding: '2rem',
+						paddingBottom: '3rem'
 					}}
 				>
-					<IconButton
-						data-testid='add-item-button'
-						aria-label='Add item'
-						onClick={openEditModal}
-						sx={{margin: '12px', padding: '12px'}}
-					>
-						<AddCircleOutlineIcon fontSize='large' />
-					</IconButton>
+					<AddButton onClick={openAddClick}>
+						{t('add-new-item')}
+					</AddButton>
 				</Grid>
 			</Grid>
 			<EditItemModal
 				key={editingWishlistItem?.id}
 				wishlistId={wishlistId}
 				wishlistPassword={wishlist?.hasPassword}
-				opened={addItemModalOpened}
+				open={isAddItemModalOpened}
 				onClose={closeEditModal}
 				onAccept={handleEditAccept}
 				item={editingWishlistItem}

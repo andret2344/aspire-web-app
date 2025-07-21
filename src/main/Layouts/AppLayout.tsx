@@ -9,11 +9,12 @@ import {
 import {useTokenValidation} from '../Hooks/useTokenValidation';
 
 export function AppLayout(): React.ReactElement {
-	const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
+	const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
+
 	const {tokenLoading, tokenValid} = useTokenValidation();
 	const navigate: NavigateFunction = useNavigate();
 
-	const width: number = drawerOpen
+	const width: number = isDrawerOpen
 		? WIDTH_DRAWER_OPENED
 		: WIDTH_DRAWER_CLOSED;
 
@@ -31,13 +32,13 @@ export function AppLayout(): React.ReactElement {
 	}
 
 	function handleDrawerToggle(): void {
-		return setDrawerOpen(!drawerOpen);
+		return setIsDrawerOpen(!isDrawerOpen);
 	}
 
 	return (
 		<>
 			<NavDrawer
-				open={drawerOpen}
+				open={isDrawerOpen}
 				onToggle={handleDrawerToggle}
 			/>
 			<Box

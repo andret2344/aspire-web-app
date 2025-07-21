@@ -16,7 +16,7 @@ describe('CreateWishlistModal', (): void => {
 		mockedUseMediaQuery.mockReturnValue(false);
 		renderForTest(
 			<CreateWishlistModal
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAddWishlist={(): void => undefined}
 			/>
@@ -39,7 +39,7 @@ describe('CreateWishlistModal', (): void => {
 		// act
 		renderForTest(
 			<CreateWishlistModal
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAddWishlist={mockAdd}
 			/>
@@ -64,7 +64,7 @@ describe('CreateWishlistModal', (): void => {
 		// act
 		renderForTest(
 			<CreateWishlistModal
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAddWishlist={mockAdd}
 			/>

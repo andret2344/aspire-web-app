@@ -20,16 +20,18 @@ import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 
 export function LoginPage(): React.ReactElement {
+	const [isPasswordShown, setIsPasswordShown] =
+		React.useState<boolean>(false);
+
 	const navigate: NavigateFunction = useNavigate();
 	const theme: Theme = useTheme();
 	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
-	const [showPassword, setShowPassword] = React.useState<boolean>(false);
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 	const {register, handleSubmit} = useForm();
 
 	function handleClickShowPassword(): void {
-		setShowPassword((prev: boolean): boolean => !prev);
+		setIsPasswordShown((prev: boolean): boolean => !prev);
 	}
 
 	async function onSubmit(data: FieldValues): Promise<void> {
@@ -83,7 +85,7 @@ export function LoginPage(): React.ReactElement {
 				/>
 				<TextField
 					data-testid='login-page-input-password'
-					type={showPassword ? 'text' : 'password'}
+					type={isPasswordShown ? 'text' : 'password'}
 					autoComplete='new-password'
 					slotProps={{
 						input: {
@@ -98,7 +100,7 @@ export function LoginPage(): React.ReactElement {
 										onClick={handleClickShowPassword}
 									>
 										<PasswordVisibilityIcon
-											visible={showPassword}
+											visible={isPasswordShown}
 										/>
 									</IconButton>
 								</InputAdornment>
