@@ -7,7 +7,7 @@ import {
 import '../../__mocks__/MockMDXEditor';
 import '@testing-library/jest-dom';
 import React from 'react';
-import {EditItemModal} from '../../../main/Components/Modals/EditItemModal';
+import {DescriptionModal} from '../../../main/Components/Modals/DescriptionModal';
 import {fireEvent, screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {renderForTest} from '../../__utils__/RenderForTest';
@@ -18,7 +18,7 @@ import {
 } from '../../__utils__/DataFactory';
 import {WishlistItemDto} from '../../../main/Entity/WishlistItem';
 
-describe('EditItemModal', (): void => {
+describe('DescriptionModal', (): void => {
 	beforeEach((): void => localStorage.clear());
 
 	test('input change', async (): Promise<void> => {
@@ -33,7 +33,7 @@ describe('EditItemModal', (): void => {
 		mockedUseMediaQuery.mockReturnValueOnce(false);
 		user.setup();
 		renderForTest(
-			<EditItemModal
+			<DescriptionModal
 				wishlistId={1}
 				open={true}
 				onClose={(): void => undefined}
@@ -68,7 +68,7 @@ describe('EditItemModal', (): void => {
 	test('tooltip works properly when no password', (): void => {
 		// arrange
 		renderForTest(
-			<EditItemModal
+			<DescriptionModal
 				wishlistId={1}
 				item={getSampleWishlistItem()}
 				open={true}
@@ -87,7 +87,7 @@ describe('EditItemModal', (): void => {
 	test('tooltip does not show up when password is set', (): void => {
 		// arrange
 		renderForTest(
-			<EditItemModal
+			<DescriptionModal
 				wishlistPassword={true}
 				wishlistId={1}
 				item={getSampleWishlistItem({hidden: true})}
@@ -116,7 +116,7 @@ describe('EditItemModal', (): void => {
 		mockedUseMediaQuery.mockReturnValueOnce(true);
 		user.setup();
 		renderForTest(
-			<EditItemModal
+			<DescriptionModal
 				wishlistId={1}
 				open={true}
 				onClose={(): void => undefined}
@@ -146,7 +146,7 @@ describe('EditItemModal', (): void => {
 		mockedAddWishlistItem.mockReturnValue(null);
 		user.setup();
 		renderForTest(
-			<EditItemModal
+			<DescriptionModal
 				wishlistId={1}
 				open={true}
 				onClose={(): void => undefined}
@@ -173,7 +173,7 @@ describe('EditItemModal', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
-			<EditItemModal
+			<DescriptionModal
 				wishlistId={1}
 				open={true}
 				onClose={(): void => undefined}
@@ -196,7 +196,7 @@ describe('EditItemModal', (): void => {
 		// arrange
 		user.setup();
 		renderForTest(
-			<EditItemModal
+			<DescriptionModal
 				wishlistId={1}
 				open={true}
 				onClose={(): void => undefined}

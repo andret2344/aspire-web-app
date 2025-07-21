@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	CircularProgress,
 	Collapse,
 	Grid,
@@ -37,13 +38,13 @@ import {getAllPriorities, Priority} from '../Entity/Priority';
 import {WishList} from '../Entity/WishList';
 import {getThemeColor} from '../Utils/theme';
 import {SystemStyleObject} from '@mui/system';
+import {DescriptionModal} from './Modals/DescriptionModal';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
 	readonly wishlist: WishList;
 	readonly position: number;
-	readonly onEdit?: (item: WishlistItem) => void;
-	readonly onWishlistEdit?: (wishlist: WishList) => void;
+	readonly onEdit?: (wishlist: WishList) => void;
 	readonly onRemove?: (wishlistId: number, itemId: number) => void;
 }
 
@@ -58,8 +59,11 @@ export function WishlistItemComponent(
 	const [menuAnchorEl, setMenuAnchorEl] = React.useState<HTMLElement | null>(
 		null
 	);
+	const [isDescriptionEdited, setIsDescriptionEdited] =
+		React.useState<boolean>(false);
 
 	const {enqueueSnackbar} = useSnackbar();
+
 	const {t} = useTranslation();
 	const theme: Theme = useTheme();
 	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
@@ -72,7 +76,6 @@ export function WishlistItemComponent(
 
 	function handleEditButton(event: React.MouseEvent): void {
 		event.stopPropagation();
-		return props.onEdit!(props.item);
 	}
 
 	function handleVisibilityClick(event: React.MouseEvent): void {
@@ -85,7 +88,7 @@ export function WishlistItemComponent(
 	function handlePriorityChoiceOpen(
 		event: React.MouseEvent<HTMLElement>
 	): void {
-		if (props.onWishlistEdit) {
+		if (props.onEdit) {
 			event.stopPropagation();
 			setAnchorEl(event.currentTarget);
 		}
@@ -103,11 +106,11 @@ export function WishlistItemComponent(
 		handlePriorityChoiceClose();
 	}
 
-	function handleItemUpdate<K extends keyof WishlistItemDto>(
+	async function handleItemUpdate<K extends keyof WishlistItemDto>(
 		itemId: number,
 		field: K,
 		newValue: WishlistItemDto[K]
-	): void {
+	): Promise<void> {
 		addToCircularProgress(field);
 		const wishlistItems: WishlistItem[] = props.wishlist.wishlistItems;
 		const itemIndex: number = wishlistItems.findIndex(
@@ -117,11 +120,11 @@ export function WishlistItemComponent(
 		const itemDto: WishlistItemDto = mapWishlistItemToDto(item, {
 			[field]: newValue
 		});
-		updateWishlistItem(props.wishlist.id, itemDto)
+		return updateWishlistItem(props.wishlist.id, itemDto)
 			.then((): void => {
 				props.wishlist.wishlistItems[itemIndex] =
 					mapWishlistItemFromDto(itemDto);
-				props.onWishlistEdit!(props.wishlist);
+				props.onEdit!(props.wishlist);
 			})
 			.finally((): void => removeFromCircularProgress(field));
 	}
@@ -195,7 +198,7 @@ export function WishlistItemComponent(
 	}
 
 	function renderVisibilityGridItem(): React.ReactElement {
-		if (!props.onWishlistEdit) {
+		if (!props.onEdit) {
 			return <></>;
 		}
 		return (
@@ -340,6 +343,16 @@ export function WishlistItemComponent(
 		);
 	}
 
+	function handleAcceptModal(newDescription: string): void {
+		handleItemUpdate(props.item.id, 'description', newDescription).then(
+			(): void => handleCloseModal()
+		);
+	}
+
+	function handleCloseModal(): void {
+		setIsDescriptionEdited(false);
+	}
+
 	return (
 		<Box
 			data-testid='wishlist-item-row'
@@ -368,7 +381,13 @@ export function WishlistItemComponent(
 						{renderExpandIcon()}
 					</IconButton>
 				</Grid>
-				<Grid>
+				<Grid
+					size={{xs: 1, md: 0.5}}
+					sx={{
+						display: 'flex',
+						justifyContent: 'flex-end'
+					}}
+				>
 					<Typography
 						color='#888888'
 						variant='body2'
@@ -396,10 +415,17 @@ export function WishlistItemComponent(
 				timeout='auto'
 				unmountOnExit
 			>
-				<Box sx={{margin: 1}}>
-					<Typography component='div'>
+				<Box sx={{margin: '1rem'}}>
+					<Typography>
 						<MarkdownView markdown={props.item.description} />
 					</Typography>
+					<Button
+						variant='contained'
+						startIcon={<EditIcon />}
+						onClick={(): void => setIsDescriptionEdited(true)}
+					>
+						Edit
+					</Button>
 				</Box>
 			</Collapse>
 			<Menu
@@ -422,6 +448,13 @@ export function WishlistItemComponent(
 			>
 				{getAllPriorities().map(renderPriorityMenuItem)}
 			</Menu>
+			<DescriptionModal
+				open={isDescriptionEdited}
+				loading={circularProgress.includes('description')}
+				defaultDescription={props.item.description}
+				onClose={handleCloseModal}
+				onAccept={handleAcceptModal}
+			/>
 		</Box>
 	);
 }

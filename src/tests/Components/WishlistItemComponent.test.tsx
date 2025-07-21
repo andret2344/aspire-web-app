@@ -212,7 +212,7 @@ describe('WishlistItemComponent', (): void => {
 					wishlist={getSampleWishlist({hasPassword: true})}
 					position={1}
 					onEdit={(): void => undefined}
-					onWishlistEdit={handleWishlistEditClick}
+					onEdit={handleWishlistEditClick}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -246,7 +246,7 @@ describe('WishlistItemComponent', (): void => {
 					wishlist={getSampleWishlist({hasPassword: true})}
 					position={1}
 					onEdit={(): void => undefined}
-					onWishlistEdit={handleWishlistEditClick}
+					onEdit={handleWishlistEditClick}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -280,7 +280,7 @@ describe('WishlistItemComponent', (): void => {
 					wishlist={getSampleWishlist()}
 					position={1}
 					onEdit={(): void => undefined}
-					onWishlistEdit={handleWishlistEditClick}
+					onEdit={handleWishlistEditClick}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -310,7 +310,7 @@ describe('WishlistItemComponent', (): void => {
 					wishlist={getSampleWishlist()}
 					position={1}
 					onEdit={(): void => undefined}
-					onWishlistEdit={handleWishlistEditClick}
+					onEdit={handleWishlistEditClick}
 					onRemove={(): void => undefined}
 				/>
 			);
