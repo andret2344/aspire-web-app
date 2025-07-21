@@ -1,6 +1,6 @@
 # Aspire Web App
 
-This is the frontend part of Aspire, The Aspiration Abyss.
+This is the frontend part of _Aspire, The Aspiration Abyss_.
 
 ## Table of contents
 
@@ -8,39 +8,26 @@ This is the frontend part of Aspire, The Aspiration Abyss.
 
 ## Prepare for development
 
-### Open the project dir
+### Setup backend
 
-    cd aspire-web-app
+1. Copy the file `<rootDir>/backend/.env.sample` into `<rootDir>/backend/.env` and ask the team for secrets (most
+   importantly the `SECRET_KEY` and `POSTGRES_DB_PASS`). Contact devs:
+    * Andret2344 ([GitLab](https://gitlab.com/andret2344), [Discord](https://discord.com/users/185829743134769153))
+    * KrysPy ([GitLab](https://gitlab.com/KrysPy), [Discord](https://discord.com/users/689432732782034947))
+2. In the `<rootDir>/backend` directory run `docker-compose up` (alternatively add `-d`).
 
-### Install dependencies
+The project will start on the default `8083` port.
 
-    yarn
+### Setup frontend
 
-### Prepare environment
+1. Run `yarn install`.
+2. Make a copy of `<rootDir>/.env` file and name it as `<rootDir>/.env.dev`.
+3. In the newly created file use the backend address you want to reach. Remember to put `/api` at the end. For instance:
 
-1. Make a copy of `.env` file and name it `.env.dev`.
-2. In the newly created file use the backend address you want to reach. Remember to put `/api` at the end.
+```dotenv
+REACT_API_URL=http://localhost:8083/api
+```
 
-### Run dev server
+## Running the project
 
-    yarn start
-
-## Production
-
-### Build the production version
-
-    yarn build
-
-## Tests
-
-### Run tests
-
-    yarn test
-
-### Run tests with coverage
-
-    yarn test:ci
-
-### Run linter
-
-    yarn lint
+All the scripts are present in the `<rootDir>/package.json` file.
