@@ -32,7 +32,7 @@ describe('WishlistPage', (): void => {
 
 		// act
 		const addButton: HTMLButtonElement = await waitFor(
-			(): HTMLButtonElement => screen.getByTestId('add-item-button')
+			(): HTMLButtonElement => screen.getByTestId('open-modal-button')
 		);
 		await user.click(addButton);
 

@@ -19,6 +19,7 @@
 	"password-cleared": "Hasło zostało usunięte.",
 	"delete-confirmation": "Czy jesteś pewien, ze chcesz usunąć listę życzeń <strong>{{wishlist}}</strong>?",
 	"add-new-wishlist": "Dodaj nową listę życzeń",
+	"add-new-item": "Dodaj nowy element",
 	"item-no": "#",
 	"name": "Nazwa",
 	"visibility": "Widoczność",

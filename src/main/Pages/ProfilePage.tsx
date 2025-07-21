@@ -24,11 +24,14 @@ export function ProfilePage(): React.ReactElement {
 		readonly newPassword: string;
 		readonly newPasswordConfirm: string;
 	};
-	const [showPassword, setShowPassword] = React.useState<boolean>(false);
-	const [showPasswordRepeat, setShowPasswordRepeat] =
+
+	const [isOldPasswordShown, setIsOldPasswordShown] =
 		React.useState<boolean>(false);
-	const [showPasswordRepeatConfirmation, setShowPasswordRepeatConfirmation] =
+	const [isNewPasswordShown, setIsNewPasswordShown] =
 		React.useState<boolean>(false);
+	const [isNewPasswordRepeatShown, setIsNewPasswordRepeatShown] =
+		React.useState<boolean>(false);
+
 	const {darkMode, toggleDarkMode} = useDarkMode();
 	const {enqueueSnackbar} = useSnackbar();
 	const {
@@ -41,15 +44,15 @@ export function ProfilePage(): React.ReactElement {
 	const {t} = useTranslation();
 
 	function handleClickShowPassword(): void {
-		setShowPassword((prev: boolean): boolean => !prev);
+		setIsOldPasswordShown((prev: boolean): boolean => !prev);
 	}
 
 	function handleClickShowPasswordRepeat(): void {
-		setShowPasswordRepeat((prev: boolean): boolean => !prev);
+		setIsNewPasswordShown((prev: boolean): boolean => !prev);
 	}
 
 	function handleClickShowPasswordRepeatConfirmation(): void {
-		setShowPasswordRepeatConfirmation((prev: boolean): boolean => !prev);
+		setIsNewPasswordRepeatShown((prev: boolean): boolean => !prev);
 	}
 
 	function onSubmit(data: Inputs): void {
@@ -147,7 +150,9 @@ export function ProfilePage(): React.ReactElement {
 									sx={{marginBottom: '20px'}}
 									id='password'
 									placeholder={t('current-password')}
-									type={showPassword ? 'text' : 'password'}
+									type={
+										isOldPasswordShown ? 'text' : 'password'
+									}
 									slotProps={{
 										input: {
 											endAdornment: (
@@ -172,7 +177,7 @@ export function ProfilePage(): React.ReactElement {
 													>
 														<PasswordVisibilityIcon
 															visible={
-																showPassword
+																isOldPasswordShown
 															}
 														/>
 													</IconButton>
@@ -190,7 +195,7 @@ export function ProfilePage(): React.ReactElement {
 									id='new-password'
 									placeholder={t('new-password')}
 									type={
-										showPasswordRepeat ? 'text' : 'password'
+										isNewPasswordShown ? 'text' : 'password'
 									}
 									slotProps={{
 										input: {
@@ -216,7 +221,7 @@ export function ProfilePage(): React.ReactElement {
 													>
 														<PasswordVisibilityIcon
 															visible={
-																showPasswordRepeat
+																isNewPasswordShown
 															}
 														/>
 													</IconButton>
@@ -238,7 +243,7 @@ export function ProfilePage(): React.ReactElement {
 									id='confirm-password'
 									placeholder={t('confirm-password')}
 									type={
-										showPasswordRepeatConfirmation
+										isNewPasswordRepeatShown
 											? 'text'
 											: 'password'
 									}
@@ -266,7 +271,7 @@ export function ProfilePage(): React.ReactElement {
 													>
 														<PasswordVisibilityIcon
 															visible={
-																showPasswordRepeatConfirmation
+																isNewPasswordRepeatShown
 															}
 														/>
 													</IconButton>
