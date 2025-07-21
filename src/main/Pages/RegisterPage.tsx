@@ -5,6 +5,7 @@ import {
 	InputAdornment,
 	Link,
 	TextField,
+	Theme,
 	Typography,
 	useMediaQuery,
 	useTheme
@@ -13,7 +14,7 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import {AuthContainer} from '../Components/AuthContainer';
 import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
-import {Link as Anchor, useNavigate} from 'react-router-dom';
+import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {RegisterApiError, signUp} from '../Services/AuthService';
 import {AxiosError} from 'axios';
 import {useSnackbar} from 'notistack';
@@ -26,13 +27,15 @@ interface IFormInput {
 }
 
 export function RegisterPage(): React.ReactElement {
-	const theme = useTheme();
-	const isSmallerThan600 = useMediaQuery(theme.breakpoints.up('sm'));
-	const [showPassword, setShowPassword] = React.useState<boolean>(false);
-	const {t} = useTranslation();
-	const [showPasswordRepeat, setShowPasswordRepeat] =
+	const [isPasswordShown, setIsPasswordShown] =
 		React.useState<boolean>(false);
-	const navigate = useNavigate();
+	const [isPasswordRepeatShown, setIsPasswordRepeatShown] =
+		React.useState<boolean>(false);
+
+	const theme: Theme = useTheme();
+	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
+	const {t} = useTranslation();
+	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
 
 	const {
@@ -43,11 +46,11 @@ export function RegisterPage(): React.ReactElement {
 	} = useForm<IFormInput>();
 
 	function handleClickShowPassword(): void {
-		setShowPassword((prev: boolean): boolean => !prev);
+		setIsPasswordShown((prev: boolean): boolean => !prev);
 	}
 
 	function handleClickShowPasswordRepeat(): void {
-		setShowPasswordRepeat((prev: boolean): boolean => !prev);
+		setIsPasswordRepeatShown((prev: boolean): boolean => !prev);
 	}
 
 	function onSubmit(data: IFormInput): void {
@@ -113,7 +116,7 @@ export function RegisterPage(): React.ReactElement {
 					{...register('email', {required: true})}
 				/>
 				<TextField
-					type={showPassword ? 'text' : 'password'}
+					type={isPasswordShown ? 'text' : 'password'}
 					autoComplete='new-password'
 					slotProps={{
 						input: {
@@ -128,7 +131,7 @@ export function RegisterPage(): React.ReactElement {
 										onClick={handleClickShowPassword}
 									>
 										<PasswordVisibilityIcon
-											visible={showPassword}
+											visible={isPasswordShown}
 										/>
 									</IconButton>
 								</InputAdornment>
@@ -149,7 +152,7 @@ export function RegisterPage(): React.ReactElement {
 					{...register('password')}
 				/>
 				<TextField
-					type={showPasswordRepeat ? 'text' : 'password'}
+					type={isPasswordRepeatShown ? 'text' : 'password'}
 					autoComplete='new-password'
 					slotProps={{
 						input: {
@@ -166,7 +169,7 @@ export function RegisterPage(): React.ReactElement {
 										onClick={handleClickShowPasswordRepeat}
 									>
 										<PasswordVisibilityIcon
-											visible={showPasswordRepeat}
+											visible={isPasswordRepeatShown}
 										/>
 									</IconButton>
 								</InputAdornment>

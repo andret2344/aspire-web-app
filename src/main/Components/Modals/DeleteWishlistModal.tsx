@@ -4,7 +4,7 @@ import {Trans, useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
 
 interface DeleteWishlistModalProps {
-	readonly opened: boolean;
+	readonly open: boolean;
 	readonly wishlistName: string;
 	readonly onCancel: () => void;
 	readonly onRemove: () => void;
@@ -30,7 +30,7 @@ export function DeleteWishlistModal(
 		<AspireModal
 			data-testid='delete-wishlist-modal'
 			title={createTitle()}
-			opened={props.opened}
+			open={props.open}
 			onClose={props.onCancel}
 			onSubmit={props.onRemove}
 		>

@@ -24,12 +24,13 @@ interface WishlistSetupPasswordModalProps {
 export function WishlistSetupPasswordModal(
 	props: WishlistSetupPasswordModalProps
 ): React.ReactElement {
-	const {t} = useTranslation();
 	const [password, setPassword] = React.useState<string>('');
-	const [showPassword, setShowPassword] = React.useState<boolean>(false);
+	const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
+
+	const {t} = useTranslation();
 
 	function handleClickShowPassword(): void {
-		setShowPassword((prev: boolean): boolean => !prev);
+		setIsShowPassword((prev: boolean): boolean => !prev);
 	}
 
 	function handleCancelButton(): void {
@@ -60,12 +61,12 @@ export function WishlistSetupPasswordModal(
 	return (
 		<AspireModal
 			title={t('set-wishlist-password')}
-			opened={props.open}
+			open={props.open}
 			onClose={handleCancelButton}
 		>
 			<TextField
 				data-testid='wishlist-password-modal-input'
-				type={showPassword ? 'text' : 'password'}
+				type={isShowPassword ? 'text' : 'password'}
 				autoComplete='new-password'
 				slotProps={{
 					input: {
@@ -80,7 +81,7 @@ export function WishlistSetupPasswordModal(
 									onClick={handleClickShowPassword}
 								>
 									<PasswordVisibilityIcon
-										visible={showPassword}
+										visible={isShowPassword}
 									/>
 								</IconButton>
 							</InputAdornment>

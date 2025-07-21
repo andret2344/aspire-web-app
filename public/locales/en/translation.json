@@ -19,6 +19,7 @@
 	"password-cleared": "Password cleared successfully.",
 	"delete-confirmation": "Are you sure you want to delete the <strong>{{wishlist}}</strong> wishlist?",
 	"add-new-wishlist": "Add new wishlist",
+	"add-new-item": "Add new item",
 	"item-no": "ID",
 	"name": "Name",
 	"visibility": "Visibility",

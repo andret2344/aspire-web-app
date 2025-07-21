@@ -31,12 +31,12 @@ interface WishlistComponentProps {
 export function WishlistComponent(
 	props: WishlistComponentProps
 ): React.ReactElement {
-	const [deleteModalOpen, setDeleteModalOpen] =
+	const [isDeleteModalOpen, setIsDeleteModalOpen] =
 		React.useState<boolean>(false);
 	const [editedName, setEditedName] = React.useState<string | undefined>(
 		undefined
 	);
-	const [passwordModalOpened, setPasswordModalOpened] =
+	const [isPasswordModalOpened, setIsPasswordModalOpened] =
 		React.useState<boolean>(false);
 
 	const navigate: NavigateFunction = useNavigate();
@@ -44,12 +44,12 @@ export function WishlistComponent(
 	const {t} = useTranslation();
 
 	function handlePasswordModalClose(): void {
-		setPasswordModalOpened(false);
+		setIsPasswordModalOpened(false);
 	}
 
 	function handlePasswordIconClick(event: React.MouseEvent): void {
 		event.stopPropagation();
-		setPasswordModalOpened(true);
+		setIsPasswordModalOpened(true);
 	}
 
 	function handleNameClick(event: React.MouseEvent): void {
@@ -120,16 +120,16 @@ export function WishlistComponent(
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
 			)
-			.finally((): void => setDeleteModalOpen(false));
+			.finally((): void => setIsDeleteModalOpen(false));
 	}
 
 	function handleDeleteIconClick(event: React.MouseEvent): void {
 		event.stopPropagation();
-		setDeleteModalOpen(true);
+		setIsDeleteModalOpen(true);
 	}
 
 	function handleDeleteCancel(): void {
-		setDeleteModalOpen(false);
+		setIsDeleteModalOpen(false);
 	}
 
 	function handlePasswordClear(): void {
@@ -137,7 +137,7 @@ export function WishlistComponent(
 			.then((): void => {
 				enqueueSnackbar(t('password-cleared'), {variant: 'success'});
 				props.onPasswordChange('');
-				setPasswordModalOpened(false);
+				setIsPasswordModalOpened(false);
 			})
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {
@@ -196,7 +196,7 @@ export function WishlistComponent(
 					variant: 'success'
 				});
 				props.onPasswordChange(password);
-				setPasswordModalOpened(false);
+				setIsPasswordModalOpened(false);
 			})
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {
@@ -297,13 +297,13 @@ export function WishlistComponent(
 			</Grid>
 			<WishlistSetupPasswordModal
 				wishlist={props.wishlist}
-				open={passwordModalOpened}
+				open={isPasswordModalOpened}
 				onAccept={handlePasswordAccept}
 				onClear={handlePasswordClear}
 				onClose={handlePasswordModalClose}
 			/>
 			<DeleteWishlistModal
-				opened={deleteModalOpen}
+				open={isDeleteModalOpen}
 				onCancel={handleDeleteCancel}
 				onRemove={handleWishlistRemove}
 				wishlistName={props.wishlist.name}

@@ -10,7 +10,8 @@ export function Header(): React.ReactElement {
 				flexDirection: 'column',
 				position: 'fixed',
 				width: '100%',
-				padding: '0px'
+				padding: '0px',
+				zIndex: 1000
 			}}
 		>
 			<Container
