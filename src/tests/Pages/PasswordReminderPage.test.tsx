@@ -47,7 +47,6 @@ describe('PasswordReminderPage', (): void => {
 
 	test('send handle click', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedRequestResetPassword.mockResolvedValue(200);
 		renderForTest(<PasswordReminderPage />);
 
@@ -67,7 +66,6 @@ describe('PasswordReminderPage', (): void => {
 
 	test('displays error snackbar when server error response', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedRequestResetPassword.mockRejectedValue(500);
 		renderForTest(<PasswordReminderPage />);
 
