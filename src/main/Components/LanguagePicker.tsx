@@ -7,8 +7,9 @@ import {Button, MenuItem} from '@mui/material';
 
 export function LanguagePicker(): React.ReactElement {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
 	const {i18n} = useTranslation();
-	const currentLanguage = i18n.language;
+	const currentLanguage: string = i18n.language;
 
 	function handleClick(event: React.MouseEvent<HTMLButtonElement>): void {
 		setAnchorEl(event.currentTarget);

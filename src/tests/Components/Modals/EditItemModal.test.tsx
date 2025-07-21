@@ -35,7 +35,7 @@ describe('EditItemModal', (): void => {
 		renderForTest(
 			<EditItemModal
 				wishlistId={1}
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 				item={getSampleWishlistItem()}
@@ -71,7 +71,7 @@ describe('EditItemModal', (): void => {
 			<EditItemModal
 				wishlistId={1}
 				item={getSampleWishlistItem()}
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
@@ -91,7 +91,7 @@ describe('EditItemModal', (): void => {
 				wishlistPassword={true}
 				wishlistId={1}
 				item={getSampleWishlistItem({hidden: true})}
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
@@ -118,7 +118,7 @@ describe('EditItemModal', (): void => {
 		renderForTest(
 			<EditItemModal
 				wishlistId={1}
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
@@ -148,7 +148,7 @@ describe('EditItemModal', (): void => {
 		renderForTest(
 			<EditItemModal
 				wishlistId={1}
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>
@@ -175,7 +175,7 @@ describe('EditItemModal', (): void => {
 		renderForTest(
 			<EditItemModal
 				wishlistId={1}
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 				item={getSampleWishlistItem()}
@@ -198,7 +198,7 @@ describe('EditItemModal', (): void => {
 		renderForTest(
 			<EditItemModal
 				wishlistId={1}
-				opened={true}
+				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
 			/>

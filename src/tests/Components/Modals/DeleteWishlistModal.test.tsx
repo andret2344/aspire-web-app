@@ -12,7 +12,7 @@ describe('DeleteWishlistModal', (): void => {
 		// arrange
 		renderForTest(
 			<DeleteWishlistModal
-				opened={true}
+				open={true}
 				wishlistName='test wishlist name'
 				onRemove={(): void => undefined}
 				onCancel={(): void => undefined}
@@ -33,7 +33,7 @@ describe('DeleteWishlistModal', (): void => {
 		// act
 		renderForTest(
 			<DeleteWishlistModal
-				opened={true}
+				open={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
 				onCancel={(): void => undefined}
@@ -55,7 +55,7 @@ describe('DeleteWishlistModal', (): void => {
 		// act
 		renderForTest(
 			<DeleteWishlistModal
-				opened={true}
+				open={true}
 				wishlistName='test wishlist name'
 				onRemove={mockRemove}
 				onCancel={(): void => undefined}

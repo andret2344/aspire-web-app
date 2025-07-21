@@ -15,15 +15,17 @@ import {WishlistInputPasswordModal} from '../Components/Modals/WishlistInputPass
 
 export function ReadonlyWishlistPage(): React.ReactElement {
 	type Params = {readonly uuid: string};
-	const params: Params = useParams<Params>() as Params;
-	const navigate: NavigateFunction = useNavigate();
+
 	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
 		undefined
 	);
 	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
-	const {t} = useTranslation();
-	const [passwordModalOpened, setPasswordModalOpened] =
+	const [isPasswordModalOpened, setIsPasswordModalOpened] =
 		React.useState<boolean>(false);
+
+	const params: Params = useParams<Params>() as Params;
+	const navigate: NavigateFunction = useNavigate();
+	const {t} = useTranslation();
 
 	React.useEffect((): void => {
 		getReadonlyWishlistByUUID(params.uuid)
@@ -39,11 +41,11 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	}
 
 	function handlePasswordModalClose(): void {
-		setPasswordModalOpened(false);
+		setIsPasswordModalOpened(false);
 	}
 
 	function handlePasswordModalOpen(): void {
-		setPasswordModalOpened(true);
+		setIsPasswordModalOpened(true);
 	}
 
 	function renderPasswordButton(): React.ReactElement {
@@ -73,7 +75,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 					variant: 'error'
 				})
 			);
-		setPasswordModalOpened(false);
+		setIsPasswordModalOpened(false);
 	}
 
 	function renderWishlistItem(
@@ -123,7 +125,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 			</Grid>
 			<WishlistInputPasswordModal
 				wishlist={wishlist}
-				open={passwordModalOpened}
+				open={isPasswordModalOpened}
 				onAccept={handlePasswordEnter}
 				onClose={handlePasswordModalClose}
 			/>

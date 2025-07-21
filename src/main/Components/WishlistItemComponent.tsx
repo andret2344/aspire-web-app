@@ -51,14 +51,15 @@ export function WishlistItemComponent(
 	props: WishlistItemComponentProps
 ): React.ReactElement {
 	type ProgressField = (keyof WishlistItemDto)[];
-	const [open, setOpen] = React.useState<boolean>(false);
+	const [isOpened, setIsOpened] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-	const {enqueueSnackbar} = useSnackbar();
 	const [circularProgress, setCircularProgress] =
 		React.useState<ProgressField>([]);
 	const [menuAnchorEl, setMenuAnchorEl] = React.useState<HTMLElement | null>(
 		null
 	);
+
+	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 	const theme: Theme = useTheme();
 	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
@@ -66,7 +67,7 @@ export function WishlistItemComponent(
 	/* HANDLERS */
 
 	function handleRowClick(): void {
-		setOpen((prevOpen: boolean): boolean => !prevOpen);
+		setIsOpened((prevOpen: boolean): boolean => !prevOpen);
 	}
 
 	function handleEditButton(event: React.MouseEvent): void {
@@ -172,7 +173,7 @@ export function WishlistItemComponent(
 	/* RENDERING */
 
 	function renderExpandIcon(): React.ReactElement {
-		if (!open) {
+		if (!isOpened) {
 			return <KeyboardArrowDownIcon />;
 		}
 		return <KeyboardArrowUpIcon />;
@@ -391,7 +392,7 @@ export function WishlistItemComponent(
 				{renderIcons()}
 			</Grid>
 			<Collapse
-				in={open}
+				in={isOpened}
 				timeout='auto'
 				unmountOnExit
 			>

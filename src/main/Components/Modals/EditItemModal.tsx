@@ -55,16 +55,13 @@ import {useDarkMode} from '../DarkModeContext';
 interface EditItemModalProps {
 	readonly wishlistId: number;
 	readonly wishlistPassword?: boolean;
-	readonly opened: boolean;
+	readonly open: boolean;
 	readonly onClose: () => void;
 	readonly onAccept: (item: WishlistItem) => void;
 	readonly item?: WishlistItem;
 }
 
 export function EditItemModal(props: EditItemModalProps): React.ReactElement {
-	const theme: Theme = useTheme();
-	const {darkMode} = useDarkMode();
-	const isSmallerThan900: boolean = useMediaQuery(theme.breakpoints.up('md'));
 	const [priority, setPriority] = React.useState<number>(
 		props.item?.priorityId ?? 1
 	);
@@ -72,10 +69,16 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 		props.item?.hidden ?? false
 	);
 	const [name, setName] = React.useState<string>(props.item?.name ?? '');
-	const [tooltipOpened, setTooltipOpened] = React.useState<boolean>(false);
-	const {t} = useTranslation();
+	const [isTooltipOpened, setIsTooltipOpened] =
+		React.useState<boolean>(false);
+
 	const descriptionEditorRef: RefObject<MDXEditorMethods | null> =
 		React.useRef<MDXEditorMethods | null>(null);
+
+	const theme: Theme = useTheme();
+	const {darkMode} = useDarkMode();
+	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
+	const {t} = useTranslation();
 	const {enqueueSnackbar} = useSnackbar();
 
 	function handleChangePriority(event: SelectChangeEvent<number>): void {
@@ -89,11 +92,11 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	}
 
 	function handleTooltipClose(): void {
-		setTooltipOpened(false);
+		setIsTooltipOpened(false);
 	}
 
 	function handleTooltipOpen(): void {
-		setTooltipOpened(true);
+		setIsTooltipOpened(true);
 	}
 
 	async function handleSubmit(
@@ -159,7 +162,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 								disablePortal: false
 							}
 						}}
-						open={tooltipOpened}
+						open={isTooltipOpened}
 						disableFocusListener
 						disableHoverListener
 						disableTouchListener
@@ -204,7 +207,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 	return (
 		<AspireModal
 			onClose={props.onClose}
-			opened={props.opened}
+			open={props.open}
 			title={props.item?.description ? t('edit-item') : t('new-item')}
 			onSubmit={handleSubmit}
 			width='80%'
@@ -215,7 +218,7 @@ export function EditItemModal(props: EditItemModalProps): React.ReactElement {
 				value={name}
 				data-testid='edit-item-modal-input-name'
 				onChange={handleNameChange}
-				size={isSmallerThan900 ? 'small' : 'medium'}
+				size={isMobile ? 'small' : 'medium'}
 				sx={{
 					width: {
 						xs: '95%',
