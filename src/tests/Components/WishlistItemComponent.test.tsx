@@ -3,7 +3,7 @@ import {
 	mockedUpdateWishlistItem
 } from '../__mocks__/MockWishlistItemService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
-import '../__mocks__/MockMDXEditor';
+import {mockedGetMarkdown} from '../__mocks__/MockMDXEditor';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -348,10 +348,11 @@ describe('WishlistItemComponent', (): void => {
 		});
 	});
 
-	xit('handles item edit', async (): Promise<void> => {
+	it('handles description edit', async (): Promise<void> => {
 		// arrange
 		const handleEdit: jest.Mock = jest.fn();
-
+		mockedGetMarkdown.mockReturnValue('<p>New description</p>');
+		mockedUpdateWishlistItem.mockResolvedValue(void 0);
 		renderForTest(
 			<WishlistItemComponent
 				item={getSampleWishlistItem()}
@@ -363,14 +364,30 @@ describe('WishlistItemComponent', (): void => {
 		);
 
 		// act
-		const editItemButton: HTMLElement = screen.getByTestId(
-			'edit-wishlist-item-1-1'
+		const itemRow: HTMLElement = screen.getByTestId(
+			'wishlist-item-row-grid-1-1'
 		);
-		await user.click(editItemButton);
+		await user.click(itemRow);
+		const editDescriptionButton: HTMLElement = screen.getByTestId(
+			'component-wishlist-item-1-button-edit-description'
+		);
+		await user.click(editDescriptionButton);
+		const buttonAccept: HTMLElement = screen.getByTestId(
+			'modal-description-confirm'
+		);
+		await user.click(buttonAccept);
 
 		// assert
 		expect(handleEdit).toHaveBeenCalledTimes(1);
-		expect(handleEdit).toHaveBeenCalledWith(getSampleWishlistItem());
+		expect(handleEdit).toHaveBeenCalledWith(
+			getSampleWishlist({
+				wishlistItems: [
+					getSampleWishlistItem({
+						description: '<p>New description</p>'
+					})
+				]
+			})
+		);
 	});
 
 	it('handles item row expands', async (): Promise<void> => {

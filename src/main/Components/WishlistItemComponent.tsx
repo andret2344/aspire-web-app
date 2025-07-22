@@ -44,8 +44,8 @@ interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
 	readonly wishlist: WishList;
 	readonly position: number;
-	readonly onEdit?: (wishlist: WishList) => void;
-	readonly onRemove?: (wishlistId: number, itemId: number) => void;
+	readonly onEdit?: (item: WishlistItem) => void;
+	readonly onRemove?: (itemId: number) => void;
 }
 
 export function WishlistItemComponent(
@@ -122,9 +122,7 @@ export function WishlistItemComponent(
 		});
 		return updateWishlistItem(props.wishlist.id, itemDto)
 			.then((): void => {
-				props.wishlist.wishlistItems[itemIndex] =
-					mapWishlistItemFromDto(itemDto);
-				props.onEdit!(props.wishlist);
+				props.onEdit!(mapWishlistItemFromDto(itemDto));
 			})
 			.finally((): void => removeFromCircularProgress(field));
 	}
@@ -134,7 +132,7 @@ export function WishlistItemComponent(
 		handleMenuClose(event);
 		removeWishlistItem(props.wishlist.id, props.item.id)
 			.then((): void => {
-				props.onRemove!(props.wishlist.id, props.item.id);
+				props.onRemove!(props.item.id);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
@@ -142,6 +140,20 @@ export function WishlistItemComponent(
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
 			);
+	}
+
+	function handleAcceptModal(newDescription: string): void {
+		handleItemUpdate(props.item.id, 'description', newDescription).then(
+			(): void => handleCloseModal()
+		);
+	}
+
+	function handleCloseModal(): void {
+		setIsDescriptionEdited(false);
+	}
+
+	function handleModalOpen(): void {
+		setIsDescriptionEdited(true);
 	}
 
 	/* MENU */
@@ -343,16 +355,6 @@ export function WishlistItemComponent(
 		);
 	}
 
-	function handleAcceptModal(newDescription: string): void {
-		handleItemUpdate(props.item.id, 'description', newDescription).then(
-			(): void => handleCloseModal()
-		);
-	}
-
-	function handleCloseModal(): void {
-		setIsDescriptionEdited(false);
-	}
-
 	return (
 		<Box
 			data-testid='wishlist-item-row'
@@ -416,13 +418,14 @@ export function WishlistItemComponent(
 				unmountOnExit
 			>
 				<Box sx={{margin: '1rem'}}>
-					<Typography>
+					<Typography component='div'>
 						<MarkdownView markdown={props.item.description} />
 					</Typography>
 					<Button
+						data-testid={`component-wishlist-item-${props.item.id}-button-edit-description`}
 						variant='contained'
 						startIcon={<EditIcon />}
-						onClick={(): void => setIsDescriptionEdited(true)}
+						onClick={handleModalOpen}
 					>
 						Edit
 					</Button>

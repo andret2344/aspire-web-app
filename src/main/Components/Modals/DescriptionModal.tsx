@@ -103,6 +103,7 @@ export function DescriptionModal(
 				}}
 			>
 				<MDXEditor
+					contentEditableClassName='mdx-editor'
 					className={darkMode ? 'dark-theme' : ''}
 					markdown={props.defaultDescription ?? ''}
 					plugins={[

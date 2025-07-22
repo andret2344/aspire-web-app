@@ -65,11 +65,21 @@ export function WishlistPage(): React.ReactElement {
 				position={index + 1}
 				wishlist={wishlist!}
 				onRemove={handleItemRemove}
-				onEdit={(wishlist: WishList): void => {
-					setWishlist({...wishlist});
-				}}
+				onEdit={handleItemEdit}
 			/>
 		);
+
+		function handleItemEdit(item: WishlistItem): void {
+			const itemId: number =
+				wishlist!.wishlistItems.findIndex(
+					(i: WishlistItem): boolean => i.id === item.id
+				) ?? -1;
+			if (itemId === -1) {
+				return;
+			}
+			wishlist!.wishlistItems[itemId] = {...item};
+			setWishlist({...wishlist!});
+		}
 	}
 
 	function handleAddClick(): void {
