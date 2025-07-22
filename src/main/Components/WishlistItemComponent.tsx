@@ -121,9 +121,7 @@ export function WishlistItemComponent(
 			[field]: newValue
 		});
 		return updateWishlistItem(props.wishlist.id, itemDto)
-			.then((): void => {
-				props.onEdit!(mapWishlistItemFromDto(itemDto));
-			})
+			.then((): void => props.onEdit!(mapWishlistItemFromDto(itemDto)))
 			.finally((): void => removeFromCircularProgress(field));
 	}
 

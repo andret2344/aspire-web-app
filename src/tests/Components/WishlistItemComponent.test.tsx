@@ -134,7 +134,7 @@ describe('WishlistItemComponent', (): void => {
 
 			// assert
 			expect(handleRemoveButtonClick).toHaveBeenCalledTimes(1);
-			expect(handleRemoveButtonClick).toHaveBeenCalledWith(1, 1);
+			expect(handleRemoveButtonClick).toHaveBeenCalledWith(1);
 		});
 
 		it('handles remove item edit with fail', async (): Promise<void> => {
@@ -220,10 +220,7 @@ describe('WishlistItemComponent', (): void => {
 			expect(wishlistItemDescription).toBeNull();
 			expect(handleEditClick).toHaveBeenCalledTimes(1);
 			expect(handleEditClick).toHaveBeenCalledWith(
-				getSampleWishlist({
-					hasPassword: true,
-					wishlistItems: [getSampleWishlistItem({hidden: true})]
-				})
+				getSampleWishlistItem({hidden: true})
 			);
 		});
 
@@ -252,10 +249,7 @@ describe('WishlistItemComponent', (): void => {
 			expect(wishlistItemDescription).toBeNull();
 			expect(handleEditClick).toHaveBeenCalledTimes(1);
 			expect(handleEditClick).toHaveBeenCalledWith(
-				getSampleWishlist({
-					hasPassword: true,
-					wishlistItems: [getSampleWishlistItem({hidden: false})]
-				})
+				getSampleWishlistItem({hidden: false})
 			);
 		});
 
@@ -316,9 +310,7 @@ describe('WishlistItemComponent', (): void => {
 			expect(wishlistItemDescription).toBeNull();
 			expect(handleEditClick).toHaveBeenCalledTimes(1);
 			expect(handleEditClick).toHaveBeenCalledWith(
-				getSampleWishlist({
-					wishlistItems: [getSampleWishlistItem({priorityId: 2})]
-				})
+				getSampleWishlistItem({priorityId: 2})
 			);
 		});
 
@@ -380,12 +372,8 @@ describe('WishlistItemComponent', (): void => {
 		// assert
 		expect(handleEdit).toHaveBeenCalledTimes(1);
 		expect(handleEdit).toHaveBeenCalledWith(
-			getSampleWishlist({
-				wishlistItems: [
-					getSampleWishlistItem({
-						description: '<p>New description</p>'
-					})
-				]
+			getSampleWishlistItem({
+				description: '<p>New description</p>'
 			})
 		);
 	});
