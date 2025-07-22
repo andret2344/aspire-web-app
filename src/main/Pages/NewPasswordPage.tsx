@@ -9,10 +9,10 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {AuthContainer} from '../Components/AuthContainer';
-import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
+import {AuthContainer} from '@components/AuthContainer';
+import {PasswordVisibilityIcon} from '@components/PasswordVisibilityIcon';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {resetPassword} from '../Services/AuthService';
+import {resetPassword} from '@services/AuthService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 

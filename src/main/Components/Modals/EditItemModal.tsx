@@ -19,13 +19,13 @@ import React, {RefObject} from 'react';
 import {
 	addWishlistItem,
 	updateWishlistItem
-} from '../../Services/WishlistItemService';
-import {getAllPriorities, Priority} from '../../Entity/Priority';
+} from '@services/WishlistItemService';
+import {getAllPriorities, Priority} from '@entity/Priority';
 import {
 	mapWishlistItemFromDto,
 	WishlistItem,
 	WishlistItemDto
-} from '../../Entity/WishlistItem';
+} from '@entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {

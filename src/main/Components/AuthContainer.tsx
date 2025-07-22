@@ -1,6 +1,6 @@
 import {Container, Paper, Typography} from '@mui/material';
 import React from 'react';
-import {None} from '../Types/None';
+import {None} from '@types/None';
 import {useTranslation} from 'react-i18next';
 
 export function AuthContainer(

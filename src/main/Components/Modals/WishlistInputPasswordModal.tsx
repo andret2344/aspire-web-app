@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
 import React from 'react';
-import {WishList} from '../../Entity/WishList';
+import {WishList} from '@entity/WishList';
 import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
 

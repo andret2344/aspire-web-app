@@ -4,8 +4,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {getThemeColor} from '../Utils/theme';
-import {WishList} from '../Entity/WishList';
+import {getThemeColor} from '@utils/theme';
+import {WishList} from '@entity/WishList';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
@@ -13,10 +13,10 @@ import {
 	removeWishlist,
 	setWishlistPassword,
 	updateWishlistName
-} from '../Services/WishListService';
+} from '@services/WishListService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {getApiConfig} from '../Services/ApiInstance';
+import {getApiConfig} from '@services/ApiInstance';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';

@@ -11,7 +11,7 @@ import {ListAlt, Logout, Menu, MenuOpen, Settings} from '@mui/icons-material';
 import React from 'react';
 import {Link, NavigateFunction, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {logout} from '../Services/AuthService';
+import {logout} from '@services/AuthService';
 
 export const WIDTH_DRAWER_OPENED: number = 240;
 export const WIDTH_DRAWER_CLOSED: number = 60;

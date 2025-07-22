@@ -5,7 +5,20 @@ const webpack = require('webpack');
 module.exports = {
 	entry: path.resolve(__dirname, '..', './src/main/index.tsx'),
 	resolve: {
-		extensions: ['.tsx', '.ts', '.js']
+		extensions: ['.tsx', '.ts', '.js'],
+		alias: {
+			'@components': path.resolve(
+				__dirname,
+				'..',
+				'./src/main/Components'
+			),
+			'@entity': path.resolve(__dirname, '..', './src/main/Entity'),
+			'@hooks': path.resolve(__dirname, '..', './src/main/Hooks'),
+			'@layouts': path.resolve(__dirname, '..', './src/main/Layouts'),
+			'@pages': path.resolve(__dirname, '..', './src/main/Pages'),
+			'@types': path.resolve(__dirname, '..', './src/main/Types'),
+			'@utils': path.resolve(__dirname, '..', './src/main/Utils')
+		}
 	},
 	module: {
 		rules: [

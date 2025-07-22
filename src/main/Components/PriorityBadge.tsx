@@ -1,6 +1,6 @@
 import {Tooltip, Typography} from '@mui/material';
 import React from 'react';
-import {getPriority, Priority} from '../Entity/Priority';
+import {getPriority, Priority} from '@entity/Priority';
 import {useTranslation} from 'react-i18next';
 
 interface PriorityBadgeProps {

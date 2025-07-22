@@ -27,6 +27,9 @@ module.exports = defineConfig([
 			'import/resolver': {
 				node: {
 					extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
+				},
+				typescript: {
+					project: './tsconfig.json'
 				}
 			}
 		},

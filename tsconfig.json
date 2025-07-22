@@ -13,7 +13,36 @@
 			"es6",
 			"dom.iterable",
 			"scripthost"
-		]
+		],
+
+		// baseUrl and paths for aliases
+		"baseUrl": ".",
+		"paths": {
+			"@components/*": [
+				"src/main/Components/*"
+			],
+			"@entity/*": [
+				"src/main/Entity/*"
+			],
+			"@hooks/*": [
+				"src/main/Hooks/*"
+			],
+			"@layouts/*": [
+				"src/main/Layouts/*"
+			],
+			"@pages/*": [
+				"src/main/Pages/*"
+			],
+			"@services/*": [
+				"src/main/Services/*"
+			],
+			"@types/*": [
+				"src/main/Types/*"
+			],
+			"@utils/*": [
+				"src/main/Utils/*"
+			]
+		},
 		/* Specify library files to be included in the compilation. */,
 		"jsx": "react-jsx"
 		/* Specify JSX code generation: 'preserve', 'react-native', 'react' or 'react-jsx'. */,
