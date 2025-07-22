@@ -88,7 +88,8 @@ export function DescriptionModal(
 			open={props.open}
 			title={t('description')}
 			onSubmit={handleSubmit}
-			width='80%'
+			maxWidth='80%'
+			width='auto'
 		>
 			<Box
 				sx={{
@@ -96,15 +97,16 @@ export function DescriptionModal(
 					flexDirection: 'column',
 					alignItems: 'center',
 					justifyContent: 'space-between',
+					padding: '10px 0',
 					width: {
-						xs: '95%',
-						md: '80%'
+						xs: '100%',
+						md: '90%'
 					}
 				}}
 			>
 				<MDXEditor
 					contentEditableClassName='mdx-editor'
-					className={darkMode ? 'dark-theme' : ''}
+					className={`mdxeditor-mobile ${darkMode ? 'dark-theme' : ''}`}
 					markdown={props.defaultDescription ?? ''}
 					plugins={[
 						headingsPlugin({

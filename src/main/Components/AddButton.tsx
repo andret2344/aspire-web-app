@@ -15,7 +15,7 @@ export function AddButton(
 			onClick={props.onClick}
 			variant='outlined'
 			sx={{
-				fontSize: '1.25rem',
+				fontSize: '0.75rem',
 				letterSpacing: '0.2rem',
 				padding: '1rem'
 			}}

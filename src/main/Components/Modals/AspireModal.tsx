@@ -8,6 +8,7 @@ interface AspireModalProps {
 	readonly onClose: () => void;
 	readonly onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
 	readonly width?: string;
+	readonly maxWidth?: string;
 }
 
 export function AspireModal(
@@ -35,8 +36,12 @@ export function AspireModal(
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					padding: '36px 48px',
+					padding: '36px 26px',
 					width: props.width ?? 'auto',
+					maxWidth: {
+						xs: '100%',
+						md: props.maxWidth ?? 'auto'
+					},
 					height: {
 						xs: '100%',
 						md: 'auto'
