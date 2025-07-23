@@ -20,7 +20,7 @@ export async function getWishlistHiddenItems(
 export async function addWishlistItem(
 	wishlistId: number,
 	item: Omit<WishlistItemDto, 'id'>
-): Promise<WishlistItemDto | null> {
+): Promise<WishlistItemDto> {
 	const result: AxiosResponse<WishlistItemDto> = await apiInstance.post(
 		`/${wishlistId}/wishlistitem`,
 		item
@@ -31,7 +31,7 @@ export async function addWishlistItem(
 export async function updateWishlistItem(
 	wishlistId: number,
 	item: WishlistItemDto
-): Promise<WishlistItemDto | null> {
+): Promise<WishlistItemDto> {
 	const {id, ...rest} = item;
 	const result: AxiosResponse<WishlistItemDto> = await apiInstance.put(
 		`/${wishlistId}/wishlistitem/${id}`,

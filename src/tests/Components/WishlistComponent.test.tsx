@@ -364,8 +364,12 @@ describe('WishlistComponent', (): void => {
 		beforeEach((): void => {
 			Object.defineProperty(global.navigator, 'clipboard', {
 				value: {
-					writeText: jest.fn(),
-					readText: jest.fn()
+					writeText: jest.fn().mockResolvedValue(null),
+					readText: jest
+						.fn()
+						.mockResolvedValue(
+							'http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15'
+						)
 				},
 				configurable: true
 			});
@@ -374,7 +378,6 @@ describe('WishlistComponent', (): void => {
 
 		it('copies url to clipboard', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			renderForTest(
 				<WishlistComponent
 					wishlist={getSampleWishlist({hasPassword: true})}
@@ -400,7 +403,6 @@ describe('WishlistComponent', (): void => {
 
 		it('throws an exception when copying to clipboard', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			renderForTest(
 				<WishlistComponent
 					wishlist={getSampleWishlist({hasPassword: true})}

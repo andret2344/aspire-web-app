@@ -4,11 +4,11 @@ import {WishlistItemComponent} from '../Components/WishlistItemComponent';
 import {mapWishlistFromDto, WishList} from '../Entity/WishList';
 import {getWishlist} from '../Services/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {WishlistItem} from '../Entity/WishlistItem';
-import {EditItemModal} from '../Components/Modals/EditItemModal';
+import {mapWishlistItemFromDto, WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {AddButton} from '../Components/AddButton';
+import {addWishlistItem} from '../Services/WishlistItemService';
 
 export function WishlistPage(): React.ReactElement {
 	type Params = {readonly id?: string};
@@ -17,11 +17,6 @@ export function WishlistPage(): React.ReactElement {
 		undefined
 	);
 	const [isLoading, setIsLoading] = React.useState<boolean>(true);
-	const [isAddItemModalOpened, setIsAddItemModalOpened] =
-		React.useState<boolean>(false);
-	const [editingWishlistItem, setEditingWishlistItem] = React.useState<
-		WishlistItem | undefined
-	>(undefined);
 
 	const params: Params = useParams<Params>();
 	const navigate: NavigateFunction = useNavigate();
@@ -45,37 +40,11 @@ export function WishlistPage(): React.ReactElement {
 		return <></>;
 	}
 
-	function handleItemEdit(item: WishlistItem): void {
-		setEditingWishlistItem(item);
-		setIsAddItemModalOpened(true);
-	}
-
-	function openAddClick(): void {
-		setEditingWishlistItem(undefined);
-		setIsAddItemModalOpened(true);
-	}
-
-	function closeEditModal(): void {
-		setIsAddItemModalOpened(false);
-	}
-
 	function handleItemRemove(itemId: number): void {
 		const foundItem: number = wishlist!.wishlistItems.findIndex(
 			(item: WishlistItem): boolean => item.id === itemId
 		);
 		wishlist!.wishlistItems.splice(foundItem, 1);
-		setWishlist({...wishlist!});
-	}
-
-	function handleEditAccept(item: WishlistItem): void {
-		if (editingWishlistItem) {
-			const foundItem: number = wishlist!.wishlistItems.findIndex(
-				(it: WishlistItem): boolean => it.id === editingWishlistItem.id
-			);
-			wishlist!.wishlistItems[foundItem] = item;
-		} else {
-			wishlist!.wishlistItems.push(item);
-		}
 		setWishlist({...wishlist!});
 	}
 
@@ -95,23 +64,43 @@ export function WishlistPage(): React.ReactElement {
 				item={wishlistItem}
 				position={index + 1}
 				wishlist={wishlist!}
-				onEdit={handleItemEdit}
 				onRemove={handleItemRemove}
-				onWishlistEdit={(wishlist: WishList): void => {
-					setWishlist({...wishlist});
-				}}
+				onEdit={handleItemEdit}
 			/>
 		);
+
+		function handleItemEdit(item: WishlistItem): void {
+			const itemId: number =
+				wishlist!.wishlistItems.findIndex(
+					(i: WishlistItem): boolean => i.id === item.id
+				) ?? -1;
+			if (itemId === -1) {
+				return;
+			}
+			wishlist!.wishlistItems[itemId] = {...item};
+			setWishlist({...wishlist!});
+		}
+	}
+
+	function handleAddClick(): void {
+		addWishlistItem(wishlistId, {
+			name: t('unnamed'),
+			description: t('default-description'),
+			priority_id: Math.floor((Math.random() * 3) % 3) + 1,
+			hidden: false
+		})
+			.then(mapWishlistItemFromDto)
+			.then((item: WishlistItem): void => {
+				wishlist?.wishlistItems.push(item);
+				setWishlist({...wishlist!});
+			});
 	}
 
 	return (
 		<Grid
 			data-testid='wishlist-page-grid-main'
 			sx={{
-				paddingBottom: '50px',
 				flexGrow: 1,
-				height: '100vh',
-				overflowY: 'auto',
 				paddingTop: '56px'
 			}}
 			container
@@ -131,20 +120,11 @@ export function WishlistPage(): React.ReactElement {
 						paddingBottom: '3rem'
 					}}
 				>
-					<AddButton onClick={openAddClick}>
+					<AddButton onClick={handleAddClick}>
 						{t('add-new-item')}
 					</AddButton>
 				</Grid>
 			</Grid>
-			<EditItemModal
-				key={editingWishlistItem?.id}
-				wishlistId={wishlistId}
-				wishlistPassword={wishlist?.hasPassword}
-				open={isAddItemModalOpened}
-				onClose={closeEditModal}
-				onAccept={handleEditAccept}
-				item={editingWishlistItem}
-			/>
 		</Grid>
 	);
 }

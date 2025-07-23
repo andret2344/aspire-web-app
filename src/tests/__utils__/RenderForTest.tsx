@@ -1,5 +1,8 @@
 import {render, RenderResult} from '@testing-library/react';
-import {DarkModeProvider} from '../../main/Components/DarkModeContext';
+import {
+	DarkModeContext,
+	DarkModeProvider
+} from '../../main/Components/DarkModeContext';
 import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {SnackbarProvider} from 'notistack';
@@ -18,7 +21,35 @@ export function renderForTest(element: React.ReactElement): RenderResult {
 	);
 }
 
-export function renderForTestWithoutProvider(
+export const mockedToggleDarkMode: jest.Mock = jest.fn();
+
+export function MockDarkModeProvider(
+	props: React.PropsWithChildren
+): React.ReactElement {
+	return (
+		<DarkModeContext.Provider
+			value={{darkMode: true, toggleDarkMode: mockedToggleDarkMode}}
+		>
+			{props.children}
+		</DarkModeContext.Provider>
+	);
+}
+
+export function renderForTestWithMockedDarkModeProvider(
+	element: React.ReactElement
+): RenderResult {
+	return render(
+		<MockDarkModeProvider>
+			<I18nextProvider i18n={i18n}>
+				<Router>
+					<SnackbarProvider>{element}</SnackbarProvider>
+				</Router>
+			</I18nextProvider>
+		</MockDarkModeProvider>
+	);
+}
+
+export function renderForTestWithoutDarkModeProvider(
 	element: React.ReactElement
 ): RenderResult {
 	return render(

@@ -40,7 +40,6 @@ describe('NewPasswordPage', (): void => {
 
 	it('redirects to main page when password reset successfully', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedResetPassword.mockResolvedValue(200);
 		const token = 'accessToken';
 		mockedUseParams.mockReturnValue({
@@ -73,7 +72,6 @@ describe('NewPasswordPage', (): void => {
 
 	it('renders error snackbar when server respond error', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedResetPassword.mockRejectedValue(500);
 		mockedUseParams.mockReturnValue({
 			token: 'accessToken'
@@ -101,7 +99,6 @@ describe('NewPasswordPage', (): void => {
 
 	it('renders error when passwords are not equal', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		renderForTest(<NewPasswordPage />);
 
 		// act
@@ -128,7 +125,6 @@ describe('NewPasswordPage', (): void => {
 
 	it('shows password on button click', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		renderForTest(<NewPasswordPage />);
 
 		// act

@@ -9,7 +9,6 @@ import {getSampleWishlist} from '../../__utils__/DataFactory';
 describe('WishlistInputPasswordModal', (): void => {
 	it('renders modal correctly', (): void => {
 		// arrange
-		user.setup();
 		renderForTest(
 			<WishlistInputPasswordModal
 				wishlist={getSampleWishlist()}
@@ -28,7 +27,6 @@ describe('WishlistInputPasswordModal', (): void => {
 
 	it('changes password visibility on click', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		renderForTest(
 			<WishlistInputPasswordModal
 				wishlist={getSampleWishlist()}
@@ -53,7 +51,6 @@ describe('WishlistInputPasswordModal', (): void => {
 
 	it('handles accept after entering a password', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		const mockAccept: jest.Mock = jest.fn();
 		renderForTest(
 			<WishlistInputPasswordModal
@@ -82,7 +79,6 @@ describe('WishlistInputPasswordModal', (): void => {
 
 	it('handles cancel button', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		const mockClose: jest.Mock = jest.fn();
 		renderForTest(
 			<WishlistInputPasswordModal
