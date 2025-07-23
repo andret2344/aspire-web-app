@@ -76,15 +76,15 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconEdit: HTMLElement | null = screen.queryByTestId(
-				'edit-wishlist-item-1-1'
+			const iconEdit: HTMLElement = screen.getByTestId(
+				'editable-name-button-edit'
 			);
 			const iconRemove: HTMLElement | null = screen.queryByTestId(
 				'remove-wishlist-item-1-1'
 			);
 
 			// assert
-			expect(iconEdit).not.toBeNull();
+			expect(iconEdit).toBeInTheDocument();
 			expect(iconRemove).toBeNull();
 		});
 

@@ -178,12 +178,12 @@ describe('WishlistListPage', (): void => {
 		await screen.findByTestId('wishlist-list-page-grid-main');
 
 		// act
-		await user.click(screen.getByTestId('wishlist-item-name-edit'));
+		await user.click(screen.getByTestId('editable-name-button-edit'));
 		const input: HTMLInputElement = screen
-			.getByTestId('wishlist-edit-name-input')
+			.getByTestId('editable-name-input-name')
 			.querySelector('input') as HTMLInputElement;
 		await user.type(input, ' updated');
-		await user.click(screen.getByTestId('wishlist-edit-done'));
+		await user.click(screen.getByTestId('editable-name-button-done'));
 
 		// assert
 		expect(screen.getByText('Mock Wishlist updated')).toBeInTheDocument();

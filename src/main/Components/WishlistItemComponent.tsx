@@ -39,6 +39,7 @@ import {WishList} from '../Entity/WishList';
 import {getThemeColor} from '../Utils/theme';
 import {SystemStyleObject} from '@mui/system';
 import {DescriptionModal} from './Modals/DescriptionModal';
+import {EditableNameComponent} from './EditableNameComponent';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -74,10 +75,6 @@ export function WishlistItemComponent(
 		setIsOpened((prevOpen: boolean): boolean => !prevOpen);
 	}
 
-	function handleEditButton(event: React.MouseEvent): void {
-		event.stopPropagation();
-	}
-
 	function handleVisibilityClick(event: React.MouseEvent): void {
 		if (props.wishlist.hasPassword) {
 			event.stopPropagation();
@@ -104,6 +101,10 @@ export function WishlistItemComponent(
 		const priorityId: number = event.currentTarget.value;
 		handleItemUpdate(props.item.id, 'priority_id', priorityId);
 		handlePriorityChoiceClose();
+	}
+
+	function handleNameChange(name: string): void {
+		handleItemUpdate(props.item.id, 'name', name);
 	}
 
 	async function handleItemUpdate<K extends keyof WishlistItemDto>(
@@ -190,21 +191,6 @@ export function WishlistItemComponent(
 			return <KeyboardArrowDownIcon />;
 		}
 		return <KeyboardArrowUpIcon />;
-	}
-
-	function renderEditButton(): React.ReactElement {
-		if (!props.onEdit) {
-			return <></>;
-		}
-		return (
-			<IconButton
-				aria-label='edit'
-				onClick={handleEditButton}
-				data-testid={`edit-wishlist-item-${props.wishlist.id}-${props.item.id}`}
-			>
-				<EditIcon />
-			</IconButton>
-		);
 	}
 
 	function renderVisibilityGridItem(): React.ReactElement {
@@ -396,7 +382,6 @@ export function WishlistItemComponent(
 						<em>#{props.position}</em>
 					</Typography>
 				</Grid>
-				<Grid>{renderEditButton()}</Grid>
 				<Grid
 					size='grow'
 					sx={{
@@ -405,7 +390,11 @@ export function WishlistItemComponent(
 						textOverflow: 'ellipsis'
 					}}
 				>
-					{props.item.name}
+					<EditableNameComponent
+						editable={props.onEdit !== undefined}
+						name={props.item.name}
+						onChange={handleNameChange}
+					/>
 				</Grid>
 				{renderVisibilityGridItem()}
 				{renderIcons()}
