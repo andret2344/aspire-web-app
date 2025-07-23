@@ -25,7 +25,6 @@ describe('ProfilePage', (): void => {
 
 	test('check passwords are not equal', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedChangePassword.mockRejectedValue(400);
 		renderForTest(<ProfilePage />);
 
@@ -55,7 +54,6 @@ describe('ProfilePage', (): void => {
 	});
 	test('render error snackbar when server respond error', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedChangePassword.mockRejectedValue(400);
 		renderForTest(<ProfilePage />);
 
@@ -81,9 +79,8 @@ describe('ProfilePage', (): void => {
 		});
 	});
 
-	test('successfull password change', async (): Promise<void> => {
+	test('successful password change', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedChangePassword.mockResolvedValue(200);
 		renderForTest(<ProfilePage />);
 
@@ -114,7 +111,6 @@ describe('ProfilePage', (): void => {
 
 	test('click on show password buttons', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		renderForTest(<ProfilePage />);
 
 		// act
