@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Paper, Typography} from '@mui/material';
+import {Box, Modal, Paper, Typography} from '@mui/material';
 
 interface AspireModalProps {
 	readonly 'data-testid'?: string;
@@ -28,7 +28,8 @@ export function AspireModal(
 				margin: {
 					xs: '0',
 					md: '30px 0'
-				}
+				},
+				overflow: 'scroll'
 			}}
 		>
 			<Paper
@@ -36,27 +37,25 @@ export function AspireModal(
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					padding: '36px 26px',
+					padding: '26px 26px',
 					width: props.width ?? 'auto',
 					maxWidth: {
 						xs: '100%',
 						md: props.maxWidth ?? 'auto'
-					},
-					height: {
-						xs: '100%',
-						md: 'auto'
 					}
 				}}
 				component='form'
 				onSubmit={props.onSubmit}
 			>
-				<Typography
-					id='modal-title'
-					variant='h5'
-					component='div'
-				>
-					{props.title}
-				</Typography>
+				<Box sx={{padding: '10px 0'}}>
+					<Typography
+						id='modal-title'
+						variant='h5'
+						component='div'
+					>
+						{props.title}
+					</Typography>
+				</Box>
 				{props.children}
 			</Paper>
 		</Modal>
