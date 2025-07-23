@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Modal, Paper, Typography} from '@mui/material';
+import {Modal, Paper, Typography} from '@mui/material';
 
 interface AspireModalProps {
 	readonly 'data-testid'?: string;
