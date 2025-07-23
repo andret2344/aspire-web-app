@@ -47,15 +47,14 @@ export function AspireModal(
 				component='form'
 				onSubmit={props.onSubmit}
 			>
-				<Box sx={{padding: '10px 0'}}>
-					<Typography
-						id='modal-title'
-						variant='h5'
-						component='div'
-					>
-						{props.title}
-					</Typography>
-				</Box>
+				<Typography
+					id='modal-title'
+					variant='h5'
+					component='div'
+					sx={{padding: '10px 0'}}
+				>
+					{props.title}
+				</Typography>
 				{props.children}
 			</Paper>
 		</Modal>

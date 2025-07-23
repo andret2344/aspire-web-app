@@ -83,82 +83,80 @@ export function DescriptionModal(
 	}
 
 	return (
-		<Box>
-			<AspireModal
-				onClose={handleClose}
-				open={props.open}
-				title={t('description')}
-				onSubmit={handleSubmit}
-				maxWidth='80%'
-				width='auto'
+		<AspireModal
+			onClose={handleClose}
+			open={props.open}
+			title={t('description')}
+			onSubmit={handleSubmit}
+			maxWidth='80%'
+			width='auto'
+		>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					width: {
+						xs: '100%',
+						md: '90%'
+					}
+				}}
 			>
+				<MDXEditor
+					contentEditableClassName='mdx-editor'
+					className={`mdxeditor-mobile mdxeditor ${darkMode ? 'dark-theme' : ''}`}
+					markdown={props.defaultDescription ?? ''}
+					plugins={[
+						headingsPlugin({
+							allowedHeadingLevels: [1, 2, 3, 4, 5, 6]
+						}),
+						listsPlugin(),
+						tablePlugin(),
+						linkPlugin(),
+						linkDialogPlugin(),
+						quotePlugin(),
+						markdownShortcutPlugin(),
+						thematicBreakPlugin(),
+						toolbarPlugin({
+							toolbarClassName: 'my-classname',
+							toolbarContents: renderToolbarContents
+						})
+					]}
+					ref={descriptionEditorRef}
+					placeholder={t('type-description-here')}
+				/>
 				<Box
 					sx={{
 						display: 'flex',
-						flexDirection: 'column',
+						flexDirection: 'row',
+						justifyContent: 'center',
+						width: '80%',
 						alignItems: 'center',
-						justifyContent: 'space-between',
-						width: {
-							xs: '100%',
-							md: '90%'
-						}
+						padding: '10px'
 					}}
 				>
-					<MDXEditor
-						contentEditableClassName='mdx-editor'
-						className={`mdxeditor-mobile mdxeditor ${darkMode ? 'dark-theme' : ''}`}
-						markdown={props.defaultDescription ?? ''}
-						plugins={[
-							headingsPlugin({
-								allowedHeadingLevels: [1, 2, 3, 4, 5, 6]
-							}),
-							listsPlugin(),
-							tablePlugin(),
-							linkPlugin(),
-							linkDialogPlugin(),
-							quotePlugin(),
-							markdownShortcutPlugin(),
-							thematicBreakPlugin(),
-							toolbarPlugin({
-								toolbarClassName: 'my-classname',
-								toolbarContents: renderToolbarContents
-							})
-						]}
-						ref={descriptionEditorRef}
-						placeholder={t('type-description-here')}
-					/>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'center',
-							width: '80%',
-							alignItems: 'center',
-							padding: '10px'
-						}}
+					<Button
+						data-testid='modal-description-confirm'
+						type='submit'
+						variant='contained'
+						disabled={props.loading}
+						sx={{margin: '0 20px'}}
 					>
-						<Button
-							data-testid='modal-description-confirm'
-							type='submit'
-							variant='contained'
-							disabled={props.loading}
-							sx={{margin: '0 20px'}}
-						>
-							{renderButtonContent()}
-						</Button>
-						<Button
-							data-testid='modal-description-cancel'
-							variant='outlined'
-							color='error'
-							disabled={props.loading}
-							onClick={handleClose}
-							sx={{margin: '0 20px'}}
-						>
-							{t('cancel')}
-						</Button>
-					</Box>
+						{renderButtonContent()}
+					</Button>
+					<Button
+						data-testid='modal-description-cancel'
+						variant='outlined'
+						color='error'
+						disabled={props.loading}
+						onClick={handleClose}
+						sx={{margin: '0 20px'}}
+					>
+						{t('cancel')}
+					</Button>
 				</Box>
-			</AspireModal>
-		</Box>
+			</Box>
+		</AspireModal>
 	);
 }
