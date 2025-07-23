@@ -8,6 +8,7 @@ interface AspireModalProps {
 	readonly onClose: () => void;
 	readonly onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
 	readonly width?: string;
+	readonly maxWidth?: string;
 }
 
 export function AspireModal(
@@ -27,7 +28,8 @@ export function AspireModal(
 				margin: {
 					xs: '0',
 					md: '30px 0'
-				}
+				},
+				overflow: 'scroll'
 			}}
 		>
 			<Paper
@@ -35,11 +37,11 @@ export function AspireModal(
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					padding: '36px 48px',
+					padding: '26px 26px',
 					width: props.width ?? 'auto',
-					height: {
+					maxWidth: {
 						xs: '100%',
-						md: 'auto'
+						md: props.maxWidth ?? 'auto'
 					}
 				}}
 				component='form'
@@ -49,6 +51,7 @@ export function AspireModal(
 					id='modal-title'
 					variant='h5'
 					component='div'
+					sx={{padding: '10px 0'}}
 				>
 					{props.title}
 				</Typography>

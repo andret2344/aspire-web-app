@@ -22,6 +22,7 @@
 	"add-new-item": "Add new item",
 	"item-no": "ID",
 	"name": "Name",
+	"description": "Description",
 	"visibility": "Visibility",
 	"priority": "Priority",
 	"priority-description-high": "High",
@@ -64,8 +65,6 @@
 	"saved": "Saved.",
 	"delete": "Delete",
 	"too-long": "Too long name or description.",
-	"edit-item": "Edit item",
-	"new-item": "Add new item",
 	"enter-item": "Enter the item here",
 	"wishlist-removed": "Wishlist removed successfully",
 	"item-removed": "Wishlist item removed successfully",
@@ -73,5 +72,7 @@
 	"passwords-not-equal": "Passwords are not equal",
 	"wishlist-renamed": "Wishlist name changed successfully",
 	"wishlist-created": "Wishlist created",
-	"type-description-here": "Type description here"
+	"type-description-here": "Type description here",
+	"unnamed": "Unnamed",
+	"default-description": "Just a description"
 }

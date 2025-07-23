@@ -34,7 +34,6 @@ describe('CreateWishlistModal', (): void => {
 		const mockAdd: jest.Mock = jest.fn();
 		mockedAddWishlist.mockResolvedValue(getSampleWishlist());
 		mockedUseMediaQuery.mockReturnValue(false);
-		user.setup();
 
 		// act
 		renderForTest(
@@ -59,7 +58,6 @@ describe('CreateWishlistModal', (): void => {
 		// arrange
 		const mockAdd: jest.Mock = jest.fn();
 		mockedUseMediaQuery.mockReturnValue(true);
-		user.setup();
 
 		// act
 		renderForTest(

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {ForwardedRef} from 'react';
+import {MDXEditorMethods, MDXEditorProps} from '@mdxeditor/editor';
 
 export const mockedSetMarkdown: jest.Mock = jest.fn();
 export const mockedGetMarkdown: jest.Mock = jest.fn();
@@ -6,7 +7,29 @@ export const mockedGetMarkdown: jest.Mock = jest.fn();
 jest.mock('@mdxeditor/editor', () => ({
 	// eslint-disable-next-line react/display-name
 	MDXEditor: React.forwardRef(
-		(): React.ReactElement => <div data-testid='mock-mdx-editor' />
+		(
+			props: React.PropsWithChildren<MDXEditorProps>,
+			ref: ForwardedRef<unknown>
+		): React.ReactElement => {
+			if (ref) {
+				(ref as React.RefObject<MDXEditorMethods | null>).current = {
+					getMarkdown: mockedGetMarkdown,
+					setMarkdown: mockedSetMarkdown,
+					insertMarkdown: jest.fn(),
+					focus: jest.fn()
+				};
+			}
+
+			return (
+				<div
+					data-testid='mock-mdx-editor'
+					className={`${props.contentEditableClassName} ${props.className}`}
+					contentEditable
+				>
+					{props.children}
+				</div>
+			);
+		}
 	),
 	BlockTypeSelect: () => <div data-testid='mock-block-type' />,
 	BoldItalicUnderlineToggles: () => <div data-testid='mock-toggles' />,
@@ -25,7 +48,9 @@ jest.mock('@mdxeditor/editor', () => ({
 	quotePlugin: () => () => null,
 	markdownShortcutPlugin: () => () => null,
 	thematicBreakPlugin: () => () => null,
-	toolbarPlugin: () => () => null,
+	toolbarPlugin: jest.fn((config) => ({
+		toolbarContents: config.toolbarContents
+	})),
 
 	// Optional: mock the ref behavior
 	MDXEditorMethods: class {
