@@ -11,7 +11,7 @@ import {
 	useTheme
 } from '@mui/material';
 import {useForm} from 'react-hook-form';
-import {requestResetPassword} from '@services/AuthService';
+import {requestResetPassword} from '@service/AuthService';
 import {useSnackbar} from 'notistack';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';

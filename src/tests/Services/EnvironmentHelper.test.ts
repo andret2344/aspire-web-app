@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import {Config, getConfig} from '../../main/Services/EnvironmentHelper';
+import {Config, getConfig} from '../../main/Service/EnvironmentHelper';
 import axios from 'axios';
 
 describe('EnvironmentHelper', (): void => {

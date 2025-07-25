@@ -9,7 +9,7 @@ import {
 	Typography
 } from '@mui/material';
 import React from 'react';
-import {changePassword} from '@services/AuthService';
+import {changePassword} from '@service/AuthService';
 import {useForm} from 'react-hook-form';
 import {useSnackbar} from 'notistack';
 import {useDarkMode} from '@components/DarkModeContext';

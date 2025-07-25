@@ -27,7 +27,7 @@ import {PriorityBadge} from './PriorityBadge';
 import {
 	removeWishlistItem,
 	updateWishlistItem
-} from '@services/WishlistItemService';
+} from '@service/WishlistItemService';
 import {useSnackbar} from 'notistack';
 import MarkdownView from 'react-showdown';
 import {useTranslation} from 'react-i18next';

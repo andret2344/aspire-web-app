@@ -1,4 +1,4 @@
-import * as WishlistService from '../../main/Services/WishListService';
+import * as WishlistService from '../../main/Service/WishListService';
 
 export const mockedGetReadonlyWishlistByUUID: jest.Mock = jest.fn();
 export const mockedGetWishlists: jest.Mock = jest.fn();
@@ -8,9 +8,9 @@ export const mockedAddWishlist: jest.Mock = jest.fn();
 export const mockedRemoveWishlist: jest.Mock = jest.fn();
 export const mockedSetWishlistPassword: jest.Mock = jest.fn();
 
-jest.mock('../../main/Services/WishListService', () => ({
+jest.mock('../../main/Service/WishListService', () => ({
 	...jest.requireActual<typeof WishlistService>(
-		'../../main/Services/WishListService'
+		'../../main/Service/WishListService'
 	),
 	getReadonlyWishlistByUUID: mockedGetReadonlyWishlistByUUID,
 	getWishlists: mockedGetWishlists,

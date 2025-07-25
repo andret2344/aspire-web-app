@@ -12,12 +12,15 @@ import {useForm} from 'react-hook-form';
 import {AuthContainer} from '@components/AuthContainer';
 import {PasswordVisibilityIcon} from '@components/PasswordVisibilityIcon';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {resetPassword} from '@services/AuthService';
+import {resetPassword} from '@service/AuthService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 
 export function NewPasswordPage(): React.ReactElement {
-	type Inputs = {readonly password: string; readonly passwordRepeat: string};
+	type Inputs = {
+		readonly password: string;
+		readonly passwordRepeat: string;
+	};
 	type Params = {readonly token: string};
 
 	const [isPasswordShown, setIsPasswordShown] =

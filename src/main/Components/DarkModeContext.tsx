@@ -1,7 +1,7 @@
 import React, {Context, createContext, useContext} from 'react';
 import {ThemeProvider} from '@mui/material/styles';
 import {darkTheme, lightTheme} from '@utils/theme';
-import {None} from '@types/None';
+import {None} from '@type/None';
 
 interface DarkModeContextType {
 	readonly darkMode: boolean;

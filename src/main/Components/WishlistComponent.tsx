@@ -11,10 +11,10 @@ import {
 	removeWishlist,
 	setWishlistPassword,
 	updateWishlistName
-} from '@services/WishListService';
+} from '@service/WishListService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {getApiConfig} from '@services/ApiInstance';
+import {getApiConfig} from '@service/ApiInstance';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';

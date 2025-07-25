@@ -28,7 +28,7 @@ module.exports = {
 		'^@hooks/(.*)$': '<rootDir>/src/main/Hooks/$1',
 		'^@layouts/(.*)$': '<rootDir>/src/main/Layouts/$1',
 		'^@pages/(.*)$': '<rootDir>/src/main/Pages/$1',
-		'^@services/(.*)$': '<rootDir>/src/main/Services/$1',
+		'^@service/(.*)$': '<rootDir>/src/main/Service/$1',
 		'^@type/(.*)$': '<rootDir>/src/main/Types/$1',
 		'^@utils/(.*)$': '<rootDir>/src/main/Utils/$1'
 	},

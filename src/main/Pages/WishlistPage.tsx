@@ -2,13 +2,13 @@ import {Grid} from '@mui/material';
 import React from 'react';
 import {WishlistItemComponent} from '@components/WishlistItemComponent';
 import {mapWishlistFromDto, WishList} from '@entity/WishList';
-import {getWishlist} from '@services/WishListService';
+import {getWishlist} from '@service/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {WishlistItem, mapWishlistItemFromDto} from '@entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {AddButton} from '../Components/AddButton';
-import {addWishlistItem} from '@services/WishlistItemService';
+import {AddButton} from '@components//AddButton';
+import {addWishlistItem} from '@service/WishlistItemService';
 
 export function WishlistPage(): React.ReactElement {
 	type Params = {readonly id?: string};

@@ -32,8 +32,8 @@
       "@pages/*": [
         "src/main/Pages/*"
       ],
-      "@services/*": [
-        "src/main/Services/*"
+      "@service/*": [
+        "src/main/Service/*"
       ],
       "@type/*": [
         "src/main/Types/*"
@@ -67,6 +67,7 @@
   },
   "include": [
     "src/main/**/*",
+    "src/tests/**/*",
     "./jest.config.ts"
   ]
 }

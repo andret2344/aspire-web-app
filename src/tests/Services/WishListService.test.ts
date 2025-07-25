@@ -6,17 +6,17 @@ import {
 	removeWishlist,
 	setWishlistPassword,
 	updateWishlistName
-} from '../../main/Services/WishListService';
+} from '../../main/Service/WishListService';
 import {waitFor} from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
-import apiInstance, {getApiConfig} from '../../main/Services/ApiInstance';
+import apiInstance, {getApiConfig} from '../../main/Service/ApiInstance';
 import axios, {AxiosError} from 'axios';
 import {
 	mapWishlistArrayFromDto,
 	mapWishlistFromDto,
 	WishList
 } from '../../main/Entity/WishList';
-import {headers} from '../../main/Services/AuthService';
+import {headers} from '../../main/Service/AuthService';
 import {
 	getSampleWishlist,
 	getSampleWishlistDto

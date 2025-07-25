@@ -5,11 +5,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {mapWishlistFromDto, WishList} from '@entity/WishList';
 import {WishlistItem} from '@entity/WishlistItem';
 import {WishlistItemComponent} from '@components/WishlistItemComponent';
-import {getReadonlyWishlistByUUID} from '@services/WishListService';
+import {getReadonlyWishlistByUUID} from '@service/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {useTranslation} from 'react-i18next';
-import {getWishlistHiddenItems} from '@services/WishlistItemService';
+import {getWishlistHiddenItems} from '@service/WishlistItemService';
 import {enqueueSnackbar} from 'notistack';
 import {WishlistInputPasswordModal} from '@components/Modals/WishlistInputPasswordModal';
 

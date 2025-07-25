@@ -13,7 +13,7 @@ import {
 import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
 import {AuthContainer} from '@components/AuthContainer';
-import {logIn} from '@services/AuthService';
+import {logIn} from '@service/AuthService';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {PasswordVisibilityIcon} from '@components/PasswordVisibilityIcon';
 import {useSnackbar} from 'notistack';

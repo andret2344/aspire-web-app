@@ -2,7 +2,7 @@ import {Grid} from '@mui/material';
 import React from 'react';
 import {mapWishlistArrayFromDto, WishList} from '@entity/WishList';
 import {WishlistComponent} from '@components/WishlistComponent';
-import {getWishlists} from '@services/WishListService';
+import {getWishlists} from '@service/WishListService';
 import {CreateWishlistModal} from '@components/Modals/CreateWishlistModal';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {WishlistItem} from '@entity/WishlistItem';

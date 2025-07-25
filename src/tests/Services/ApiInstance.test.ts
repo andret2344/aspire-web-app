@@ -7,7 +7,7 @@ import {
 import apiInstance, {
 	getApiConfig,
 	setConfig
-} from '../../main/Services/ApiInstance';
+} from '../../main/Service/ApiInstance';
 import {AxiosRequestConfig} from 'axios';
 
 describe('ApiInstance', (): void => {
