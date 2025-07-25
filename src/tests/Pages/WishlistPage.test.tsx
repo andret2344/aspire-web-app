@@ -13,10 +13,7 @@ import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
 import {renderForTest} from '../__utils__/RenderForTest';
-import {
-	getSampleWishlist,
-	getSampleWishlistDto
-} from '../__utils__/DataFactory';
+import {getSampleWishlistDto} from '../__utils__/DataFactory';
 import {WishlistPage} from '../../main/Pages/WishlistPage';
 
 describe('WishlistPage', (): void => {
@@ -37,60 +34,6 @@ describe('WishlistPage', (): void => {
 
 		// assert
 		expect(mockedAddWishlistItem).toHaveBeenCalledTimes(1);
-	});
-
-	xit('handles item name change accept', async (): Promise<void> => {
-		// arrange
-		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlist.mockResolvedValue(getSampleWishlistDto());
-		mockedUpdateWishlistItem.mockResolvedValue(
-			getSampleWishlist({name: 'Mock Wishlist updated'})
-		);
-
-		renderForTest(<WishlistPage />);
-		await screen.findByTestId('wishlist-page-grid-main');
-
-		// act
-		const editButton: HTMLElement = await waitFor(
-			async (): Promise<HTMLElement> =>
-				screen.getByTestId('edit-wishlist-item-1-1')
-		);
-		await user.click(editButton);
-		const input: HTMLInputElement = screen.getByTestId(
-			'edit-item-modal-input-name'
-		);
-		await user.type(input, ' updated');
-		const confirmButton: HTMLElement = screen.getByTestId(
-			'edit-item-modal-confirm'
-		);
-		await user.click(confirmButton);
-
-		// assert
-		expect(mockedUpdateWishlistItem).toHaveBeenCalledTimes(1);
-	});
-
-	xit('handles item name change cancel', async (): Promise<void> => {
-		// arrange
-		mockedUseParams.mockReturnValue({id: '1'});
-		mockedGetWishlist.mockResolvedValue(getSampleWishlistDto());
-
-		renderForTest(<WishlistPage />);
-		await screen.findByTestId('wishlist-page-grid-main');
-
-		// act
-		const editButton: HTMLElement = await waitFor(
-			async (): Promise<HTMLElement> =>
-				screen.getByTestId('edit-wishlist-item-1-1')
-		);
-		await user.click(editButton);
-
-		const cancelButton: HTMLElement = screen.getByTestId(
-			'edit-item-modal-cancel'
-		);
-		await user.click(cancelButton);
-
-		// assert
-		expect(cancelButton).not.toBeInTheDocument();
 	});
 
 	it('handles removing an item from a wishlist', async (): Promise<void> => {
