@@ -14,6 +14,7 @@ module.exports = {
 			),
 			'@entity': path.resolve(__dirname, '..', './src/main/Entity'),
 			'@hooks': path.resolve(__dirname, '..', './src/main/Hooks'),
+			'@services': path.resolve(__dirname, '..', './src/main/Services'),
 			'@layouts': path.resolve(__dirname, '..', './src/main/Layouts'),
 			'@pages': path.resolve(__dirname, '..', './src/main/Pages'),
 			'@types': path.resolve(__dirname, '..', './src/main/Types'),
