@@ -19,6 +19,11 @@ export function LanguagePicker(): React.ReactElement {
 		setAnchorEl(null);
 	}
 
+	const iconCodeMap: Record<string, string> = {
+		'pl-PL': 'pl',
+		'en-US': 'gb'
+	};
+
 	function renderLanguage(language: Language): React.ReactElement {
 		return (
 			<MenuItem
@@ -36,7 +41,9 @@ export function LanguagePicker(): React.ReactElement {
 			>
 				<ReactCountryFlag
 					svg
-					countryCode={language.iconCode}
+					countryCode={
+						iconCodeMap[language.iconCode] ?? language.iconCode
+					}
 				/>
 				{language.name}
 			</MenuItem>
