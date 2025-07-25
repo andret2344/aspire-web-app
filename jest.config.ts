@@ -22,7 +22,15 @@ module.exports = {
 		}
 	},
 	moduleNameMapper: {
-		'\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+		'\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+		'^@components/(.*)$': '<rootDir>/src/main/Components/$1',
+		'^@entity/(.*)$': '<rootDir>/src/main/Entity/$1',
+		'^@hooks/(.*)$': '<rootDir>/src/main/Hooks/$1',
+		'^@layouts/(.*)$': '<rootDir>/src/main/Layouts/$1',
+		'^@pages/(.*)$': '<rootDir>/src/main/Pages/$1',
+		'^@services/(.*)$': '<rootDir>/src/main/Services/$1',
+		'^@type/(.*)$': '<rootDir>/src/main/Types/$1',
+		'^@utils/(.*)$': '<rootDir>/src/main/Utils/$1'
 	},
 	testMatch: ['**/?(*.)+(spec|test).(ts|tsx)'],
 	collectCoverage: true,
