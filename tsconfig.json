@@ -18,28 +18,28 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "src/main/Components/*"
+        "src/main/Component/*"
       ],
       "@entities/*": [
-        "src/main/Entities/*"
+        "src/main/Entity/*"
       ],
       "@hooks/*": [
-        "src/main/Hooks/*"
+        "src/main/Hook/*"
       ],
       "@layouts/*": [
-        "src/main/Layouts/*"
+        "src/main/Layout/*"
       ],
       "@pages/*": [
-        "src/main/Pages/*"
+        "src/main/Page/*"
       ],
       "@services/*": [
-        "src/main/Services/*"
+        "src/main/Service/*"
       ],
       "@type/*": [
-        "src/main/Types/*"
+        "src/main/Type/*"
       ],
       "@utils/*": [
-        "src/main/Utils/*"
+        "src/main/Util/*"
       ]
     },
     /* Specify library files to be included in the compilation. */
