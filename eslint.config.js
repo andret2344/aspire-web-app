@@ -23,10 +23,12 @@ module.exports = defineConfig([
 			react: {
 				version: 'detect'
 			},
-
 			'import/resolver': {
 				node: {
 					extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
+				},
+				typescript: {
+					project: './tsconfig.json'
 				}
 			}
 		},

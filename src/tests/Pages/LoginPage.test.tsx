@@ -8,7 +8,7 @@ import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {waitFor} from '@testing-library/react';
 import {renderForTest} from '../__utils__/RenderForTest';
-import {LoginPage} from '../../main/Pages/LoginPage';
+import {LoginPage} from '@page/LoginPage';
 
 describe('LoginPage', (): void => {
 	beforeEach((): void => localStorage.clear());

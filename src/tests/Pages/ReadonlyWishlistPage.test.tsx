@@ -7,7 +7,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {fireEvent, screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
-import {ReadonlyWishlistPage} from '../../main/Pages/ReadonlyWishlistPage';
+import {ReadonlyWishlistPage} from '@page/ReadonlyWishlistPage';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {GENERIC_UUID, getSampleWishlistDto} from '../__utils__/DataFactory';
 

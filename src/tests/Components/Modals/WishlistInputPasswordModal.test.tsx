@@ -3,7 +3,7 @@ import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
-import {WishlistInputPasswordModal} from '../../../main/Components/Modals/WishlistInputPasswordModal';
+import {WishlistInputPasswordModal} from '../../../main/Component/Modals/WishlistInputPasswordModal';
 import {getSampleWishlist} from '../../__utils__/DataFactory';
 
 describe('WishlistInputPasswordModal', (): void => {

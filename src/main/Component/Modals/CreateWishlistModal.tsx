@@ -7,7 +7,7 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import {addWishlist} from '../../Services/WishListService';
+import {addWishlist} from '../../Service/WishListService';
 import {WishList} from '../../Entity/WishList';
 import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';

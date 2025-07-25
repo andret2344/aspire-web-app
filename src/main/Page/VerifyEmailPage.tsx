@@ -1,8 +1,8 @@
 import React from 'react';
-import {AuthContainer} from '../Components/AuthContainer';
+import {AuthContainer} from '@component/AuthContainer';
 import {Box, Button, Link, Typography} from '@mui/material';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import {VerifyEmailTypography} from '../Components/VerifyEmailTypography';
+import {VerifyEmailTypography} from '@component/VerifyEmailTypography';
 import {useTranslation} from 'react-i18next';
 
 export function VerifyEmailPage(): React.ReactElement {

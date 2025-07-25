@@ -1,5 +1,5 @@
 import React from 'react';
-import {None} from '../../main/Types/None';
+import {None} from '@type/None';
 
 export const mockedUseParams: jest.Mock = jest.fn();
 export const mockedNavigate: jest.Mock = jest.fn();
@@ -20,7 +20,7 @@ jest.mock('react-i18next', () => ({
 	...jest.requireActual('react-i18next'),
 	useTranslation: () => ({
 		t: (key: string) => key,
-		i18n: {language: 'en', changeLanguage: jest.fn()}
+		i18n: {language: 'en-US', changeLanguage: jest.fn()}
 	}),
 	Trans: (props: React.PropsWithChildren<None>): React.ReactElement => (
 		<>{props.children}</>
