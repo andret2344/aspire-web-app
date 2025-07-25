@@ -4,10 +4,7 @@ import {
 	mockedRefreshToken,
 	mockedSaveAccessToken
 } from '../__mocks__/MockAuthService';
-import apiInstance, {
-	getApiConfig,
-	setConfig
-} from '../../main/Service/ApiInstance';
+import apiInstance, {getApiConfig, setConfig} from '@service/ApiInstance';
 import {AxiosRequestConfig} from 'axios';
 
 describe('ApiInstance', (): void => {

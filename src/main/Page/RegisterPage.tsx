@@ -12,10 +12,10 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {AuthContainer} from '../Component/AuthContainer';
-import {PasswordVisibilityIcon} from '../Component/PasswordVisibilityIcon';
+import {AuthContainer} from '@component/AuthContainer';
+import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
-import {RegisterApiError, signUp} from '../Service/AuthService';
+import {RegisterApiError, signUp} from '@service/AuthService';
 import {AxiosError} from 'axios';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';

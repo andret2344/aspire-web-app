@@ -7,18 +7,14 @@ module.exports = {
 	resolve: {
 		extensions: ['.tsx', '.ts', '.js'],
 		alias: {
-			'@components': path.resolve(
-				__dirname,
-				'..',
-				'./src/main/Component'
-			),
-			'@entities': path.resolve(__dirname, '..', './src/main/Entity'),
-			'@hooks': path.resolve(__dirname, '..', './src/main/Hook'),
-			'@services': path.resolve(__dirname, '..', './src/main/Service'),
-			'@layouts': path.resolve(__dirname, '..', './src/main/Layout'),
-			'@pages': path.resolve(__dirname, '..', './src/main/Page'),
+			'@component': path.resolve(__dirname, '..', './src/main/Component'),
+			'@entity': path.resolve(__dirname, '..', './src/main/Entity'),
+			'@hook': path.resolve(__dirname, '..', './src/main/Hook'),
+			'@service': path.resolve(__dirname, '..', './src/main/Service'),
+			'@layout': path.resolve(__dirname, '..', './src/main/Layout'),
+			'@page': path.resolve(__dirname, '..', './src/main/Page'),
 			'@type': path.resolve(__dirname, '..', './src/main/Type'),
-			'@utils': path.resolve(__dirname, '..', './src/main/Util')
+			'@util': path.resolve(__dirname, '..', './src/main/Util')
 		}
 	},
 	module: {

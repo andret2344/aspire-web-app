@@ -3,7 +3,7 @@ import {act, renderHook} from '@testing-library/react';
 import {
 	TokenValidationResult,
 	useTokenValidation
-} from '../../main/Hook/useTokenValidation';
+} from '@hook/useTokenValidation';
 
 describe('useTokenValidation', (): void => {
 	test('returns loading=true initially', (): void => {

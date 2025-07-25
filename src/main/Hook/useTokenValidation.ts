@@ -1,5 +1,5 @@
 import React from 'react';
-import {isTokenValid} from '../Service/AuthService';
+import {isTokenValid} from '@service/AuthService';
 
 export interface TokenValidationResult {
 	readonly tokenLoading: boolean;

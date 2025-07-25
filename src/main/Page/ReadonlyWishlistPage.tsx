@@ -1,17 +1,17 @@
 import React from 'react';
 import {Box, Grid, IconButton, Theme} from '@mui/material';
-import {getThemeColor} from '../Util/theme';
+import {getThemeColor} from '@util/theme';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {mapWishlistFromDto, WishList} from '../Entity/WishList';
-import {WishlistItem} from '../Entity/WishlistItem';
-import {WishlistItemComponent} from '../Component/WishlistItemComponent';
-import {getReadonlyWishlistByUUID} from '../Service/WishListService';
+import {mapWishlistFromDto, WishList} from '@entity/WishList';
+import {WishlistItem} from '@entity/WishlistItem';
+import {WishlistItemComponent} from '@component/WishlistItemComponent';
+import {getReadonlyWishlistByUUID} from '@service/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {useTranslation} from 'react-i18next';
-import {getWishlistHiddenItems} from '../Service/WishlistItemService';
+import {getWishlistHiddenItems} from '@service/WishlistItemService';
 import {enqueueSnackbar} from 'notistack';
-import {WishlistInputPasswordModal} from '../Component/Modals/WishlistInputPasswordModal';
+import {WishlistInputPasswordModal} from '@component/Modals/WishlistInputPasswordModal';
 
 export function ReadonlyWishlistPage(): React.ReactElement {
 	type Params = {readonly uuid: string};

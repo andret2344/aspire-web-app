@@ -1,7 +1,7 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {Header} from '../../main/Component/Header';
+import {Header} from '@component/Header';
 import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('Header', (): void => {

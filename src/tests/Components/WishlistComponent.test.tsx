@@ -1,6 +1,6 @@
 import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
-import {WishlistComponent} from '../../main/Component/WishlistComponent';
+import {WishlistComponent} from '@component/WishlistComponent';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';

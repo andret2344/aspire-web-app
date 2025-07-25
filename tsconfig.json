@@ -17,28 +17,28 @@
     // baseUrl and paths for aliases
     "baseUrl": ".",
     "paths": {
-      "@components/*": [
+      "@component/*": [
         "src/main/Component/*"
       ],
-      "@entities/*": [
+      "@entity/*": [
         "src/main/Entity/*"
       ],
-      "@hooks/*": [
+      "@hook/*": [
         "src/main/Hook/*"
       ],
-      "@layouts/*": [
+      "@layout/*": [
         "src/main/Layout/*"
       ],
-      "@pages/*": [
+      "@page/*": [
         "src/main/Page/*"
       ],
-      "@services/*": [
+      "@service/*": [
         "src/main/Service/*"
       ],
       "@type/*": [
         "src/main/Type/*"
       ],
-      "@utils/*": [
+      "@util/*": [
         "src/main/Util/*"
       ]
     },

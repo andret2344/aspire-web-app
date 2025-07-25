@@ -4,7 +4,7 @@ import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {fireEvent} from '@testing-library/react';
 import {renderForTest} from '../__utils__/RenderForTest';
-import {EditableNameComponent} from '../../main/Component/EditableNameComponent';
+import {EditableNameComponent} from '@component/EditableNameComponent';
 
 describe('EditableNameComponent', (): void => {
 	describe('rendering', (): void => {

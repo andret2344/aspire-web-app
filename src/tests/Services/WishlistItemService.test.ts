@@ -1,12 +1,12 @@
 import MockAdapter from 'axios-mock-adapter';
-import apiInstance from '../../main/Service/ApiInstance';
-import {WishlistItem, WishlistItemDto} from '../../main/Entity/WishlistItem';
+import apiInstance from '@service/ApiInstance';
+import {WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
 import {
 	addWishlistItem,
 	getWishlistHiddenItems,
 	removeWishlistItem,
 	updateWishlistItem
-} from '../../main/Service/WishlistItemService';
+} from '@service/WishlistItemService';
 import {
 	getSampleWishlistItemDto,
 	getSampleWishlistItemDtoWithoutId

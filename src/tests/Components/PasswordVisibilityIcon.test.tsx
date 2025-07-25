@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/react';
 import {renderForTest} from '../__utils__/RenderForTest';
-import {PasswordVisibilityIcon} from '../../main/Component/PasswordVisibilityIcon';
+import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 
 describe('PasswordVisibilityIcon', (): void => {
 	test('renders invisible', (): void => {

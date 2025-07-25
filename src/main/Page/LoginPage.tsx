@@ -12,10 +12,10 @@ import {
 } from '@mui/material';
 import {FieldValues, useForm} from 'react-hook-form';
 import React from 'react';
-import {AuthContainer} from '../Component/AuthContainer';
-import {logIn} from '../Service/AuthService';
+import {AuthContainer} from '@component/AuthContainer';
+import {logIn} from '@service/AuthService';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
-import {PasswordVisibilityIcon} from '../Component/PasswordVisibilityIcon';
+import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 

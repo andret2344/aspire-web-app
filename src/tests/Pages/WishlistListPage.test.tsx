@@ -12,7 +12,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
-import {WishlistListPage} from '../../main/Page/WishlistListPage';
+import {WishlistListPage} from '@page/WishlistListPage';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {
 	getSampleWishlist,

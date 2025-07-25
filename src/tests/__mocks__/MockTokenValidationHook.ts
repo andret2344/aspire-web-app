@@ -1,6 +1,6 @@
 export const mockedUseTokenValidation: jest.Mock = jest.fn();
 
-jest.mock('../../main/Hook/useTokenValidation', () => ({
-	...jest.requireActual('../../main/Hook/useTokenValidation'),
+jest.mock('@hook/useTokenValidation', () => ({
+	...jest.requireActual('@hook/useTokenValidation'),
 	useTokenValidation: mockedUseTokenValidation
 }));

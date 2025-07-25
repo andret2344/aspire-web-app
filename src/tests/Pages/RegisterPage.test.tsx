@@ -5,7 +5,7 @@ import React from 'react';
 
 import {fireEvent, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {RegisterPage} from '../../main/Page/RegisterPage';
+import {RegisterPage} from '@page/RegisterPage';
 import {screen} from '@testing-library/dom';
 import {renderForTest} from '../__utils__/RenderForTest';
 
