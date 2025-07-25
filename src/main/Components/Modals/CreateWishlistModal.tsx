@@ -65,18 +65,16 @@ export function CreateWishlistModal(
 				sx={{
 					display: 'flex',
 					flexDirection: 'row',
-					justifyContent: 'space-between',
-					width: '80%',
-					alignItems: 'center'
+					justifyContent: 'center',
+					alignItems: 'center',
+					padding: '10px'
 				}}
 			>
 				<Button
 					data-testid='button-cancel'
 					variant='outlined'
 					color='error'
-					sx={{
-						marginTop: '10px'
-					}}
+					sx={{margin: '10px 20px 0 20px'}}
 					onClick={props.onClose}
 				>
 					{t('cancel')}
@@ -86,9 +84,7 @@ export function CreateWishlistModal(
 					color='primary'
 					variant='contained'
 					disabled={!wishlistName}
-					sx={{
-						marginTop: '10px'
-					}}
+					sx={{margin: '10px 20px 0 20px'}}
 					type='submit'
 				>
 					{t('save')}

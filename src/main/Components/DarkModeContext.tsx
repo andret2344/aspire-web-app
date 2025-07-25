@@ -1,4 +1,4 @@
-import React, {createContext, useContext} from 'react';
+import React, {Context, createContext, useContext} from 'react';
 import {ThemeProvider} from '@mui/material/styles';
 import {darkTheme, lightTheme} from '@utils/theme';
 import {None} from '@types/None';
@@ -8,9 +8,8 @@ interface DarkModeContextType {
 	readonly toggleDarkMode: () => void;
 }
 
-const DarkModeContext = createContext<DarkModeContextType | undefined>(
-	undefined
-);
+export const DarkModeContext: Context<DarkModeContextType | undefined> =
+	createContext<DarkModeContextType | undefined>(undefined);
 
 export function DarkModeProvider(
 	props: React.PropsWithChildren<None>

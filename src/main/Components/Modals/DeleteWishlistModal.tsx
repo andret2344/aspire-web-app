@@ -38,30 +38,26 @@ export function DeleteWishlistModal(
 				sx={{
 					display: 'flex',
 					flexDirection: 'row',
-					justifyContent: 'space-between',
-					width: '80%',
-					alignItems: 'center'
+					justifyContent: 'center',
+					alignItems: 'center',
+					padding: '10px'
 				}}
 			>
 				<Button
 					variant='outlined'
 					color='primary'
 					data-testid='delete-wishlist-modal-button-cancel'
-					sx={{
-						marginTop: '10px'
-					}}
 					onClick={props.onCancel}
+					sx={{margin: '0 20px'}}
 				>
 					{t('cancel')}
 				</Button>
 				<Button
 					variant='contained'
 					color='error'
-					sx={{
-						marginTop: '10px'
-					}}
 					data-testid='delete-wishlist-modal-button-delete'
 					onClick={props.onRemove}
+					sx={{margin: '0 20px'}}
 				>
 					{t('delete')}
 				</Button>

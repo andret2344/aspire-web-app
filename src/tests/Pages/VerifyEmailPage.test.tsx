@@ -27,7 +27,6 @@ describe('VerifyEmailPage', (): void => {
 
 	it('handles resend button click', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		renderForTest(<VerifyEmailPage />);
 
 		// act

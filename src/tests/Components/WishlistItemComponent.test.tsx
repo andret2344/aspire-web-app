@@ -3,6 +3,7 @@ import {
 	mockedUpdateWishlistItem
 } from '../__mocks__/MockWishlistItemService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
+import {mockedGetMarkdown} from '../__mocks__/MockMDXEditor';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -41,7 +42,6 @@ describe('WishlistItemComponent', (): void => {
 	describe('edit and delete', (): void => {
 		it('renders without edit handler', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem()}
@@ -66,7 +66,6 @@ describe('WishlistItemComponent', (): void => {
 
 		it('renders without remove handler', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem()}
@@ -77,21 +76,20 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconEdit: HTMLElement | null = screen.queryByTestId(
-				'edit-wishlist-item-1-1'
+			const iconEdit: HTMLElement = screen.getByTestId(
+				'editable-name-button-edit'
 			);
 			const iconRemove: HTMLElement | null = screen.queryByTestId(
 				'remove-wishlist-item-1-1'
 			);
 
 			// assert
-			expect(iconEdit).not.toBeNull();
+			expect(iconEdit).toBeInTheDocument();
 			expect(iconRemove).toBeNull();
 		});
 
 		it('renders without action handlers', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem()}
@@ -115,7 +113,6 @@ describe('WishlistItemComponent', (): void => {
 
 		it('handles remove item with success', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			const handleRemoveButtonClick: jest.Mock = jest.fn();
 			mockedRemoveWishlistItem.mockResolvedValue(void 0);
 
@@ -137,12 +134,11 @@ describe('WishlistItemComponent', (): void => {
 
 			// assert
 			expect(handleRemoveButtonClick).toHaveBeenCalledTimes(1);
-			expect(handleRemoveButtonClick).toHaveBeenCalledWith(1, 1);
+			expect(handleRemoveButtonClick).toHaveBeenCalledWith(1);
 		});
 
 		it('handles remove item edit with fail', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			const handleEditButtonClick: jest.Mock = jest.fn();
 			mockedRemoveWishlistItem.mockRejectedValue(void 0);
 
@@ -175,13 +171,11 @@ describe('WishlistItemComponent', (): void => {
 	describe('visibility', (): void => {
 		it('renders without inline edit handler', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem()}
 					wishlist={getSampleWishlist()}
 					position={1}
-					onEdit={(): void => undefined}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -203,16 +197,14 @@ describe('WishlistItemComponent', (): void => {
 
 		it('handles hide item', async (): Promise<void> => {
 			// arrange
-			user.setup();
-			const handleWishlistEditClick: jest.Mock = jest.fn();
+			const handleEditClick: jest.Mock = jest.fn();
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem()}
 					wishlist={getSampleWishlist({hasPassword: true})}
 					position={1}
-					onEdit={(): void => undefined}
-					onWishlistEdit={handleWishlistEditClick}
+					onEdit={handleEditClick}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -226,27 +218,22 @@ describe('WishlistItemComponent', (): void => {
 
 			// assert
 			expect(wishlistItemDescription).toBeNull();
-			expect(handleWishlistEditClick).toHaveBeenCalledTimes(1);
-			expect(handleWishlistEditClick).toHaveBeenCalledWith(
-				getSampleWishlist({
-					hasPassword: true,
-					wishlistItems: [getSampleWishlistItem({hidden: true})]
-				})
+			expect(handleEditClick).toHaveBeenCalledTimes(1);
+			expect(handleEditClick).toHaveBeenCalledWith(
+				getSampleWishlistItem({hidden: true})
 			);
 		});
 
 		it('handles show item', async (): Promise<void> => {
 			// arrange
-			user.setup();
-			const handleWishlistEditClick: jest.Mock = jest.fn();
+			const handleEditClick: jest.Mock = jest.fn();
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem({hidden: true})}
 					wishlist={getSampleWishlist({hasPassword: true})}
 					position={1}
-					onEdit={(): void => undefined}
-					onWishlistEdit={handleWishlistEditClick}
+					onEdit={handleEditClick}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -260,27 +247,22 @@ describe('WishlistItemComponent', (): void => {
 
 			// assert
 			expect(wishlistItemDescription).toBeNull();
-			expect(handleWishlistEditClick).toHaveBeenCalledTimes(1);
-			expect(handleWishlistEditClick).toHaveBeenCalledWith(
-				getSampleWishlist({
-					hasPassword: true,
-					wishlistItems: [getSampleWishlistItem({hidden: false})]
-				})
+			expect(handleEditClick).toHaveBeenCalledTimes(1);
+			expect(handleEditClick).toHaveBeenCalledWith(
+				getSampleWishlistItem({hidden: false})
 			);
 		});
 
 		it('handles visibility icon click to expand the description', async (): Promise<void> => {
 			// arrange
-			user.setup();
-			const handleWishlistEditClick: jest.Mock = jest.fn();
+			const handleEditClick: jest.Mock = jest.fn();
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem()}
 					wishlist={getSampleWishlist()}
 					position={1}
-					onEdit={(): void => undefined}
-					onWishlistEdit={handleWishlistEditClick}
+					onEdit={handleEditClick}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -294,23 +276,21 @@ describe('WishlistItemComponent', (): void => {
 
 			// assert
 			expect(wishlistItemDescription).toBeInTheDocument();
-			expect(handleWishlistEditClick).toHaveBeenCalledTimes(0);
+			expect(handleEditClick).toHaveBeenCalledTimes(0);
 		});
 	});
 
 	describe('priority', (): void => {
 		it('handles priority change', async (): Promise<void> => {
 			// arrange
-			user.setup();
-			const handleWishlistEditClick: jest.Mock = jest.fn();
+			const handleEditClick: jest.Mock = jest.fn();
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem()}
 					wishlist={getSampleWishlist()}
 					position={1}
-					onEdit={(): void => undefined}
-					onWishlistEdit={handleWishlistEditClick}
+					onEdit={handleEditClick}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -328,17 +308,14 @@ describe('WishlistItemComponent', (): void => {
 
 			// assert
 			expect(wishlistItemDescription).toBeNull();
-			expect(handleWishlistEditClick).toHaveBeenCalledTimes(1);
-			expect(handleWishlistEditClick).toHaveBeenCalledWith(
-				getSampleWishlist({
-					wishlistItems: [getSampleWishlistItem({priorityId: 2})]
-				})
+			expect(handleEditClick).toHaveBeenCalledTimes(1);
+			expect(handleEditClick).toHaveBeenCalledWith(
+				getSampleWishlistItem({priorityId: 2})
 			);
 		});
 
 		it('handles row expand without wishlist edit handler', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			const handleWishlistEditClick: jest.Mock = jest.fn();
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 			renderForTest(
@@ -346,7 +323,6 @@ describe('WishlistItemComponent', (): void => {
 					item={getSampleWishlistItem()}
 					wishlist={getSampleWishlist()}
 					position={1}
-					onEdit={(): void => undefined}
 					onRemove={(): void => undefined}
 				/>
 			);
@@ -364,38 +340,46 @@ describe('WishlistItemComponent', (): void => {
 		});
 	});
 
-	it('handles item edit', async (): Promise<void> => {
+	it('handles description edit', async (): Promise<void> => {
 		// arrange
-		user.setup();
-		const handleEditButtonClick: jest.Mock = jest.fn();
-
+		const handleEdit: jest.Mock = jest.fn();
+		mockedGetMarkdown.mockReturnValue('<p>New description</p>');
+		mockedUpdateWishlistItem.mockResolvedValue(void 0);
 		renderForTest(
 			<WishlistItemComponent
 				item={getSampleWishlistItem()}
 				wishlist={getSampleWishlist()}
 				position={1}
-				onEdit={handleEditButtonClick}
+				onEdit={handleEdit}
 				onRemove={(): void => undefined}
 			/>
 		);
 
 		// act
-		const editItemButton: HTMLElement = screen.getByTestId(
-			'edit-wishlist-item-1-1'
+		const itemRow: HTMLElement = screen.getByTestId(
+			'wishlist-item-row-grid-1-1'
 		);
-		await user.click(editItemButton);
+		await user.click(itemRow);
+		const editDescriptionButton: HTMLElement = screen.getByTestId(
+			'component-wishlist-item-1-button-edit-description'
+		);
+		await user.click(editDescriptionButton);
+		const buttonAccept: HTMLElement = screen.getByTestId(
+			'modal-description-confirm'
+		);
+		await user.click(buttonAccept);
 
 		// assert
-		expect(handleEditButtonClick).toHaveBeenCalledTimes(1);
-		expect(handleEditButtonClick).toHaveBeenCalledWith(
-			getSampleWishlistItem()
+		expect(handleEdit).toHaveBeenCalledTimes(1);
+		expect(handleEdit).toHaveBeenCalledWith(
+			getSampleWishlistItem({
+				description: '<p>New description</p>'
+			})
 		);
 	});
 
 	it('handles item row expands', async (): Promise<void> => {
 		// arrange
-		user.setup();
-
 		renderForTest(
 			<WishlistItemComponent
 				item={getSampleWishlistItem()}

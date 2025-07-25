@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
 import {
 	renderForTest,
-	renderForTestWithoutProvider
+	renderForTestWithoutDarkModeProvider
 } from '../__utils__/RenderForTest';
 
 function TestComponent(): React.ReactElement {
@@ -67,7 +67,7 @@ describe('DarkModeProvider', (): void => {
 	it('should throw an error when used outside of DarkModeProvider', (): void => {
 		// act
 		function renderer(): RenderResult {
-			return renderForTestWithoutProvider(<TestComponent />);
+			return renderForTestWithoutDarkModeProvider(<TestComponent />);
 		}
 
 		// assert

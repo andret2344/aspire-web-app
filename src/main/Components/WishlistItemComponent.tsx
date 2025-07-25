@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	CircularProgress,
 	Collapse,
 	Grid,
@@ -37,14 +38,15 @@ import {getAllPriorities, Priority} from '@entity/Priority';
 import {WishList} from '@entity/WishList';
 import {getThemeColor} from '@utils/theme';
 import {SystemStyleObject} from '@mui/system';
+import {DescriptionModal} from './Modals/DescriptionModal';
+import {EditableNameComponent} from './EditableNameComponent';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
 	readonly wishlist: WishList;
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
-	readonly onWishlistEdit?: (wishlist: WishList) => void;
-	readonly onRemove?: (wishlistId: number, itemId: number) => void;
+	readonly onRemove?: (itemId: number) => void;
 }
 
 export function WishlistItemComponent(
@@ -58,8 +60,11 @@ export function WishlistItemComponent(
 	const [menuAnchorEl, setMenuAnchorEl] = React.useState<HTMLElement | null>(
 		null
 	);
+	const [isDescriptionEdited, setIsDescriptionEdited] =
+		React.useState<boolean>(false);
 
 	const {enqueueSnackbar} = useSnackbar();
+
 	const {t} = useTranslation();
 	const theme: Theme = useTheme();
 	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
@@ -68,11 +73,6 @@ export function WishlistItemComponent(
 
 	function handleRowClick(): void {
 		setIsOpened((prevOpen: boolean): boolean => !prevOpen);
-	}
-
-	function handleEditButton(event: React.MouseEvent): void {
-		event.stopPropagation();
-		return props.onEdit!(props.item);
 	}
 
 	function handleVisibilityClick(event: React.MouseEvent): void {
@@ -85,7 +85,7 @@ export function WishlistItemComponent(
 	function handlePriorityChoiceOpen(
 		event: React.MouseEvent<HTMLElement>
 	): void {
-		if (props.onWishlistEdit) {
+		if (props.onEdit) {
 			event.stopPropagation();
 			setAnchorEl(event.currentTarget);
 		}
@@ -103,11 +103,15 @@ export function WishlistItemComponent(
 		handlePriorityChoiceClose();
 	}
 
-	function handleItemUpdate<K extends keyof WishlistItemDto>(
+	function handleNameChange(name: string): void {
+		handleItemUpdate(props.item.id, 'name', name);
+	}
+
+	async function handleItemUpdate<K extends keyof WishlistItemDto>(
 		itemId: number,
 		field: K,
 		newValue: WishlistItemDto[K]
-	): void {
+	): Promise<void> {
 		addToCircularProgress(field);
 		const wishlistItems: WishlistItem[] = props.wishlist.wishlistItems;
 		const itemIndex: number = wishlistItems.findIndex(
@@ -117,12 +121,8 @@ export function WishlistItemComponent(
 		const itemDto: WishlistItemDto = mapWishlistItemToDto(item, {
 			[field]: newValue
 		});
-		updateWishlistItem(props.wishlist.id, itemDto)
-			.then((): void => {
-				props.wishlist.wishlistItems[itemIndex] =
-					mapWishlistItemFromDto(itemDto);
-				props.onWishlistEdit!(props.wishlist);
-			})
+		return updateWishlistItem(props.wishlist.id, itemDto)
+			.then((): void => props.onEdit!(mapWishlistItemFromDto(itemDto)))
 			.finally((): void => removeFromCircularProgress(field));
 	}
 
@@ -131,7 +131,7 @@ export function WishlistItemComponent(
 		handleMenuClose(event);
 		removeWishlistItem(props.wishlist.id, props.item.id)
 			.then((): void => {
-				props.onRemove!(props.wishlist.id, props.item.id);
+				props.onRemove!(props.item.id);
 				enqueueSnackbar(t('item-removed'), {
 					variant: 'success'
 				});
@@ -139,6 +139,20 @@ export function WishlistItemComponent(
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
 			);
+	}
+
+	function handleAcceptModal(newDescription: string): void {
+		handleItemUpdate(props.item.id, 'description', newDescription).then(
+			(): void => handleCloseModal()
+		);
+	}
+
+	function handleCloseModal(): void {
+		setIsDescriptionEdited(false);
+	}
+
+	function handleModalOpen(): void {
+		setIsDescriptionEdited(true);
 	}
 
 	/* MENU */
@@ -179,23 +193,8 @@ export function WishlistItemComponent(
 		return <KeyboardArrowUpIcon />;
 	}
 
-	function renderEditButton(): React.ReactElement {
-		if (!props.onEdit) {
-			return <></>;
-		}
-		return (
-			<IconButton
-				aria-label='edit'
-				onClick={handleEditButton}
-				data-testid={`edit-wishlist-item-${props.wishlist.id}-${props.item.id}`}
-			>
-				<EditIcon />
-			</IconButton>
-		);
-	}
-
 	function renderVisibilityGridItem(): React.ReactElement {
-		if (!props.onWishlistEdit) {
+		if (!props.onEdit) {
 			return <></>;
 		}
 		return (
@@ -368,7 +367,13 @@ export function WishlistItemComponent(
 						{renderExpandIcon()}
 					</IconButton>
 				</Grid>
-				<Grid>
+				<Grid
+					size={{xs: 1, md: 0.5}}
+					sx={{
+						display: 'flex',
+						justifyContent: 'flex-end'
+					}}
+				>
 					<Typography
 						color='#888888'
 						variant='body2'
@@ -377,7 +382,6 @@ export function WishlistItemComponent(
 						<em>#{props.position}</em>
 					</Typography>
 				</Grid>
-				<Grid>{renderEditButton()}</Grid>
 				<Grid
 					size='grow'
 					sx={{
@@ -386,7 +390,11 @@ export function WishlistItemComponent(
 						textOverflow: 'ellipsis'
 					}}
 				>
-					{props.item.name}
+					<EditableNameComponent
+						editable={props.onEdit !== undefined}
+						name={props.item.name}
+						onChange={handleNameChange}
+					/>
 				</Grid>
 				{renderVisibilityGridItem()}
 				{renderIcons()}
@@ -396,10 +404,18 @@ export function WishlistItemComponent(
 				timeout='auto'
 				unmountOnExit
 			>
-				<Box sx={{margin: 1}}>
+				<Box sx={{margin: '1rem'}}>
 					<Typography component='div'>
 						<MarkdownView markdown={props.item.description} />
 					</Typography>
+					<Button
+						data-testid={`component-wishlist-item-${props.item.id}-button-edit-description`}
+						variant='contained'
+						startIcon={<EditIcon />}
+						onClick={handleModalOpen}
+					>
+						Edit
+					</Button>
 				</Box>
 			</Collapse>
 			<Menu
@@ -422,6 +438,13 @@ export function WishlistItemComponent(
 			>
 				{getAllPriorities().map(renderPriorityMenuItem)}
 			</Menu>
+			<DescriptionModal
+				open={isDescriptionEdited}
+				loading={circularProgress.includes('description')}
+				defaultDescription={props.item.description}
+				onClose={handleCloseModal}
+				onAccept={handleAcceptModal}
+			/>
 		</Box>
 	);
 }

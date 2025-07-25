@@ -1,7 +1,4 @@
-import {
-	mockedSetWishlistPassword,
-	mockedUpdateWishlistName
-} from '../__mocks__/MockWishlistService';
+import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {WishlistComponent} from '../../main/Components/WishlistComponent';
 import {screen, waitFor} from '@testing-library/dom';
@@ -90,107 +87,6 @@ describe('WishlistComponent', (): void => {
 
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists/1');
-	});
-
-	describe('edit name', (): void => {
-		it('handles name change with success', async (): Promise<void> => {
-			// arrange
-			const handleNameChange: jest.Mock = jest.fn();
-			mockedUpdateWishlistName.mockResolvedValue(getSampleWishlist());
-			renderForTest(
-				<WishlistComponent
-					wishlist={getSampleWishlist()}
-					onRemove={(): void => undefined}
-					onNameEdit={handleNameChange}
-					onPasswordChange={(): void => undefined}
-				/>
-			);
-
-			await user.click(screen.getByTestId('wishlist-item-name-edit'));
-
-			const input: HTMLInputElement = screen
-				.getByTestId('wishlist-edit-name-input')
-				.querySelector('input') as HTMLInputElement;
-			const doneButton: HTMLElement =
-				screen.getByTestId('wishlist-edit-done');
-
-			// act
-			await user.clear(input);
-			await user.type(input, 'New Mock Wishlist');
-			await user.click(doneButton);
-
-			// assert
-			expect(handleNameChange).toHaveBeenCalledTimes(1);
-			expect(handleNameChange).toHaveBeenCalledWith('New Mock Wishlist');
-			await waitFor(async (): Promise<void> => {
-				expect(
-					screen.getByText('wishlist-renamed')
-				).toBeInTheDocument();
-			});
-		});
-
-		it('handles name change with empty name', async (): Promise<void> => {
-			// arrange
-			const handleNameChange: jest.Mock = jest.fn();
-			mockedUpdateWishlistName.mockResolvedValue(getSampleWishlist());
-			renderForTest(
-				<WishlistComponent
-					wishlist={getSampleWishlist()}
-					onRemove={(): void => undefined}
-					onNameEdit={handleNameChange}
-					onPasswordChange={(): void => undefined}
-				/>
-			);
-
-			await user.click(screen.getByTestId('wishlist-item-name-edit'));
-
-			const input: HTMLInputElement = screen
-				.getByTestId('wishlist-edit-name-input')
-				.querySelector('input') as HTMLInputElement;
-			const doneButton: HTMLElement =
-				screen.getByTestId('wishlist-edit-done');
-
-			// act
-			await user.clear(input);
-			await user.click(doneButton);
-
-			// assert
-			expect(handleNameChange).toHaveBeenCalledTimes(0);
-		});
-
-		it('handles name change with failure', async (): Promise<void> => {
-			// arrange
-			const handleNameChange: jest.Mock = jest.fn();
-			mockedUpdateWishlistName.mockRejectedValue(void 0);
-			renderForTest(
-				<WishlistComponent
-					wishlist={getSampleWishlist()}
-					onRemove={(): void => undefined}
-					onNameEdit={handleNameChange}
-					onPasswordChange={(): void => undefined}
-				/>
-			);
-
-			await user.click(screen.getByTestId('wishlist-item-name-edit'));
-
-			const input: HTMLInputElement = screen
-				.getByTestId('wishlist-edit-name-input')
-				.querySelector('input') as HTMLInputElement;
-			const doneButton: HTMLElement =
-				screen.getByTestId('wishlist-edit-done');
-
-			// act
-			await user.type(input, 'Mock Wishlist');
-			await user.click(doneButton);
-
-			// assert
-			expect(handleNameChange).toHaveBeenCalledTimes(0);
-			await waitFor(async (): Promise<void> => {
-				expect(
-					screen.getByText('something-went-wrong')
-				).toBeInTheDocument();
-			});
-		});
 	});
 
 	describe('password modal', (): void => {
@@ -364,8 +260,12 @@ describe('WishlistComponent', (): void => {
 		beforeEach((): void => {
 			Object.defineProperty(global.navigator, 'clipboard', {
 				value: {
-					writeText: jest.fn(),
-					readText: jest.fn()
+					writeText: jest.fn().mockResolvedValue(null),
+					readText: jest
+						.fn()
+						.mockResolvedValue(
+							'http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15'
+						)
 				},
 				configurable: true
 			});
@@ -374,7 +274,6 @@ describe('WishlistComponent', (): void => {
 
 		it('copies url to clipboard', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			renderForTest(
 				<WishlistComponent
 					wishlist={getSampleWishlist({hasPassword: true})}
@@ -400,7 +299,6 @@ describe('WishlistComponent', (): void => {
 
 		it('throws an exception when copying to clipboard', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			renderForTest(
 				<WishlistComponent
 					wishlist={getSampleWishlist({hasPassword: true})}

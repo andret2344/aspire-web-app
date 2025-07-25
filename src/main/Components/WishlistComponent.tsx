@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Grid, IconButton, Input, Theme, Typography} from '@mui/material';
+import {Box, Grid, IconButton, Theme, Typography} from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
@@ -7,8 +7,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {getThemeColor} from '@utils/theme';
 import {WishList} from '@entity/WishList';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
-import EditIcon from '@mui/icons-material/Edit';
-import DoneIcon from '@mui/icons-material/Done';
 import {
 	removeWishlist,
 	setWishlistPassword,
@@ -20,6 +18,7 @@ import {getApiConfig} from '@services/ApiInstance';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
+import {EditableNameComponent} from './EditableNameComponent';
 
 interface WishlistComponentProps {
 	readonly wishlist: WishList;
@@ -33,9 +32,6 @@ export function WishlistComponent(
 ): React.ReactElement {
 	const [isDeleteModalOpen, setIsDeleteModalOpen] =
 		React.useState<boolean>(false);
-	const [editedName, setEditedName] = React.useState<string | undefined>(
-		undefined
-	);
 	const [isPasswordModalOpened, setIsPasswordModalOpened] =
 		React.useState<boolean>(false);
 
@@ -52,11 +48,6 @@ export function WishlistComponent(
 		setIsPasswordModalOpened(true);
 	}
 
-	function handleNameClick(event: React.MouseEvent): void {
-		event.stopPropagation();
-		setEditedName(props.wishlist.name);
-	}
-
 	function renderPasswordIcon(): React.ReactElement {
 		if (!props.wishlist.hasPassword) {
 			return <LockOpenOutlinedIcon data-testid='icon-lock-open' />;
@@ -64,20 +55,10 @@ export function WishlistComponent(
 		return <LockOutlinedIcon data-testid='icon-lock' />;
 	}
 
-	function handleNameChange(
-		event: React.ChangeEvent<HTMLInputElement>
-	): void {
-		setEditedName(event.target.value);
-	}
-
-	function handleNameSubmit(): void {
-		setEditedName(undefined);
-		if (!editedName || editedName === props.wishlist.name) {
-			return;
-		}
-		updateWishlistName(props.wishlist.id, editedName)
+	function handleNameChange(name: string): void {
+		updateWishlistName(props.wishlist.id, name)
 			.then((): void => {
-				props.onNameEdit(editedName);
+				props.onNameEdit(name);
 				enqueueSnackbar(t('wishlist-renamed'), {
 					variant: 'success'
 				});
@@ -103,12 +84,6 @@ export function WishlistComponent(
 					variant: 'error'
 				})
 			);
-	}
-
-	function renderName(): React.ReactElement {
-		return editedName === undefined
-			? renderTypographyName()
-			: renderInputName();
 	}
 
 	function handleWishlistRemove(): void {
@@ -146,46 +121,6 @@ export function WishlistComponent(
 			);
 	}
 
-	function renderTypographyName(): React.ReactElement {
-		return (
-			<Typography>
-				<IconButton
-					size='small'
-					onClick={handleNameClick}
-					data-testid='wishlist-item-name-edit'
-				>
-					<EditIcon />
-				</IconButton>
-				{props.wishlist.name}
-			</Typography>
-		);
-	}
-
-	function renderInputName(): React.ReactElement {
-		return (
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center'
-				}}
-			>
-				<IconButton
-					size='small'
-					data-testid='wishlist-edit-done'
-				>
-					<DoneIcon />
-				</IconButton>
-				<Input
-					data-testid='wishlist-edit-name-input'
-					defaultValue={editedName}
-					onChange={handleNameChange}
-					onBlur={handleNameSubmit}
-					autoFocus
-				/>
-			</Box>
-		);
-	}
-
 	async function handlePasswordAccept(
 		id: number,
 		password: string
@@ -206,9 +141,7 @@ export function WishlistComponent(
 	}
 
 	function handleItemClick(): void {
-		if (editedName === undefined) {
-			navigate(`/wishlists/${props.wishlist.id}`);
-		}
+		navigate(`/wishlists/${props.wishlist.id}`);
 	}
 
 	return (
@@ -251,7 +184,11 @@ export function WishlistComponent(
 						textOverflow: 'ellipsis'
 					}}
 				>
-					{renderName()}
+					<EditableNameComponent
+						editable
+						name={props.wishlist.name}
+						onChange={handleNameChange}
+					/>
 				</Grid>
 				<Grid
 					display='flex'

@@ -5,3 +5,4 @@
 yarn-error.log
 /coverage/
 src/backend/.env
+yarn.lock

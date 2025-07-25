@@ -6,7 +6,6 @@ import {
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
-import '../__mocks__/MockMDXEditor';
 
 import user from '@testing-library/user-event';
 import React from 'react';
@@ -54,7 +53,6 @@ describe('WishlistListPage', (): void => {
 	describe('add', (): void => {
 		it('handles adding new wishlist success', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedAddWishlist.mockResolvedValue(
 				getSampleWishlistDto({
@@ -88,7 +86,6 @@ describe('WishlistListPage', (): void => {
 
 		it('handles adding new wishlist cancel', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 
 			renderForTest(<WishlistListPage />);
@@ -111,7 +108,6 @@ describe('WishlistListPage', (): void => {
 	describe('remove', (): void => {
 		it('handles removing wishlist accept', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedRemoveWishlist.mockResolvedValue(void 0);
 
@@ -132,7 +128,6 @@ describe('WishlistListPage', (): void => {
 
 		it('handles removing wishlist cancel', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedRemoveWishlist.mockResolvedValue(void 0);
 
@@ -151,7 +146,6 @@ describe('WishlistListPage', (): void => {
 
 		it('handles removing wishlist reject', async (): Promise<void> => {
 			// arrange
-			user.setup();
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedRemoveWishlist.mockRejectedValue(void 0);
 
@@ -175,7 +169,6 @@ describe('WishlistListPage', (): void => {
 
 	it('handles renaming wishlist', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 		mockedUpdateWishlistName.mockResolvedValue(
 			getSampleWishlist({name: 'Mock Wishlist updated'})
@@ -185,12 +178,12 @@ describe('WishlistListPage', (): void => {
 		await screen.findByTestId('wishlist-list-page-grid-main');
 
 		// act
-		await user.click(screen.getByTestId('wishlist-item-name-edit'));
+		await user.click(screen.getByTestId('editable-name-button-edit'));
 		const input: HTMLInputElement = screen
-			.getByTestId('wishlist-edit-name-input')
+			.getByTestId('editable-name-input-name')
 			.querySelector('input') as HTMLInputElement;
 		await user.type(input, ' updated');
-		await user.click(screen.getByTestId('wishlist-edit-done'));
+		await user.click(screen.getByTestId('editable-name-button-done'));
 
 		// assert
 		expect(screen.getByText('Mock Wishlist updated')).toBeInTheDocument();
@@ -198,7 +191,6 @@ describe('WishlistListPage', (): void => {
 
 	it('handles password change', async (): Promise<void> => {
 		// arrange
-		user.setup();
 		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 		mockedSetWishlistPassword.mockResolvedValue(void 0);
 
