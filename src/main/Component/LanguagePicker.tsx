@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ReactCountryFlag} from 'react-country-flag';
 import {useTranslation} from 'react-i18next';
 import Menu from '@mui/material/Menu';
-import {getLanguageByCode, getLanguages, Language} from '@entity/Language';
+import {getLanguageByCode, getLanguages, Language} from '../Entity/Language';
 import {Button, MenuItem} from '@mui/material';
 
 export function LanguagePicker(): React.ReactElement {

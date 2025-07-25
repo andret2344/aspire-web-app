@@ -10,15 +10,15 @@ module.exports = {
 			'@components': path.resolve(
 				__dirname,
 				'..',
-				'./src/main/Components'
+				'./src/main/Component'
 			),
-			'@entity': path.resolve(__dirname, '..', './src/main/Entity'),
-			'@hooks': path.resolve(__dirname, '..', './src/main/Hooks'),
-			'@service': path.resolve(__dirname, '..', './src/main/Service'),
-			'@layouts': path.resolve(__dirname, '..', './src/main/Layouts'),
-			'@pages': path.resolve(__dirname, '..', './src/main/Pages'),
-			'@type': path.resolve(__dirname, '..', './src/main/Types'),
-			'@utils': path.resolve(__dirname, '..', './src/main/Utils')
+			'@entities': path.resolve(__dirname, '..', './src/main/Entity'),
+			'@hooks': path.resolve(__dirname, '..', './src/main/Hook'),
+			'@services': path.resolve(__dirname, '..', './src/main/Service'),
+			'@layouts': path.resolve(__dirname, '..', './src/main/Layout'),
+			'@pages': path.resolve(__dirname, '..', './src/main/Page'),
+			'@type': path.resolve(__dirname, '..', './src/main/Type'),
+			'@utils': path.resolve(__dirname, '..', './src/main/Util')
 		}
 	},
 	module: {

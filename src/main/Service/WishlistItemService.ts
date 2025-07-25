@@ -3,7 +3,7 @@ import {
 	mapWishlistItemFromDto,
 	WishlistItem,
 	WishlistItemDto
-} from '@entity/WishlistItem';
+} from '../Entity/WishlistItem';
 import {AxiosResponse} from 'axios';
 
 export async function getWishlistHiddenItems(

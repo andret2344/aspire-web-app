@@ -4,7 +4,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {CreateWishlistModal} from '../../../main/Components/Modals/CreateWishlistModal';
+import {CreateWishlistModal} from '../../../main/Component/Modals/CreateWishlistModal';
 import {renderForTest} from '../../__utils__/RenderForTest';
 import {getSampleWishlist} from '../../__utils__/DataFactory';
 

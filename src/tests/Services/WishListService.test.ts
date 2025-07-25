@@ -15,8 +15,8 @@ import {
 	mapWishlistArrayFromDto,
 	mapWishlistFromDto,
 	WishList
-} from '../../main/Entity/WishList';
-import {headers} from '../../main/Service/AuthService';
+} from '../../main/Entity//WishList';
+import {headers} from '../../main/Service//AuthService';
 import {
 	getSampleWishlist,
 	getSampleWishlistDto

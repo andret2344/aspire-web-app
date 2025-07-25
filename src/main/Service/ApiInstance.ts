@@ -6,7 +6,7 @@ import axios, {
 	InternalAxiosRequestConfig
 } from 'axios';
 import {Config} from './EnvironmentHelper';
-import {identity} from '@utils/functions';
+import {identity} from '../Util/functions';
 
 type RetryInternalAxiosRequestConfig = InternalAxiosRequestConfig & {
 	readonly _retry: boolean;

@@ -4,17 +4,17 @@ import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {getThemeColor} from '@utils/theme';
-import {WishList} from '@entity/WishList';
+import {getThemeColor} from '../Util/theme';
+import {WishList} from '../Entity/WishList';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {
 	removeWishlist,
 	setWishlistPassword,
 	updateWishlistName
-} from '@service/WishListService';
+} from '../Service/WishListService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {getApiConfig} from '@service/ApiInstance';
+import {getApiConfig} from '../Service/ApiInstance';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';

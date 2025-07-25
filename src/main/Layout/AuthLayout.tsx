@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigateFunction, Outlet, useNavigate} from 'react-router-dom';
-import {useTokenValidation} from '@hooks/useTokenValidation';
+import {useTokenValidation} from '../Hook/useTokenValidation';
 
 export function AuthLayout(): React.ReactElement {
 	const {tokenLoading, tokenValid} = useTokenValidation();

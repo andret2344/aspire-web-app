@@ -9,14 +9,14 @@ import {
 	Typography
 } from '@mui/material';
 import React from 'react';
-import {changePassword} from '@service/AuthService';
+import {changePassword} from '../Service/AuthService';
 import {useForm} from 'react-hook-form';
 import {useSnackbar} from 'notistack';
-import {useDarkMode} from '@components/DarkModeContext';
-import {PasswordVisibilityIcon} from '@components/PasswordVisibilityIcon';
-import {ToggleColorModeComponent} from '@components/ToggleColorModeComponent';
+import {useDarkMode} from '../Component/DarkModeContext';
+import {PasswordVisibilityIcon} from '../Component/PasswordVisibilityIcon';
+import {ToggleColorModeComponent} from '../Component/ToggleColorModeComponent';
 import {useTranslation} from 'react-i18next';
-import {LanguagePicker} from '@components/LanguagePicker';
+import {LanguagePicker} from '../Component/LanguagePicker';
 
 export function ProfilePage(): React.ReactElement {
 	type Inputs = {

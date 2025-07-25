@@ -7,7 +7,7 @@ import user from '@testing-library/user-event';
 import React from 'react';
 
 import {renderForTest} from '../__utils__/RenderForTest';
-import {NavDrawer} from '../../main/Components/NavDrawer';
+import {NavDrawer} from '../../main/Component/NavDrawer';
 
 describe('NavDrawer', (): void => {
 	it('renders closed', (): void => {

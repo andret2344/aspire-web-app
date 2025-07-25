@@ -5,8 +5,8 @@ import {
 	NavDrawer,
 	WIDTH_DRAWER_CLOSED,
 	WIDTH_DRAWER_OPENED
-} from '@components/NavDrawer';
-import {useTokenValidation} from '@hooks/useTokenValidation';
+} from '../Component/NavDrawer';
+import {useTokenValidation} from '../Hook/useTokenValidation';
 
 export function AppLayout(): React.ReactElement {
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);

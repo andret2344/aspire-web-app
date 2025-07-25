@@ -20,8 +20,8 @@
       "@components/*": [
         "src/main/Components/*"
       ],
-      "@entity/*": [
-        "src/main/Entity/*"
+      "@entities/*": [
+        "src/main/Entities/*"
       ],
       "@hooks/*": [
         "src/main/Hooks/*"
@@ -32,8 +32,8 @@
       "@pages/*": [
         "src/main/Pages/*"
       ],
-      "@service/*": [
-        "src/main/Service/*"
+      "@services/*": [
+        "src/main/Services/*"
       ],
       "@type/*": [
         "src/main/Types/*"

@@ -2,7 +2,7 @@ import {render, RenderResult} from '@testing-library/react';
 import {
 	DarkModeContext,
 	DarkModeProvider
-} from '../../main/Components/DarkModeContext';
+} from '../../main/Component/DarkModeContext';
 import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {SnackbarProvider} from 'notistack';

@@ -1,14 +1,14 @@
 import {Grid} from '@mui/material';
 import React from 'react';
-import {mapWishlistArrayFromDto, WishList} from '@entity/WishList';
-import {WishlistComponent} from '@components/WishlistComponent';
-import {getWishlists} from '@service/WishListService';
-import {CreateWishlistModal} from '@components/Modals/CreateWishlistModal';
+import {mapWishlistArrayFromDto, WishList} from '../Entity/WishList';
+import {WishlistComponent} from '../Component/WishlistComponent';
+import {getWishlists} from '../Service/WishListService';
+import {CreateWishlistModal} from '../Component/Modals/CreateWishlistModal';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
-import {WishlistItem} from '@entity/WishlistItem';
+import {WishlistItem} from '../Entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {AddButton} from '@components/AddButton';
+import {AddButton} from '../Component/AddButton';
 
 export function WishlistListPage(): React.ReactElement {
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);

@@ -1,23 +1,23 @@
 import React from 'react';
 import {CssBaseline} from '@mui/material';
 import {Route, Routes} from 'react-router-dom';
-import {WishlistListPage} from '@pages/WishlistListPage';
-import {LoginPage} from '@pages/LoginPage';
-import {ErrorPage} from '@pages/ErrorPage';
-import {ProfilePage} from '@pages/ProfilePage';
-import {RegisterPage} from '@pages/RegisterPage';
+import {WishlistListPage} from './Page/WishlistListPage';
+import {LoginPage} from './Page/LoginPage';
+import {ErrorPage} from './Page/ErrorPage';
+import {ProfilePage} from './Page/ProfilePage';
+import {RegisterPage} from './Page/RegisterPage';
 import {SnackbarProvider} from 'notistack';
-import {ReadonlyWishlistPage} from '@pages/ReadonlyWishlistPage';
-import {getConfig} from '@service/EnvironmentHelper';
-import {setConfig} from '@service/ApiInstance';
-import {PasswordReminderPage} from '@pages/PasswordReminderPage';
-import {NewPasswordPage} from '@pages/NewPasswordPage';
+import {ReadonlyWishlistPage} from './Page/ReadonlyWishlistPage';
+import {getConfig} from './Service/EnvironmentHelper';
+import {setConfig} from './Service/ApiInstance';
+import {PasswordReminderPage} from './Page/PasswordReminderPage';
+import {NewPasswordPage} from './Page/NewPasswordPage';
 import './i18n';
-import {refreshToken} from '@service/AuthService';
-import {AppLayout} from '@layouts/AppLayout';
-import {AuthLayout} from '@layouts/AuthLayout';
-import {Header} from '@components/Header';
-import {WishlistPage} from '@pages/WishlistPage';
+import {refreshToken} from './Service/AuthService';
+import {AppLayout} from './Layout/AppLayout';
+import {AuthLayout} from './Layout/AuthLayout';
+import {Header} from './Component/Header';
+import {WishlistPage} from './Page/WishlistPage';
 
 export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);

@@ -3,26 +3,23 @@ import {
 	IconButton,
 	InputAdornment,
 	Stack,
-	TextField,
-	Tooltip
+	TextField
 } from '@mui/material';
 import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
 import React from 'react';
-import {WishList} from '@entity/WishList';
+import {WishList} from '../../Entity/WishList';
 import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
-import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 
-interface WishlistSetupPasswordModalProps {
+interface WishlistInputPasswordModalProps {
 	readonly wishlist: WishList;
 	readonly open: boolean;
 	readonly onAccept: (wishlistId: number, password: string) => void;
-	readonly onClear: (wishlistId: number) => void;
 	readonly onClose: () => void;
 }
 
-export function WishlistSetupPasswordModal(
-	props: WishlistSetupPasswordModalProps
+export function WishlistInputPasswordModal(
+	props: WishlistInputPasswordModalProps
 ): React.ReactElement {
 	const [password, setPassword] = React.useState<string>('');
 	const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
@@ -47,20 +44,9 @@ export function WishlistSetupPasswordModal(
 		props.onAccept(props.wishlist.id, password);
 	}
 
-	function handleClearButton(): void {
-		props.onClear(props.wishlist.id);
-	}
-
-	function getTooltipInfoKey(): string {
-		if (props.wishlist.hasPassword) {
-			return 'clear-tooltip-enabled';
-		}
-		return 'clear-tooltip-disabled';
-	}
-
 	return (
 		<AspireModal
-			title={t('set-wishlist-password')}
+			title={t('access-wishlist-password')}
 			open={props.open}
 			onClose={handleCancelButton}
 		>
@@ -113,20 +99,6 @@ export function WishlistSetupPasswordModal(
 				>
 					{t('cancel')}
 				</Button>
-				<Tooltip title={t(getTooltipInfoKey())}>
-					<span>
-						<Button
-							data-testid='wishlist-password-modal-clear'
-							onClick={handleClearButton}
-							disabled={!props.wishlist.hasPassword}
-							color='error'
-							variant='contained'
-							endIcon={<InfoOutlineIcon />}
-						>
-							{t('clear')}
-						</Button>
-					</span>
-				</Tooltip>
 				<Button
 					data-testid='wishlist-password-modal-confirm'
 					onClick={handleSubmitButton}
