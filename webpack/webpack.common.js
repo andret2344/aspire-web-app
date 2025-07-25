@@ -17,7 +17,7 @@ module.exports = {
 			'@services': path.resolve(__dirname, '..', './src/main/Services'),
 			'@layouts': path.resolve(__dirname, '..', './src/main/Layouts'),
 			'@pages': path.resolve(__dirname, '..', './src/main/Pages'),
-			'@types': path.resolve(__dirname, '..', './src/main/Types'),
+			'@type': path.resolve(__dirname, '..', './src/main/Types'),
 			'@utils': path.resolve(__dirname, '..', './src/main/Utils')
 		}
 	},
