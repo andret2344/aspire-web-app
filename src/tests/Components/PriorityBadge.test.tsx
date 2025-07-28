@@ -1,7 +1,7 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {PriorityBadge} from '../../main/Components/PriorityBadge';
+import {PriorityBadge} from '@component/PriorityBadge';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {RenderResult} from '@testing-library/react';
 

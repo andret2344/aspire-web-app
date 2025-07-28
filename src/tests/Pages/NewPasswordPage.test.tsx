@@ -7,7 +7,7 @@ import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
 
-import {NewPasswordPage} from '../../main/Pages/NewPasswordPage';
+import {NewPasswordPage} from '@page/NewPasswordPage';
 import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('NewPasswordPage', (): void => {

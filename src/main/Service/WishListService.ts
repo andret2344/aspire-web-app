@@ -1,4 +1,4 @@
-import {WishList, WishListDto} from '../Entity/WishList';
+import {WishList, WishListDto} from '@entity/WishList';
 import axios, {AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from './ApiInstance';
 import {requestConfig} from './AuthService';

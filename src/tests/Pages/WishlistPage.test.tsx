@@ -14,7 +14,7 @@ import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
 import {renderForTest} from '../__utils__/RenderForTest';
 import {getSampleWishlistDto} from '../__utils__/DataFactory';
-import {WishlistPage} from '../../main/Pages/WishlistPage';
+import {WishlistPage} from '@page/WishlistPage';
 
 describe('WishlistPage', (): void => {
 	it('handles adding an item to a wishlist', async (): Promise<void> => {

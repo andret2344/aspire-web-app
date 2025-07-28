@@ -2,7 +2,7 @@ import {mockedChangePassword} from '../__mocks__/MockAuthService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {ProfilePage} from '../../main/Pages/ProfilePage';
+import {ProfilePage} from '@page/ProfilePage';
 import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 

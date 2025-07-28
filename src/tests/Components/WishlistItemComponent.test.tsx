@@ -9,7 +9,7 @@ import '@testing-library/jest-dom';
 import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 import React from 'react';
-import {WishlistItemComponent} from '../../main/Components/WishlistItemComponent';
+import {WishlistItemComponent} from '@component/WishlistItemComponent';
 import {
 	getSampleWishlist,
 	getSampleWishlistItem

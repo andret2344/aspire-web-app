@@ -3,7 +3,7 @@ import React from 'react';
 import {screen} from '@testing-library/dom';
 import {fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {DeleteWishlistModal} from '../../../main/Components/Modals/DeleteWishlistModal';
+import {DeleteWishlistModal} from '../../../main/Component/Modals/DeleteWishlistModal';
 import {renderForTest} from '../../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
 

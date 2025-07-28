@@ -1,7 +1,7 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {ToggleColorModeComponent} from '../../main/Components/ToggleColorModeComponent';
+import {ToggleColorModeComponent} from '@component/ToggleColorModeComponent';
 import user from '@testing-library/user-event';
 import {renderForTest} from '../__utils__/RenderForTest';
 

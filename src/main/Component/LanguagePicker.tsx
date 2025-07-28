@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ReactCountryFlag} from 'react-country-flag';
 import {useTranslation} from 'react-i18next';
 import Menu from '@mui/material/Menu';
-import {getLanguageByCode, getLanguages, Language} from '../Entity/Language';
+import {getLanguageByCode, getLanguages, Language} from '@entity/Language';
 import {Button, MenuItem} from '@mui/material';
 
 export function LanguagePicker(): React.ReactElement {
@@ -18,6 +18,11 @@ export function LanguagePicker(): React.ReactElement {
 	function handleClose(): void {
 		setAnchorEl(null);
 	}
+
+	const iconCodeMap: Record<string, string> = {
+		'pl-PL': 'pl',
+		'en-US': 'gb'
+	};
 
 	function renderLanguage(language: Language): React.ReactElement {
 		return (
@@ -36,7 +41,9 @@ export function LanguagePicker(): React.ReactElement {
 			>
 				<ReactCountryFlag
 					svg
-					countryCode={language.iconCode}
+					countryCode={
+						iconCodeMap[language.iconCode] ?? language.iconCode
+					}
 				/>
 				{language.name}
 			</MenuItem>

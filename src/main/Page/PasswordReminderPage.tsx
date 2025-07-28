@@ -1,5 +1,5 @@
 import React from 'react';
-import {AuthContainer} from '../Components/AuthContainer';
+import {AuthContainer} from '@component/AuthContainer';
 import {
 	Box,
 	Button,
@@ -11,7 +11,7 @@ import {
 	useTheme
 } from '@mui/material';
 import {useForm} from 'react-hook-form';
-import {requestResetPassword} from '../Services/AuthService';
+import {requestResetPassword} from '@service/AuthService';
 import {useSnackbar} from 'notistack';
 import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
