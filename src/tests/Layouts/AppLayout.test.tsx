@@ -6,7 +6,7 @@ import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {Route, Routes} from 'react-router-dom';
 import user from '@testing-library/user-event';
-import {AppLayout} from '../../main/Layouts/AppLayout';
+import {AppLayout} from '@layout/AppLayout';
 import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('AppLayout', (): void => {

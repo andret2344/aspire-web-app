@@ -8,7 +8,7 @@ i18n.use(Backend)
 	.use(initReactI18next)
 	.init({
 		fallbackLng: 'en',
-		supportedLngs: ['pl-PL', 'en-GB'],
+		supportedLngs: ['pl-PL', 'en-US'],
 		debug: false, //process.env.NODE_ENV === 'development',
 		interpolation: {
 			escapeValue: false

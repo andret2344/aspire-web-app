@@ -9,15 +9,18 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {AuthContainer} from '../Components/AuthContainer';
-import {PasswordVisibilityIcon} from '../Components/PasswordVisibilityIcon';
+import {AuthContainer} from '@component/AuthContainer';
+import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {resetPassword} from '../Services/AuthService';
+import {resetPassword} from '@service/AuthService';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 
 export function NewPasswordPage(): React.ReactElement {
-	type Inputs = {readonly password: string; readonly passwordRepeat: string};
+	type Inputs = {
+		readonly password: string;
+		readonly passwordRepeat: string;
+	};
 	type Params = {readonly token: string};
 
 	const [isPasswordShown, setIsPasswordShown] =

@@ -1,5 +1,5 @@
-import {WishList, WishListDto} from '../../main/Entity/WishList';
-import {WishlistItem, WishlistItemDto} from '../../main/Entity/WishlistItem';
+import {WishList, WishListDto} from '@entity/WishList';
+import {WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
 
 export const GENERIC_UUID: string = 'b838027b-9177-43d6-918e-67917f1d9b15';
 

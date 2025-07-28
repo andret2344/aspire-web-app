@@ -5,7 +5,7 @@ import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import {Route, Routes} from 'react-router-dom';
-import {AuthLayout} from '../../main/Layouts/AuthLayout';
+import {AuthLayout} from '@layout/AuthLayout';
 import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('AuthLayout', (): void => {

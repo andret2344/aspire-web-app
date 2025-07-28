@@ -21,22 +21,22 @@ import {
 	mapWishlistItemToDto,
 	WishlistItem,
 	WishlistItemDto
-} from '../Entity/WishlistItem';
+} from '@entity/WishlistItem';
 import React from 'react';
 import {PriorityBadge} from './PriorityBadge';
 import {
 	removeWishlistItem,
 	updateWishlistItem
-} from '../Services/WishlistItemService';
+} from '@service/WishlistItemService';
 import {useSnackbar} from 'notistack';
 import MarkdownView from 'react-showdown';
 import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
-import {getAllPriorities, Priority} from '../Entity/Priority';
-import {WishList} from '../Entity/WishList';
-import {getThemeColor} from '../Utils/theme';
+import {getAllPriorities, Priority} from '@entity/Priority';
+import {WishList} from '@entity/WishList';
+import {getThemeColor} from '@util/theme';
 import {SystemStyleObject} from '@mui/system';
 import {DescriptionModal} from './Modals/DescriptionModal';
 import {EditableNameComponent} from './EditableNameComponent';

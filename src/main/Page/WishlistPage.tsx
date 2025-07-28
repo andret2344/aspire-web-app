@@ -1,14 +1,14 @@
 import {Grid} from '@mui/material';
 import React from 'react';
-import {WishlistItemComponent} from '../Components/WishlistItemComponent';
-import {mapWishlistFromDto, WishList} from '../Entity/WishList';
-import {getWishlist} from '../Services/WishListService';
+import {WishlistItemComponent} from '@component/WishlistItemComponent';
+import {mapWishlistFromDto, WishList} from '@entity/WishList';
+import {getWishlist} from '@service/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {mapWishlistItemFromDto, WishlistItem} from '../Entity/WishlistItem';
+import {WishlistItem, mapWishlistItemFromDto} from '@entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
-import {AddButton} from '../Components/AddButton';
-import {addWishlistItem} from '../Services/WishlistItemService';
+import {AddButton} from '@component/AddButton';
+import {addWishlistItem} from '@service/WishlistItemService';
 
 export function WishlistPage(): React.ReactElement {
 	type Params = {readonly id?: string};
@@ -100,7 +100,10 @@ export function WishlistPage(): React.ReactElement {
 		<Grid
 			data-testid='wishlist-page-grid-main'
 			sx={{
+				paddingBottom: '50px',
 				flexGrow: 1,
+				height: '100vh',
+				overflowY: 'auto',
 				paddingTop: '56px'
 			}}
 			container
