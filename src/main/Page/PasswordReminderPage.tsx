@@ -22,7 +22,7 @@ export function PasswordReminderPage(): React.ReactElement {
 	const {t} = useTranslation();
 	const theme: Theme = useTheme();
 	const {enqueueSnackbar} = useSnackbar();
-	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
+	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 	const {register, handleSubmit} = useForm<Inputs>();
 
 	function onSubmit(data: Inputs): void {
@@ -72,7 +72,7 @@ export function PasswordReminderPage(): React.ReactElement {
 					hiddenLabel
 					variant='filled'
 					placeholder={t('email-address')}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
 						marginTop: '5px'

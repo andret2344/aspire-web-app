@@ -33,7 +33,7 @@ export function RegisterPage(): React.ReactElement {
 		React.useState<boolean>(false);
 
 	const theme: Theme = useTheme();
-	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
+	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 	const {t} = useTranslation();
 	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
@@ -105,7 +105,7 @@ export function RegisterPage(): React.ReactElement {
 					hiddenLabel
 					variant='filled'
 					placeholder={`${t('email-address')}`}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
 						marginTop: '5px'
@@ -141,7 +141,7 @@ export function RegisterPage(): React.ReactElement {
 					hiddenLabel
 					variant='filled'
 					placeholder={t('password')}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
 						marginTop: '5px'
@@ -179,7 +179,7 @@ export function RegisterPage(): React.ReactElement {
 					hiddenLabel
 					variant='filled'
 					placeholder={t('repeat-password')}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
 						marginTop: '5px'
