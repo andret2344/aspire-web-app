@@ -32,7 +32,7 @@ export function NewPasswordPage(): React.ReactElement {
 	const params: Params = useParams<Params>() as Params;
 	const navigate: NavigateFunction = useNavigate();
 	const theme: Theme = useTheme();
-	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
+	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 	const {enqueueSnackbar} = useSnackbar();
 
 	function handleClickShowPassword(): void {
@@ -112,7 +112,7 @@ export function NewPasswordPage(): React.ReactElement {
 					hiddenLabel
 					variant='filled'
 					placeholder={t('password')}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
 						marginTop: '5px'
@@ -148,7 +148,7 @@ export function NewPasswordPage(): React.ReactElement {
 					hiddenLabel
 					variant='filled'
 					placeholder={t('repeat-password')}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
 						marginTop: '5px'

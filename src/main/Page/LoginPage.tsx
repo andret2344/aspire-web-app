@@ -25,7 +25,7 @@ export function LoginPage(): React.ReactElement {
 
 	const navigate: NavigateFunction = useNavigate();
 	const theme: Theme = useTheme();
-	const isSmallerThan600: boolean = useMediaQuery(theme.breakpoints.up('sm'));
+	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 	const {register, handleSubmit} = useForm();
@@ -75,7 +75,7 @@ export function LoginPage(): React.ReactElement {
 					hiddenLabel
 					variant='filled'
 					placeholder={t('login')}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
 						marginTop: '5px'
@@ -110,7 +110,7 @@ export function LoginPage(): React.ReactElement {
 					hiddenLabel
 					variant='filled'
 					placeholder={t('password')}
-					size={isSmallerThan600 ? 'small' : 'medium'}
+					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
 						marginTop: '5px'
