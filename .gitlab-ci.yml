@@ -1,11 +1,7 @@
-image: docker:latest
-
-services:
-  - docker:dind
+image: node:latest
 
 variables:
   version: 0.1.0
-  DOCKER_TLS_CERTDIR: "/certs"
   CONTAINER_RELEASE_IMAGE_VERSION: $CI_CONTAINER_IMAGE:v$version
   CONTAINER_RELEASE_IMAGE_LATEST: $CI_CONTAINER_IMAGE:latest
 
@@ -14,9 +10,6 @@ stages:
   - build
   - test
   - release
-
-before_script:
-  - apk add --no-cache nodejs yarn
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -57,6 +50,7 @@ test:
 
 deploy:
   stage: release
+  image: docker:latest
   services:
     - docker:dind
   before_script:
