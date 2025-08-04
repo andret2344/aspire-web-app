@@ -1,5 +1,8 @@
 import React from 'react';
 import {Modal, Paper, Typography} from '@mui/material';
+import {getThemeColor} from '@util/theme';
+import {Theme} from '@mui/material';
+import {SystemStyleObject} from '@mui/system';
 
 interface AspireModalProps {
 	readonly 'data-testid'?: string;
@@ -33,24 +36,27 @@ export function AspireModal(
 			}}
 		>
 			<Paper
-				sx={{
+				sx={(theme: Theme): SystemStyleObject<Theme> => ({
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					padding: '26px 26px',
+					padding: '26px 46px',
+					borderRadius: '0.75rem',
+					backgroundColor: getThemeColor(theme, 'bgModal'),
+					boxShadow: '8px 8px 24px 0px rgba(0, 0, 0, 1)',
 					width: props.width ?? 'auto',
 					maxWidth: {
 						xs: '100%',
 						md: props.maxWidth ?? 'auto'
 					}
-				}}
+				})}
 				component='form'
 				onSubmit={props.onSubmit}
 			>
 				<Typography
 					id='modal-title'
-					variant='h5'
 					component='div'
+					variant='h6'
 					sx={{padding: '10px 0'}}
 				>
 					{props.title}

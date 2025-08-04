@@ -16,6 +16,7 @@ interface Colors {
 	activeBlue?: string;
 	red: string;
 	bgAccent1: string;
+	bgModal: string;
 }
 
 const lightColors: Colors = {
@@ -23,7 +24,8 @@ const lightColors: Colors = {
 	red: '#670303',
 	lightBlue: '#D9E6F7',
 	activeBlue: 'rgba(0, 109, 209, 0.4)',
-	bgAccent1: 'rgba(225, 225, 225, 1)'
+	bgAccent1: 'rgba(225, 225, 225, 1)',
+	bgModal: 'rgba(225, 225, 225, 0.77)'
 };
 
 const darkColors: Colors = {
@@ -31,7 +33,8 @@ const darkColors: Colors = {
 	red: '#e08888',
 	lightBlue: 'rgba(0, 109, 209, 0.4)',
 	activeBlue: 'rgba(0, 109, 209, 0.4)',
-	bgAccent1: 'rgba(30, 30, 30, 1)'
+	bgAccent1: 'rgba(30, 30, 30, 1)',
+	bgModal: 'rgba(1, 13, 39, 0.85)'
 };
 
 export const lightTheme: Theme = createTheme({
