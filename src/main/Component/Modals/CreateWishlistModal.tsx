@@ -1,4 +1,11 @@
-import {Box, Button, TextField, Theme, useMediaQuery, useTheme} from '@mui/material';
+import {
+	Box,
+	Button,
+	TextField,
+	Theme,
+	useMediaQuery,
+	useTheme
+} from '@mui/material';
 import React from 'react';
 import {addWishlist} from '@service/WishListService';
 import {mapWishlistFromDto, WishList, WishListDto} from '@entity/WishList';
