@@ -65,10 +65,10 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	}
 
 	async function handlePasswordEnter(
-		id: number,
+		uuid: string,
 		password: string
 	): Promise<void> {
-		await getWishlistHiddenItems(id, password)
+		await getWishlistHiddenItems(uuid, password)
 			.then(setHiddenItems)
 			.catch((): string | number =>
 				enqueueSnackbar(t('password-invalid'), {
