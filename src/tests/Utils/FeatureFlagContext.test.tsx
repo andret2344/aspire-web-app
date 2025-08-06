@@ -1,6 +1,11 @@
 import React, {Context} from 'react';
 import {render, screen} from '@testing-library/react';
-import {FeatureFlag, FeatureFlags, FeatureFlagsProvider, useFeatureFlags} from '@util/FeatureFlagContext';
+import {
+	FeatureFlag,
+	FeatureFlags,
+	FeatureFlagsProvider,
+	useFeatureFlags
+} from '@util/FeatureFlagContext';
 
 describe('FeatureFlags', (): void => {
 	function renderWithProvider(
