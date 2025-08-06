@@ -7,14 +7,14 @@ import {
 } from '@mui/material';
 import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
 import React from 'react';
-import {WishList} from '../../Entity/WishList';
+import {WishList} from '@entity/WishList';
 import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
 
 interface WishlistInputPasswordModalProps {
 	readonly wishlist: WishList;
 	readonly open: boolean;
-	readonly onAccept: (wishlistId: number, password: string) => void;
+	readonly onAccept: (wishlistUuid: string, password: string) => void;
 	readonly onClose: () => void;
 }
 
@@ -41,7 +41,7 @@ export function WishlistInputPasswordModal(
 	}
 
 	function handleSubmitButton(): void {
-		props.onAccept(props.wishlist.id, password);
+		props.onAccept(props.wishlist.uuid, password);
 	}
 
 	return (
