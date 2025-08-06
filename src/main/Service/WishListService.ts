@@ -3,7 +3,7 @@ import axios, {AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from './ApiInstance';
 import {requestConfig} from './AuthService';
 
-function getWishlistsUrl(id: number | undefined = undefined): string {
+function getWishlistsUrl(id?: number = undefined): string {
 	if (id) {
 		return `/wishlists/${id}`;
 	}
