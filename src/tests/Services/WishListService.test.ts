@@ -14,7 +14,8 @@ import axios, {AxiosError} from 'axios';
 import {
 	mapWishlistArrayFromDto,
 	mapWishlistFromDto,
-	WishList
+	WishList,
+	WishListDto
 } from '@entity/WishList';
 import {headers} from '@service/AuthService';
 import {
@@ -28,7 +29,7 @@ describe('WishListService', (): void => {
 	test('get wishlists', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onGet('/wishlist').reply(200, [getSampleWishlistDto()]);
+		mock.onGet('/wishlists').reply(200, [getSampleWishlistDto()]);
 
 		// act
 		await waitFor(getWishlists)
@@ -42,7 +43,7 @@ describe('WishListService', (): void => {
 	test('get wishlists rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onGet('/wishlist').reply(500);
+		mock.onGet('/wishlists').reply(500);
 
 		// act
 		await getWishlists().catch((error: AxiosError): void => {
@@ -56,7 +57,7 @@ describe('WishListService', (): void => {
 	test('get wishlist by id', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onGet('/wishlist/1').reply(200, getSampleWishlistDto());
+		mock.onGet('/wishlists/1').reply(200, getSampleWishlistDto());
 
 		// act
 		await getWishlist(1)
@@ -70,7 +71,7 @@ describe('WishListService', (): void => {
 	test('get wishlist by id rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onGet('/wishlist/1').reply(500);
+		mock.onGet('/wishlists/1').reply(500);
 
 		// act
 		await getWishlist(1).catch((error: AxiosError): void => {
@@ -85,13 +86,13 @@ describe('WishListService', (): void => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
-		mock.onGet(`${baseUrl}/wishlist/by_uuid/uuid`, {headers}).reply(
+		mock.onGet(`${baseUrl}/wishlists?uuid=test-uuid`, {headers}).reply(
 			200,
 			getSampleWishlistDto()
 		);
 
 		// act
-		await getReadonlyWishlistByUUID('uuid')
+		await getReadonlyWishlistByUUID('test-uuid')
 			.then(mapWishlistFromDto)
 			.then((wishlist: WishList | null): void => {
 				// assert
@@ -103,10 +104,10 @@ describe('WishListService', (): void => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
-		mock.onGet(`${baseUrl}/wishlist/by_uuid/uuid`, {headers}).reply(500);
+		mock.onGet(`${baseUrl}/wishlists?uuid=test-uuid`, {headers}).reply(500);
 
 		// act
-		await getReadonlyWishlistByUUID('uuid').catch(
+		await getReadonlyWishlistByUUID('test-uuid').catch(
 			(error: AxiosError): void => {
 				// assert
 				expect(error.message).toEqual(
@@ -119,21 +120,21 @@ describe('WishListService', (): void => {
 	test('add wishlist', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onPost('/wishlist').reply(200, getSampleWishlist());
+		mock.onPost('/wishlists').reply(200, getSampleWishlistDto());
 
 		// act
-		await waitFor((): Promise<WishList | null> => addWishlist('test')).then(
-			(wishlist: WishList | null): void => {
-				// assert
-				expect(wishlist).toEqual(getSampleWishlist());
-			}
-		);
+		await waitFor(
+			(): Promise<WishListDto | null> => addWishlist('test')
+		).then((wishlist: WishListDto | null): void => {
+			// assert
+			expect(wishlist).toEqual(getSampleWishlistDto());
+		});
 	});
 
 	test('add wishlist rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		mock.onPost('/wishlist').reply(500);
+		mock.onPost('/wishlists').reply(500);
 
 		// act
 		await addWishlist('test').catch((error: AxiosError): void => {
@@ -148,14 +149,14 @@ describe('WishListService', (): void => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const idToRemove = 1;
-		mock.onDelete(`/wishlist/${idToRemove}`).reply(200);
+		mock.onDelete(`/wishlists/${idToRemove}`).reply(200);
 
 		// act
 		await waitFor((): void => {
 			removeWishlist(1);
 			expect(mock.history.delete.length).toBe(1);
 			expect(mock.history.delete[0].url).toEqual(
-				`/wishlist/${idToRemove}`
+				`/wishlists/${idToRemove}`
 			);
 		});
 	});
@@ -164,7 +165,7 @@ describe('WishListService', (): void => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const idToRemove = 1;
-		mock.onDelete(`/wishlist/${idToRemove}`).reply(500);
+		mock.onDelete(`/wishlists/${idToRemove}`).reply(500);
 
 		// act
 		await removeWishlist(1).catch((error: AxiosError): void => {
@@ -181,7 +182,7 @@ describe('WishListService', (): void => {
 		const wishlistId = 1;
 		const newName = 'Updated wishlist name';
 		const updatedWishlist = {id: wishlistId, name: newName};
-		mock.onPut(`/wishlist/${wishlistId}`).reply(200, updatedWishlist);
+		mock.onPut(`/wishlists/${wishlistId}`).reply(200, updatedWishlist);
 
 		// act
 		await waitFor(async (): Promise<void> => {
@@ -200,17 +201,20 @@ describe('WishListService', (): void => {
 		const wishlistId = 1;
 		const password = 'pass123';
 		const message = 'Access code set successfully';
-		mock.onPost(`/wishlist/${wishlistId}/set_access_code`).reply(
+		mock.onPost(`/wishlists/${wishlistId}/set_access_code`).reply(
 			200,
 			message
 		);
 
 		// act
 		await waitFor(async (): Promise<void> => {
-			const result = await setWishlistPassword(wishlistId, password);
+			const result: number = await setWishlistPassword(
+				wishlistId,
+				password
+			);
 
 			// assert
-			expect(result).toEqual(message);
+			expect(result).toBe(200);
 		});
 	});
 });

@@ -4,9 +4,9 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {CreateWishlistModal} from '../../../main/Component/Modals/CreateWishlistModal';
+import {CreateWishlistModal} from '@component/Modals/CreateWishlistModal';
 import {renderForTest} from '../../__utils__/RenderForTest';
-import {getSampleWishlist} from '../../__utils__/DataFactory';
+import {getSampleWishlistDto} from '../../__utils__/DataFactory';
 
 describe('CreateWishlistModal', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -32,7 +32,7 @@ describe('CreateWishlistModal', (): void => {
 	it('sends request on enter click', async (): Promise<void> => {
 		// arrange
 		const mockAdd: jest.Mock = jest.fn();
-		mockedAddWishlist.mockResolvedValue(getSampleWishlist());
+		mockedAddWishlist.mockResolvedValue(getSampleWishlistDto());
 		mockedUseMediaQuery.mockReturnValue(false);
 
 		// act
