@@ -4,6 +4,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {getThemeColor} from '@util/theme';
 import {WishList} from '@entity/WishList';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
@@ -19,6 +20,7 @@ import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
 import {EditableNameComponent} from './EditableNameComponent';
+import {FeatureFlag} from '@util/FeatureFlagContext';
 
 interface WishlistComponentProps {
 	readonly wishlist: WishList;
@@ -68,6 +70,11 @@ export function WishlistComponent(
 					variant: 'error'
 				})
 			);
+	}
+
+	function handleSettingsIconClick(event: React.MouseEvent): void {
+		event.stopPropagation();
+		navigate(`/wishlists/${props.wishlist.id}/settings`);
 	}
 
 	function handleShareIconClick(event: React.MouseEvent): void {
@@ -133,11 +140,11 @@ export function WishlistComponent(
 				props.onPasswordChange(password);
 				setIsPasswordModalOpened(false);
 			})
-			.catch((): string | number =>
+			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {
 					variant: 'error'
-				})
-			);
+				});
+			});
 	}
 
 	function handleItemClick(): void {
@@ -190,6 +197,22 @@ export function WishlistComponent(
 						onChange={handleNameChange}
 					/>
 				</Grid>
+				<FeatureFlag flag='wishlistSettings'>
+					<Grid
+						display='flex'
+						justifyContent='center'
+						alignItems='center'
+					>
+						<IconButton
+							data-testid={`settings-icon-button-${props.wishlist.id}`}
+							onClick={handleSettingsIconClick}
+							size='large'
+							aria-label='share'
+						>
+							<SettingsIcon />
+						</IconButton>
+					</Grid>
+				</FeatureFlag>
 				<Grid
 					display='flex'
 					justifyContent='center'

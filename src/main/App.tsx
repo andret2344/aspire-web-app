@@ -18,6 +18,7 @@ import {AppLayout} from '@layout/AppLayout';
 import {AuthLayout} from '@layout/AuthLayout';
 import {Header} from '@component/Header';
 import {WishlistPage} from '@page/WishlistPage';
+import {WishlistSettingsPage} from '@page/WishlistSettingsPage';
 
 export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -68,6 +69,10 @@ export function App(): React.ReactElement {
 					<Route
 						path='wishlists/:id'
 						element={<WishlistPage />}
+					/>
+					<Route
+						path='wishlists/:id/settings'
+						element={<WishlistSettingsPage />}
 					/>
 					<Route
 						path='profile'
