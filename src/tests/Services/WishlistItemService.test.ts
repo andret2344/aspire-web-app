@@ -21,7 +21,7 @@ describe('WishListItemService', (): void => {
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
 
-		mock.onPost(`/${wishlistId}/wishlistitem`).reply(
+		mock.onPost(`/wishlists/${wishlistId}/items`).reply(
 			200,
 			getSampleWishlistItemDto()
 		);
@@ -40,13 +40,13 @@ describe('WishListItemService', (): void => {
 	it('gets wishlist hidden items', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
-		const wishlistId = 1;
+		const uuid = 'test-uuid';
 		const password = 'test';
-		mock.onGet(`/${wishlistId}/wishlistitem/hidden_items`).reply(200, []);
+		mock.onGet(`/hidden_items?uuid=${uuid}`).reply(200, []);
 
 		// act
 		const result: WishlistItem[] = await getWishlistHiddenItems(
-			wishlistId,
+			uuid,
 			password
 		);
 
@@ -58,7 +58,7 @@ describe('WishListItemService', (): void => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
-		mock.onPost(`/${wishlistId}/wishlistitem`).reply(500);
+		mock.onPost(`/wishlists/${wishlistId}/items`).reply(500);
 
 		// act
 		await addWishlistItem(wishlistId, getSampleWishlistItemDtoWithoutId())
@@ -74,7 +74,7 @@ describe('WishListItemService', (): void => {
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
 		const wishlistItemId = 1;
-		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
+		mock.onPut(`/wishlists/${wishlistId}/items/${wishlistItemId}`).reply(
 			200,
 			getSampleWishlistItemDto({name: 'updated name'})
 		);
@@ -90,7 +90,7 @@ describe('WishListItemService', (): void => {
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
 		const wishlistItemId = 1;
-		mock.onPut(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
+		mock.onPut(`/wishlists/${wishlistId}/items/${wishlistItemId}`).reply(
 			500,
 			getSampleWishlistItemDto({name: 'updated name'})
 		);
@@ -108,17 +108,15 @@ describe('WishListItemService', (): void => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
-		const wishlistItemId = 1;
-		mock.onDelete(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
-			200
-		);
+		const itemId = 1;
+		mock.onDelete(`/wishlists/${wishlistId}/items/${itemId}`).reply(200);
 
 		// act
-		await removeWishlistItem(wishlistId, wishlistItemId).then((): void => {
+		await removeWishlistItem(wishlistId, itemId).then((): void => {
 			// assert
 			expect(mock.history.delete.length).toBe(1);
 			expect(mock.history.delete[0].url).toEqual(
-				`/${wishlistId}/wishlistitem/${wishlistItemId}`
+				`/wishlists/${wishlistId}/items/${itemId}`
 			);
 		});
 	});
@@ -128,7 +126,7 @@ describe('WishListItemService', (): void => {
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
 		const wishlistItemId = 1;
-		mock.onDelete(`/${wishlistId}/wishlistitem/${wishlistItemId}`).reply(
+		mock.onDelete(`/wishlists/${wishlistId}/item/${wishlistItemId}`).reply(
 			500
 		);
 

@@ -74,7 +74,10 @@ describe('WishlistInputPasswordModal', (): void => {
 
 		//assert
 		expect(mockAccept).toHaveBeenCalledTimes(1);
-		expect(mockAccept).toHaveBeenCalledWith(1, 'password123');
+		expect(mockAccept).toHaveBeenCalledWith(
+			'b838027b-9177-43d6-918e-67917f1d9b15',
+			'password123'
+		);
 	});
 
 	it('handles cancel button', async (): Promise<void> => {
