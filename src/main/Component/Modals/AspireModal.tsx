@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Paper, Typography} from '@mui/material';
+import {Backdrop, Modal, Paper, Typography} from '@mui/material';
 import {getThemeColor} from '@util/theme';
 import {Theme} from '@mui/material';
 import {SystemStyleObject} from '@mui/system';
@@ -31,8 +31,7 @@ export function AspireModal(
 				margin: {
 					xs: '0',
 					md: '30px 0'
-				},
-				overflow: 'scroll'
+				}
 			}}
 		>
 			<Paper

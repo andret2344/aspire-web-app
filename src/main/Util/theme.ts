@@ -25,7 +25,7 @@ const lightColors: Colors = {
 	lightBlue: '#D9E6F7',
 	activeBlue: 'rgba(0, 109, 209, 0.4)',
 	bgAccent1: 'rgba(225, 225, 225, 1)',
-	bgModal: 'rgba(225, 225, 225, 0.77)'
+	bgModal: 'rgba(225, 225, 225, 1)'
 };
 
 const darkColors: Colors = {
@@ -34,7 +34,7 @@ const darkColors: Colors = {
 	lightBlue: 'rgba(0, 109, 209, 0.4)',
 	activeBlue: 'rgba(0, 109, 209, 0.4)',
 	bgAccent1: 'rgba(30, 30, 30, 1)',
-	bgModal: 'rgba(1, 13, 39, 0.85)'
+	bgModal: 'rgba(1, 9, 27, 1)'
 };
 
 export const lightTheme: Theme = createTheme({
