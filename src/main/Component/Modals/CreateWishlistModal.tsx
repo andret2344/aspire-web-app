@@ -50,9 +50,8 @@ export function CreateWishlistModal(
 		>
 			<TextField
 				data-testid='input-wishlist-name'
-				hiddenLabel
-				variant='filled'
-				placeholder={t('name')}
+				id='demo-helper-text-misaligned-no-helper'
+				label={t('name')}
 				value={wishlistName}
 				onChange={handleNameChange}
 				size={isMobile ? 'small' : 'medium'}
