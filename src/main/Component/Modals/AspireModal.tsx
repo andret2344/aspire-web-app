@@ -1,5 +1,5 @@
 import React from 'react';
-import {Backdrop, Modal, Paper, Typography} from '@mui/material';
+import {Modal, Paper, Typography} from '@mui/material';
 import {getThemeColor} from '@util/theme';
 import {Theme} from '@mui/material';
 import {SystemStyleObject} from '@mui/system';
