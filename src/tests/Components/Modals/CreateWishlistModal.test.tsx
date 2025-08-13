@@ -67,7 +67,7 @@ describe('CreateWishlistModal', (): void => {
 				onAddWishlist={mockAdd}
 			/>
 		);
-		const input: HTMLElement = screen.getByPlaceholderText('name');
+		const input: HTMLElement = screen.getByLabelText('name');
 		await user.clear(input);
 		await user.keyboard('{enter}');
 
