@@ -7,8 +7,8 @@ import {
 	useTheme
 } from '@mui/material';
 import React from 'react';
-import {addWishlist} from '../../Service/WishListService';
-import {WishList} from '../../Entity/WishList';
+import {addWishlist} from '@service/WishListService';
+import {mapWishlistFromDto, WishList, WishListDto} from '@entity/WishList';
 import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
 
@@ -35,8 +35,8 @@ export function CreateWishlistModal(
 		e: React.FormEvent<HTMLFormElement>
 	): Promise<void> {
 		e.preventDefault();
-		const newWishlist: WishList = await addWishlist(wishlistName.trim());
-		props.onAddWishlist(newWishlist);
+		const newWishlist: WishListDto = await addWishlist(wishlistName.trim());
+		props.onAddWishlist(mapWishlistFromDto(newWishlist));
 		setWishlistName('');
 	}
 
