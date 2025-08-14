@@ -39,10 +39,10 @@ export function AspireModal(
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					padding: '26px 46px',
+					padding: '1.6rem 2.8rem',
 					borderRadius: '0.75rem',
 					backgroundColor: getThemeColor(theme, 'bgModal'),
-					boxShadow: '8px 8px 24px 0px rgba(0, 0, 0, 1)',
+					boxShadow: '0.5rem 0.5rem 1.5rem 0rem rgba(0, 0, 0, 1)',
 					width: props.width ?? 'auto',
 					maxWidth: {
 						xs: '100%',
