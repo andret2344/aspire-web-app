@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Courgette&family=Montserrat:wght@400;500;700&display=swap');
 @import '@mdxeditor/editor/style.css';
 
+.mdxeditor {
+	overflow: 'auto';
+}
+
 @media (min-width: 600px) {
 	::-webkit-scrollbar {
 		display: none;
