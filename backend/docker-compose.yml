@@ -1,6 +1,6 @@
 services:
-  api:
-    container_name: aspire_api
+  server:
+    container_name: aspire_server
     image: registry.gitlab.com/self-evolving/aspire/aspire-server:v0.1.0-dev.5
     ports:
       - "8083:8080"
@@ -37,4 +37,3 @@ services:
 
 volumes:
   db-data:
-    name: aspire_db-data
