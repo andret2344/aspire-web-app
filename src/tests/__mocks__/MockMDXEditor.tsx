@@ -12,6 +12,7 @@ jest.mock('@mdxeditor/editor', () => ({
 			ref: ForwardedRef<unknown>
 		): React.ReactElement => {
 			if (ref) {
+				// eslint-disable-next-line react-hooks/refs
 				(ref as React.RefObject<MDXEditorMethods | null>).current = {
 					getMarkdown: mockedGetMarkdown,
 					setMarkdown: mockedSetMarkdown,
