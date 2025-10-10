@@ -1,0 +1,50 @@
+name: Release (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Semver tag (np. 0.1.0)"
+        required: true
+        default: "0.1.0"
+      image:
+        description: "Pełna nazwa obrazu (np. ghcr.io/<owner>/<repo>)"
+        required: false
+
+env:
+  CONTAINER_IMAGE: ${{ github.event.inputs.image != '' && github.event.inputs.image || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
+  VERSION: ${{ github.event.inputs.version }}
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  release:
+    name: Build & Push Docker
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & push (v and latest)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.CONTAINER_IMAGE }}:v${{ env.VERSION }}
+            ${{ env.CONTAINER_IMAGE }}:latest

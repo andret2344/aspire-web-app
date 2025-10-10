@@ -1,4 +1,4 @@
-import {getPriorityColor} from '../Util/theme';
+import {getPriorityColor} from '@util/theme';
 
 export interface Priority {
 	readonly value: number;
