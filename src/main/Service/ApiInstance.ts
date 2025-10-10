@@ -1,14 +1,5 @@
-import {
-	getAccessToken,
-	refreshToken,
-	saveAccessToken
-} from './AuthService';
-import axios, {
-	AxiosError,
-	AxiosInstance,
-	AxiosResponse,
-	InternalAxiosRequestConfig
-} from 'axios';
+import {getAccessToken, refreshToken, saveAccessToken} from './AuthService';
+import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
 import {Config} from './EnvironmentHelper';
 import {identity} from '@util/functions';
 
