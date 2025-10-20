@@ -46,7 +46,7 @@ export async function setWishlistPassword(
 	password: string
 ): Promise<number> {
 	const result: AxiosResponse<string> = await apiInstance.post(
-		`${getWishlistsUrl(id)}/set_access_code`,
+		`${getWishlistsUrl(id)}/set-access-code`,
 		{access_code: password}
 	);
 	return result.status;

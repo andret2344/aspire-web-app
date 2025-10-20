@@ -6,7 +6,7 @@ import {Box, IconButton, Input, Typography} from '@mui/material';
 interface EditableNameComponentProps {
 	readonly name: string;
 	readonly editable: boolean;
-	readonly onChange: (name: string) => void;
+	readonly onChange: (name: string) => Promise<string>;
 }
 
 export function EditableNameComponent(
@@ -15,6 +15,7 @@ export function EditableNameComponent(
 	const [editedName, setEditedName] = React.useState<string | undefined>(
 		undefined
 	);
+	const [displayName, setDisplayName] = React.useState<string>(props.name);
 
 	function handleNameClick(event: React.MouseEvent): void {
 		event.stopPropagation();
@@ -29,10 +30,13 @@ export function EditableNameComponent(
 
 	function handleNameSubmit(): void {
 		setEditedName(undefined);
+		setDisplayName(editedName ?? props.name);
 		if (!editedName || editedName === props.name) {
 			return;
 		}
-		props.onChange(editedName);
+		props
+			.onChange(editedName)
+			.catch((): void => setDisplayName(props.name));
 	}
 
 	function renderTypographyName(): React.ReactElement {
@@ -45,7 +49,7 @@ export function EditableNameComponent(
 				>
 					<EditIcon />
 				</IconButton>
-				{props.name}
+				{displayName}
 			</Typography>
 		);
 	}

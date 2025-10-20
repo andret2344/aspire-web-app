@@ -1,10 +1,10 @@
-import {Grid} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import React from 'react';
 import {WishlistItemComponent} from '@component/WishlistItemComponent';
 import {mapWishlistFromDto, WishList} from '@entity/WishList';
 import {getWishlist} from '@service/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {WishlistItem, mapWishlistItemFromDto} from '@entity/WishlistItem';
+import {mapWishlistItemFromDto, WishlistItem} from '@entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {AddButton} from '@component/AddButton';
@@ -41,16 +41,15 @@ export function WishlistPage(): React.ReactElement {
 	}
 
 	function handleItemRemove(itemId: number): void {
-		const foundItem: number = wishlist!.wishlistItems.findIndex(
+		const foundItem: number = wishlist!.items.findIndex(
 			(item: WishlistItem): boolean => item.id === itemId
 		);
-		wishlist!.wishlistItems.splice(foundItem, 1);
+		wishlist!.items.splice(foundItem, 1);
 		setWishlist({...wishlist!});
 	}
 
 	function renderItems(): React.ReactNode[] {
-		const activeWishlistItems: WishlistItem[] =
-			wishlist?.wishlistItems ?? [];
+		const activeWishlistItems: WishlistItem[] = wishlist?.items ?? [];
 		return activeWishlistItems.map(renderWishlistItem);
 	}
 
@@ -71,13 +70,13 @@ export function WishlistPage(): React.ReactElement {
 
 		function handleItemEdit(item: WishlistItem): void {
 			const itemId: number =
-				wishlist!.wishlistItems.findIndex(
+				wishlist!.items.findIndex(
 					(i: WishlistItem): boolean => i.id === item.id
 				) ?? -1;
 			if (itemId === -1) {
 				return;
 			}
-			wishlist!.wishlistItems[itemId] = {...item};
+			wishlist!.items[itemId] = {...item};
 			setWishlist({...wishlist!});
 		}
 	}
@@ -91,7 +90,7 @@ export function WishlistPage(): React.ReactElement {
 		})
 			.then(mapWishlistItemFromDto)
 			.then((item: WishlistItem): void => {
-				wishlist?.wishlistItems.push(item);
+				wishlist?.items.push(item);
 				setWishlist({...wishlist!});
 			});
 	}
@@ -113,6 +112,14 @@ export function WishlistPage(): React.ReactElement {
 					width: '100%'
 				}}
 			>
+				<Typography
+					component='div'
+					variant='h3'
+					sx={{padding: '10px 0'}}
+					align='center'
+				>
+					{wishlist?.name}
+				</Typography>
 				{renderItems()}
 				<Grid
 					display='flex'

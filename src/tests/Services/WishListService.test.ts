@@ -201,7 +201,7 @@ describe('WishListService', (): void => {
 		const wishlistId = 1;
 		const password = 'pass123';
 		const message = 'Access code set successfully';
-		mock.onPost(`/wishlists/${wishlistId}/set_access_code`).reply(
+		mock.onPost(`/wishlists/${wishlistId}/set-access-code`).reply(
 			200,
 			message
 		);

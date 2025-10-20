@@ -14,10 +14,7 @@ import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
 import {WishlistListPage} from '@page/WishlistListPage';
 import {renderForTest} from '../__utils__/RenderForTest';
-import {
-	getSampleWishlist,
-	getSampleWishlistDto
-} from '../__utils__/DataFactory';
+import {getSampleWishlist, getSampleWishlistDto} from '../__utils__/DataFactory';
 
 describe('WishlistListPage', (): void => {
 	describe('render', (): void => {
@@ -58,7 +55,7 @@ describe('WishlistListPage', (): void => {
 				getSampleWishlistDto({
 					id: 2,
 					name: 'New Mock Wishlist',
-					wishlist_items: []
+					items: []
 				})
 			);
 

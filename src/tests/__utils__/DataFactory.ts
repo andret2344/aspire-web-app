@@ -8,7 +8,7 @@ export function getSampleWishlist(overrides: Partial<WishList> = {}): WishList {
 		id: 1,
 		uuid: GENERIC_UUID,
 		name: 'Mock Wishlist',
-		wishlistItems: [getSampleWishlistItem()],
+		items: [getSampleWishlistItem()],
 		hasPassword: false,
 		...overrides
 	};
@@ -21,7 +21,7 @@ export function getSampleWishlistDto(
 		id: 1,
 		uuid: GENERIC_UUID,
 		name: 'Mock Wishlist',
-		wishlist_items: [getSampleWishlistItemDto()],
+		items: [getSampleWishlistItemDto()],
 		has_password: false,
 		...overrides
 	};

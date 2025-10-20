@@ -19,7 +19,9 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
 		undefined
 	);
-	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[]>([]);
+	const [hiddenItems, setHiddenItems] = React.useState<
+		WishlistItem[] | undefined
+	>(undefined);
 	const [isPasswordModalOpened, setIsPasswordModalOpened] =
 		React.useState<boolean>(false);
 
@@ -93,8 +95,11 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	}
 
 	function renderItems(): React.ReactNode[] {
-		const activeWishlistItems: WishlistItem[] = wishlist!.wishlistItems;
-		const items: WishlistItem[] = [...activeWishlistItems, ...hiddenItems];
+		const activeWishlistItems: WishlistItem[] = wishlist!.items;
+		const items: WishlistItem[] = [
+			...activeWishlistItems,
+			...(hiddenItems ?? [])
+		];
 		return items.map(renderWishlistItem);
 	}
 
@@ -124,6 +129,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 				{renderItems()}
 			</Grid>
 			<WishlistInputPasswordModal
+				alreadyEntered={hiddenItems !== undefined}
 				wishlist={wishlist}
 				open={isPasswordModalOpened}
 				onAccept={handlePasswordEnter}

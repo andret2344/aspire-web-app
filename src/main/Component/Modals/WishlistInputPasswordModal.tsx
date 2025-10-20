@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
 
 interface WishlistInputPasswordModalProps {
+	readonly alreadyEntered: boolean;
 	readonly wishlist: WishList;
 	readonly open: boolean;
 	readonly onAccept: (wishlistUuid: string, password: string) => void;
@@ -44,12 +45,11 @@ export function WishlistInputPasswordModal(
 		props.onAccept(props.wishlist.uuid, password);
 	}
 
-	return (
-		<AspireModal
-			title={t('access-wishlist-password')}
-			open={props.open}
-			onClose={handleCancelButton}
-		>
+	function renderContent(): React.ReactElement {
+		if (props.alreadyEntered) {
+			return <p>Password accepted!</p>;
+		}
+		return (
 			<TextField
 				data-testid='wishlist-password-modal-input'
 				type={isShowPassword ? 'text' : 'password'}
@@ -87,6 +87,16 @@ export function WishlistInputPasswordModal(
 				}}
 				required
 			/>
+		);
+	}
+
+	return (
+		<AspireModal
+			title={t('access-wishlist-password')}
+			open={props.open}
+			onClose={handleCancelButton}
+		>
+			{renderContent()}
 			<Stack
 				direction='row'
 				spacing={1}
@@ -102,7 +112,7 @@ export function WishlistInputPasswordModal(
 				<Button
 					data-testid='wishlist-password-modal-confirm'
 					onClick={handleSubmitButton}
-					disabled={!password}
+					disabled={!password || props.alreadyEntered}
 					variant='contained'
 				>
 					{t('confirm')}

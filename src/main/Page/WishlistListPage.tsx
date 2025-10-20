@@ -51,7 +51,7 @@ export function WishlistListPage(): React.ReactElement {
 		wishlists[index] = {
 			...wishlists[index],
 			hasPassword: !!newPassword,
-			wishlistItems: wishlists[index].wishlistItems.map(
+			items: wishlists[index].items.map(
 				(element: WishlistItem): WishlistItem => ({
 					...element,
 					hidden: false

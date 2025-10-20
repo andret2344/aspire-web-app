@@ -1,40 +1,48 @@
 services:
-  api:
+  server:
     container_name: aspire_api
-    image: registry.gitlab.com/self-evolving/aspire/aspire-server:v0.1.0-dev.5
-    ports:
-      - "8083:8080"
-    command: >
-      sh -c "python manage.py wait_for_db &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8080"
-    environment:
-      DB_HOST: db
-      DB_NAME: ${POSTGRES_DB_NAME}
-      DB_USER: ${POSTGRES_DB_USER}
-      DB_PASS: ${POSTGRES_DB_PASS}
-      DB_PORT: 5432
-      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
-    env_file:
-      - .env
+    image: ghcr.io/andret2344/aspire-server:v0.1.0-dev.1
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./.env
+        target: /var/www/html/.env.local
+        read_only: true
+      - type: bind
+        source: ./jwt
+        target: /var/www/html/config/jwt
+        read_only: true
+    ports:
+      - "8083:8083"
+    environment:
+      DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}?serverVersion=8.4&charset=utf8mb4"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -fsS http://127.0.0.1:8083/health || exit 1" ]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
 
   db:
     container_name: aspire_db
-    image: postgres:15-alpine
-    restart: always
+    image: mysql:8.4
     ports:
-      - "5433:5432"
+      - "3300:3306"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db_data:/var/lib/mysql
     environment:
-      POSTGRES_DB: ${POSTGRES_DB_NAME}
-      POSTGRES_USER: ${POSTGRES_DB_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_DB_PASS}
-    env_file:
-      - .env
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
 volumes:
-  db-data:
-    name: aspire_db-data
+  db_data:
+    name: aspire_db_data

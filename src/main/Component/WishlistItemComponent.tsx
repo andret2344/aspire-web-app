@@ -40,6 +40,7 @@ import {getThemeColor} from '@util/theme';
 import {SystemStyleObject} from '@mui/system';
 import {DescriptionModal} from './Modals/DescriptionModal';
 import {EditableNameComponent} from './EditableNameComponent';
+import {Condition} from '@util/Condition';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -103,26 +104,29 @@ export function WishlistItemComponent(
 		handlePriorityChoiceClose();
 	}
 
-	function handleNameChange(name: string): void {
-		handleItemUpdate(props.item.id, 'name', name);
+	function handleNameChange(name: string): Promise<string> {
+		return handleItemUpdate(props.item.id, 'name', name);
 	}
 
 	async function handleItemUpdate<K extends keyof WishlistItemDto>(
 		itemId: number,
 		field: K,
 		newValue: WishlistItemDto[K]
-	): Promise<void> {
+	): Promise<WishlistItemDto[K]> {
 		addToCircularProgress(field);
-		const wishlistItems: WishlistItem[] = props.wishlist.wishlistItems;
-		const itemIndex: number = wishlistItems.findIndex(
+		const items: WishlistItem[] = props.wishlist.items;
+		const itemIndex: number = items.findIndex(
 			(i: WishlistItem): boolean => i.id === itemId
 		);
-		const item: WishlistItem = wishlistItems[itemIndex];
+		const item: WishlistItem = items[itemIndex];
 		const itemDto: WishlistItemDto = mapWishlistItemToDto(item, {
 			[field]: newValue
 		});
 		return updateWishlistItem(props.wishlist.id, itemDto)
-			.then((): void => props.onEdit!(mapWishlistItemFromDto(itemDto)))
+			.then((): WishlistItemDto[K] => {
+				props.onEdit!(mapWishlistItemFromDto(itemDto));
+				return newValue;
+			})
 			.finally((): void => removeFromCircularProgress(field));
 	}
 
@@ -408,14 +412,16 @@ export function WishlistItemComponent(
 					<Typography component='div'>
 						<MarkdownView markdown={props.item.description} />
 					</Typography>
-					<Button
-						data-testid={`component-wishlist-item-${props.item.id}-button-edit-description`}
-						variant='contained'
-						startIcon={<EditIcon />}
-						onClick={handleModalOpen}
-					>
-						Edit
-					</Button>
+					<Condition check={props.onEdit !== undefined}>
+						<Button
+							data-testid={`component-wishlist-item-${props.item.id}-button-edit-description`}
+							variant='contained'
+							startIcon={<EditIcon />}
+							onClick={handleModalOpen}
+						>
+							Edit
+						</Button>
+					</Condition>
 				</Box>
 			</Collapse>
 			<Menu

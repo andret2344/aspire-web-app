@@ -33,8 +33,8 @@ export async function logIn(email: string, password: string): Promise<number> {
 			},
 			requestConfig
 		);
-		saveAccessToken(result.data.access);
-		saveRefreshToken(result.data.refresh);
+		saveAccessToken(result.data.token);
+		saveRefreshToken(result.data.refresh_token);
 		return result.status;
 	} catch (error: unknown) {
 		console.error(error);
@@ -109,6 +109,30 @@ export async function changePassword(
 	return response.status;
 }
 
+export async function refreshToken(): Promise<string | undefined> {
+	const value = Math.floor(Math.random() * 10);
+	console.log('refresh token ', value);
+	const refreshToken: string | null = getRefreshToken();
+	if (!refreshToken) {
+		return;
+	}
+	const baseUrl: string = getApiConfig().backend;
+	const result: AxiosResponse = await axios.post(
+		`${baseUrl}/account/token/refresh`,
+		{
+			refresh_token: refreshToken
+		}
+	);
+
+	console.log('refresh token data', value, result.data);
+
+	saveAccessToken(result.data.token);
+	saveRefreshToken(result.data.refresh_token);
+	return result.data.token;
+}
+
+// Utils
+
 export function logout(): void {
 	localStorage.removeItem(ACCESS_TOKEN);
 	localStorage.removeItem(REFRESH_TOKEN);
@@ -128,22 +152,6 @@ export function getRefreshToken(): string | null {
 
 export function getAccessToken(): string | null {
 	return localStorage.getItem(ACCESS_TOKEN);
-}
-
-export async function refreshToken(): Promise<string | undefined> {
-	const refreshToken: string | null = getRefreshToken();
-	if (!refreshToken) {
-		return;
-	}
-	const result: AxiosResponse = await apiInstance.post(
-		'/account/login/refresh',
-		{
-			refresh: refreshToken
-		}
-	);
-
-	saveAccessToken(result.data.access);
-	return result.data.access;
 }
 
 export function isTokenValid(): boolean {
