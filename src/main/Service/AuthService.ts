@@ -110,7 +110,6 @@ export async function changePassword(
 }
 
 export async function refreshToken(): Promise<string | undefined> {
-	const value = Math.floor(Math.random() * 10);
 	const refreshToken: string | null = getRefreshToken();
 	if (!refreshToken) {
 		return;
