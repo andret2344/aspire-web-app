@@ -2,6 +2,8 @@ import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import {Box, IconButton, Input, Typography} from '@mui/material';
+import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
 
 interface EditableNameComponentProps {
 	readonly name: string;
@@ -16,6 +18,9 @@ export function EditableNameComponent(
 		undefined
 	);
 	const [displayName, setDisplayName] = React.useState<string>(props.name);
+
+	const {enqueueSnackbar} = useSnackbar();
+	const {t} = useTranslation();
 
 	function handleNameClick(event: React.MouseEvent): void {
 		event.stopPropagation();
@@ -34,9 +39,12 @@ export function EditableNameComponent(
 		if (!editedName || editedName === props.name) {
 			return;
 		}
-		props
-			.onChange(editedName)
-			.catch((): void => setDisplayName(props.name));
+		props.onChange(editedName).catch((): void => {
+			setDisplayName(props.name);
+			enqueueSnackbar(t('something-went-wrong'), {
+				variant: 'error'
+			});
+		});
 	}
 
 	function renderTypographyName(): React.ReactElement {

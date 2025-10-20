@@ -104,8 +104,16 @@ export function WishlistItemComponent(
 		handlePriorityChoiceClose();
 	}
 
-	function handleNameChange(name: string): Promise<string> {
-		return handleItemUpdate(props.item.id, 'name', name);
+	async function handleNameChange(name: string): Promise<string> {
+		const value: string = await handleItemUpdate(
+			props.item.id,
+			'name',
+			name
+		);
+		enqueueSnackbar(t('item-updated'), {
+			variant: 'success'
+		});
+		return value;
 	}
 
 	async function handleItemUpdate<K extends keyof WishlistItemDto>(

@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import axios, {AxiosResponse, isAxiosError} from 'axios';
+import axios, {AxiosError, AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from '@service/ApiInstance';
 import {
 	changePassword,
@@ -17,7 +17,7 @@ import {waitFor} from '@testing-library/react';
 describe('AuthService', (): void => {
 	beforeEach((): void => localStorage.clear());
 
-	test('return 401 if pass undefined login or password to login function', async () => {
+	it('return 401 if pass undefined login or password to login function', async () => {
 		// act
 		const response = await logIn('', '');
 
@@ -25,21 +25,21 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(401);
 	});
 
-	test('return 401 if pass undefined password to login function', async () => {
+	it('return 401 if pass undefined password to login function', async () => {
 		// act
-		const response = await logIn('test', '');
+		const response = await logIn('it', '');
 
 		// assert
 		expect(response).toEqual(401);
 	});
 
-	test('successful login', async () => {
+	it('successful login', async () => {
 		// arrange
 		const mockResponseData = {
 			access: 'access-token',
 			refresh: 'refresh-token'
 		};
-		const email = 'test@example.com';
+		const email = 'it@example.com';
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
@@ -56,9 +56,9 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(200);
 	});
 
-	test('handle error when login is not successful', async () => {
+	it('handle error when login is not successful', async () => {
 		// arrange
-		const email = 'test@example.com';
+		const email = 'it@example.com';
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
@@ -74,9 +74,9 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(401);
 	});
 
-	test('successful sign-up', async (): Promise<void> => {
+	it('successful sign-up', async (): Promise<void> => {
 		// arrange
-		const email = 'test@example.com';
+		const email = 'it@example.com';
 		const password = 'Testowe123!';
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
@@ -92,7 +92,7 @@ describe('AuthService', (): void => {
 		});
 	});
 
-	test('logout successfully', async () => {
+	it('logout successfully', async () => {
 		// arrange
 		const mockedHeader = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
 		const mockedPayload = btoa(
@@ -125,7 +125,7 @@ describe('AuthService', (): void => {
 		expect(resultRefreshToken).toBeNull();
 	});
 
-	test('get refresh token', () => {
+	it('get refresh token', () => {
 		// arrange
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
 
@@ -136,9 +136,9 @@ describe('AuthService', (): void => {
 		expect(result).toEqual('existing-refresh-token');
 	});
 
-	test('try to request to reset password', async () => {
+	it('try to request to reset password', async () => {
 		// arrange
-		const email = 'test@example.com';
+		const email = 'it@example.com';
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
 		const url = `http://localhost/new-password`;
@@ -154,7 +154,7 @@ describe('AuthService', (): void => {
 		expect(response.status).toEqual(200);
 	});
 
-	test('Successful reset password', async () => {
+	it('Successful reset password', async () => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		const password = 'Testowe123!';
@@ -174,7 +174,7 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(200);
 	});
 
-	test('Successful change-password', async () => {
+	it('Successful change-password', async () => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const newPassword = 'Testowe123!';
@@ -198,42 +198,38 @@ describe('AuthService', (): void => {
 		expect(response).toEqual(200);
 	});
 
-	test('refresh token', async (): Promise<void> => {
+	it('refresh token', async (): Promise<void> => {
 		// arrange
 		const mockResponseData = {
-			access: 'access-token'
+			token: 'access-token'
 		};
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
-		const mock = new MockAdapter(apiInstance);
+		const mock = new MockAdapter(axios);
 		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(
 			200,
 			mockResponseData
 		);
 
 		// act
-		const result = await refreshToken();
+		const result: string | undefined = await refreshToken();
 
 		//assert
-		expect(result).toBeDefined();
-		expect(result).toEqual(mockResponseData.access);
+		expect(result).toEqual(mockResponseData.token);
 	});
 
-	test('refresh token rejected', async (): Promise<void> => {
+	it('refresh token rejected', async (): Promise<void> => {
 		// arrange
-		const mock = new MockAdapter(apiInstance);
+		const mock = new MockAdapter(axios);
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
-		mock.onPost('/account/token/refresh').reply(500);
+		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(
+			500
+		);
 
 		// act
-		await refreshToken()
-			// assert
-			.then((): void => fail('Should not reach this point'))
-			.catch((error: Error): void =>
-				expect(isAxiosError(error)).toBeTruthy()
-			);
+		await expect(refreshToken()).rejects.toBeInstanceOf(AxiosError);
 	});
 
-	test('is token valid should return false if the token has no exp field', (): void => {
+	it('is token valid should return false if the token has no exp field', (): void => {
 		// arrange
 		localStorage.setItem(
 			'accessToken',
@@ -244,7 +240,7 @@ describe('AuthService', (): void => {
 		expect(isTokenValid()).toBe(false);
 	});
 
-	test('should return false if the token is expired', (): void => {
+	it('should return false if the token is expired', (): void => {
 		// arrange
 		localStorage.setItem(
 			'accessToken',
@@ -255,7 +251,7 @@ describe('AuthService', (): void => {
 		expect(isTokenValid()).toBe(false);
 	});
 
-	test('should return false if no token provided', (): void => {
+	it('should return false if no token provided', (): void => {
 		// arrange
 		localStorage.removeItem('accessToken');
 

@@ -14,7 +14,7 @@ describe('EditableNameComponent', (): void => {
 				<EditableNameComponent
 					name='Mock Wishlist'
 					editable
-					onChange={(): void => undefined}
+					onChange={(): Promise<string> => Promise.resolve('')}
 				/>
 			);
 
@@ -33,7 +33,7 @@ describe('EditableNameComponent', (): void => {
 				<EditableNameComponent
 					name='Mock Wishlist'
 					editable={false}
-					onChange={(): void => undefined}
+					onChange={(): Promise<string> => Promise.resolve('')}
 				/>
 			);
 
@@ -50,7 +50,7 @@ describe('EditableNameComponent', (): void => {
 	describe('editing', (): void => {
 		it('handles name change', async (): Promise<void> => {
 			// arrange
-			const handleChange: jest.Mock = jest.fn();
+			const handleChange: jest.Mock = jest.fn().mockResolvedValue(void 0);
 			renderForTest(
 				<EditableNameComponent
 					name='Mock Wishlist'

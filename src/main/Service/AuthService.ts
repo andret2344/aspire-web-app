@@ -111,7 +111,6 @@ export async function changePassword(
 
 export async function refreshToken(): Promise<string | undefined> {
 	const value = Math.floor(Math.random() * 10);
-	console.log('refresh token ', value);
 	const refreshToken: string | null = getRefreshToken();
 	if (!refreshToken) {
 		return;
@@ -123,8 +122,6 @@ export async function refreshToken(): Promise<string | undefined> {
 			refresh_token: refreshToken
 		}
 	);
-
-	console.log('refresh token data', value, result.data);
 
 	saveAccessToken(result.data.token);
 	saveRefreshToken(result.data.refresh_token);
