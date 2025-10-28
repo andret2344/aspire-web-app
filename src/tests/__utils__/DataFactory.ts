@@ -34,7 +34,7 @@ export function getSampleWishlistItemDto(
 		id: 1,
 		name: 'Item name',
 		description: '<p>Item description</p>',
-		priority_id: 1,
+		priority: 1,
 		hidden: false,
 		...overrides
 	};
@@ -46,7 +46,7 @@ export function getSampleWishlistItemDtoWithoutId(
 	return {
 		name: 'Item name',
 		description: '<p>Item description</p>',
-		priority_id: 1,
+		priority: 1,
 		hidden: false,
 		...overrides
 	};
@@ -59,7 +59,7 @@ export function getSampleWishlistItem(
 		id: 1,
 		name: 'Item name',
 		description: '<p>Item description</p>',
-		priorityId: 1,
+		priority: 1,
 		hidden: false,
 		...overrides
 	};

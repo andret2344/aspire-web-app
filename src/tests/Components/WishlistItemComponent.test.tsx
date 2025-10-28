@@ -310,7 +310,7 @@ describe('WishlistItemComponent', (): void => {
 			expect(wishlistItemDescription).toBeNull();
 			expect(handleEditClick).toHaveBeenCalledTimes(1);
 			expect(handleEditClick).toHaveBeenCalledWith(
-				getSampleWishlistItem({priorityId: 2})
+				getSampleWishlistItem({priority: 2})
 			);
 		});
 

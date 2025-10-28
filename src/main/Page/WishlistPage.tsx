@@ -4,7 +4,12 @@ import {WishlistItemComponent} from '@component/WishlistItemComponent';
 import {mapWishlistFromDto, WishList} from '@entity/WishList';
 import {getWishlist} from '@service/WishListService';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {mapWishlistItemFromDto, WishlistItem} from '@entity/WishlistItem';
+import {
+	mapWishlistItemFromDto,
+	mapWishlistItemToDto,
+	WishlistItem,
+	WishlistItemDto
+} from '@entity/WishlistItem';
 import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
 import {AddButton} from '@component/AddButton';
@@ -65,34 +70,45 @@ export function WishlistPage(): React.ReactElement {
 				wishlist={wishlist!}
 				onRemove={handleItemRemove}
 				onEdit={handleItemEdit}
+				onDuplicate={handleItemDuplicate}
 			/>
 		);
-
-		function handleItemEdit(item: WishlistItem): void {
-			const itemId: number =
-				wishlist!.items.findIndex(
-					(i: WishlistItem): boolean => i.id === item.id
-				) ?? -1;
-			if (itemId === -1) {
-				return;
-			}
-			wishlist!.items[itemId] = {...item};
-			setWishlist({...wishlist!});
-		}
 	}
 
-	function handleAddClick(): void {
-		addWishlistItem(wishlistId, {
-			name: t('unnamed'),
-			description: t('default-description'),
-			priority_id: Math.floor((Math.random() * 3) % 3) + 1,
-			hidden: false
-		})
+	function handleItemEdit(item: WishlistItem): void {
+		const itemId: number =
+			wishlist!.items.findIndex(
+				(i: WishlistItem): boolean => i.id === item.id
+			) ?? -1;
+		if (itemId === -1) {
+			return;
+		}
+		wishlist!.items[itemId] = {...item};
+		setWishlist({...wishlist!});
+	}
+
+	function handleItemDuplicate(item: WishlistItem): void {
+		executeAddWishlistItem(mapWishlistItemToDto(item));
+	}
+
+	function executeAddWishlistItem(
+		item: Omit<WishlistItemDto, 'id'>
+	): Promise<void> {
+		return addWishlistItem(wishlistId, item)
 			.then(mapWishlistItemFromDto)
 			.then((item: WishlistItem): void => {
 				wishlist?.items.push(item);
 				setWishlist({...wishlist!});
 			});
+	}
+
+	function handleAddClick(): void {
+		executeAddWishlistItem({
+			name: t('unnamed'),
+			description: t('default-description'),
+			priority: Math.floor((Math.random() * 3) % 3) + 1,
+			hidden: false
+		});
 	}
 
 	return (

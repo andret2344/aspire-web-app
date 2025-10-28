@@ -5,6 +5,8 @@ import {
 	Collapse,
 	Grid,
 	IconButton,
+	ListItemIcon,
+	ListItemText,
 	Menu,
 	MenuItem,
 	Theme,
@@ -34,7 +36,8 @@ import {useTranslation} from 'react-i18next';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
-import {getAllPriorities, Priority} from '@entity/Priority';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {getAllPriorities, getPriority, Priority} from '@entity/Priority';
 import {WishList} from '@entity/WishList';
 import {getThemeColor} from '@util/theme';
 import {SystemStyleObject} from '@mui/system';
@@ -48,6 +51,7 @@ interface WishlistItemComponentProps {
 	readonly position: number;
 	readonly onEdit?: (item: WishlistItem) => void;
 	readonly onRemove?: (itemId: number) => void;
+	readonly onDuplicate?: (item: WishlistItem) => void;
 }
 
 export function WishlistItemComponent(
@@ -99,8 +103,8 @@ export function WishlistItemComponent(
 	function handlePriorityChoice(
 		event: React.MouseEvent<HTMLLIElement>
 	): void {
-		const priorityId: number = event.currentTarget.value;
-		handleItemUpdate(props.item.id, 'priority_id', priorityId);
+		const priority: number = event.currentTarget.value;
+		handleItemUpdate(props.item.id, 'priority', priority);
 		handlePriorityChoiceClose();
 	}
 
@@ -159,6 +163,12 @@ export function WishlistItemComponent(
 		);
 	}
 
+	function handleDuplicate(event: React.MouseEvent<HTMLElement>): void {
+		event.stopPropagation();
+		props.onDuplicate?.(props.item);
+		setMenuAnchorEl(null);
+	}
+
 	function handleCloseModal(): void {
 		setIsDescriptionEdited(false);
 	}
@@ -206,17 +216,16 @@ export function WishlistItemComponent(
 	}
 
 	function renderVisibilityGridItem(): React.ReactElement {
-		if (!props.onEdit) {
-			return <></>;
-		}
 		return (
-			<Grid
-				display='flex'
-				justifyContent='center'
-				alignItems='center'
-			>
-				{renderVisibilityIcon()}
-			</Grid>
+			<Condition check={!!props.onEdit}>
+				<Grid
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
+				>
+					{renderVisibilityIcon()}
+				</Grid>
+			</Condition>
 		);
 	}
 
@@ -251,18 +260,53 @@ export function WishlistItemComponent(
 
 	function renderPriorityGridItem(): React.ReactElement {
 		return (
-			<Grid
-				display='flex'
-				justifyContent='center'
-				alignItems='center'
+			<Condition check={!!props.onEdit}>
+				<Grid
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
+				>
+					{renderPriorityChip()}
+				</Grid>
+			</Condition>
+		);
+	}
+
+	function renderPriorityMenuItem(): React.ReactElement {
+		const priority: Priority | undefined = getPriority(props.item.priority);
+		return (
+			<Condition check={!!props.onEdit}>
+				<MenuItem onClick={handlePriorityChoiceOpen}>
+					<ListItemIcon>{renderPriorityChip()}</ListItemIcon>
+					<ListItemText>
+						Priority:&nbsp;
+						{t(priority?.descriptionKey ?? '')}
+					</ListItemText>
+				</MenuItem>
+			</Condition>
+		);
+	}
+
+	function renderSelectPriorityMenuItem(
+		priority: Priority
+	): React.ReactElement {
+		return (
+			<MenuItem
+				onClick={handlePriorityChoice}
+				key={priority.value}
+				value={priority.value}
 			>
-				{renderPriorityChip()}
-			</Grid>
+				<PriorityBadge
+					value={priority.value}
+					data-testid={`priority-menu-item-${priority.value}`}
+				/>
+				&nbsp;-&nbsp;{t(priority.descriptionKey)}
+			</MenuItem>
 		);
 	}
 
 	function renderPriorityChip(): React.ReactElement {
-		if (circularProgress.includes('priority_id')) {
+		if (circularProgress.includes('priority')) {
 			return (
 				<CircularProgress
 					data-testid='progress-loading-priority'
@@ -272,7 +316,7 @@ export function WishlistItemComponent(
 		}
 		return (
 			<PriorityBadge
-				value={props.item.priorityId}
+				value={props.item.priority}
 				onClick={handlePriorityChoiceOpen}
 			/>
 		);
@@ -299,55 +343,65 @@ export function WishlistItemComponent(
 		);
 	}
 
-	function renderPriorityMenuItem(priority: Priority): React.ReactElement {
+	function renderRemoveButtonMenuItem(): React.ReactElement {
 		return (
-			<MenuItem
-				onClick={handlePriorityChoice}
-				key={priority.value}
-				value={priority.value}
-			>
-				<PriorityBadge
-					value={priority.value}
-					data-testid={`priority-menu-item-${priority.value}`}
-				/>
-				&nbsp;-&nbsp;{t(priority.descriptionKey)}
-			</MenuItem>
-		);
-	}
-
-	function renderIcons(): React.ReactElement {
-		if (!isMobile) {
-			return (
-				<>
-					{renderPriorityGridItem()}
-					{renderRemoveButtonGridItem()}
-				</>
-			);
-		}
-		return (
-			<Grid>
-				<IconButton
-					onClick={handleMenuOpen}
-					data-testid='wishlist-item-button-more'
-				>
-					<MoreHorizIcon />
-				</IconButton>
-				<Menu
-					anchorEl={menuAnchorEl}
-					open={Boolean(menuAnchorEl)}
-					onClose={handleMenuClose}
-				>
-					<MenuItem onClick={handlePriorityChoiceOpen}>
-						{renderPriorityChip()}
-					</MenuItem>
-					<MenuItem onClick={handleRemoveButton}>
+			<Condition check={!!props.onRemove}>
+				<MenuItem onClick={handleRemoveButton}>
+					<ListItemIcon>
 						<DeleteForeverOutlined
 							color='error'
 							data-testid='menu-item-remove'
 						/>
-					</MenuItem>
-				</Menu>
-			</Grid>
+					</ListItemIcon>
+					<ListItemText>Delete</ListItemText>
+				</MenuItem>
+			</Condition>
+		);
+	}
+
+	function renderDuplicateMenuItem(): React.ReactElement {
+		return (
+			<Condition check={!!props.onDuplicate}>
+				<MenuItem onClick={handleDuplicate}>
+					<ListItemIcon>
+						<ContentCopyIcon data-testid='menu-item-duplicate' />
+					</ListItemIcon>
+					<ListItemText>{t('duplicate')}</ListItemText>
+				</MenuItem>
+			</Condition>
+		);
+	}
+
+	function renderIcons(): React.ReactElement {
+		return (
+			<>
+				{renderVisibilityGridItem()}
+				<Condition check={!isMobile}>
+					{renderPriorityGridItem()}
+					{renderRemoveButtonGridItem()}
+				</Condition>
+				<Condition check={!!props.onEdit || !!props.onRemove}>
+					<Grid>
+						<IconButton
+							onClick={handleMenuOpen}
+							data-testid='wishlist-item-button-more'
+						>
+							<MoreHorizIcon />
+						</IconButton>
+						<Menu
+							anchorEl={menuAnchorEl}
+							open={Boolean(menuAnchorEl)}
+							onClose={handleMenuClose}
+						>
+							{renderDuplicateMenuItem()}
+							<Condition check={isMobile}>
+								{renderPriorityMenuItem()}
+								{renderRemoveButtonMenuItem()}
+							</Condition>
+						</Menu>
+					</Grid>
+				</Condition>
+			</>
 		);
 	}
 
@@ -408,7 +462,6 @@ export function WishlistItemComponent(
 						onChange={handleNameChange}
 					/>
 				</Grid>
-				{renderVisibilityGridItem()}
 				{renderIcons()}
 			</Grid>
 			<Collapse
@@ -450,7 +503,7 @@ export function WishlistItemComponent(
 					horizontal: 'center'
 				}}
 			>
-				{getAllPriorities().map(renderPriorityMenuItem)}
+				{getAllPriorities().map(renderSelectPriorityMenuItem)}
 			</Menu>
 			<DescriptionModal
 				open={isDescriptionEdited}

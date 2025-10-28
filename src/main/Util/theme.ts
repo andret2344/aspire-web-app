@@ -66,6 +66,6 @@ export function getThemeColor(
 		: darkColors[colorName];
 }
 
-export function getPriorityColor(priorityId: number): string {
-	return priorityColors[priorityId];
+export function getPriorityColor(priority: number): string {
+	return priorityColors[priority];
 }
