@@ -1,7 +1,7 @@
 services:
   server:
     container_name: aspire_api
-    image: ghcr.io/andret2344/aspire-server:v0.1.0-dev.1
+    image: ghcr.io/andret2344/aspire-server:v0.1.0-dev.2
     depends_on:
       db:
         condition: service_healthy
