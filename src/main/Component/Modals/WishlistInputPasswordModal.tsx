@@ -12,7 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {AspireModal} from './AspireModal';
 
 interface WishlistInputPasswordModalProps {
-	readonly alreadyEntered: boolean;
+	readonly alreadyEntered?: boolean;
 	readonly wishlist: WishList;
 	readonly open: boolean;
 	readonly onAccept: (wishlistUuid: string, password: string) => void;

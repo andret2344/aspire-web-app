@@ -260,15 +260,20 @@ export function WishlistItemComponent(
 
 	function renderPriorityGridItem(): React.ReactElement {
 		return (
-			<Condition check={!!props.onEdit}>
-				<Grid
-					display='flex'
-					justifyContent='center'
-					alignItems='center'
-				>
-					{renderPriorityChip()}
-				</Grid>
-			</Condition>
+			<>
+				<Condition check={!props.onEdit}>
+					<PriorityBadge value={props.item.priority} />
+				</Condition>
+				<Condition check={!!props.onEdit}>
+					<Grid
+						display='flex'
+						justifyContent='center'
+						alignItems='center'
+					>
+						{renderPriorityChip()}
+					</Grid>
+				</Condition>
+			</>
 		);
 	}
 

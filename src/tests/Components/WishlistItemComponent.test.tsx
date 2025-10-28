@@ -340,6 +340,47 @@ describe('WishlistItemComponent', (): void => {
 		});
 	});
 
+	it('handles name edit', async (): Promise<void> => {
+		// arrange
+		const handleEdit: jest.Mock = jest.fn();
+		mockedUpdateWishlistItem.mockResolvedValue(void 0);
+		renderForTest(
+			<WishlistItemComponent
+				item={getSampleWishlistItem()}
+				wishlist={getSampleWishlist()}
+				position={1}
+				onEdit={handleEdit}
+				onRemove={(): void => undefined}
+			/>
+		);
+
+		// act
+		const editButton: HTMLElement = screen.getByTestId(
+			'editable-name-button-edit'
+		);
+		await user.click(editButton);
+		const inputWrapper: HTMLElement = screen.getByTestId(
+			'editable-name-input-name'
+		);
+		const input: HTMLInputElement = inputWrapper.querySelector(
+			'input'
+		) as HTMLInputElement;
+		await user.clear(input);
+		await user.type(input, 'New description');
+		const doneButton: HTMLElement = screen.getByTestId(
+			'editable-name-button-done'
+		);
+		await user.click(doneButton);
+
+		// assert
+		expect(handleEdit).toHaveBeenCalledTimes(1);
+		expect(handleEdit).toHaveBeenCalledWith(
+			getSampleWishlistItem({
+				name: 'New description'
+			})
+		);
+	});
+
 	it('handles description edit', async (): Promise<void> => {
 		// arrange
 		const handleEdit: jest.Mock = jest.fn();
@@ -400,5 +441,35 @@ describe('WishlistItemComponent', (): void => {
 
 		// assert
 		expect(descriptionElement).toBeInTheDocument();
+	});
+
+	it('handles duplicate', async (): Promise<void> => {
+		// arrange
+		const handleDuplicateClick: jest.Mock = jest.fn();
+		renderForTest(
+			<WishlistItemComponent
+				item={getSampleWishlistItem()}
+				wishlist={getSampleWishlist()}
+				position={1}
+				onDuplicate={handleDuplicateClick}
+				onRemove={(): void => undefined}
+			/>
+		);
+
+		// act
+		const menuItem: HTMLElement = screen.getByTestId(
+			'wishlist-item-button-more'
+		);
+		await user.click(menuItem);
+		const duplicateChip: HTMLElement = screen.getByTestId(
+			'menu-item-duplicate'
+		);
+		await user.click(duplicateChip);
+
+		// assert
+		expect(handleDuplicateClick).toHaveBeenCalledTimes(1);
+		expect(handleDuplicateClick).toHaveBeenCalledWith(
+			getSampleWishlistItem()
+		);
 	});
 });
