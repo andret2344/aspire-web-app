@@ -2,11 +2,13 @@ import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import {Box, IconButton, Input, Typography} from '@mui/material';
+import {useSnackbar} from 'notistack';
+import {useTranslation} from 'react-i18next';
 
 interface EditableNameComponentProps {
 	readonly name: string;
 	readonly editable: boolean;
-	readonly onChange: (name: string) => void;
+	readonly onChange: (name: string) => Promise<string>;
 }
 
 export function EditableNameComponent(
@@ -15,6 +17,10 @@ export function EditableNameComponent(
 	const [editedName, setEditedName] = React.useState<string | undefined>(
 		undefined
 	);
+	const [displayName, setDisplayName] = React.useState<string>(props.name);
+
+	const {enqueueSnackbar} = useSnackbar();
+	const {t} = useTranslation();
 
 	function handleNameClick(event: React.MouseEvent): void {
 		event.stopPropagation();
@@ -29,10 +35,16 @@ export function EditableNameComponent(
 
 	function handleNameSubmit(): void {
 		setEditedName(undefined);
+		setDisplayName(editedName ?? props.name);
 		if (!editedName || editedName === props.name) {
 			return;
 		}
-		props.onChange(editedName);
+		props.onChange(editedName).catch((): void => {
+			setDisplayName(props.name);
+			enqueueSnackbar(t('something-went-wrong'), {
+				variant: 'error'
+			});
+		});
 	}
 
 	function renderTypographyName(): React.ReactElement {
@@ -45,7 +57,7 @@ export function EditableNameComponent(
 				>
 					<EditIcon />
 				</IconButton>
-				{props.name}
+				{displayName}
 			</Typography>
 		);
 	}

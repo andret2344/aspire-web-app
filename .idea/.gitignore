@@ -1,12 +1,12 @@
+/.DS_Store/
+/dataSources/
 /httpRequests/
 /sonarlint/
 /shelf/
 
-/workspace.xml
-/discord.xml
-/modules.xml
+/dataSources.local.xml
+/dataSources.xml
 /git_toolbox_blame.xml
 /git_toolbox_prj.xml
-/php.xml
-*.iml
-/.DS_Store/
+/modules.xml
+/workspace.xml

@@ -21,7 +21,7 @@ function createTokenHeader(token: string): string {
 function getDefaultConfig(): Config {
 	return {
 		backend: process.env.REACT_API_URL ?? 'http://localhost:8080',
-		frontend: `${window.location.protocol}//${window.location.host}`
+		frontend: `${globalThis.location.protocol}//${globalThis.location.host}`
 	};
 }
 
@@ -60,16 +60,16 @@ apiInstance.interceptors.response.use(
 		const originalRequest: RetryInternalAxiosRequestConfig | undefined =
 			error.config as RetryInternalAxiosRequestConfig | undefined;
 		if (!originalRequest || originalRequest._retry) {
-			return Promise.reject(error);
+			throw error;
 		}
 
 		if (error.response?.status !== 401) {
-			return Promise.reject(error);
+			throw error;
 		}
 
 		const newToken: string | undefined = await refreshToken();
 		if (!newToken) {
-			return Promise.reject(error);
+			throw error;
 		}
 
 		saveAccessToken(newToken);

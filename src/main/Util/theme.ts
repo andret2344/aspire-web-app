@@ -16,6 +16,7 @@ interface Colors {
 	activeBlue?: string;
 	red: string;
 	bgAccent1: string;
+	bgModal: string;
 }
 
 const lightColors: Colors = {
@@ -23,7 +24,8 @@ const lightColors: Colors = {
 	red: '#670303',
 	lightBlue: '#D9E6F7',
 	activeBlue: 'rgba(0, 109, 209, 0.4)',
-	bgAccent1: 'rgba(225, 225, 225, 1)'
+	bgAccent1: 'rgba(225, 225, 225, 1)',
+	bgModal: 'rgba(225, 225, 225, 1)'
 };
 
 const darkColors: Colors = {
@@ -31,7 +33,8 @@ const darkColors: Colors = {
 	red: '#e08888',
 	lightBlue: 'rgba(0, 109, 209, 0.4)',
 	activeBlue: 'rgba(0, 109, 209, 0.4)',
-	bgAccent1: 'rgba(30, 30, 30, 1)'
+	bgAccent1: 'rgba(30, 30, 30, 1)',
+	bgModal: 'rgba(1, 9, 27, 1)'
 };
 
 export const lightTheme: Theme = createTheme({
@@ -63,6 +66,6 @@ export function getThemeColor(
 		: darkColors[colorName];
 }
 
-export function getPriorityColor(priorityId: number): string {
-	return priorityColors[priorityId];
+export function getPriorityColor(priority: number): string {
+	return priorityColors[priority];
 }

@@ -8,7 +8,7 @@ export function getSampleWishlist(overrides: Partial<WishList> = {}): WishList {
 		id: 1,
 		uuid: GENERIC_UUID,
 		name: 'Mock Wishlist',
-		wishlistItems: [getSampleWishlistItem()],
+		items: [getSampleWishlistItem()],
 		hasPassword: false,
 		...overrides
 	};
@@ -21,7 +21,7 @@ export function getSampleWishlistDto(
 		id: 1,
 		uuid: GENERIC_UUID,
 		name: 'Mock Wishlist',
-		wishlist_items: [getSampleWishlistItemDto()],
+		items: [getSampleWishlistItemDto()],
 		has_password: false,
 		...overrides
 	};
@@ -34,7 +34,7 @@ export function getSampleWishlistItemDto(
 		id: 1,
 		name: 'Item name',
 		description: '<p>Item description</p>',
-		priority_id: 1,
+		priority: 1,
 		hidden: false,
 		...overrides
 	};
@@ -46,7 +46,7 @@ export function getSampleWishlistItemDtoWithoutId(
 	return {
 		name: 'Item name',
 		description: '<p>Item description</p>',
-		priority_id: 1,
+		priority: 1,
 		hidden: false,
 		...overrides
 	};
@@ -59,7 +59,7 @@ export function getSampleWishlistItem(
 		id: 1,
 		name: 'Item name',
 		description: '<p>Item description</p>',
-		priorityId: 1,
+		priority: 1,
 		hidden: false,
 		...overrides
 	};

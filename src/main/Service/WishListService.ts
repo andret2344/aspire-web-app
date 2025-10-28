@@ -3,7 +3,7 @@ import axios, {AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from './ApiInstance';
 import {requestConfig} from './AuthService';
 
-function getWishlistsUrl(id?: number = undefined): string {
+function getWishlistsUrl(id: number | undefined = undefined): string {
 	if (id) {
 		return `/wishlists/${id}`;
 	}
@@ -46,7 +46,7 @@ export async function setWishlistPassword(
 	password: string
 ): Promise<number> {
 	const result: AxiosResponse<string> = await apiInstance.post(
-		`${getWishlistsUrl(id)}/set_access_code`,
+		`${getWishlistsUrl(id)}/set-access-code`,
 		{access_code: password}
 	);
 	return result.status;

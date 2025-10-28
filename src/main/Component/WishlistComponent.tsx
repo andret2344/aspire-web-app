@@ -57,19 +57,13 @@ export function WishlistComponent(
 		return <LockOutlinedIcon data-testid='icon-lock' />;
 	}
 
-	function handleNameChange(name: string): void {
-		updateWishlistName(props.wishlist.id, name)
-			.then((): void => {
-				props.onNameEdit(name);
-				enqueueSnackbar(t('wishlist-renamed'), {
-					variant: 'success'
-				});
-			})
-			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {
-					variant: 'error'
-				})
-			);
+	async function handleNameChange(name: string): Promise<string> {
+		await updateWishlistName(props.wishlist.id, name);
+		props.onNameEdit(name);
+		enqueueSnackbar(t('wishlist-renamed'), {
+			variant: 'success'
+		});
+		return name;
 	}
 
 	function handleSettingsIconClick(event: React.MouseEvent): void {

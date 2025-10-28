@@ -13,7 +13,6 @@ import {setConfig} from '@service/ApiInstance';
 import {PasswordReminderPage} from '@page/PasswordReminderPage';
 import {NewPasswordPage} from '@page/NewPasswordPage';
 import './i18n';
-import {refreshToken} from '@service/AuthService';
 import {AppLayout} from '@layout/AppLayout';
 import {AuthLayout} from '@layout/AuthLayout';
 import {Header} from '@component/Header';
@@ -24,10 +23,10 @@ export function App(): React.ReactElement {
 	const [loaded, setLoaded] = React.useState<boolean>(false);
 
 	React.useEffect((): void => {
-		Promise.all([
-			getConfig().then(setConfig).catch(),
-			refreshToken().then().catch()
-		]).finally((): void => setLoaded(true));
+		getConfig()
+			.then(setConfig)
+			.catch(console.error)
+			.finally((): void => setLoaded(true));
 	}, []);
 
 	if (!loaded) {
