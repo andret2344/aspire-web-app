@@ -1,4 +1,8 @@
-import {mapWishlistItemFromDto, WishlistItem, WishlistItemDto} from './WishlistItem';
+import {
+	mapWishlistItemFromDto,
+	WishlistItem,
+	WishlistItemDto
+} from './WishlistItem';
 
 export interface WishList {
 	readonly id: number;

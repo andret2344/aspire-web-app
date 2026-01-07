@@ -91,6 +91,6 @@ describe('WishlistPage', (): void => {
 
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/error');
+		expect(mockedNavigate).toHaveBeenCalledWith('/error', {replace: true});
 	});
 });

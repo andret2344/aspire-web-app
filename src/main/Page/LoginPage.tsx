@@ -38,7 +38,7 @@ export function LoginPage(): React.ReactElement {
 		await logIn(data.email, data.password).then(
 			(response: number): void => {
 				if ([200, 201].includes(response)) {
-					navigate('/wishlists');
+					navigate('/wishlists', {replace: true});
 					enqueueSnackbar(`${t('successfully-logged-in')}`, {
 						variant: 'info'
 					});

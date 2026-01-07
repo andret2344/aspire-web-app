@@ -86,7 +86,9 @@ describe('WishlistComponent', (): void => {
 		await user.click(wishlistRowGrid);
 
 		// assert
-		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists/1');
+		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists/1', {
+			replace: true
+		});
 	});
 
 	describe('password modal', (): void => {

@@ -53,9 +53,9 @@ export function WishlistSetupPasswordModal(
 
 	function getTooltipInfoKey(): string {
 		if (props.wishlist.hasPassword) {
-			return 'clear-tooltip-enabled';
+			return 'access-code-clear-tooltip-enabled';
 		}
-		return 'clear-tooltip-disabled';
+		return 'access-code-clear-tooltip-disabled';
 	}
 
 	return (

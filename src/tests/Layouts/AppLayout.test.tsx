@@ -79,7 +79,7 @@ describe('AppLayout', (): void => {
 
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/');
+		expect(mockedNavigate).toHaveBeenCalledWith('/', {replace: true});
 	});
 
 	it('opens the nav drawer', async (): Promise<void> => {

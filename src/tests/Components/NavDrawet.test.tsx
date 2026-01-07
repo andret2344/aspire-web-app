@@ -80,6 +80,6 @@ describe('NavDrawer', (): void => {
 		// assert
 		expect(mockedLogout).toHaveBeenCalledTimes(1);
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/');
+		expect(mockedNavigate).toHaveBeenCalledWith('/', {replace: true});
 	});
 });

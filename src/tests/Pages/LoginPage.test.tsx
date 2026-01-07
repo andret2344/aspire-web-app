@@ -110,7 +110,9 @@ describe('LoginPage', (): void => {
 				).toBeInTheDocument()
 			);
 			expect(mockedNavigate).toHaveBeenCalledTimes(1);
-			expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
+			expect(mockedNavigate).toHaveBeenCalledWith('/wishlists', {
+				replace: true
+			});
 		});
 
 		it('displays wrong credentials snackbar on login', async (): Promise<void> => {

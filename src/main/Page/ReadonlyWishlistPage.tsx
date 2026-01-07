@@ -33,10 +33,11 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		getReadonlyWishlistByUUID(params.uuid)
 			.then(mapWishlistFromDto)
 			.then(setWishlist)
-			.catch((): void => {
-				navigate('/error');
+			.catch((error): void => {
+				console.error(error);
+				navigate('/error', {replace: true});
 			});
-	}, [navigate, params.uuid]);
+	}, [params.uuid]);
 
 	if (!wishlist) {
 		return <></>;
@@ -72,11 +73,11 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	): Promise<void> {
 		await getWishlistHiddenItems(uuid, password)
 			.then(setHiddenItems)
-			.catch((): string | number =>
-				enqueueSnackbar(t('password-invalid'), {
+			.catch((): void => {
+				enqueueSnackbar(t('access-code-invalid'), {
 					variant: 'error'
-				})
-			);
+				});
+			});
 		setIsPasswordModalOpened(false);
 	}
 

@@ -1,6 +1,7 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from './ApiInstance';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
+import {UserDataResponse} from '@entity/UserData';
 
 const ACCESS_TOKEN: string = 'accessToken';
 const REFRESH_TOKEN: string = 'refreshToken';
@@ -55,6 +56,15 @@ export async function signUp(
 		},
 		requestConfig
 	);
+}
+
+export async function getUserData(): Promise<UserDataResponse> {
+	const baseUrl: string = getApiConfig().backend;
+	const result: AxiosResponse<UserDataResponse> = await apiInstance.get(
+		`${baseUrl}/account/me`,
+		requestConfig
+	);
+	return result.data;
 }
 
 export async function requestResetPassword(

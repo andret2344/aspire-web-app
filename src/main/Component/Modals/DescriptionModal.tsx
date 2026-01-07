@@ -23,7 +23,7 @@ import {
 	UndoRedo
 } from '@mdxeditor/editor';
 import {AspireModal} from './AspireModal';
-import {useDarkMode} from '../DarkModeContext';
+import {useDarkMode} from '../../Context/DarkModeContext';
 
 interface DescriptionModalProps {
 	readonly open: boolean;

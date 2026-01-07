@@ -17,16 +17,22 @@ import {AppLayout} from '@layout/AppLayout';
 import {AuthLayout} from '@layout/AuthLayout';
 import {Header} from '@component/Header';
 import {WishlistPage} from '@page/WishlistPage';
+import {getUserData} from '@service/AuthService';
+import {mapFromResponse} from '@entity/UserData';
+import {useUserData, useUserDataActions} from './Context/UserDataContext';
 
 export function App(): React.ReactElement {
-	const [loaded, setLoaded] = React.useState<boolean>(false);
+	const {user, loaded} = useUserData();
+	const {setUser, setLoaded} = useUserDataActions();
 
 	React.useEffect((): void => {
-		getConfig()
-			.then(setConfig)
+		Promise.all([
+			getConfig().then(setConfig),
+			getUserData().then(mapFromResponse).then(setUser)
+		])
 			.catch(console.error)
 			.finally((): void => setLoaded(true));
-	}, []);
+	}, [setLoaded, setUser]);
 
 	if (!loaded) {
 		return <></>;

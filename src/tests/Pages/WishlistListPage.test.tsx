@@ -14,7 +14,10 @@ import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
 import {WishlistListPage} from '@page/WishlistListPage';
 import {renderForTest} from '../__utils__/RenderForTest';
-import {getSampleWishlist, getSampleWishlistDto} from '../__utils__/DataFactory';
+import {
+	getSampleWishlist,
+	getSampleWishlistDto
+} from '../__utils__/DataFactory';
 
 describe('WishlistListPage', (): void => {
 	describe('render', (): void => {
@@ -41,7 +44,9 @@ describe('WishlistListPage', (): void => {
 
 			// assert
 			expect(mockedNavigate).toHaveBeenCalledTimes(1);
-			expect(mockedNavigate).toHaveBeenCalledWith('/error');
+			expect(mockedNavigate).toHaveBeenCalledWith('/error', {
+				replace: true
+			});
 			expect(screen.queryByText('something-went-wrong')).not.toBeNull();
 			expect(screen.queryByText('Mock Wishlist')).toBeNull();
 		});

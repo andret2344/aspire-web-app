@@ -19,6 +19,7 @@ import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
 import {EditableNameComponent} from './EditableNameComponent';
+import {useUserData} from '../Context/UserDataContext';
 
 interface WishlistComponentProps {
 	readonly wishlist: WishList;
@@ -38,6 +39,7 @@ export function WishlistComponent(
 	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
+	const {user} = useUserData();
 
 	function handlePasswordModalClose(): void {
 		setIsPasswordModalOpened(false);
@@ -135,7 +137,7 @@ export function WishlistComponent(
 	}
 
 	function handleItemClick(): void {
-		navigate(`/wishlists/${props.wishlist.id}`);
+		navigate(`/wishlists/${props.wishlist.id}`, {replace: true});
 	}
 
 	return (
@@ -194,6 +196,7 @@ export function WishlistComponent(
 						onClick={handleShareIconClick}
 						size='large'
 						aria-label='share'
+						disabled={!user?.isVerified}
 					>
 						<ShareIcon />
 					</IconButton>

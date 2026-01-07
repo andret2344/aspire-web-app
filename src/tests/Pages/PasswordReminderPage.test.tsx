@@ -60,7 +60,7 @@ describe('PasswordReminderPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedNavigate).toHaveBeenCalledWith('/');
+			expect(mockedNavigate).toHaveBeenCalledWith('/', {replace: true});
 		});
 	});
 

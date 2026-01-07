@@ -142,7 +142,7 @@ describe('RegisterPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedNavigate).toHaveBeenCalledWith('/');
+			expect(mockedNavigate).toHaveBeenCalledWith('/', {replace: true});
 			expect(screen.getByText('account-created')).toBeInTheDocument();
 		});
 	});

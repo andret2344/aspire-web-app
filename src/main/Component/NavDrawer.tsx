@@ -30,7 +30,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 
 	function handleLogout(): void {
 		logout();
-		navigate('/');
+		navigate('/', {replace: true});
 	}
 
 	function renderMenuIcon(): React.JSX.Element {

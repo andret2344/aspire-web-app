@@ -40,7 +40,9 @@ describe('ReadonlyWishlistPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedNavigate).toHaveBeenCalledWith('/error');
+			expect(mockedNavigate).toHaveBeenCalledWith('/error', {
+				replace: true
+			});
 		});
 	});
 
@@ -88,7 +90,9 @@ describe('ReadonlyWishlistPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedNavigate).toHaveBeenCalledWith('/error');
+			expect(mockedNavigate).toHaveBeenCalledWith('/error', {
+				replace: true
+			});
 		});
 	});
 
@@ -140,14 +144,14 @@ describe('ReadonlyWishlistPage', (): void => {
 		await waitFor((): void => {
 			fireEvent.click(screen.getByTestId('hidden-items-icon-button'));
 		});
-		fireEvent.change(screen.getByPlaceholderText('password'), {
+		fireEvent.change(screen.getByPlaceholderText('access-code'), {
 			target: {value: 'password123'}
 		});
 		fireEvent.click(screen.getByTestId('wishlist-password-modal-confirm'));
 
 		// assert
 		await waitFor((): void =>
-			expect(screen.getByText('password-invalid')).toBeInTheDocument()
+			expect(screen.getByText('access-code-invalid')).toBeInTheDocument()
 		);
 	});
 });

@@ -1,6 +1,6 @@
 import {RenderResult, waitFor} from '@testing-library/react';
 import React from 'react';
-import {useDarkMode} from '@component/DarkModeContext';
+import {useDarkMode} from '../../main/Context/DarkModeContext';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';

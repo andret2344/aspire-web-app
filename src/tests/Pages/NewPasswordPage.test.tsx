@@ -66,7 +66,7 @@ describe('NewPasswordPage', (): void => {
 				'Testowe123!',
 				token
 			);
-			expect(mockedNavigate).toHaveBeenCalledWith('/');
+			expect(mockedNavigate).toHaveBeenCalledWith('/', {replace: true});
 		});
 	});
 

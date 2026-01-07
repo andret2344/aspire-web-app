@@ -26,7 +26,7 @@ export function WishlistListPage(): React.ReactElement {
 			.then(setWishlists)
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
-				navigate('/error');
+				navigate('/error', {replace: true});
 			})
 			.finally((): void => setIsLoading(false));
 	}, []);

@@ -12,7 +12,7 @@ import React from 'react';
 import {changePassword} from '@service/AuthService';
 import {useForm} from 'react-hook-form';
 import {useSnackbar} from 'notistack';
-import {useDarkMode} from '@component/DarkModeContext';
+import {useDarkMode} from '../Context/DarkModeContext';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '@component/ToggleColorModeComponent';
 import {useTranslation} from 'react-i18next';
