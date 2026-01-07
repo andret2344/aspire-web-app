@@ -22,7 +22,7 @@
 		"formatWithErrors": false,
 		"indentStyle": "tab",
 		"indentWidth": 4,
-		"lineEnding": "crlf",
+		"lineEnding": "lf",
 		"lineWidth": 120,
 		"useEditorconfig": true
 	},
