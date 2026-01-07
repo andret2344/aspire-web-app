@@ -1,6 +1,6 @@
-import {Box, Button, CircularProgress} from '@mui/material';
 import React, {RefObject} from 'react';
 import {useTranslation} from 'react-i18next';
+import {Box, Button, CircularProgress} from '@mui/material';
 import {
 	BlockTypeSelect,
 	BoldItalicUnderlineToggles,
@@ -8,13 +8,13 @@ import {
 	headingsPlugin,
 	InsertTable,
 	InsertThematicBreak,
+	ListsToggle,
 	linkDialogPlugin,
 	linkPlugin,
 	listsPlugin,
-	ListsToggle,
-	markdownShortcutPlugin,
 	MDXEditor,
 	MDXEditorMethods,
+	markdownShortcutPlugin,
 	quotePlugin,
 	Separator,
 	tablePlugin,
@@ -22,8 +22,8 @@ import {
 	toolbarPlugin,
 	UndoRedo
 } from '@mdxeditor/editor';
-import {AspireModal} from './AspireModal';
 import {useDarkMode} from '../DarkModeContext';
+import {AspireModal} from './AspireModal';
 
 interface DescriptionModalProps {
 	readonly open: boolean;
@@ -33,21 +33,15 @@ interface DescriptionModalProps {
 	readonly onClose: () => void;
 }
 
-export function DescriptionModal(
-	props: DescriptionModalProps
-): React.ReactElement {
-	const descriptionEditorRef: RefObject<MDXEditorMethods | null> =
-		React.useRef<MDXEditorMethods | null>(null);
+export function DescriptionModal(props: DescriptionModalProps): React.ReactElement {
+	const descriptionEditorRef: RefObject<MDXEditorMethods | null> = React.useRef<MDXEditorMethods | null>(null);
 
 	const {darkMode} = useDarkMode();
 	const {t} = useTranslation();
 
-	async function handleSubmit(
-		event: React.FormEvent<HTMLFormElement>
-	): Promise<void> {
+	async function handleSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
 		event.preventDefault();
-		const description: string =
-			descriptionEditorRef.current?.getMarkdown() ?? '';
+		const description: string = descriptionEditorRef.current?.getMarkdown() ?? '';
 		props.onAccept(description);
 	}
 
@@ -141,7 +135,9 @@ export function DescriptionModal(
 						type='submit'
 						variant='contained'
 						disabled={props.loading}
-						sx={{margin: '0 20px'}}
+						sx={{
+							margin: '0 20px'
+						}}
 					>
 						{renderButtonContent()}
 					</Button>
@@ -151,7 +147,9 @@ export function DescriptionModal(
 						color='error'
 						disabled={props.loading}
 						onClick={handleClose}
-						sx={{margin: '0 20px'}}
+						sx={{
+							margin: '0 20px'
+						}}
 					>
 						{t('cancel')}
 					</Button>

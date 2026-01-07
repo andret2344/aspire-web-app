@@ -1,17 +1,15 @@
-import MockAdapter from 'axios-mock-adapter';
-import {
-	mockedGetAccessToken,
-	mockedRefreshToken,
-	mockedSaveAccessToken
-} from '../__mocks__/MockAuthService';
-import apiInstance, {getApiConfig, setConfig} from '@service/ApiInstance';
 import {AxiosRequestConfig} from 'axios';
+import apiInstance, {getApiConfig, setConfig} from '@service/ApiInstance';
+import MockAdapter from 'axios-mock-adapter';
+import {mockedGetAccessToken, mockedRefreshToken, mockedSaveAccessToken} from '../__mocks__/MockAuthService';
 
 describe('ApiInstance', (): void => {
 	let originalEnv: NodeJS.ProcessEnv;
 
 	beforeEach((): void => {
-		originalEnv = {...process.env};
+		originalEnv = {
+			...process.env
+		};
 	});
 
 	afterEach((): void => {
@@ -71,20 +69,23 @@ describe('ApiInstance', (): void => {
 
 		// assert
 		expect(capturedConfig).toBeDefined();
-		expect(capturedConfig?.headers?.['Authorization']).toEqual(
-			`Bearer ${token}`
-		);
+		expect(capturedConfig?.headers?.['Authorization']).toEqual(`Bearer ${token}`);
 	});
 
 	test('should refresh token and retry the original request on 401 response', async () => {
 		// assert
 		const mock = new MockAdapter(apiInstance);
-		const originalRequestConfig = {url: '/test', method: 'get'};
+		const originalRequestConfig = {
+			url: '/test',
+			method: 'get'
+		};
 
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
 
 		mock.onGet('/test').replyOnce(401);
-		mock.onGet('/test').reply(200, {data: 'success'});
+		mock.onGet('/test').reply(200, {
+			data: 'success'
+		});
 
 		mockedRefreshToken.mockResolvedValue('new-token');
 
@@ -94,20 +95,25 @@ describe('ApiInstance', (): void => {
 		// assert
 		expect(mockedRefreshToken).toHaveBeenCalledTimes(1);
 		expect(mockedSaveAccessToken).toHaveBeenCalledWith('new-token');
-		expect(result).toHaveProperty('data', {data: 'success'});
+		expect(result).toHaveProperty('data', {
+			data: 'success'
+		});
 	});
 
 	test('should refresh token and retry the original request on no response', async () => {
 		// assert
 		const mock = new MockAdapter(apiInstance);
-		const originalRequestConfig = {url: '/test', method: 'get'};
+		const originalRequestConfig = {
+			url: '/test',
+			method: 'get'
+		};
 
 		mock.onGet('/test').networkError();
 
 		// act
 		try {
 			await apiInstance(originalRequestConfig);
-		} catch (ignored) {
+		} catch (_ignored) {
 			// assert
 			expect(mockedRefreshToken).toHaveBeenCalledTimes(0);
 		}

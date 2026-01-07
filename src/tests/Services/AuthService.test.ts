@@ -1,4 +1,3 @@
-import MockAdapter from 'axios-mock-adapter';
 import axios, {AxiosError, AxiosResponse} from 'axios';
 import apiInstance, {getApiConfig} from '@service/ApiInstance';
 import {
@@ -13,6 +12,7 @@ import {
 	signUp
 } from '@service/AuthService';
 import {waitFor} from '@testing-library/react';
+import MockAdapter from 'axios-mock-adapter';
 
 describe('AuthService', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -94,7 +94,12 @@ describe('AuthService', (): void => {
 
 	it('logout successfully', async () => {
 		// arrange
-		const mockedHeader = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
+		const mockedHeader = btoa(
+			JSON.stringify({
+				alg: 'HS256',
+				typ: 'JWT'
+			})
+		);
 		const mockedPayload = btoa(
 			JSON.stringify({
 				sub: '1234567890',
@@ -188,11 +193,7 @@ describe('AuthService', (): void => {
 		}).reply(200);
 
 		// act
-		const response = await changePassword(
-			currentPassword,
-			newPassword,
-			newPasswordConfirm
-		);
+		const response = await changePassword(currentPassword, newPassword, newPasswordConfirm);
 
 		// assert
 		expect(response).toEqual(200);
@@ -205,10 +206,7 @@ describe('AuthService', (): void => {
 		};
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
 		const mock = new MockAdapter(axios);
-		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(
-			200,
-			mockResponseData
-		);
+		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(200, mockResponseData);
 
 		// act
 		const result: string | undefined = await refreshToken();
@@ -221,9 +219,7 @@ describe('AuthService', (): void => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
-		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(
-			500
-		);
+		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(500);
 
 		// act
 		await expect(refreshToken()).rejects.toBeInstanceOf(AxiosError);

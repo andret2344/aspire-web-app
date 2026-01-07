@@ -1,9 +1,7 @@
-import {Typography, TypographyProps} from '@mui/material';
 import React from 'react';
+import {Typography, TypographyProps} from '@mui/material';
 
-export function VerifyEmailTypography(
-	props: TypographyProps
-): React.ReactElement {
+export function VerifyEmailTypography(props: TypographyProps): React.ReactElement {
 	return (
 		<Typography
 			align='center'

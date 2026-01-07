@@ -3,9 +3,9 @@ import React from 'react';
 import {screen} from '@testing-library/dom';
 import {fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom';
+import user from '@testing-library/user-event';
 import {DeleteWishlistModal} from '../../../main/Component/Modals/DeleteWishlistModal';
 import {renderForTest} from '../../__utils__/RenderForTest';
-import user from '@testing-library/user-event';
 
 describe('DeleteWishlistModal', (): void => {
 	test('renders correctly', (): void => {
@@ -39,9 +39,7 @@ describe('DeleteWishlistModal', (): void => {
 				onCancel={(): void => undefined}
 			/>
 		);
-		const buttonOk: HTMLElement = screen.getByTestId(
-			'delete-wishlist-modal-button-delete'
-		);
+		const buttonOk: HTMLElement = screen.getByTestId('delete-wishlist-modal-button-delete');
 		await user.click(buttonOk);
 
 		// assert

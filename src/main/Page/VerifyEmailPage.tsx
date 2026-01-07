@@ -1,9 +1,9 @@
 import React from 'react';
-import {AuthContainer} from '@component/AuthContainer';
-import {Box, Button, Link, Typography} from '@mui/material';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import {VerifyEmailTypography} from '@component/VerifyEmailTypography';
 import {useTranslation} from 'react-i18next';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import {Box, Button, Link, Typography} from '@mui/material';
+import {AuthContainer} from '@component/AuthContainer';
+import {VerifyEmailTypography} from '@component/VerifyEmailTypography';
 
 export function VerifyEmailPage(): React.ReactElement {
 	const emailPlaceholder: string = 'andret@aspireapp.online';
@@ -23,13 +23,13 @@ export function VerifyEmailPage(): React.ReactElement {
 				alignItems='center'
 				flexDirection='column'
 			>
-				<EmailOutlinedIcon sx={{fontSize: '74px'}} />
-				<VerifyEmailTypography>
-					{t('verify-email')}
-				</VerifyEmailTypography>
-				<VerifyEmailTypography>
-					{t('email-sent')}:
-				</VerifyEmailTypography>
+				<EmailOutlinedIcon
+					sx={{
+						fontSize: '74px'
+					}}
+				/>
+				<VerifyEmailTypography>{t('verify-email')}</VerifyEmailTypography>
+				<VerifyEmailTypography>{t('email-sent')}:</VerifyEmailTypography>
 				<VerifyEmailTypography
 					sx={{
 						fontWeight: 900
@@ -37,12 +37,8 @@ export function VerifyEmailPage(): React.ReactElement {
 				>
 					{emailPlaceholder}
 				</VerifyEmailTypography>
-				<VerifyEmailTypography>
-					{t('click-the-link')}
-				</VerifyEmailTypography>
-				<VerifyEmailTypography>
-					{t('no-email-received')}
-				</VerifyEmailTypography>
+				<VerifyEmailTypography>{t('click-the-link')}</VerifyEmailTypography>
+				<VerifyEmailTypography>{t('no-email-received')}</VerifyEmailTypography>
 			</Box>
 			<Button
 				data-testid='resend-email-button'

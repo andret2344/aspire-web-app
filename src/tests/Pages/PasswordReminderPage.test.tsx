@@ -1,8 +1,8 @@
-import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
-import {mockedRequestResetPassword} from '../__mocks__/MockAuthService';
-import {mockedNavigate} from '../__mocks__/MockCommonService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
+import {mockedRequestResetPassword} from '../__mocks__/MockAuthService';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
+import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import '@testing-library/jest-dom';
 import {PasswordReminderPage} from '@page/PasswordReminderPage';
 import user from '@testing-library/user-event';

@@ -1,17 +1,10 @@
-import {
-	Button,
-	IconButton,
-	InputAdornment,
-	Stack,
-	TextField,
-	Tooltip
-} from '@mui/material';
-import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
 import React from 'react';
-import {WishList} from '../../Entity/WishList';
 import {useTranslation} from 'react-i18next';
-import {AspireModal} from './AspireModal';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+import {Button, IconButton, InputAdornment, Stack, TextField, Tooltip} from '@mui/material';
+import {WishList} from '@entity/WishList';
+import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
+import {AspireModal} from './AspireModal';
 
 interface WishlistSetupPasswordModalProps {
 	readonly wishlist: WishList;
@@ -21,9 +14,7 @@ interface WishlistSetupPasswordModalProps {
 	readonly onClose: () => void;
 }
 
-export function WishlistSetupPasswordModal(
-	props: WishlistSetupPasswordModalProps
-): React.ReactElement {
+export function WishlistSetupPasswordModal(props: WishlistSetupPasswordModalProps): React.ReactElement {
 	const [password, setPassword] = React.useState<string>('');
 	const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
 
@@ -37,9 +28,7 @@ export function WishlistSetupPasswordModal(
 		props.onClose();
 	}
 
-	function handlePasswordChange(
-		e: React.ChangeEvent<HTMLInputElement>
-	): void {
+	function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>): void {
 		setPassword(e.target.value.trim());
 	}
 
@@ -73,16 +62,20 @@ export function WishlistSetupPasswordModal(
 						endAdornment: (
 							<InputAdornment
 								position='end'
-								sx={{margin: 0, padding: 0}}
+								sx={{
+									margin: 0,
+									padding: 0
+								}}
 							>
 								<IconButton
 									data-testid='password-visibility-icon'
-									sx={{margin: 0, padding: 0}}
+									sx={{
+										margin: 0,
+										padding: 0
+									}}
 									onClick={handleClickShowPassword}
 								>
-									<PasswordVisibilityIcon
-										visible={isShowPassword}
-									/>
+									<PasswordVisibilityIcon visible={isShowPassword} />
 								</IconButton>
 							</InputAdornment>
 						)

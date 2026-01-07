@@ -1,9 +1,9 @@
 import React from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import DoneIcon from '@mui/icons-material/Done';
-import {Box, IconButton, Input, Typography} from '@mui/material';
-import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
+import {useSnackbar} from 'notistack';
+import DoneIcon from '@mui/icons-material/Done';
+import EditIcon from '@mui/icons-material/Edit';
+import {Box, IconButton, Input, Typography} from '@mui/material';
 
 interface EditableNameComponentProps {
 	readonly name: string;
@@ -11,12 +11,8 @@ interface EditableNameComponentProps {
 	readonly onChange: (name: string) => Promise<string>;
 }
 
-export function EditableNameComponent(
-	props: EditableNameComponentProps
-): React.ReactElement {
-	const [editedName, setEditedName] = React.useState<string | undefined>(
-		undefined
-	);
+export function EditableNameComponent(props: EditableNameComponentProps): React.ReactElement {
+	const [editedName, setEditedName] = React.useState<string | undefined>(undefined);
 	const [displayName, setDisplayName] = React.useState<string>(props.name);
 
 	const {enqueueSnackbar} = useSnackbar();
@@ -27,9 +23,7 @@ export function EditableNameComponent(
 		setEditedName(props.name);
 	}
 
-	function handleNameChange(
-		event: React.ChangeEvent<HTMLInputElement>
-	): void {
+	function handleNameChange(event: React.ChangeEvent<HTMLInputElement>): void {
 		setEditedName(event.target.value);
 	}
 

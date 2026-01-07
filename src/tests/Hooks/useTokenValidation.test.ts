@@ -1,16 +1,11 @@
-import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
+import {TokenValidationResult, useTokenValidation} from '@hook/useTokenValidation';
 import {act, renderHook} from '@testing-library/react';
-import {
-	TokenValidationResult,
-	useTokenValidation
-} from '@hook/useTokenValidation';
+import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
 
 describe('useTokenValidation', (): void => {
 	test('returns loading=true initially', (): void => {
 		// arrange
-		const {result} = renderHook(
-			(): TokenValidationResult => useTokenValidation(50)
-		);
+		const {result} = renderHook((): TokenValidationResult => useTokenValidation(50));
 
 		// assert
 		expect(result.current.tokenLoading).toBe(true);
@@ -22,9 +17,7 @@ describe('useTokenValidation', (): void => {
 		mockedIsTokenValid.mockReturnValue(true);
 
 		// act
-		const {result} = renderHook(
-			(): TokenValidationResult => useTokenValidation()
-		);
+		const {result} = renderHook((): TokenValidationResult => useTokenValidation());
 		await act(async (): Promise<void> => undefined); // Wait for useEffect to process
 
 		// assert
@@ -37,9 +30,7 @@ describe('useTokenValidation', (): void => {
 		mockedIsTokenValid.mockReturnValue(false);
 
 		// act
-		const {result} = renderHook(
-			(): TokenValidationResult => useTokenValidation()
-		);
+		const {result} = renderHook((): TokenValidationResult => useTokenValidation());
 		await act(async (): Promise<void> => undefined); // Wait for useEffect to process
 
 		// assert

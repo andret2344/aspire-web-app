@@ -1,3 +1,8 @@
+import React from 'react';
+import {FieldValues, useForm} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
+import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
+import {useSnackbar} from 'notistack';
 import {
 	Box,
 	Button,
@@ -10,18 +15,12 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import {FieldValues, useForm} from 'react-hook-form';
-import React from 'react';
 import {AuthContainer} from '@component/AuthContainer';
-import {logIn} from '@service/AuthService';
-import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
-import {useSnackbar} from 'notistack';
-import {useTranslation} from 'react-i18next';
+import {logIn} from '@service/AuthService';
 
 export function LoginPage(): React.ReactElement {
-	const [isPasswordShown, setIsPasswordShown] =
-		React.useState<boolean>(false);
+	const [isPasswordShown, setIsPasswordShown] = React.useState<boolean>(false);
 
 	const navigate: NavigateFunction = useNavigate();
 	const theme: Theme = useTheme();
@@ -35,24 +34,22 @@ export function LoginPage(): React.ReactElement {
 	}
 
 	async function onSubmit(data: FieldValues): Promise<void> {
-		await logIn(data.email, data.password).then(
-			(response: number): void => {
-				if ([200, 201].includes(response)) {
-					navigate('/wishlists');
-					enqueueSnackbar(`${t('successfully-logged-in')}`, {
-						variant: 'info'
-					});
-				} else if ([401].includes(response)) {
-					enqueueSnackbar(`${t('wrong-login-or-password')}`, {
-						variant: 'warning'
-					});
-				} else {
-					enqueueSnackbar(t('something-went-wrong'), {
-						variant: 'error'
-					});
-				}
+		await logIn(data.email, data.password).then((response: number): void => {
+			if ([200, 201].includes(response)) {
+				navigate('/wishlists');
+				enqueueSnackbar(`${t('successfully-logged-in')}`, {
+					variant: 'info'
+				});
+			} else if ([401].includes(response)) {
+				enqueueSnackbar(`${t('wrong-login-or-password')}`, {
+					variant: 'warning'
+				});
+			} else {
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				});
 			}
-		);
+		});
 	}
 
 	return (
@@ -81,7 +78,9 @@ export function LoginPage(): React.ReactElement {
 						marginTop: '5px'
 					}}
 					type='email'
-					{...register('email', {required: true})}
+					{...register('email', {
+						required: true
+					})}
 				/>
 				<TextField
 					data-testid='login-page-input-password'
@@ -92,16 +91,20 @@ export function LoginPage(): React.ReactElement {
 							endAdornment: (
 								<InputAdornment
 									position='end'
-									sx={{margin: 0, padding: 0}}
+									sx={{
+										margin: 0,
+										padding: 0
+									}}
 								>
 									<IconButton
 										data-testid='password-visibility-icon'
-										sx={{margin: 0, padding: 0}}
+										sx={{
+											margin: 0,
+											padding: 0
+										}}
 										onClick={handleClickShowPassword}
 									>
-										<PasswordVisibilityIcon
-											visible={isPasswordShown}
-										/>
+										<PasswordVisibilityIcon visible={isPasswordShown} />
 									</IconButton>
 								</InputAdornment>
 							)

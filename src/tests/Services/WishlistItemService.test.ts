@@ -1,17 +1,14 @@
-import MockAdapter from 'axios-mock-adapter';
-import apiInstance from '@service/ApiInstance';
+import {isAxiosError} from 'axios';
 import {WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
+import apiInstance from '@service/ApiInstance';
 import {
 	addWishlistItem,
 	getWishlistHiddenItems,
 	removeWishlistItem,
 	updateWishlistItem
 } from '@service/WishlistItemService';
-import {
-	getSampleWishlistItemDto,
-	getSampleWishlistItemDtoWithoutId
-} from '../__utils__/DataFactory';
-import {isAxiosError} from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import {getSampleWishlistItemDto, getSampleWishlistItemDtoWithoutId} from '../__utils__/DataFactory';
 
 describe('WishListItemService', (): void => {
 	beforeEach((): void => localStorage.clear());
@@ -21,18 +18,13 @@ describe('WishListItemService', (): void => {
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
 
-		mock.onPost(`/wishlists/${wishlistId}/items`).reply(
-			200,
-			getSampleWishlistItemDto()
-		);
+		mock.onPost(`/wishlists/${wishlistId}/items`).reply(200, getSampleWishlistItemDto());
 
 		// act
 		addWishlistItem(wishlistId, getSampleWishlistItemDtoWithoutId()).then(
 			(wishlistItemDto: WishlistItemDto | null): void => {
 				// assert
-				expect(wishlistItemDto).toStrictEqual(
-					getSampleWishlistItemDto()
-				);
+				expect(wishlistItemDto).toStrictEqual(getSampleWishlistItemDto());
 			}
 		);
 	});
@@ -45,10 +37,7 @@ describe('WishListItemService', (): void => {
 		mock.onGet(`/hidden_items?uuid=${uuid}`).reply(200, []);
 
 		// act
-		const result: WishlistItem[] = await getWishlistHiddenItems(
-			uuid,
-			password
-		);
+		const result: WishlistItem[] = await getWishlistHiddenItems(uuid, password);
 
 		// assert
 		expect(result).toEqual([]);
@@ -64,9 +53,7 @@ describe('WishListItemService', (): void => {
 		await addWishlistItem(wishlistId, getSampleWishlistItemDtoWithoutId())
 			// assert
 			.then((): void => fail('Should not reach this point'))
-			.catch((error: Error): void =>
-				expect(isAxiosError(error)).toBeTruthy()
-			);
+			.catch((error: Error): void => expect(isAxiosError(error)).toBeTruthy());
 	});
 
 	it('edits wishlist item with success', async (): Promise<void> => {
@@ -76,12 +63,14 @@ describe('WishListItemService', (): void => {
 		const wishlistItemId = 1;
 		mock.onPut(`/wishlists/${wishlistId}/items/${wishlistItemId}`).reply(
 			200,
-			getSampleWishlistItemDto({name: 'updated name'})
+			getSampleWishlistItemDto({
+				name: 'updated name'
+			})
 		);
 
 		// act
-		await updateWishlistItem(wishlistId, getSampleWishlistItemDto()).catch(
-			(): void => fail('Should not reach this point')
+		await updateWishlistItem(wishlistId, getSampleWishlistItemDto()).catch((): void =>
+			fail('Should not reach this point')
 		);
 	});
 
@@ -92,16 +81,16 @@ describe('WishListItemService', (): void => {
 		const wishlistItemId = 1;
 		mock.onPut(`/wishlists/${wishlistId}/items/${wishlistItemId}`).reply(
 			500,
-			getSampleWishlistItemDto({name: 'updated name'})
+			getSampleWishlistItemDto({
+				name: 'updated name'
+			})
 		);
 
 		// act
 		await updateWishlistItem(wishlistId, getSampleWishlistItemDto())
 			// assert
 			.then((): void => fail('Should not reach this point'))
-			.catch((error: Error): void =>
-				expect(isAxiosError(error)).toBeTruthy()
-			);
+			.catch((error: Error): void => expect(isAxiosError(error)).toBeTruthy());
 	});
 
 	it('removes wishlist item with success', async (): Promise<void> => {
@@ -115,9 +104,7 @@ describe('WishListItemService', (): void => {
 		await removeWishlistItem(wishlistId, itemId).then((): void => {
 			// assert
 			expect(mock.history.delete.length).toBe(1);
-			expect(mock.history.delete[0].url).toEqual(
-				`/wishlists/${wishlistId}/items/${itemId}`
-			);
+			expect(mock.history.delete[0].url).toEqual(`/wishlists/${wishlistId}/items/${itemId}`);
 		});
 	});
 
@@ -126,16 +113,12 @@ describe('WishListItemService', (): void => {
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
 		const wishlistItemId = 1;
-		mock.onDelete(`/wishlists/${wishlistId}/item/${wishlistItemId}`).reply(
-			500
-		);
+		mock.onDelete(`/wishlists/${wishlistId}/item/${wishlistItemId}`).reply(500);
 
 		// act
 		await removeWishlistItem(wishlistId, wishlistItemId)
 			// assert
 			.then((): void => fail('Should not reach this point'))
-			.catch((error: Error): void =>
-				expect(isAxiosError(error)).toBeTruthy()
-			);
+			.catch((error: Error): void => expect(isAxiosError(error)).toBeTruthy());
 	});
 });

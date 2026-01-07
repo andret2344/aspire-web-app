@@ -1,8 +1,8 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {renderForTest} from '../__utils__/RenderForTest';
 import {VerifyEmailTypography} from '@component/VerifyEmailTypography';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('VerifyEmailTypography', (): void => {
 	test('renders correctly', (): void => {

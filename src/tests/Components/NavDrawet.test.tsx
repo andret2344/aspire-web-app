@@ -1,13 +1,11 @@
+import {screen} from '@testing-library/dom';
 import {mockedLogout} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
-
-import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import user from '@testing-library/user-event';
 import React from 'react';
-
-import {renderForTest} from '../__utils__/RenderForTest';
 import {NavDrawer} from '@component/NavDrawer';
+import user from '@testing-library/user-event';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('NavDrawer', (): void => {
 	it('renders closed', (): void => {
@@ -20,8 +18,7 @@ describe('NavDrawer', (): void => {
 		);
 
 		// act
-		const wishlistMenuItem: HTMLElement | null =
-			screen.queryByText('wishlists');
+		const wishlistMenuItem: HTMLElement | null = screen.queryByText('wishlists');
 
 		// assert
 		expect(wishlistMenuItem).toBeNull();
@@ -52,8 +49,7 @@ describe('NavDrawer', (): void => {
 				onToggle={handleToggle}
 			/>
 		);
-		const drawerToggle: HTMLElement =
-			screen.getByTestId('nav-drawer-toggle');
+		const drawerToggle: HTMLElement = screen.getByTestId('nav-drawer-toggle');
 
 		// act
 		await user.click(drawerToggle);
@@ -72,9 +68,7 @@ describe('NavDrawer', (): void => {
 		);
 
 		// act
-		const menuItemLogout: HTMLElement = screen.getByTestId(
-			'nav-drawer-item-logout'
-		);
+		const menuItemLogout: HTMLElement = screen.getByTestId('nav-drawer-item-logout');
 		await user.click(menuItemLogout);
 
 		// assert

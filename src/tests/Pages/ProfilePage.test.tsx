@@ -1,10 +1,10 @@
-import {mockedChangePassword} from '../__mocks__/MockAuthService';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
+import {mockedChangePassword} from '../__mocks__/MockAuthService';
 import '@testing-library/jest-dom';
 import {ProfilePage} from '@page/ProfilePage';
-import {renderForTest} from '../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
+import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('ProfilePage', (): void => {
 	test('renders correctly', (): void => {
@@ -12,8 +12,7 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		// act
-		const passwordSettingsText: HTMLElement =
-			screen.getByText('password-settings');
+		const passwordSettingsText: HTMLElement = screen.getByText('password-settings');
 		const saveButton: HTMLElement = screen.getByRole('button', {
 			name: 'change-password'
 		});
@@ -32,19 +31,14 @@ describe('ProfilePage', (): void => {
 		const changePasswordButton: HTMLElement = screen.getByRole('button', {
 			name: /change-password/i
 		});
-		const currentPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('current-password');
-		const newPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('new-password');
-		const confirmPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('confirm-password');
+		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('current-password');
+		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('new-password');
+		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe1234!Edit');
 		await user.type(confirmPasswordInput, 'Testowe1234!Edit1');
 		await user.click(changePasswordButton);
-		const errorSnackbars: HTMLElement[] = screen.getAllByText(
-			'passwords-not-equal'
-		);
+		const errorSnackbars: HTMLElement[] = screen.getAllByText('passwords-not-equal');
 
 		// assert
 		await waitFor((): void => {
@@ -61,12 +55,9 @@ describe('ProfilePage', (): void => {
 		const changePasswordButton: HTMLElement = screen.getByRole('button', {
 			name: /change-password/i
 		});
-		const currentPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('current-password');
-		const newPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('new-password');
-		const confirmPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('confirm-password');
+		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('current-password');
+		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('new-password');
+		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe1234!Edit');
 		await user.type(confirmPasswordInput, 'Testowe1234!Edit');
@@ -88,12 +79,9 @@ describe('ProfilePage', (): void => {
 		const changePasswordButton: HTMLElement = screen.getByRole('button', {
 			name: /change-password/i
 		});
-		const currentPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('current-password');
-		const newPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('new-password');
-		const confirmPasswordInput: HTMLElement =
-			screen.getByPlaceholderText('confirm-password');
+		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('current-password');
+		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('new-password');
+		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe123!Edit');
 		await user.type(confirmPasswordInput, 'Testowe123!Edit');
@@ -101,11 +89,7 @@ describe('ProfilePage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(mockedChangePassword).toHaveBeenCalledWith(
-				'Testowe123!',
-				'Testowe123!Edit',
-				'Testowe123!Edit'
-			);
+			expect(mockedChangePassword).toHaveBeenCalledWith('Testowe123!', 'Testowe123!Edit', 'Testowe123!Edit');
 		});
 	});
 
@@ -114,12 +98,8 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		// act
-		const showPasswordButton: HTMLElement = screen.getByTestId(
-			'visibility-icon-password'
-		);
-		const showPasswordRepeatButton: HTMLElement = screen.getByTestId(
-			'visibility-icon-repeat-password'
-		);
+		const showPasswordButton: HTMLElement = screen.getByTestId('visibility-icon-password');
+		const showPasswordRepeatButton: HTMLElement = screen.getByTestId('visibility-icon-repeat-password');
 		const showPasswordRepeatConfButton: HTMLElement = screen.getByTestId(
 			'visibility-icon-repeat-password-confirmation'
 		);

@@ -1,6 +1,6 @@
-import {Box, Container, Link, Typography} from '@mui/material';
 import React from 'react';
 import {Link as Anchor} from 'react-router-dom';
+import {Box, Container, Link, Typography} from '@mui/material';
 
 export function Header(): React.ReactElement {
 	return (

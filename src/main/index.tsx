@@ -1,7 +1,7 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
-import {App} from './App';
 import {BrowserRouter} from 'react-router-dom';
+import {App} from './App';
 import {DarkModeProvider} from './Component/DarkModeContext';
 import './index.css';
 

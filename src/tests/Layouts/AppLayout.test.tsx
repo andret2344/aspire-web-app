@@ -1,12 +1,11 @@
-import {mockedUseTokenValidation} from '../__mocks__/MockTokenValidationHook';
-import {mockedNavigate} from '../__mocks__/MockCommonService';
-
 import React from 'react';
 import {screen} from '@testing-library/dom';
+import {mockedNavigate} from '../__mocks__/MockCommonService';
+import {mockedUseTokenValidation} from '../__mocks__/MockTokenValidationHook';
 import '@testing-library/jest-dom';
 import {Route, Routes} from 'react-router-dom';
-import user from '@testing-library/user-event';
 import {AppLayout} from '@layout/AppLayout';
+import user from '@testing-library/user-event';
 import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('AppLayout', (): void => {

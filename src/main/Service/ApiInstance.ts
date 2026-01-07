@@ -1,12 +1,7 @@
-import {getAccessToken, refreshToken, saveAccessToken} from './AuthService';
-import axios, {
-	AxiosError,
-	AxiosInstance,
-	AxiosResponse,
-	InternalAxiosRequestConfig
-} from 'axios';
-import {Config} from './EnvironmentHelper';
+import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
 import {identity} from '@util/functions';
+import {getAccessToken, refreshToken, saveAccessToken} from './AuthService';
+import {Config} from './EnvironmentHelper';
 
 type RetryInternalAxiosRequestConfig = InternalAxiosRequestConfig & {
 	readonly _retry: boolean;
@@ -44,39 +39,34 @@ export function setConfig(config: Config | undefined): void {
 	}
 }
 
-apiInstance.interceptors.request.use(
-	(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-		const token: string | null = getAccessToken();
-		if (token) {
-			config.headers['Authorization'] = createTokenHeader(token);
-		}
-		return config;
+apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+	const token: string | null = getAccessToken();
+	if (token) {
+		config.headers['Authorization'] = createTokenHeader(token);
 	}
-);
+	return config;
+});
 
-apiInstance.interceptors.response.use(
-	identity<AxiosResponse>,
-	async (error: AxiosError): Promise<AxiosResponse> => {
-		const originalRequest: RetryInternalAxiosRequestConfig | undefined =
-			error.config as RetryInternalAxiosRequestConfig | undefined;
-		if (!originalRequest || originalRequest._retry) {
-			throw error;
-		}
-
-		if (error.response?.status !== 401) {
-			throw error;
-		}
-
-		const newToken: string | undefined = await refreshToken();
-		if (!newToken) {
-			throw error;
-		}
-
-		saveAccessToken(newToken);
-		apiInstance.defaults.headers.common['Authorization'] =
-			createTokenHeader(newToken);
-		return apiInstance(originalRequest);
+apiInstance.interceptors.response.use(identity<AxiosResponse>, async (error: AxiosError): Promise<AxiosResponse> => {
+	const originalRequest: RetryInternalAxiosRequestConfig | undefined = error.config as
+		| RetryInternalAxiosRequestConfig
+		| undefined;
+	if (!originalRequest || originalRequest._retry) {
+		throw error;
 	}
-);
+
+	if (error.response?.status !== 401) {
+		throw error;
+	}
+
+	const newToken: string | undefined = await refreshToken();
+	if (!newToken) {
+		throw error;
+	}
+
+	saveAccessToken(newToken);
+	apiInstance.defaults.headers.common['Authorization'] = createTokenHeader(newToken);
+	return apiInstance(originalRequest);
+});
 
 export default apiInstance;

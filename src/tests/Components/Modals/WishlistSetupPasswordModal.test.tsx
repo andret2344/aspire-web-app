@@ -1,10 +1,10 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {WishlistSetupPasswordModal} from '../../../main/Component/Modals/WishlistSetupPasswordModal';
-import {renderForTest} from '../../__utils__/RenderForTest';
 import user from '@testing-library/user-event';
+import {WishlistSetupPasswordModal} from '../../../main/Component/Modals/WishlistSetupPasswordModal';
 import {getSampleWishlist} from '../../__utils__/DataFactory';
+import {renderForTest} from '../../__utils__/RenderForTest';
 
 describe('WishlistSetupPasswordModal', (): void => {
 	it('renders modal correctly', (): void => {
@@ -20,9 +20,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 		);
 
 		// assert
-		const element: HTMLElement = screen.getByTestId(
-			'wishlist-password-modal-input'
-		);
+		const element: HTMLElement = screen.getByTestId('wishlist-password-modal-input');
 		expect(element).toBeInTheDocument();
 	});
 
@@ -42,9 +40,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 		const passwordInput: HTMLElement = screen
 			.getByTestId('wishlist-password-modal-input')
 			.querySelector('input') as HTMLElement;
-		const toggleButton: HTMLElement = screen.getByTestId(
-			'password-visibility-icon'
-		);
+		const toggleButton: HTMLElement = screen.getByTestId('password-visibility-icon');
 
 		// assert
 		await user.click(toggleButton);
@@ -64,9 +60,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 			/>
 		);
 
-		const confirmBtn: HTMLElement = screen.getByTestId(
-			'wishlist-password-modal-confirm'
-		);
+		const confirmBtn: HTMLElement = screen.getByTestId('wishlist-password-modal-confirm');
 		const inputElement: HTMLElement = screen
 			.getByTestId('wishlist-password-modal-input')
 			.querySelector('input') as HTMLElement;
@@ -85,7 +79,9 @@ describe('WishlistSetupPasswordModal', (): void => {
 		const mockClear: jest.Mock = jest.fn();
 		renderForTest(
 			<WishlistSetupPasswordModal
-				wishlist={getSampleWishlist({hasPassword: true})}
+				wishlist={getSampleWishlist({
+					hasPassword: true
+				})}
 				onAccept={(): void => undefined}
 				onClear={mockClear}
 				onClose={(): void => undefined}
@@ -93,9 +89,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 			/>
 		);
 
-		const clearBtn: HTMLElement = screen.getByTestId(
-			'wishlist-password-modal-clear'
-		);
+		const clearBtn: HTMLElement = screen.getByTestId('wishlist-password-modal-clear');
 
 		// act
 		await user.click(clearBtn);
@@ -119,9 +113,7 @@ describe('WishlistSetupPasswordModal', (): void => {
 		);
 
 		// act
-		const cancelButton: HTMLElement = screen.getByTestId(
-			'wishlist-password-modal-cancel'
-		);
+		const cancelButton: HTMLElement = screen.getByTestId('wishlist-password-modal-cancel');
 
 		// assert
 		await user.click(cancelButton);

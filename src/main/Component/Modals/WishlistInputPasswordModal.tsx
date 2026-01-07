@@ -1,14 +1,8 @@
-import {
-	Button,
-	IconButton,
-	InputAdornment,
-	Stack,
-	TextField
-} from '@mui/material';
-import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
 import React from 'react';
-import {WishList} from '@entity/WishList';
 import {useTranslation} from 'react-i18next';
+import {Button, IconButton, InputAdornment, Stack, TextField} from '@mui/material';
+import {WishList} from '@entity/WishList';
+import {PasswordVisibilityIcon} from '../PasswordVisibilityIcon';
 import {AspireModal} from './AspireModal';
 
 interface WishlistInputPasswordModalProps {
@@ -19,9 +13,7 @@ interface WishlistInputPasswordModalProps {
 	readonly onClose: () => void;
 }
 
-export function WishlistInputPasswordModal(
-	props: WishlistInputPasswordModalProps
-): React.ReactElement {
+export function WishlistInputPasswordModal(props: WishlistInputPasswordModalProps): React.ReactElement {
 	const [password, setPassword] = React.useState<string>('');
 	const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
 
@@ -35,9 +27,7 @@ export function WishlistInputPasswordModal(
 		props.onClose();
 	}
 
-	function handlePasswordChange(
-		e: React.ChangeEvent<HTMLInputElement>
-	): void {
+	function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>): void {
 		setPassword(e.target.value.trim());
 	}
 
@@ -59,16 +49,20 @@ export function WishlistInputPasswordModal(
 						endAdornment: (
 							<InputAdornment
 								position='end'
-								sx={{margin: 0, padding: 0}}
+								sx={{
+									margin: 0,
+									padding: 0
+								}}
 							>
 								<IconButton
 									data-testid='password-visibility-icon'
-									sx={{margin: 0, padding: 0}}
+									sx={{
+										margin: 0,
+										padding: 0
+									}}
 									onClick={handleClickShowPassword}
 								>
-									<PasswordVisibilityIcon
-										visible={isShowPassword}
-									/>
+									<PasswordVisibilityIcon visible={isShowPassword} />
 								</IconButton>
 							</InputAdornment>
 						)

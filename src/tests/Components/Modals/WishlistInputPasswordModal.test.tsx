@@ -1,10 +1,10 @@
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import {renderForTest} from '../../__utils__/RenderForTest';
-import user from '@testing-library/user-event';
 import {WishlistInputPasswordModal} from '@component/Modals/WishlistInputPasswordModal';
+import user from '@testing-library/user-event';
 import {getSampleWishlist} from '../../__utils__/DataFactory';
+import {renderForTest} from '../../__utils__/RenderForTest';
 
 describe('WishlistInputPasswordModal', (): void => {
 	it('renders modal correctly', (): void => {
@@ -19,9 +19,7 @@ describe('WishlistInputPasswordModal', (): void => {
 		);
 
 		// assert
-		const element: HTMLElement = screen.getByTestId(
-			'wishlist-password-modal-input'
-		);
+		const element: HTMLElement = screen.getByTestId('wishlist-password-modal-input');
 		expect(element).toBeInTheDocument();
 	});
 
@@ -38,9 +36,7 @@ describe('WishlistInputPasswordModal', (): void => {
 		);
 
 		// assert
-		const element: HTMLElement | null = screen.queryByTestId(
-			'wishlist-password-modal-input'
-		);
+		const element: HTMLElement | null = screen.queryByTestId('wishlist-password-modal-input');
 		expect(element).toBeNull();
 	});
 
@@ -59,9 +55,7 @@ describe('WishlistInputPasswordModal', (): void => {
 		const passwordInput: HTMLElement = screen
 			.getByTestId('wishlist-password-modal-input')
 			.querySelector('input') as HTMLElement;
-		const toggleButton: HTMLElement = screen.getByTestId(
-			'password-visibility-icon'
-		);
+		const toggleButton: HTMLElement = screen.getByTestId('password-visibility-icon');
 
 		// assert
 		await user.click(toggleButton);
@@ -80,9 +74,7 @@ describe('WishlistInputPasswordModal', (): void => {
 			/>
 		);
 
-		const confirmBtn: HTMLElement = screen.getByTestId(
-			'wishlist-password-modal-confirm'
-		);
+		const confirmBtn: HTMLElement = screen.getByTestId('wishlist-password-modal-confirm');
 		const inputElement: HTMLElement = screen
 			.getByTestId('wishlist-password-modal-input')
 			.querySelector('input') as HTMLElement;
@@ -93,10 +85,7 @@ describe('WishlistInputPasswordModal', (): void => {
 
 		//assert
 		expect(mockAccept).toHaveBeenCalledTimes(1);
-		expect(mockAccept).toHaveBeenCalledWith(
-			'b838027b-9177-43d6-918e-67917f1d9b15',
-			'password123'
-		);
+		expect(mockAccept).toHaveBeenCalledWith('b838027b-9177-43d6-918e-67917f1d9b15', 'password123');
 	});
 
 	it('handles cancel button', async (): Promise<void> => {
@@ -112,9 +101,7 @@ describe('WishlistInputPasswordModal', (): void => {
 		);
 
 		// act
-		const cancelButton: HTMLElement = screen.getByTestId(
-			'wishlist-password-modal-cancel'
-		);
+		const cancelButton: HTMLElement = screen.getByTestId('wishlist-password-modal-cancel');
 
 		// assert
 		await user.click(cancelButton);

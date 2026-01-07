@@ -14,11 +14,11 @@ export interface WishlistItemDto {
 	readonly hidden: boolean;
 }
 
-export function mapWishlistItemFromDto(
-	wishlistItem: WishlistItemDto
-): WishlistItem {
+export function mapWishlistItemFromDto(wishlistItem: WishlistItemDto): WishlistItem {
 	const {...rest} = wishlistItem;
-	return {...rest};
+	return {
+		...rest
+	};
 }
 
 export function mapWishlistItemToDto(
@@ -26,5 +26,8 @@ export function mapWishlistItemToDto(
 	overrides: Partial<WishlistItemDto> = {}
 ): WishlistItemDto {
 	const {...rest} = wishlistItem;
-	return {...rest, ...overrides};
+	return {
+		...rest,
+		...overrides
+	};
 }
