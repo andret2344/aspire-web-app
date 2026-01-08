@@ -1,11 +1,7 @@
 import React from 'react';
 import {NavigateFunction, Outlet, useNavigate} from 'react-router-dom';
 import {Box} from '@mui/material';
-import {
-	NavDrawer,
-	WIDTH_DRAWER_CLOSED,
-	WIDTH_DRAWER_OPENED
-} from '@component/NavDrawer';
+import {NavDrawer, WIDTH_DRAWER_CLOSED, WIDTH_DRAWER_OPENED} from '@component/NavDrawer';
 import {useTokenValidation} from '@hook/useTokenValidation';
 
 export function AppLayout(): React.ReactElement {
@@ -14,9 +10,7 @@ export function AppLayout(): React.ReactElement {
 	const {tokenLoading, tokenValid} = useTokenValidation();
 	const navigate: NavigateFunction = useNavigate();
 
-	const width: number = isDrawerOpen
-		? WIDTH_DRAWER_OPENED
-		: WIDTH_DRAWER_CLOSED;
+	const width: number = isDrawerOpen ? WIDTH_DRAWER_OPENED : WIDTH_DRAWER_CLOSED;
 
 	React.useEffect((): void => {
 		if (tokenLoading) {

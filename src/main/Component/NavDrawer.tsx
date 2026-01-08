@@ -1,16 +1,8 @@
-import {
-	Divider,
-	Drawer,
-	IconButton,
-	List,
-	ListItemButton,
-	ListItemIcon,
-	ListItemText
-} from '@mui/material';
-import {ListAlt, Logout, Menu, MenuOpen, Settings} from '@mui/icons-material';
 import React from 'react';
-import {Link, NavigateFunction, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
+import {Link, NavigateFunction, useNavigate} from 'react-router-dom';
+import {ListAlt, Logout, Menu, MenuOpen, Settings} from '@mui/icons-material';
+import {Divider, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import {logout} from '@service/AuthService';
 
 export const WIDTH_DRAWER_OPENED: number = 240;
@@ -24,9 +16,7 @@ interface NavDrawerProps {
 export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 	const {t} = useTranslation();
 	const navigate: NavigateFunction = useNavigate();
-	const width: number = props.open
-		? WIDTH_DRAWER_OPENED
-		: WIDTH_DRAWER_CLOSED;
+	const width: number = props.open ? WIDTH_DRAWER_OPENED : WIDTH_DRAWER_CLOSED;
 
 	function handleLogout(): void {
 		logout();
@@ -37,7 +27,13 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 		if (props.open) {
 			return <MenuOpen />;
 		}
-		return <Menu sx={{marginLeft: '-0.125rem'}} />;
+		return (
+			<Menu
+				sx={{
+					marginLeft: '-0.125rem'
+				}}
+			/>
+		);
 	}
 
 	function renderListItemText(text: string): React.ReactElement {

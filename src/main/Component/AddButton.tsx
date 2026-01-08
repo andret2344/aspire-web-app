@@ -1,14 +1,12 @@
 import React from 'react';
-import {Button} from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import {Button} from '@mui/material';
 
 export interface AddButtonProps {
 	readonly onClick?: () => void;
 }
 
-export function AddButton(
-	props: React.PropsWithChildren<AddButtonProps>
-): React.ReactElement {
+export function AddButton(props: React.PropsWithChildren<AddButtonProps>): React.ReactElement {
 	return (
 		<Button
 			data-testid='open-modal-button'

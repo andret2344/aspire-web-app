@@ -1,19 +1,12 @@
-import {
-	mockedRemoveWishlistItem,
-	mockedUpdateWishlistItem
-} from '../__mocks__/MockWishlistItemService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import {mockedGetMarkdown} from '../__mocks__/MockMDXEditor';
-import {screen, waitFor} from '@testing-library/dom';
-import '@testing-library/jest-dom';
+import {mockedRemoveWishlistItem, mockedUpdateWishlistItem} from '../__mocks__/MockWishlistItemService';
+import {getSampleWishlist, getSampleWishlistItem} from '../__utils__/DataFactory';
 import {renderForTest} from '../__utils__/RenderForTest';
-import user from '@testing-library/user-event';
 import React from 'react';
+import {screen, waitFor} from '@testing-library/dom';
+import user from '@testing-library/user-event';
 import {WishlistItemComponent} from '@component/WishlistItemComponent';
-import {
-	getSampleWishlist,
-	getSampleWishlistItem
-} from '../__utils__/DataFactory';
 
 describe('WishlistItemComponent', (): void => {
 	it('opens and closes menu on small width', async (): Promise<void> => {
@@ -26,16 +19,13 @@ describe('WishlistItemComponent', (): void => {
 				onRemove={(): void => undefined}
 			/>
 		);
-		const buttonMore: HTMLElement = screen.getByTestId(
-			'wishlist-item-button-more'
-		);
+		const buttonMore: HTMLElement = screen.getByTestId('wishlist-item-button-more');
 
 		// act
 		await user.click(buttonMore);
 
 		// assert
-		const menuItemRemove: HTMLElement =
-			screen.getByTestId('menu-item-remove');
+		const menuItemRemove: HTMLElement = screen.getByTestId('menu-item-remove');
 		expect(menuItemRemove).toBeInTheDocument();
 	});
 
@@ -52,12 +42,8 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconEdit: HTMLElement | null = screen.queryByTestId(
-				'edit-wishlist-item-1-1'
-			);
-			const iconRemove: HTMLElement | null = screen.queryByTestId(
-				'remove-wishlist-item-1-1'
-			);
+			const iconEdit: HTMLElement | null = screen.queryByTestId('edit-wishlist-item-1-1');
+			const iconRemove: HTMLElement | null = screen.queryByTestId('remove-wishlist-item-1-1');
 
 			// assert
 			expect(iconEdit).toBeNull();
@@ -76,12 +62,8 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconEdit: HTMLElement = screen.getByTestId(
-				'editable-name-button-edit'
-			);
-			const iconRemove: HTMLElement | null = screen.queryByTestId(
-				'remove-wishlist-item-1-1'
-			);
+			const iconEdit: HTMLElement = screen.getByTestId('editable-name-button-edit');
+			const iconRemove: HTMLElement | null = screen.queryByTestId('remove-wishlist-item-1-1');
 
 			// assert
 			expect(iconEdit).toBeInTheDocument();
@@ -99,12 +81,8 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconEdit: HTMLElement | null = screen.queryByTestId(
-				'edit-wishlist-item-1-1'
-			);
-			const iconRemove: HTMLElement | null = screen.queryByTestId(
-				'remove-wishlist-item-1-1'
-			);
+			const iconEdit: HTMLElement | null = screen.queryByTestId('edit-wishlist-item-1-1');
+			const iconRemove: HTMLElement | null = screen.queryByTestId('remove-wishlist-item-1-1');
 
 			// assert
 			expect(iconEdit).toBeNull();
@@ -127,9 +105,7 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const removeItemButton: HTMLElement = screen.getByTestId(
-				'remove-wishlist-item-1-1'
-			);
+			const removeItemButton: HTMLElement = screen.getByTestId('remove-wishlist-item-1-1');
 			await user.click(removeItemButton);
 
 			// assert
@@ -153,18 +129,12 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const removeItemButton: HTMLElement = screen.getByTestId(
-				'remove-wishlist-item-1-1'
-			);
+			const removeItemButton: HTMLElement = screen.getByTestId('remove-wishlist-item-1-1');
 			await user.click(removeItemButton);
 
 			// assert
 			expect(handleEditButtonClick).toHaveBeenCalledTimes(0);
-			await waitFor((): void =>
-				expect(
-					screen.getByText('something-went-wrong')
-				).toBeInTheDocument()
-			);
+			await waitFor((): void => expect(screen.getByText('something-went-wrong')).toBeInTheDocument());
 		});
 	});
 
@@ -181,13 +151,9 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const progress: HTMLElement | null = screen.queryByTestId(
-				'item-loading-progress'
-			);
-			const iconHidden: HTMLElement | null =
-				screen.queryByTestId('item-hidden-icon');
-			const iconVisible: HTMLElement | null =
-				screen.queryByTestId('item-visible-icon');
+			const progress: HTMLElement | null = screen.queryByTestId('item-loading-progress');
+			const iconHidden: HTMLElement | null = screen.queryByTestId('item-hidden-icon');
+			const iconVisible: HTMLElement | null = screen.queryByTestId('item-visible-icon');
 
 			// assert
 			expect(progress).toBeNull();
@@ -202,7 +168,9 @@ describe('WishlistItemComponent', (): void => {
 			renderForTest(
 				<WishlistItemComponent
 					item={getSampleWishlistItem()}
-					wishlist={getSampleWishlist({hasPassword: true})}
+					wishlist={getSampleWishlist({
+						hasPassword: true
+					})}
 					position={1}
 					onEdit={handleEditClick}
 					onRemove={(): void => undefined}
@@ -210,17 +178,17 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconHidden: HTMLElement =
-				screen.getByTestId('item-visible-icon');
+			const iconHidden: HTMLElement = screen.getByTestId('item-visible-icon');
 			await user.click(iconHidden);
-			const wishlistItemDescription: HTMLElement | null =
-				screen.queryByText('test description');
+			const wishlistItemDescription: HTMLElement | null = screen.queryByText('test description');
 
 			// assert
 			expect(wishlistItemDescription).toBeNull();
 			expect(handleEditClick).toHaveBeenCalledTimes(1);
 			expect(handleEditClick).toHaveBeenCalledWith(
-				getSampleWishlistItem({hidden: true})
+				getSampleWishlistItem({
+					hidden: true
+				})
 			);
 		});
 
@@ -230,8 +198,12 @@ describe('WishlistItemComponent', (): void => {
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
 			renderForTest(
 				<WishlistItemComponent
-					item={getSampleWishlistItem({hidden: true})}
-					wishlist={getSampleWishlist({hasPassword: true})}
+					item={getSampleWishlistItem({
+						hidden: true
+					})}
+					wishlist={getSampleWishlist({
+						hasPassword: true
+					})}
 					position={1}
 					onEdit={handleEditClick}
 					onRemove={(): void => undefined}
@@ -239,17 +211,17 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconHidden: HTMLElement =
-				screen.getByTestId('item-hidden-icon');
+			const iconHidden: HTMLElement = screen.getByTestId('item-hidden-icon');
 			await user.click(iconHidden);
-			const wishlistItemDescription: HTMLElement | null =
-				screen.queryByText('test description');
+			const wishlistItemDescription: HTMLElement | null = screen.queryByText('test description');
 
 			// assert
 			expect(wishlistItemDescription).toBeNull();
 			expect(handleEditClick).toHaveBeenCalledTimes(1);
 			expect(handleEditClick).toHaveBeenCalledWith(
-				getSampleWishlistItem({hidden: false})
+				getSampleWishlistItem({
+					hidden: false
+				})
 			);
 		});
 
@@ -268,11 +240,9 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const iconVisible: HTMLElement =
-				screen.getByTestId('item-visible-icon');
+			const iconVisible: HTMLElement = screen.getByTestId('item-visible-icon');
 			await user.click(iconVisible);
-			const wishlistItemDescription: HTMLElement =
-				screen.getByText('Item description');
+			const wishlistItemDescription: HTMLElement = screen.getByText('Item description');
 
 			// assert
 			expect(wishlistItemDescription).toBeInTheDocument();
@@ -296,21 +266,19 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const priorityChip: HTMLElement =
-				screen.getByTestId('item-priority-chip');
+			const priorityChip: HTMLElement = screen.getByTestId('item-priority-chip');
 			await user.click(priorityChip);
-			const priorityMenuItem: HTMLElement = screen.getByTestId(
-				'priority-menu-item-2'
-			);
+			const priorityMenuItem: HTMLElement = screen.getByTestId('priority-menu-item-2');
 			await user.click(priorityMenuItem);
-			const wishlistItemDescription: HTMLElement | null =
-				screen.queryByText('Item description');
+			const wishlistItemDescription: HTMLElement | null = screen.queryByText('Item description');
 
 			// assert
 			expect(wishlistItemDescription).toBeNull();
 			expect(handleEditClick).toHaveBeenCalledTimes(1);
 			expect(handleEditClick).toHaveBeenCalledWith(
-				getSampleWishlistItem({priority: 2})
+				getSampleWishlistItem({
+					priority: 2
+				})
 			);
 		});
 
@@ -328,11 +296,9 @@ describe('WishlistItemComponent', (): void => {
 			);
 
 			// act
-			const priorityChip: HTMLElement =
-				screen.getByTestId('item-priority-chip');
+			const priorityChip: HTMLElement = screen.getByTestId('item-priority-chip');
 			await user.click(priorityChip);
-			const wishlistItemDescription: HTMLElement =
-				screen.getByText('Item description');
+			const wishlistItemDescription: HTMLElement = screen.getByText('Item description');
 
 			// assert
 			expect(wishlistItemDescription).toBeInTheDocument();
@@ -355,21 +321,13 @@ describe('WishlistItemComponent', (): void => {
 		);
 
 		// act
-		const editButton: HTMLElement = screen.getByTestId(
-			'editable-name-button-edit'
-		);
+		const editButton: HTMLElement = screen.getByTestId('editable-name-button-edit');
 		await user.click(editButton);
-		const inputWrapper: HTMLElement = screen.getByTestId(
-			'editable-name-input-name'
-		);
-		const input: HTMLInputElement = inputWrapper.querySelector(
-			'input'
-		) as HTMLInputElement;
+		const inputWrapper: HTMLElement = screen.getByTestId('editable-name-input-name');
+		const input: HTMLInputElement = inputWrapper.querySelector('input') as HTMLInputElement;
 		await user.clear(input);
 		await user.type(input, 'New description');
-		const doneButton: HTMLElement = screen.getByTestId(
-			'editable-name-button-done'
-		);
+		const doneButton: HTMLElement = screen.getByTestId('editable-name-button-done');
 		await user.click(doneButton);
 
 		// assert
@@ -397,17 +355,13 @@ describe('WishlistItemComponent', (): void => {
 		);
 
 		// act
-		const itemRow: HTMLElement = screen.getByTestId(
-			'wishlist-item-row-grid-1-1'
-		);
+		const itemRow: HTMLElement = screen.getByTestId('wishlist-item-row-grid-1-1');
 		await user.click(itemRow);
 		const editDescriptionButton: HTMLElement = screen.getByTestId(
 			'component-wishlist-item-1-button-edit-description'
 		);
 		await user.click(editDescriptionButton);
-		const buttonAccept: HTMLElement = screen.getByTestId(
-			'modal-description-confirm'
-		);
+		const buttonAccept: HTMLElement = screen.getByTestId('modal-description-confirm');
 		await user.click(buttonAccept);
 
 		// assert
@@ -432,12 +386,9 @@ describe('WishlistItemComponent', (): void => {
 		);
 
 		// act
-		const itemRow: HTMLElement = screen.getByTestId(
-			'wishlist-item-row-grid-1-1'
-		);
+		const itemRow: HTMLElement = screen.getByTestId('wishlist-item-row-grid-1-1');
 		await user.click(itemRow);
-		const descriptionElement: HTMLElement =
-			screen.getByText('Item description');
+		const descriptionElement: HTMLElement = screen.getByText('Item description');
 
 		// assert
 		expect(descriptionElement).toBeInTheDocument();
@@ -457,19 +408,13 @@ describe('WishlistItemComponent', (): void => {
 		);
 
 		// act
-		const menuItem: HTMLElement = screen.getByTestId(
-			'wishlist-item-button-more'
-		);
+		const menuItem: HTMLElement = screen.getByTestId('wishlist-item-button-more');
 		await user.click(menuItem);
-		const duplicateChip: HTMLElement = screen.getByTestId(
-			'menu-item-duplicate'
-		);
+		const duplicateChip: HTMLElement = screen.getByTestId('menu-item-duplicate');
 		await user.click(duplicateChip);
 
 		// assert
 		expect(handleDuplicateClick).toHaveBeenCalledTimes(1);
-		expect(handleDuplicateClick).toHaveBeenCalledWith(
-			getSampleWishlistItem()
-		);
+		expect(handleDuplicateClick).toHaveBeenCalledWith(getSampleWishlistItem());
 	});
 });

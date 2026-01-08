@@ -5,20 +5,24 @@ interface RenderPasswordVisibilityIconProps {
 	readonly visible?: boolean;
 }
 
-export function PasswordVisibilityIcon(
-	props: RenderPasswordVisibilityIconProps
-): React.ReactElement {
+export function PasswordVisibilityIcon(props: RenderPasswordVisibilityIconProps): React.ReactElement {
 	if (props.visible) {
 		return (
 			<Visibility
-				sx={{margin: 0, padding: 0}}
+				sx={{
+					margin: 0,
+					padding: 0
+				}}
 				data-testid='password-icon-visible'
 			/>
 		);
 	}
 	return (
 		<VisibilityOff
-			sx={{margin: 0, padding: 0}}
+			sx={{
+				margin: 0,
+				padding: 0
+			}}
 			data-testid='password-icon-invisible'
 		/>
 	);

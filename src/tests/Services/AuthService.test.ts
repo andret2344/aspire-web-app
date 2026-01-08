@@ -1,5 +1,4 @@
-import MockAdapter from 'axios-mock-adapter';
-import axios, {AxiosError, AxiosResponse} from 'axios';
+import {waitFor} from '@testing-library/react';
 import apiInstance, {getApiConfig} from '@service/ApiInstance';
 import {
 	changePassword,
@@ -12,11 +11,10 @@ import {
 	resetPassword,
 	signUp
 } from '@service/AuthService';
-import {waitFor} from '@testing-library/react';
+import axios, {AxiosError, AxiosResponse} from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 describe('AuthService', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('return 401 if pass undefined login or password to login function', async () => {
 		// act
 		const response = await logIn('', '');
@@ -94,7 +92,12 @@ describe('AuthService', (): void => {
 
 	it('logout successfully', async () => {
 		// arrange
-		const mockedHeader = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
+		const mockedHeader = btoa(
+			JSON.stringify({
+				alg: 'HS256',
+				typ: 'JWT'
+			})
+		);
 		const mockedPayload = btoa(
 			JSON.stringify({
 				sub: '1234567890',
@@ -188,11 +191,7 @@ describe('AuthService', (): void => {
 		}).reply(200);
 
 		// act
-		const response = await changePassword(
-			currentPassword,
-			newPassword,
-			newPasswordConfirm
-		);
+		const response = await changePassword(currentPassword, newPassword, newPasswordConfirm);
 
 		// assert
 		expect(response).toEqual(200);
@@ -205,10 +204,7 @@ describe('AuthService', (): void => {
 		};
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
 		const mock = new MockAdapter(axios);
-		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(
-			200,
-			mockResponseData
-		);
+		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(200, mockResponseData);
 
 		// act
 		const result: string | undefined = await refreshToken();
@@ -221,12 +217,21 @@ describe('AuthService', (): void => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
-		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(
-			500
-		);
+		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(500);
 
 		// act
 		await expect(refreshToken()).rejects.toBeInstanceOf(AxiosError);
+	});
+
+	it('refresh token returns undefined when no refresh token exists', async (): Promise<void> => {
+		// arrange
+		localStorage.removeItem('refreshToken');
+
+		// act
+		const result: string | undefined = await refreshToken();
+
+		// assert
+		expect(result).toBeUndefined();
 	});
 
 	it('is token valid should return false if the token has no exp field', (): void => {

@@ -1,8 +1,7 @@
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
-import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../__utils__/RenderForTest';
 import {EditableNameComponent} from '@component/EditableNameComponent';
 
 describe('EditableNameComponent', (): void => {
@@ -18,9 +17,7 @@ describe('EditableNameComponent', (): void => {
 			);
 
 			// act
-			const editButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-edit'
-			);
+			const editButton: HTMLElement = screen.getByTestId('editable-name-button-edit');
 
 			// assert
 			expect(editButton).toBeInTheDocument();
@@ -37,9 +34,7 @@ describe('EditableNameComponent', (): void => {
 			);
 
 			// act
-			const editButton: HTMLElement | null = screen.queryByTestId(
-				'editable-name-button-edit'
-			);
+			const editButton: HTMLElement | null = screen.queryByTestId('editable-name-button-edit');
 
 			// assert
 			expect(editButton).toBeNull();
@@ -59,17 +54,13 @@ describe('EditableNameComponent', (): void => {
 			);
 
 			// act
-			const editButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-edit'
-			);
+			const editButton: HTMLElement = screen.getByTestId('editable-name-button-edit');
 			await user.click(editButton);
 			const input: HTMLInputElement = screen
 				.getByTestId('editable-name-input-name')
 				.querySelector('input') as HTMLInputElement;
 			await user.type(input, ' updated');
-			const doneButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-done'
-			);
+			const doneButton: HTMLElement = screen.getByTestId('editable-name-button-done');
 			await user.click(doneButton);
 
 			// assert
@@ -89,13 +80,9 @@ describe('EditableNameComponent', (): void => {
 			);
 
 			// act
-			const editButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-edit'
-			);
+			const editButton: HTMLElement = screen.getByTestId('editable-name-button-edit');
 			await user.click(editButton);
-			const doneButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-done'
-			);
+			const doneButton: HTMLElement = screen.getByTestId('editable-name-button-done');
 			await user.click(doneButton);
 
 			// assert
@@ -114,13 +101,9 @@ describe('EditableNameComponent', (): void => {
 			);
 
 			// act
-			const editButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-edit'
-			);
+			const editButton: HTMLElement = screen.getByTestId('editable-name-button-edit');
 			await user.click(editButton);
-			const confirmButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-done'
-			);
+			const confirmButton: HTMLElement = screen.getByTestId('editable-name-button-done');
 			await user.click(confirmButton);
 
 			// assert
@@ -139,23 +122,17 @@ describe('EditableNameComponent', (): void => {
 			);
 
 			// act
-			const editButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-edit'
-			);
+			const editButton: HTMLElement = screen.getByTestId('editable-name-button-edit');
 			await user.click(editButton);
 			const input: HTMLInputElement = screen
 				.getByTestId('editable-name-input-name')
 				.querySelector('input') as HTMLInputElement;
 			await user.type(input, ' updated');
-			const confirmButton: HTMLElement = screen.getByTestId(
-				'editable-name-button-done'
-			);
+			const confirmButton: HTMLElement = screen.getByTestId('editable-name-button-done');
 			await user.click(confirmButton);
 
 			// assert
-			const error: HTMLElement = await screen.findByText(
-				'something-went-wrong'
-			);
+			const error: HTMLElement = await screen.findByText('something-went-wrong');
 			expect(error).toBeInTheDocument();
 		});
 	});

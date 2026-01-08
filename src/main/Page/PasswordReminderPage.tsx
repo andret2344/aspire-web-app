@@ -1,23 +1,16 @@
 import React from 'react';
-import {AuthContainer} from '@component/AuthContainer';
-import {
-	Box,
-	Button,
-	Link,
-	TextField,
-	Theme,
-	Typography,
-	useMediaQuery,
-	useTheme
-} from '@mui/material';
 import {useForm} from 'react-hook-form';
-import {requestResetPassword} from '@service/AuthService';
-import {useSnackbar} from 'notistack';
-import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
+import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
+import {useSnackbar} from 'notistack';
+import {Box, Button, Link, TextField, Theme, Typography, useMediaQuery, useTheme} from '@mui/material';
+import {AuthContainer} from '@component/AuthContainer';
+import {requestResetPassword} from '@service/AuthService';
 
 export function PasswordReminderPage(): React.ReactElement {
-	type Inputs = {readonly email: string};
+	type Inputs = {
+		readonly email: string;
+	};
 	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
 	const theme: Theme = useTheme();
@@ -78,7 +71,9 @@ export function PasswordReminderPage(): React.ReactElement {
 						marginTop: '5px'
 					}}
 					type='email'
-					{...register('email', {required: true})}
+					{...register('email', {
+						required: true
+					})}
 				/>
 				<Button
 					variant='contained'

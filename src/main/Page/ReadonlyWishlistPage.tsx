@@ -1,29 +1,26 @@
 import React from 'react';
-import {Box, Grid, IconButton, Theme} from '@mui/material';
-import {getThemeColor} from '@util/theme';
+import {useTranslation} from 'react-i18next';
+import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
+import {enqueueSnackbar} from 'notistack';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import {Box, Grid, IconButton, Theme} from '@mui/material';
+import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
+import {WishlistInputPasswordModal} from '@component/Modals/WishlistInputPasswordModal';
+import {WishlistItemComponent} from '@component/WishlistItemComponent';
 import {mapWishlistFromDto, WishList} from '@entity/WishList';
 import {WishlistItem} from '@entity/WishlistItem';
-import {WishlistItemComponent} from '@component/WishlistItemComponent';
 import {getReadonlyWishlistByUUID} from '@service/WishListService';
-import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
-import {useTranslation} from 'react-i18next';
 import {getWishlistHiddenItems} from '@service/WishlistItemService';
-import {enqueueSnackbar} from 'notistack';
-import {WishlistInputPasswordModal} from '@component/Modals/WishlistInputPasswordModal';
+import {getThemeColor} from '@util/theme';
 
 export function ReadonlyWishlistPage(): React.ReactElement {
-	type Params = {readonly uuid: string};
+	type Params = {
+		readonly uuid: string;
+	};
 
-	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
-		undefined
-	);
-	const [hiddenItems, setHiddenItems] = React.useState<
-		WishlistItem[] | undefined
-	>(undefined);
-	const [isPasswordModalOpened, setIsPasswordModalOpened] =
-		React.useState<boolean>(false);
+	const [wishlist, setWishlist] = React.useState<WishList | undefined>(undefined);
+	const [hiddenItems, setHiddenItems] = React.useState<WishlistItem[] | undefined>(undefined);
+	const [isPasswordModalOpened, setIsPasswordModalOpened] = React.useState<boolean>(false);
 
 	const params: Params = useParams<Params>() as Params;
 	const navigate: NavigateFunction = useNavigate();
@@ -66,10 +63,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		);
 	}
 
-	async function handlePasswordEnter(
-		uuid: string,
-		password: string
-	): Promise<void> {
+	async function handlePasswordEnter(uuid: string, password: string): Promise<void> {
 		await getWishlistHiddenItems(uuid, password)
 			.then(setHiddenItems)
 			.catch((): string | number =>
@@ -80,10 +74,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		setIsPasswordModalOpened(false);
 	}
 
-	function renderWishlistItem(
-		wishlistItem: WishlistItem,
-		index: number
-	): React.ReactElement {
+	function renderWishlistItem(wishlistItem: WishlistItem, index: number): React.ReactElement {
 		return (
 			<WishlistItemComponent
 				wishlist={wishlist!}
@@ -96,21 +87,26 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 
 	function renderItems(): React.ReactNode[] {
 		const activeWishlistItems: WishlistItem[] = wishlist!.items;
-		const items: WishlistItem[] = [
-			...activeWishlistItems,
-			...(hiddenItems ?? [])
-		];
+		const items: WishlistItem[] = [...activeWishlistItems, ...(hiddenItems ?? [])];
 		return items.map(renderWishlistItem);
 	}
 
 	return (
 		<Grid
-			flexGrow={{sx: 1}}
+			flexGrow={{
+				sx: 1
+			}}
 			container
 			columnSpacing={2}
-			sx={{paddingTop: '56px'}}
+			sx={{
+				paddingTop: '56px'
+			}}
 		>
-			<Grid size={{xs: 12}}>
+			<Grid
+				size={{
+					xs: 12
+				}}
+			>
 				<Box
 					sx={(theme: Theme): SystemStyleObject<Theme> => ({
 						height: '60px',

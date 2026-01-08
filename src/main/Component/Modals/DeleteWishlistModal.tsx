@@ -1,6 +1,6 @@
-import {Box, Button} from '@mui/material';
 import React from 'react';
 import {Trans, useTranslation} from 'react-i18next';
+import {Box, Button} from '@mui/material';
 import {AspireModal} from './AspireModal';
 
 interface DeleteWishlistModalProps {
@@ -10,17 +10,19 @@ interface DeleteWishlistModalProps {
 	readonly onRemove: () => void;
 }
 
-export function DeleteWishlistModal(
-	props: DeleteWishlistModalProps
-): React.ReactElement {
+export function DeleteWishlistModal(props: DeleteWishlistModalProps): React.ReactElement {
 	const {t} = useTranslation();
 
 	function createTitle(): React.ReactElement {
 		return (
 			<Trans
 				i18nKey='delete-confirmation'
-				values={{wishlist: props.wishlistName}}
-				components={{strong: <strong />}}
+				values={{
+					wishlist: props.wishlistName
+				}}
+				components={{
+					strong: <strong />
+				}}
 				data-testid='delete-confirmation'
 			/>
 		);
@@ -48,7 +50,9 @@ export function DeleteWishlistModal(
 					color='primary'
 					data-testid='delete-wishlist-modal-button-cancel'
 					onClick={props.onCancel}
-					sx={{margin: '0 20px'}}
+					sx={{
+						margin: '0 20px'
+					}}
 				>
 					{t('cancel')}
 				</Button>
@@ -57,7 +61,9 @@ export function DeleteWishlistModal(
 					color='error'
 					data-testid='delete-wishlist-modal-button-delete'
 					onClick={props.onRemove}
-					sx={{margin: '0 20px'}}
+					sx={{
+						margin: '0 20px'
+					}}
 				>
 					{t('delete')}
 				</Button>

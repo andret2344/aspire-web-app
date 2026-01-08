@@ -1,23 +1,21 @@
 import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
-import {mockedGetReadonlyWishlistByUUID} from '../__mocks__/MockWishlistService';
 import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
+import {mockedGetReadonlyWishlistByUUID} from '../__mocks__/MockWishlistService';
 import '../__mocks__/MockMDXEditor';
-
+import {GENERIC_UUID, getSampleWishlistDto} from '../__utils__/DataFactory';
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
-import '@testing-library/jest-dom';
 import {fireEvent, screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
 import {ReadonlyWishlistPage} from '@page/ReadonlyWishlistPage';
-import {renderForTest} from '../__utils__/RenderForTest';
-import {GENERIC_UUID, getSampleWishlistDto} from '../__utils__/DataFactory';
 
 describe('ReadonlyWishlistPage', (): void => {
 	test('renders correctly with wishlist data', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({uuid: GENERIC_UUID});
-		mockedGetReadonlyWishlistByUUID.mockResolvedValue(
-			getSampleWishlistDto()
-		);
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
+		mockedGetReadonlyWishlistByUUID.mockResolvedValue(getSampleWishlistDto());
 
 		// act
 		renderForTest(<ReadonlyWishlistPage />);
@@ -30,10 +28,10 @@ describe('ReadonlyWishlistPage', (): void => {
 
 	test('redirects to error page on fetch failure', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({uuid: GENERIC_UUID});
-		mockedGetReadonlyWishlistByUUID.mockRejectedValue(
-			new Error('Fetch failed')
-		);
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
+		mockedGetReadonlyWishlistByUUID.mockRejectedValue(new Error('Fetch failed'));
 
 		// act
 		renderForTest(<ReadonlyWishlistPage />);
@@ -46,10 +44,10 @@ describe('ReadonlyWishlistPage', (): void => {
 
 	test('sets wishlist when data is fetched successfully', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({uuid: GENERIC_UUID});
-		mockedGetReadonlyWishlistByUUID.mockResolvedValue(
-			getSampleWishlistDto()
-		);
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
+		mockedGetReadonlyWishlistByUUID.mockResolvedValue(getSampleWishlistDto());
 
 		// act
 		renderForTest(<ReadonlyWishlistPage />);
@@ -62,10 +60,10 @@ describe('ReadonlyWishlistPage', (): void => {
 
 	test('fetchSelectedWishlist fetches data correctly', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({uuid: GENERIC_UUID});
-		mockedGetReadonlyWishlistByUUID.mockResolvedValue(
-			getSampleWishlistDto()
-		);
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
+		mockedGetReadonlyWishlistByUUID.mockResolvedValue(getSampleWishlistDto());
 
 		// act
 		renderForTest(<ReadonlyWishlistPage />);
@@ -78,10 +76,10 @@ describe('ReadonlyWishlistPage', (): void => {
 
 	test('fetchSelectedWishlist handles fetch error', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({uuid: GENERIC_UUID});
-		mockedGetReadonlyWishlistByUUID.mockRejectedValue(
-			new Error('Fetch failed')
-		);
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
+		mockedGetReadonlyWishlistByUUID.mockRejectedValue(new Error('Fetch failed'));
 
 		// act
 		renderForTest(<ReadonlyWishlistPage />);
@@ -94,9 +92,13 @@ describe('ReadonlyWishlistPage', (): void => {
 
 	test('visibility button works correctly', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({uuid: GENERIC_UUID});
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(
-			getSampleWishlistDto({has_password: true})
+			getSampleWishlistDto({
+				has_password: true
+			})
 		);
 		renderForTest(<ReadonlyWishlistPage />);
 
@@ -111,9 +113,13 @@ describe('ReadonlyWishlistPage', (): void => {
 
 	test('cancel button works correctly in the password modal', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({uuid: GENERIC_UUID});
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(
-			getSampleWishlistDto({has_password: true})
+			getSampleWishlistDto({
+				has_password: true
+			})
 		);
 		renderForTest(<ReadonlyWishlistPage />);
 
@@ -129,9 +135,13 @@ describe('ReadonlyWishlistPage', (): void => {
 
 	test('confirm button returns error when password is incorrect', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({uuid: GENERIC_UUID});
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
 		mockedGetReadonlyWishlistByUUID.mockResolvedValue(
-			getSampleWishlistDto({has_password: true})
+			getSampleWishlistDto({
+				has_password: true
+			})
 		);
 		mockedGetWishlistHiddenItems.mockRejectedValue(404);
 		renderForTest(<ReadonlyWishlistPage />);
@@ -141,13 +151,13 @@ describe('ReadonlyWishlistPage', (): void => {
 			fireEvent.click(screen.getByTestId('hidden-items-icon-button'));
 		});
 		fireEvent.change(screen.getByPlaceholderText('password'), {
-			target: {value: 'password123'}
+			target: {
+				value: 'password123'
+			}
 		});
 		fireEvent.click(screen.getByTestId('wishlist-password-modal-confirm'));
 
 		// assert
-		await waitFor((): void =>
-			expect(screen.getByText('password-invalid')).toBeInTheDocument()
-		);
+		await waitFor((): void => expect(screen.getByText('password-invalid')).toBeInTheDocument());
 	});
 });

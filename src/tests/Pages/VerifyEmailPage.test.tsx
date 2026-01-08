@@ -1,13 +1,10 @@
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
 import {screen} from '@testing-library/dom';
-import {VerifyEmailPage} from '@page/VerifyEmailPage';
-import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../__utils__/RenderForTest';
+import {VerifyEmailPage} from '@page/VerifyEmailPage';
 
 describe('VerifyEmailPage', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('renders correctly', (): void => {
 		// arrange
 		renderForTest(<VerifyEmailPage />);
@@ -30,9 +27,7 @@ describe('VerifyEmailPage', (): void => {
 		renderForTest(<VerifyEmailPage />);
 
 		// act
-		const resendButton: HTMLElement = screen.getByTestId(
-			'resend-email-button'
-		);
+		const resendButton: HTMLElement = screen.getByTestId('resend-email-button');
 		await user.click(resendButton);
 
 		// assert

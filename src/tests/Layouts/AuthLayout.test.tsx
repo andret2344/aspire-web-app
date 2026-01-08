@@ -1,12 +1,10 @@
-import {mockedUseTokenValidation} from '../__mocks__/MockTokenValidationHook';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
-
-import React from 'react';
-import {screen} from '@testing-library/dom';
-import '@testing-library/jest-dom';
-import {Route, Routes} from 'react-router-dom';
-import {AuthLayout} from '@layout/AuthLayout';
+import {mockedUseTokenValidation} from '../__mocks__/MockTokenValidationHook';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {Route, Routes} from 'react-router-dom';
+import {screen} from '@testing-library/dom';
+import {AuthLayout} from '@layout/AuthLayout';
 
 describe('AuthLayout', (): void => {
 	it('renders without token invalid', (): void => {

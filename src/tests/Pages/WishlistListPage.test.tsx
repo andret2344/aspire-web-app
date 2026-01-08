@@ -1,3 +1,4 @@
+import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {
 	mockedAddWishlist,
 	mockedGetWishlists,
@@ -5,16 +6,13 @@ import {
 	mockedSetWishlistPassword,
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
-import {mockedNavigate} from '../__mocks__/MockCommonService';
-
-import user from '@testing-library/user-event';
+import {getSampleWishlist, getSampleWishlistDto} from '../__utils__/DataFactory';
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
-import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
+import user from '@testing-library/user-event';
 import {WishlistListPage} from '@page/WishlistListPage';
-import {renderForTest} from '../__utils__/RenderForTest';
-import {getSampleWishlist, getSampleWishlistDto} from '../__utils__/DataFactory';
 
 describe('WishlistListPage', (): void => {
 	describe('render', (): void => {
@@ -63,8 +61,7 @@ describe('WishlistListPage', (): void => {
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// act
-			const addNewWishlistButton: HTMLElement =
-				screen.getByTestId('open-modal-button');
+			const addNewWishlistButton: HTMLElement = screen.getByTestId('open-modal-button');
 			await user.click(addNewWishlistButton);
 			const input: HTMLInputElement = screen
 				.getByTestId('input-wishlist-name')
@@ -74,11 +71,7 @@ describe('WishlistListPage', (): void => {
 			await user.click(saveButton);
 
 			// assert
-			await waitFor((): void =>
-				expect(
-					screen.getAllByText('New Mock Wishlist').length
-				).toBeGreaterThan(0)
-			);
+			await waitFor((): void => expect(screen.getAllByText('New Mock Wishlist').length).toBeGreaterThan(0));
 		});
 
 		it('handles adding new wishlist cancel', async (): Promise<void> => {
@@ -89,11 +82,9 @@ describe('WishlistListPage', (): void => {
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// act
-			const addNewWishlistButton: HTMLElement =
-				screen.getByTestId('open-modal-button');
+			const addNewWishlistButton: HTMLElement = screen.getByTestId('open-modal-button');
 			await user.click(addNewWishlistButton);
-			const cancelButton: HTMLElement =
-				screen.getByTestId('button-cancel');
+			const cancelButton: HTMLElement = screen.getByTestId('button-cancel');
 			await user.click(cancelButton);
 
 			// assert
@@ -114,9 +105,7 @@ describe('WishlistListPage', (): void => {
 			// act
 			await user.click(screen.getByTestId('delete-wishlist-1'));
 
-			await user.click(
-				screen.getByTestId('delete-wishlist-modal-button-delete')
-			);
+			await user.click(screen.getByTestId('delete-wishlist-modal-button-delete'));
 
 			// assert
 			expect(screen.getByText('wishlist-removed')).toBeInTheDocument();
@@ -133,9 +122,7 @@ describe('WishlistListPage', (): void => {
 
 			// act
 			await user.click(screen.getByTestId('delete-wishlist-1'));
-			await user.click(
-				screen.getByTestId('delete-wishlist-modal-button-cancel')
-			);
+			await user.click(screen.getByTestId('delete-wishlist-modal-button-cancel'));
 
 			// assert
 			expect(mockedRemoveWishlist).toHaveBeenCalledTimes(0);
@@ -151,14 +138,10 @@ describe('WishlistListPage', (): void => {
 
 			// act
 			await user.click(screen.getByTestId('delete-wishlist-1'));
-			await user.click(
-				screen.getByTestId('delete-wishlist-modal-button-delete')
-			);
+			await user.click(screen.getByTestId('delete-wishlist-modal-button-delete'));
 
 			// assert
-			expect(
-				screen.getByText('something-went-wrong')
-			).toBeInTheDocument();
+			expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 			expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
 			expect(mockedNavigate).toHaveBeenCalledTimes(0);
 		});
@@ -168,7 +151,9 @@ describe('WishlistListPage', (): void => {
 		// arrange
 		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 		mockedUpdateWishlistName.mockResolvedValue(
-			getSampleWishlist({name: 'Mock Wishlist updated'})
+			getSampleWishlist({
+				name: 'Mock Wishlist updated'
+			})
 		);
 
 		renderForTest(<WishlistListPage />);

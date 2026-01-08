@@ -1,32 +1,24 @@
-import {
-	Button,
-	IconButton,
-	InputAdornment,
-	TextField,
-	Theme,
-	useMediaQuery,
-	useTheme
-} from '@mui/material';
 import React from 'react';
 import {useForm} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
+import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
+import {useSnackbar} from 'notistack';
+import {Button, IconButton, InputAdornment, TextField, Theme, useMediaQuery, useTheme} from '@mui/material';
 import {AuthContainer} from '@component/AuthContainer';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
-import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {resetPassword} from '@service/AuthService';
-import {useSnackbar} from 'notistack';
-import {useTranslation} from 'react-i18next';
 
 export function NewPasswordPage(): React.ReactElement {
 	type Inputs = {
 		readonly password: string;
 		readonly passwordRepeat: string;
 	};
-	type Params = {readonly token: string};
+	type Params = {
+		readonly token: string;
+	};
 
-	const [isPasswordShown, setIsPasswordShown] =
-		React.useState<boolean>(false);
-	const [isPasswordRepeatShown, setIsPasswordRepeatShown] =
-		React.useState<boolean>(false);
+	const [isPasswordShown, setIsPasswordShown] = React.useState<boolean>(false);
+	const [isPasswordRepeatShown, setIsPasswordRepeatShown] = React.useState<boolean>(false);
 
 	const {t} = useTranslation();
 	const params: Params = useParams<Params>() as Params;
@@ -94,16 +86,20 @@ export function NewPasswordPage(): React.ReactElement {
 							endAdornment: (
 								<InputAdornment
 									position='end'
-									sx={{margin: 0, padding: 0}}
+									sx={{
+										margin: 0,
+										padding: 0
+									}}
 								>
 									<IconButton
 										data-testid='visibility-icon-password'
-										sx={{margin: 0, padding: 0}}
+										sx={{
+											margin: 0,
+											padding: 0
+										}}
 										onClick={handleClickShowPassword}
 									>
-										<PasswordVisibilityIcon
-											visible={isPasswordShown}
-										/>
+										<PasswordVisibilityIcon visible={isPasswordShown} />
 									</IconButton>
 								</InputAdornment>
 							)
@@ -128,18 +124,20 @@ export function NewPasswordPage(): React.ReactElement {
 							endAdornment: (
 								<InputAdornment
 									position='end'
-									sx={{margin: 0, padding: 0}}
+									sx={{
+										margin: 0,
+										padding: 0
+									}}
 								>
 									<IconButton
-										data-testid={
-											'visibility-icon-repeat-password'
-										}
-										sx={{margin: 0, padding: 0}}
+										data-testid={'visibility-icon-repeat-password'}
+										sx={{
+											margin: 0,
+											padding: 0
+										}}
 										onClick={handleClickShowPasswordRepeat}
 									>
-										<PasswordVisibilityIcon
-											visible={isPasswordRepeatShown}
-										/>
+										<PasswordVisibilityIcon visible={isPasswordRepeatShown} />
 									</IconButton>
 								</InputAdornment>
 							)
