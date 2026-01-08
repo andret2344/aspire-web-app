@@ -8,7 +8,7 @@
 		"biome": "biome check --write",
 		"test": "jest",
 		"test:watch": "jest --watchAll",
-		"test:ci": "jest --ci --silent --noStackTrace",
+		"test:ci": "jest --ci --silent --noStackTrace --coverage",
 		"test:slow": "jest --detectOpenHandles"
 	},
 	"keywords": [
