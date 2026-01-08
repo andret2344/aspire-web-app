@@ -4,6 +4,7 @@
 /sonarlint/
 /shelf/
 
+/biome.xml
 /dataSources.local.xml
 /dataSources.xml
 /git_toolbox_blame.xml

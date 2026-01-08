@@ -1,27 +1,31 @@
-import {mockedGetWishlist} from '../__mocks__/MockWishlistService';
+import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {
 	mockedAddWishlistItem,
 	mockedRemoveWishlistItem,
 	mockedUpdateWishlistItem
 } from '../__mocks__/MockWishlistItemService';
-import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
+import {mockedGetWishlist} from '../__mocks__/MockWishlistService';
 import '../__mocks__/MockMDXEditor';
-
-import user from '@testing-library/user-event';
+import {getSampleWishlistDto} from '../__utils__/DataFactory';
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
-import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
-import {renderForTest} from '../__utils__/RenderForTest';
-import {getSampleWishlistDto} from '../__utils__/DataFactory';
+import user from '@testing-library/user-event';
 import {WishlistPage} from '@page/WishlistPage';
 
 describe('WishlistPage', (): void => {
 	it('handles adding an item to a wishlist', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({id: '1'});
+		mockedUseParams.mockReturnValue({
+			id: '1'
+		});
 		mockedGetWishlist.mockResolvedValue(getSampleWishlistDto());
-		mockedAddWishlistItem.mockResolvedValue(getSampleWishlistDto({id: 2}));
+		mockedAddWishlistItem.mockResolvedValue(
+			getSampleWishlistDto({
+				id: 2
+			})
+		);
 
 		renderForTest(<WishlistPage />);
 		await screen.findByTestId('wishlist-page-grid-main');
@@ -38,7 +42,9 @@ describe('WishlistPage', (): void => {
 
 	it('handles removing an item from a wishlist', async (): Promise<void> => {
 		// arrange
-		mockedUseParams.mockReturnValue({id: '1'});
+		mockedUseParams.mockReturnValue({
+			id: '1'
+		});
 		mockedGetWishlist.mockResolvedValue(getSampleWishlistDto());
 		mockedRemoveWishlistItem.mockResolvedValue(undefined);
 
@@ -47,8 +53,7 @@ describe('WishlistPage', (): void => {
 		await screen.findByTestId('wishlist-page-grid-main');
 
 		const removeButton: HTMLButtonElement = await waitFor(
-			(): HTMLButtonElement =>
-				screen.getByTestId('remove-wishlist-item-1-1')
+			(): HTMLButtonElement => screen.getByTestId('remove-wishlist-item-1-1')
 		);
 		await user.click(removeButton);
 
@@ -60,7 +65,9 @@ describe('WishlistPage', (): void => {
 	it('handles visibility click', async (): Promise<void> => {
 		// arrange
 		mockedGetWishlist.mockResolvedValue(
-			getSampleWishlistDto({has_password: true})
+			getSampleWishlistDto({
+				has_password: true
+			})
 		);
 		mockedUpdateWishlistItem.mockResolvedValue(void 0);
 
@@ -92,5 +99,35 @@ describe('WishlistPage', (): void => {
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);
 		expect(mockedNavigate).toHaveBeenCalledWith('/error', {replace: true});
+	});
+
+	it('handles duplicating an item', async (): Promise<void> => {
+		// arrange
+		mockedUseParams.mockReturnValue({
+			id: '1'
+		});
+		mockedGetWishlist.mockResolvedValue(getSampleWishlistDto());
+		mockedAddWishlistItem.mockResolvedValue(
+			getSampleWishlistDto({
+				id: 2
+			})
+		);
+
+		renderForTest(<WishlistPage />);
+		await screen.findByTestId('wishlist-page-grid-main');
+
+		// act
+		const moreButton: HTMLButtonElement = await waitFor(
+			(): HTMLButtonElement => screen.getByTestId('wishlist-item-button-more')
+		);
+		await user.click(moreButton);
+
+		const duplicateButton: HTMLElement = await waitFor(
+			(): HTMLElement => screen.getByTestId('menu-item-duplicate')
+		);
+		await user.click(duplicateButton);
+
+		// assert
+		expect(mockedAddWishlistItem).toHaveBeenCalledTimes(1);
 	});
 });

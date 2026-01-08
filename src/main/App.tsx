@@ -1,35 +1,32 @@
 import React from 'react';
-import {CssBaseline} from '@mui/material';
 import {Route, Routes} from 'react-router-dom';
-import {WishlistListPage} from '@page/WishlistListPage';
-import {LoginPage} from '@page/LoginPage';
-import {ErrorPage} from '@page/ErrorPage';
-import {ProfilePage} from '@page/ProfilePage';
-import {RegisterPage} from '@page/RegisterPage';
 import {SnackbarProvider} from 'notistack';
-import {ReadonlyWishlistPage} from '@page/ReadonlyWishlistPage';
-import {getConfig} from '@service/EnvironmentHelper';
-import {setConfig} from '@service/ApiInstance';
-import {PasswordReminderPage} from '@page/PasswordReminderPage';
+import {CssBaseline} from '@mui/material';
+import {ErrorPage} from '@page/ErrorPage';
+import {LoginPage} from '@page/LoginPage';
 import {NewPasswordPage} from '@page/NewPasswordPage';
+import {PasswordReminderPage} from '@page/PasswordReminderPage';
+import {ProfilePage} from '@page/ProfilePage';
+import {ReadonlyWishlistPage} from '@page/ReadonlyWishlistPage';
+import {RegisterPage} from '@page/RegisterPage';
+import {WishlistListPage} from '@page/WishlistListPage';
+import {setConfig} from '@service/ApiInstance';
+import {getConfig} from '@service/EnvironmentHelper';
 import './i18n';
+import {Header} from '@component/Header';
+import {mapFromResponse} from '@entity/UserData';
 import {AppLayout} from '@layout/AppLayout';
 import {AuthLayout} from '@layout/AuthLayout';
-import {Header} from '@component/Header';
 import {WishlistPage} from '@page/WishlistPage';
 import {getUserData} from '@service/AuthService';
-import {mapFromResponse} from '@entity/UserData';
 import {useUserData, useUserDataActions} from './Context/UserDataContext';
 
 export function App(): React.ReactElement {
-	const {user, loaded} = useUserData();
+	const {loaded} = useUserData();
 	const {setUser, setLoaded} = useUserDataActions();
 
 	React.useEffect((): void => {
-		Promise.all([
-			getConfig().then(setConfig),
-			getUserData().then(mapFromResponse).then(setUser)
-		])
+		Promise.all([getConfig().then(setConfig), getUserData().then(mapFromResponse).then(setUser)])
 			.catch(console.error)
 			.finally((): void => setLoaded(true));
 	}, [setLoaded, setUser]);

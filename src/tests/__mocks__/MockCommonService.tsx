@@ -20,9 +20,10 @@ jest.mock('react-i18next', () => ({
 	...jest.requireActual('react-i18next'),
 	useTranslation: () => ({
 		t: (key: string) => key,
-		i18n: {language: 'en-US', changeLanguage: jest.fn()}
+		i18n: {
+			language: 'en-US',
+			changeLanguage: jest.fn()
+		}
 	}),
-	Trans: (props: React.PropsWithChildren<None>): React.ReactElement => (
-		<>{props.children}</>
-	)
+	Trans: (props: React.PropsWithChildren<None>): React.ReactElement => <>{props.children}</>
 }));

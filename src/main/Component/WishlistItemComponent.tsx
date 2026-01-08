@@ -1,3 +1,15 @@
+import React from 'react';
+import {useTranslation} from 'react-i18next';
+import MarkdownView from 'react-showdown';
+import {useSnackbar} from 'notistack';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
+import EditIcon from '@mui/icons-material/Edit';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import {
 	Box,
 	Button,
@@ -14,36 +26,16 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import EditIcon from '@mui/icons-material/Edit';
-import {
-	mapWishlistItemFromDto,
-	mapWishlistItemToDto,
-	WishlistItem,
-	WishlistItemDto
-} from '@entity/WishlistItem';
-import React from 'react';
-import {PriorityBadge} from './PriorityBadge';
-import {
-	removeWishlistItem,
-	updateWishlistItem
-} from '@service/WishlistItemService';
-import {useSnackbar} from 'notistack';
-import MarkdownView from 'react-showdown';
-import {useTranslation} from 'react-i18next';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {SystemStyleObject} from '@mui/system';
 import {getAllPriorities, getPriority, Priority} from '@entity/Priority';
 import {WishList} from '@entity/WishList';
-import {getThemeColor} from '@util/theme';
-import {SystemStyleObject} from '@mui/system';
-import {DescriptionModal} from './Modals/DescriptionModal';
-import {EditableNameComponent} from './EditableNameComponent';
+import {mapWishlistItemFromDto, mapWishlistItemToDto, WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
+import {removeWishlistItem, updateWishlistItem} from '@service/WishlistItemService';
 import {Condition} from '@util/Condition';
+import {getThemeColor} from '@util/theme';
+import {EditableNameComponent} from './EditableNameComponent';
+import {DescriptionModal} from './Modals/DescriptionModal';
+import {PriorityBadge} from './PriorityBadge';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -54,19 +46,13 @@ interface WishlistItemComponentProps {
 	readonly onDuplicate?: (item: WishlistItem) => void;
 }
 
-export function WishlistItemComponent(
-	props: WishlistItemComponentProps
-): React.ReactElement {
+export function WishlistItemComponent(props: WishlistItemComponentProps): React.ReactElement {
 	type ProgressField = (keyof WishlistItemDto)[];
 	const [isOpened, setIsOpened] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-	const [circularProgress, setCircularProgress] =
-		React.useState<ProgressField>([]);
-	const [menuAnchorEl, setMenuAnchorEl] = React.useState<HTMLElement | null>(
-		null
-	);
-	const [isDescriptionEdited, setIsDescriptionEdited] =
-		React.useState<boolean>(false);
+	const [circularProgress, setCircularProgress] = React.useState<ProgressField>([]);
+	const [menuAnchorEl, setMenuAnchorEl] = React.useState<HTMLElement | null>(null);
+	const [isDescriptionEdited, setIsDescriptionEdited] = React.useState<boolean>(false);
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -87,9 +73,7 @@ export function WishlistItemComponent(
 		}
 	}
 
-	function handlePriorityChoiceOpen(
-		event: React.MouseEvent<HTMLElement>
-	): void {
+	function handlePriorityChoiceOpen(event: React.MouseEvent<HTMLElement>): void {
 		if (props.onEdit) {
 			event.stopPropagation();
 			setAnchorEl(event.currentTarget);
@@ -100,20 +84,14 @@ export function WishlistItemComponent(
 		setAnchorEl(null);
 	}
 
-	function handlePriorityChoice(
-		event: React.MouseEvent<HTMLLIElement>
-	): void {
+	function handlePriorityChoice(event: React.MouseEvent<HTMLLIElement>): void {
 		const priority: number = event.currentTarget.value;
 		handleItemUpdate(props.item.id, 'priority', priority);
 		handlePriorityChoiceClose();
 	}
 
 	async function handleNameChange(name: string): Promise<string> {
-		const value: string = await handleItemUpdate(
-			props.item.id,
-			'name',
-			name
-		);
+		const value: string = await handleItemUpdate(props.item.id, 'name', name);
 		enqueueSnackbar(t('item-updated'), {
 			variant: 'success'
 		});
@@ -127,9 +105,7 @@ export function WishlistItemComponent(
 	): Promise<WishlistItemDto[K]> {
 		addToCircularProgress(field);
 		const items: WishlistItem[] = props.wishlist.items;
-		const itemIndex: number = items.findIndex(
-			(i: WishlistItem): boolean => i.id === itemId
-		);
+		const itemIndex: number = items.findIndex((i: WishlistItem): boolean => i.id === itemId);
 		const item: WishlistItem = items[itemIndex];
 		const itemDto: WishlistItemDto = mapWishlistItemToDto(item, {
 			[field]: newValue
@@ -153,14 +129,14 @@ export function WishlistItemComponent(
 				});
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
 			);
 	}
 
 	function handleAcceptModal(newDescription: string): void {
-		handleItemUpdate(props.item.id, 'description', newDescription).then(
-			(): void => handleCloseModal()
-		);
+		handleItemUpdate(props.item.id, 'description', newDescription).then((): void => handleCloseModal());
 	}
 
 	function handleDuplicate(event: React.MouseEvent<HTMLElement>): void {
@@ -192,17 +168,13 @@ export function WishlistItemComponent(
 	/* PROGRESS */
 
 	function addToCircularProgress(field: keyof WishlistItemDto): void {
-		setCircularProgress(
-			(prev: ProgressField): ProgressField => [...prev, field]
-		);
+		setCircularProgress((prev: ProgressField): ProgressField => [...prev, field]);
 	}
 
 	function removeFromCircularProgress(field: keyof WishlistItemDto): void {
 		setCircularProgress(
 			(prev: ProgressField): ProgressField =>
-				prev.filter(
-					(item: keyof WishlistItemDto): boolean => item !== field
-				)
+				prev.filter((item: keyof WishlistItemDto): boolean => item !== field)
 		);
 	}
 
@@ -292,9 +264,7 @@ export function WishlistItemComponent(
 		);
 	}
 
-	function renderSelectPriorityMenuItem(
-		priority: Priority
-	): React.ReactElement {
+	function renderSelectPriorityMenuItem(priority: Priority): React.ReactElement {
 		return (
 			<MenuItem
 				onClick={handlePriorityChoice}
@@ -434,12 +404,13 @@ export function WishlistItemComponent(
 				onClick={handleRowClick}
 			>
 				<Grid>
-					<IconButton aria-label='expand row'>
-						{renderExpandIcon()}
-					</IconButton>
+					<IconButton aria-label='expand row'>{renderExpandIcon()}</IconButton>
 				</Grid>
 				<Grid
-					size={{xs: 1, md: 0.5}}
+					size={{
+						xs: 1,
+						md: 0.5
+					}}
 					sx={{
 						display: 'flex',
 						justifyContent: 'flex-end'
@@ -474,7 +445,11 @@ export function WishlistItemComponent(
 				timeout='auto'
 				unmountOnExit
 			>
-				<Box sx={{margin: '1rem'}}>
+				<Box
+					sx={{
+						margin: '1rem'
+					}}
+				>
 					<Typography component='div'>
 						<MarkdownView markdown={props.item.description} />
 					</Typography>

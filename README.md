@@ -1,5 +1,7 @@
 # Aspire Web App
 
+[![codecov](https://codecov.io/gh/andret2344/aspire-web-app/graph/badge.svg?token=0mvETlGdA8)](https://codecov.io/gh/andret2344/aspire-web-app)
+
 This is the frontend part of _Aspire, The Aspiration Abyss_.
 
 ## Table of contents

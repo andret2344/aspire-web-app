@@ -29,7 +29,5 @@ export function getAllPriorities(): Priority[] {
 }
 
 export function getPriority(priorityId: number): Priority | undefined {
-	return getAllPriorities().find(
-		(p: Priority): boolean => p.value === priorityId
-	);
+	return getAllPriorities().find((p: Priority): boolean => p.value === priorityId);
 }

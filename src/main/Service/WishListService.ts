@@ -1,5 +1,5 @@
-import {WishList, WishListDto} from '@entity/WishList';
 import axios, {AxiosResponse} from 'axios';
+import {WishList, WishListDto} from '@entity/WishList';
 import apiInstance, {getApiConfig} from './ApiInstance';
 import {requestConfig} from './AuthService';
 
@@ -11,44 +11,32 @@ function getWishlistsUrl(id: number | undefined = undefined): string {
 }
 
 export async function getWishlists(): Promise<WishListDto[]> {
-	const result: AxiosResponse<WishListDto[]> =
-		await apiInstance.get<WishListDto[]>(getWishlistsUrl());
+	const result: AxiosResponse<WishListDto[]> = await apiInstance.get<WishListDto[]>(getWishlistsUrl());
 	return result.data;
 }
 
 export async function getWishlist(id: number): Promise<WishListDto> {
-	const result: AxiosResponse<WishListDto> =
-		await apiInstance.get<WishListDto>(getWishlistsUrl(id));
+	const result: AxiosResponse<WishListDto> = await apiInstance.get<WishListDto>(getWishlistsUrl(id));
 	return result.data;
 }
 
-export async function getReadonlyWishlistByUUID(
-	uuid: string
-): Promise<WishListDto> {
+export async function getReadonlyWishlistByUUID(uuid: string): Promise<WishListDto> {
 	const baseUrl: string = getApiConfig().backend;
-	const result: AxiosResponse<WishListDto> = await axios.get(
-		`${baseUrl}/readonly/${uuid}`,
-		requestConfig
-	);
+	const result: AxiosResponse<WishListDto> = await axios.get(`${baseUrl}/readonly/${uuid}`, requestConfig);
 	return result.data;
 }
 
 export async function addWishlist(name: string): Promise<WishListDto> {
-	const result: AxiosResponse<WishListDto> = await apiInstance.post(
-		getWishlistsUrl(),
-		{name}
-	);
+	const result: AxiosResponse<WishListDto> = await apiInstance.post(getWishlistsUrl(), {
+		name
+	});
 	return result.data;
 }
 
-export async function setWishlistPassword(
-	id: number,
-	password: string
-): Promise<number> {
-	const result: AxiosResponse<string> = await apiInstance.post(
-		`${getWishlistsUrl(id)}/set-access-code`,
-		{access_code: password}
-	);
+export async function setWishlistPassword(id: number, password: string): Promise<number> {
+	const result: AxiosResponse<string> = await apiInstance.post(`${getWishlistsUrl(id)}/set-access-code`, {
+		access_code: password
+	});
 	return result.status;
 }
 
@@ -56,14 +44,10 @@ export async function removeWishlist(id: number): Promise<void> {
 	await apiInstance.delete(getWishlistsUrl(id));
 }
 
-export async function updateWishlistName(
-	id: number,
-	name: string
-): Promise<WishList | null> {
-	const result: AxiosResponse<WishList | null> = await apiInstance.put(
-		getWishlistsUrl(id),
-		{name}
-	);
+export async function updateWishlistName(id: number, name: string): Promise<WishList | null> {
+	const result: AxiosResponse<WishList | null> = await apiInstance.put(getWishlistsUrl(id), {
+		name
+	});
 
 	return result.data;
 }

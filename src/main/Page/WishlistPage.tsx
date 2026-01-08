@@ -1,26 +1,21 @@
-import {Grid, Typography} from '@mui/material';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
+import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
+import {useSnackbar} from 'notistack';
+import {Grid, Typography} from '@mui/material';
+import {AddButton} from '@component/AddButton';
 import {WishlistItemComponent} from '@component/WishlistItemComponent';
 import {mapWishlistFromDto, WishList} from '@entity/WishList';
+import {mapWishlistItemFromDto, mapWishlistItemToDto, WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
 import {getWishlist} from '@service/WishListService';
-import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
-import {
-	mapWishlistItemFromDto,
-	mapWishlistItemToDto,
-	WishlistItem,
-	WishlistItemDto
-} from '@entity/WishlistItem';
-import {useSnackbar} from 'notistack';
-import {useTranslation} from 'react-i18next';
-import {AddButton} from '@component/AddButton';
 import {addWishlistItem} from '@service/WishlistItemService';
 
 export function WishlistPage(): React.ReactElement {
-	type Params = {readonly id?: string};
+	type Params = {
+		readonly id?: string;
+	};
 
-	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
-		undefined
-	);
+	const [wishlist, setWishlist] = React.useState<WishList | undefined>(undefined);
 	const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
 	const params: Params = useParams<Params>();
@@ -35,7 +30,9 @@ export function WishlistPage(): React.ReactElement {
 			.then(mapWishlistFromDto)
 			.then(setWishlist)
 			.catch((): void => {
-				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				});
 				navigate('/error', {replace: true});
 			})
 			.finally((): void => setIsLoading(false));
@@ -46,11 +43,11 @@ export function WishlistPage(): React.ReactElement {
 	}
 
 	function handleItemRemove(itemId: number): void {
-		const foundItem: number = wishlist!.items.findIndex(
-			(item: WishlistItem): boolean => item.id === itemId
-		);
+		const foundItem: number = wishlist!.items.findIndex((item: WishlistItem): boolean => item.id === itemId);
 		wishlist!.items.splice(foundItem, 1);
-		setWishlist({...wishlist!});
+		setWishlist({
+			...wishlist!
+		});
 	}
 
 	function renderItems(): React.ReactNode[] {
@@ -58,10 +55,7 @@ export function WishlistPage(): React.ReactElement {
 		return activeWishlistItems.map(renderWishlistItem);
 	}
 
-	function renderWishlistItem(
-		wishlistItem: WishlistItem,
-		index: number
-	): React.ReactElement {
+	function renderWishlistItem(wishlistItem: WishlistItem, index: number): React.ReactElement {
 		return (
 			<WishlistItemComponent
 				key={wishlistItem.id}
@@ -76,34 +70,33 @@ export function WishlistPage(): React.ReactElement {
 	}
 
 	function handleItemEdit(item: WishlistItem): void {
-		const itemId: number =
-			wishlist!.items.findIndex(
-				(i: WishlistItem): boolean => i.id === item.id
-			) ?? -1;
+		const itemId: number = wishlist!.items.findIndex((i: WishlistItem): boolean => i.id === item.id) ?? -1;
 		if (itemId === -1) {
 			return;
 		}
-		wishlist!.items[itemId] = {...item};
-		setWishlist({...wishlist!});
+		wishlist!.items[itemId] = {
+			...item
+		};
+		setWishlist({
+			...wishlist!
+		});
 	}
 
 	function handleItemDuplicate(item: WishlistItem): void {
-		executeAddWishlistItem(mapWishlistItemToDto(item));
+		executeAddWishlistItem(mapWishlistItemToDto(item)).then();
 	}
 
-	function executeAddWishlistItem(
-		item: Omit<WishlistItemDto, 'id'>
-	): Promise<void> {
-		return addWishlistItem(wishlistId, item)
-			.then(mapWishlistItemFromDto)
-			.then((item: WishlistItem): void => {
-				wishlist?.items.push(item);
-				setWishlist({...wishlist!});
-			});
+	async function executeAddWishlistItem(item: Omit<WishlistItemDto, 'id'>): Promise<void> {
+		const wishlistItem: WishlistItemDto = await addWishlistItem(wishlistId, item);
+		const mappedItem: WishlistItem = mapWishlistItemFromDto(wishlistItem);
+		wishlist!.items.push(mappedItem);
+		setWishlist({
+			...wishlist!
+		});
 	}
 
-	function handleAddClick(): void {
-		executeAddWishlistItem({
+	async function handleAddClick(): Promise<void> {
+		await executeAddWishlistItem({
 			name: t('unnamed'),
 			description: t('default-description'),
 			priority: Math.floor((Math.random() * 3) % 3) + 1,
@@ -131,7 +124,9 @@ export function WishlistPage(): React.ReactElement {
 				<Typography
 					component='div'
 					variant='h3'
-					sx={{padding: '10px 0'}}
+					sx={{
+						padding: '10px 0'
+					}}
 					align='center'
 				>
 					{wishlist?.name}
@@ -146,9 +141,7 @@ export function WishlistPage(): React.ReactElement {
 						paddingBottom: '3rem'
 					}}
 				>
-					<AddButton onClick={handleAddClick}>
-						{t('add-new-item')}
-					</AddButton>
+					<AddButton onClick={handleAddClick}>{t('add-new-item')}</AddButton>
 				</Grid>
 			</Grid>
 		</Grid>

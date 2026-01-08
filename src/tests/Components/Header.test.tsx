@@ -1,8 +1,7 @@
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
 import {screen} from '@testing-library/dom';
-import '@testing-library/jest-dom';
 import {Header} from '@component/Header';
-import {renderForTest} from '../__utils__/RenderForTest';
 
 describe('Header', (): void => {
 	it('renders', (): void => {

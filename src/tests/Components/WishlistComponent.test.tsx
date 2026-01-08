@@ -1,16 +1,13 @@
-import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
-import {WishlistComponent} from '@component/WishlistComponent';
-import {screen, waitFor} from '@testing-library/dom';
-import '@testing-library/jest-dom';
-import {renderForTest} from '../__utils__/RenderForTest';
-import user from '@testing-library/user-event';
-import React from 'react';
+import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
 import {getSampleWishlist} from '../__utils__/DataFactory';
+import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen, waitFor} from '@testing-library/dom';
+import user from '@testing-library/user-event';
+import {WishlistComponent} from '@component/WishlistComponent';
 
 describe('WishlistComponent', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('renders correctly without password', (): void => {
 		// arrange
 		renderForTest(
@@ -33,7 +30,9 @@ describe('WishlistComponent', (): void => {
 		// arrange
 		renderForTest(
 			<WishlistComponent
-				wishlist={getSampleWishlist({hasPassword: true})}
+				wishlist={getSampleWishlist({
+					hasPassword: true
+				})}
 				onRemove={(): void => undefined}
 				onNameEdit={(): void => undefined}
 				onPasswordChange={(): void => undefined}
@@ -57,9 +56,7 @@ describe('WishlistComponent', (): void => {
 				onPasswordChange={(): void => undefined}
 			/>
 		);
-		const hiddenItemsButton: HTMLElement = screen.getByTestId(
-			'hidden-items-icon-button'
-		);
+		const hiddenItemsButton: HTMLElement = screen.getByTestId('hidden-items-icon-button');
 
 		// act
 		await user.click(hiddenItemsButton);
@@ -78,9 +75,7 @@ describe('WishlistComponent', (): void => {
 				onPasswordChange={(): void => undefined}
 			/>
 		);
-		const wishlistRowGrid: HTMLElement = screen.getByTestId(
-			'wishlist-row-grid-1'
-		);
+		const wishlistRowGrid: HTMLElement = screen.getByTestId('wishlist-row-grid-1');
 
 		// act
 		await user.click(wishlistRowGrid);
@@ -107,9 +102,7 @@ describe('WishlistComponent', (): void => {
 			await user.click(screen.getByTestId('hidden-items-icon-button'));
 
 			// act
-			await user.click(
-				screen.getByTestId('wishlist-password-modal-cancel')
-			);
+			await user.click(screen.getByTestId('wishlist-password-modal-cancel'));
 
 			// assert
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(0);
@@ -137,17 +130,12 @@ describe('WishlistComponent', (): void => {
 			await user.type(input, 'password');
 
 			// act
-			await user.click(
-				screen.getByTestId('wishlist-password-modal-confirm')
-			);
+			await user.click(screen.getByTestId('wishlist-password-modal-confirm'));
 
 			// assert
 			expect(screen.getByText('password-changed')).toBeInTheDocument();
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
-			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(
-				1,
-				'password'
-			);
+			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, 'password');
 			expect(handlePasswordChange).toHaveBeenCalledTimes(1);
 			expect(handlePasswordChange).toHaveBeenCalledWith('password');
 		});
@@ -174,19 +162,12 @@ describe('WishlistComponent', (): void => {
 			await user.type(input, 'password');
 
 			// act
-			await user.click(
-				screen.getByTestId('wishlist-password-modal-confirm')
-			);
+			await user.click(screen.getByTestId('wishlist-password-modal-confirm'));
 
 			// assert
-			expect(
-				screen.getByText('something-went-wrong')
-			).toBeInTheDocument();
+			expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
-			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(
-				1,
-				'password'
-			);
+			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, 'password');
 			expect(handlePasswordChange).toHaveBeenCalledTimes(0);
 		});
 
@@ -196,7 +177,9 @@ describe('WishlistComponent', (): void => {
 			const handlePasswordChange: jest.Mock = jest.fn();
 			renderForTest(
 				<WishlistComponent
-					wishlist={getSampleWishlist({hasPassword: true})}
+					wishlist={getSampleWishlist({
+						hasPassword: true
+					})}
 					onRemove={(): void => undefined}
 					onNameEdit={(): void => undefined}
 					onPasswordChange={handlePasswordChange}
@@ -212,9 +195,7 @@ describe('WishlistComponent', (): void => {
 			await user.type(input, 'password');
 
 			// act
-			await user.click(
-				screen.getByTestId('wishlist-password-modal-clear')
-			);
+			await user.click(screen.getByTestId('wishlist-password-modal-clear'));
 
 			// assert
 			expect(screen.getByText('password-cleared')).toBeInTheDocument();
@@ -229,7 +210,9 @@ describe('WishlistComponent', (): void => {
 			mockedSetWishlistPassword.mockRejectedValue(null);
 			renderForTest(
 				<WishlistComponent
-					wishlist={getSampleWishlist({hasPassword: true})}
+					wishlist={getSampleWishlist({
+						hasPassword: true
+					})}
 					onRemove={(): void => undefined}
 					onNameEdit={(): void => undefined}
 					onPasswordChange={(): void => undefined}
@@ -245,14 +228,10 @@ describe('WishlistComponent', (): void => {
 			await user.type(input, 'password');
 
 			// act
-			await user.click(
-				screen.getByTestId('wishlist-password-modal-clear')
-			);
+			await user.click(screen.getByTestId('wishlist-password-modal-clear'));
 
 			// assert
-			expect(
-				screen.getByText('something-went-wrong')
-			).toBeInTheDocument();
+			expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
 			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, '');
 		});
@@ -265,37 +244,32 @@ describe('WishlistComponent', (): void => {
 					writeText: jest.fn().mockResolvedValue(null),
 					readText: jest
 						.fn()
-						.mockResolvedValue(
-							'http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15'
-						)
+						.mockResolvedValue('http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15')
 				},
 				configurable: true
 			});
-			localStorage.clear();
 		});
 
 		it('copies url to clipboard', async (): Promise<void> => {
 			// arrange
 			renderForTest(
 				<WishlistComponent
-					wishlist={getSampleWishlist({hasPassword: true})}
+					wishlist={getSampleWishlist({
+						hasPassword: true
+					})}
 					onRemove={(): void => undefined}
 					onNameEdit={(): void => undefined}
 					onPasswordChange={(): void => undefined}
 				/>
 			);
-			const shareIcon: HTMLElement = await waitFor(
-				(): HTMLElement => screen.getByTestId('share-icon-button-1')
-			);
+			const shareIcon: HTMLElement = await waitFor((): HTMLElement => screen.getByTestId('share-icon-button-1'));
 
 			// act
 			await user.click(shareIcon);
 
 			// assert
 			const clipboardText: string = await navigator.clipboard.readText();
-			expect(clipboardText).toBe(
-				'http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15'
-			);
+			expect(clipboardText).toBe('http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15');
 			expect(screen.getByText('url-copied')).toBeInTheDocument();
 		});
 
@@ -303,26 +277,22 @@ describe('WishlistComponent', (): void => {
 			// arrange
 			renderForTest(
 				<WishlistComponent
-					wishlist={getSampleWishlist({hasPassword: true})}
+					wishlist={getSampleWishlist({
+						hasPassword: true
+					})}
 					onRemove={(): void => undefined}
 					onNameEdit={(): void => undefined}
 					onPasswordChange={(): void => undefined}
 				/>
 			);
-			navigator.clipboard.writeText = jest
-				.fn()
-				.mockRejectedValue(new Error('Failed to write to clipboard'));
-			const shareIcon: HTMLElement = await waitFor(
-				(): HTMLElement => screen.getByTestId('share-icon-button-1')
-			);
+			navigator.clipboard.writeText = jest.fn().mockRejectedValue(new Error('Failed to write to clipboard'));
+			const shareIcon: HTMLElement = await waitFor((): HTMLElement => screen.getByTestId('share-icon-button-1'));
 
 			// act
 			await user.click(shareIcon);
 
 			// assert
-			expect(
-				screen.getByText('something-went-wrong')
-			).toBeInTheDocument();
+			expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
 		});
 	});
 });

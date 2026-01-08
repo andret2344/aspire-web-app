@@ -11,29 +11,19 @@ type Actions = {
 	setLoaded: (loaded: boolean) => void;
 };
 
-const stateContext: Context<State | null> = React.createContext<State | null>(
-	null
-);
-const actionsContext: Context<Actions | null> =
-	React.createContext<Actions | null>(null);
+const stateContext: Context<State | null> = React.createContext<State | null>(null);
+const actionsContext: Context<Actions | null> = React.createContext<Actions | null>(null);
 
-export function UserDataProvider(
-	props: React.PropsWithChildren
-): React.ReactElement {
+export function UserDataProvider(props: React.PropsWithChildren): React.ReactElement {
 	const [user, setUser] = React.useState<UserData | null>(null);
 	const [loaded, setLoaded] = React.useState<boolean>(false);
 
 	const state = React.useMemo(() => ({user, loaded}), [user, loaded]);
-	const actions: Actions = React.useMemo<Actions>(
-		() => ({setUser, setLoaded}),
-		[]
-	);
+	const actions: Actions = React.useMemo<Actions>(() => ({setUser, setLoaded}), []);
 
 	return (
 		<stateContext.Provider value={state}>
-			<actionsContext.Provider value={actions}>
-				{props.children}
-			</actionsContext.Provider>
+			<actionsContext.Provider value={actions}>{props.children}</actionsContext.Provider>
 		</stateContext.Provider>
 	);
 }
@@ -49,9 +39,7 @@ export function useUserData(): State {
 export function useUserDataActions(): Actions {
 	const ctx: Actions | null = React.useContext(actionsContext);
 	if (!ctx) {
-		throw new Error(
-			'useUserDataActions must be used within <UserDataProvider>'
-		);
+		throw new Error('useUserDataActions must be used within <UserDataProvider>');
 	}
 	return ctx;
 }

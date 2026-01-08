@@ -1,8 +1,7 @@
 import React from 'react';
-import {Modal, Paper, Typography} from '@mui/material';
-import {getThemeColor} from '@util/theme';
-import {Theme} from '@mui/material';
+import {Modal, Paper, Theme, Typography} from '@mui/material';
 import {SystemStyleObject} from '@mui/system';
+import {getThemeColor} from '@util/theme';
 
 interface AspireModalProps {
 	readonly 'data-testid'?: string;
@@ -14,9 +13,7 @@ interface AspireModalProps {
 	readonly maxWidth?: string;
 }
 
-export function AspireModal(
-	props: React.PropsWithChildren<AspireModalProps>
-): React.ReactElement {
+export function AspireModal(props: React.PropsWithChildren<AspireModalProps>): React.ReactElement {
 	return (
 		<Modal
 			data-testid={props['data-testid']}
@@ -56,7 +53,9 @@ export function AspireModal(
 					id='modal-title'
 					component='div'
 					variant='h6'
-					sx={{padding: '10px 0'}}
+					sx={{
+						padding: '10px 0'
+					}}
 				>
 					{props.title}
 				</Typography>

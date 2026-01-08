@@ -5,14 +5,9 @@ export const mockedSetMarkdown: jest.Mock = jest.fn();
 export const mockedGetMarkdown: jest.Mock = jest.fn();
 
 jest.mock('@mdxeditor/editor', () => ({
-	// eslint-disable-next-line react/display-name
 	MDXEditor: React.forwardRef(
-		(
-			props: React.PropsWithChildren<MDXEditorProps>,
-			ref: ForwardedRef<unknown>
-		): React.ReactElement => {
+		(props: React.PropsWithChildren<MDXEditorProps>, ref: ForwardedRef<unknown>): React.ReactElement => {
 			if (ref) {
-				// eslint-disable-next-line react-hooks/refs
 				(ref as React.RefObject<MDXEditorMethods | null>).current = {
 					getMarkdown: mockedGetMarkdown,
 					setMarkdown: mockedSetMarkdown,

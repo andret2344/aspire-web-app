@@ -1,22 +1,19 @@
 import React, {Context, createContext, useContext} from 'react';
 import {ThemeProvider} from '@mui/material/styles';
-import {darkTheme, lightTheme} from '@util/theme';
 import {None} from '@type/None';
+import {darkTheme, lightTheme} from '@util/theme';
 
 interface DarkModeContextType {
 	readonly darkMode: boolean;
 	readonly toggleDarkMode: () => void;
 }
 
-export const DarkModeContext: Context<DarkModeContextType | undefined> =
-	createContext<DarkModeContextType | undefined>(undefined);
+export const DarkModeContext: Context<DarkModeContextType | undefined> = createContext<DarkModeContextType | undefined>(
+	undefined
+);
 
-export function DarkModeProvider(
-	props: React.PropsWithChildren<None>
-): React.ReactElement {
-	const [darkMode, setDarkMode] = React.useState<boolean>(
-		localStorage.getItem('dark-mode') === 'true'
-	);
+export function DarkModeProvider(props: React.PropsWithChildren<None>): React.ReactElement {
+	const [darkMode, setDarkMode] = React.useState<boolean>(localStorage.getItem('dark-mode') === 'true');
 
 	React.useEffect((): void => {
 		localStorage.setItem('dark-mode', JSON.stringify(darkMode));
@@ -27,17 +24,19 @@ export function DarkModeProvider(
 	}
 
 	return (
-		<DarkModeContext.Provider value={{darkMode, toggleDarkMode}}>
-			<ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-				{props.children}
-			</ThemeProvider>
+		<DarkModeContext.Provider
+			value={{
+				darkMode,
+				toggleDarkMode
+			}}
+		>
+			<ThemeProvider theme={darkMode ? darkTheme : lightTheme}>{props.children}</ThemeProvider>
 		</DarkModeContext.Provider>
 	);
 }
 
 export function useDarkMode(): DarkModeContextType {
-	const context: DarkModeContextType | undefined =
-		useContext(DarkModeContext);
+	const context: DarkModeContextType | undefined = useContext(DarkModeContext);
 	if (!context) {
 		throw new Error('useDarkMode must be used within a DarkModeProvider');
 	}

@@ -14,9 +14,7 @@ export function getSampleWishlist(overrides: Partial<WishList> = {}): WishList {
 	};
 }
 
-export function getSampleWishlistDto(
-	overrides: Partial<WishListDto> = {}
-): WishListDto {
+export function getSampleWishlistDto(overrides: Partial<WishListDto> = {}): WishListDto {
 	return {
 		id: 1,
 		uuid: GENERIC_UUID,
@@ -27,9 +25,7 @@ export function getSampleWishlistDto(
 	};
 }
 
-export function getSampleWishlistItemDto(
-	overrides: Partial<WishlistItemDto> = {}
-): WishlistItemDto {
+export function getSampleWishlistItemDto(overrides: Partial<WishlistItemDto> = {}): WishlistItemDto {
 	return {
 		id: 1,
 		name: 'Item name',
@@ -52,9 +48,7 @@ export function getSampleWishlistItemDtoWithoutId(
 	};
 }
 
-export function getSampleWishlistItem(
-	overrides: Partial<WishlistItem> = {}
-): WishlistItem {
+export function getSampleWishlistItem(overrides: Partial<WishlistItem> = {}): WishlistItem {
 	return {
 		id: 1,
 		name: 'Item name',

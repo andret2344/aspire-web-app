@@ -1,22 +1,13 @@
-import {
-	Box,
-	Button,
-	Grid,
-	IconButton,
-	InputAdornment,
-	Paper,
-	TextField,
-	Typography
-} from '@mui/material';
 import React from 'react';
-import {changePassword} from '@service/AuthService';
 import {useForm} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import {useSnackbar} from 'notistack';
-import {useDarkMode} from '../Context/DarkModeContext';
+import {Box, Button, Grid, IconButton, InputAdornment, Paper, TextField, Typography} from '@mui/material';
+import {LanguagePicker} from '@component/LanguagePicker';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '@component/ToggleColorModeComponent';
-import {useTranslation} from 'react-i18next';
-import {LanguagePicker} from '@component/LanguagePicker';
+import {changePassword} from '@service/AuthService';
+import {useDarkMode} from '../Context/DarkModeContext';
 
 export function ProfilePage(): React.ReactElement {
 	type Inputs = {
@@ -25,12 +16,9 @@ export function ProfilePage(): React.ReactElement {
 		readonly newPasswordConfirm: string;
 	};
 
-	const [isOldPasswordShown, setIsOldPasswordShown] =
-		React.useState<boolean>(false);
-	const [isNewPasswordShown, setIsNewPasswordShown] =
-		React.useState<boolean>(false);
-	const [isNewPasswordRepeatShown, setIsNewPasswordRepeatShown] =
-		React.useState<boolean>(false);
+	const [isOldPasswordShown, setIsOldPasswordShown] = React.useState<boolean>(false);
+	const [isNewPasswordShown, setIsNewPasswordShown] = React.useState<boolean>(false);
+	const [isNewPasswordRepeatShown, setIsNewPasswordRepeatShown] = React.useState<boolean>(false);
 
 	const {darkMode, toggleDarkMode} = useDarkMode();
 	const {enqueueSnackbar} = useSnackbar();
@@ -64,11 +52,7 @@ export function ProfilePage(): React.ReactElement {
 			return;
 		}
 
-		changePassword(
-			data.currentPassword,
-			data.newPassword,
-			data.newPasswordConfirm
-		)
+		changePassword(data.currentPassword, data.newPassword, data.newPasswordConfirm)
 			.then((): void => {
 				enqueueSnackbar(`${t('password-changed')}`, {
 					variant: 'success'
@@ -76,19 +60,27 @@ export function ProfilePage(): React.ReactElement {
 				reset();
 			})
 			.catch((): void => {
-				enqueueSnackbar(t('password-invalid'), {variant: 'error'});
+				enqueueSnackbar(t('password-invalid'), {
+					variant: 'error'
+				});
 			});
 	}
 
 	return (
 		<Grid
-			flexGrow={{sx: 1}}
+			flexGrow={{
+				sx: 1
+			}}
 			container
 			columnSpacing={2}
-			sx={{paddingTop: '56px'}}
+			sx={{
+				paddingTop: '56px'
+			}}
 		>
 			<Grid
-				size={{xs: 12}}
+				size={{
+					xs: 12
+				}}
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -108,7 +100,11 @@ export function ProfilePage(): React.ReactElement {
 						marginTop: '20px'
 					}}
 				>
-					<Box sx={{display: 'flex'}}>
+					<Box
+						sx={{
+							display: 'flex'
+						}}
+					>
 						<Box
 							sx={{
 								height: '100%',
@@ -124,7 +120,11 @@ export function ProfilePage(): React.ReactElement {
 									alignItems: 'center'
 								}}
 							>
-								<Typography sx={{fontFamily: 'Montserrat'}}>
+								<Typography
+									sx={{
+										fontFamily: 'Montserrat'
+									}}
+								>
 									{t('password-settings')}
 								</Typography>
 							</Box>
@@ -147,12 +147,12 @@ export function ProfilePage(): React.ReactElement {
 								}}
 							>
 								<TextField
-									sx={{marginBottom: '20px'}}
+									sx={{
+										marginBottom: '20px'
+									}}
 									id='password'
 									placeholder={t('current-password')}
-									type={
-										isOldPasswordShown ? 'text' : 'password'
-									}
+									type={isOldPasswordShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
 											endAdornment: (
@@ -164,22 +164,14 @@ export function ProfilePage(): React.ReactElement {
 													}}
 												>
 													<IconButton
-														data-testid={
-															'visibility-icon-password'
-														}
+														data-testid={'visibility-icon-password'}
 														sx={{
 															margin: 0,
 															padding: 0
 														}}
-														onClick={
-															handleClickShowPassword
-														}
+														onClick={handleClickShowPassword}
 													>
-														<PasswordVisibilityIcon
-															visible={
-																isOldPasswordShown
-															}
-														/>
+														<PasswordVisibilityIcon visible={isOldPasswordShown} />
 													</IconButton>
 												</InputAdornment>
 											)
@@ -194,9 +186,7 @@ export function ProfilePage(): React.ReactElement {
 									}}
 									id='new-password'
 									placeholder={t('new-password')}
-									type={
-										isNewPasswordShown ? 'text' : 'password'
-									}
+									type={isNewPasswordShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
 											endAdornment: (
@@ -208,22 +198,14 @@ export function ProfilePage(): React.ReactElement {
 													}}
 												>
 													<IconButton
-														data-testid={
-															'visibility-icon-repeat-password'
-														}
+														data-testid={'visibility-icon-repeat-password'}
 														sx={{
 															margin: 0,
 															padding: 0
 														}}
-														onClick={
-															handleClickShowPasswordRepeat
-														}
+														onClick={handleClickShowPasswordRepeat}
 													>
-														<PasswordVisibilityIcon
-															visible={
-																isNewPasswordShown
-															}
-														/>
+														<PasswordVisibilityIcon visible={isNewPasswordShown} />
 													</IconButton>
 												</InputAdornment>
 											)
@@ -231,9 +213,7 @@ export function ProfilePage(): React.ReactElement {
 									}}
 									required
 									error={!!errors.newPasswordConfirm}
-									helperText={
-										errors.newPasswordConfirm?.message
-									}
+									helperText={errors.newPasswordConfirm?.message}
 									{...register('newPassword')}
 								/>
 								<TextField
@@ -242,11 +222,7 @@ export function ProfilePage(): React.ReactElement {
 									}}
 									id='confirm-password'
 									placeholder={t('confirm-password')}
-									type={
-										isNewPasswordRepeatShown
-											? 'text'
-											: 'password'
-									}
+									type={isNewPasswordRepeatShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
 											endAdornment: (
@@ -258,22 +234,14 @@ export function ProfilePage(): React.ReactElement {
 													}}
 												>
 													<IconButton
-														data-testid={
-															'visibility-icon-repeat-password-confirmation'
-														}
+														data-testid={'visibility-icon-repeat-password-confirmation'}
 														sx={{
 															margin: 0,
 															padding: 0
 														}}
-														onClick={
-															handleClickShowPasswordRepeatConfirmation
-														}
+														onClick={handleClickShowPasswordRepeatConfirmation}
 													>
-														<PasswordVisibilityIcon
-															visible={
-																isNewPasswordRepeatShown
-															}
-														/>
+														<PasswordVisibilityIcon visible={isNewPasswordRepeatShown} />
 													</IconButton>
 												</InputAdornment>
 											)
@@ -281,14 +249,14 @@ export function ProfilePage(): React.ReactElement {
 									}}
 									required
 									error={!!errors.newPasswordConfirm}
-									helperText={
-										errors.newPasswordConfirm?.message
-									}
+									helperText={errors.newPasswordConfirm?.message}
 									{...register('newPasswordConfirm')}
 								/>
 
 								<Button
-									sx={{fontFamily: 'Montserrat'}}
+									sx={{
+										fontFamily: 'Montserrat'
+									}}
 									variant='contained'
 									type='submit'
 								>
@@ -297,7 +265,11 @@ export function ProfilePage(): React.ReactElement {
 							</form>
 						</Box>
 					</Box>
-					<Box sx={{display: 'flex'}}>
+					<Box
+						sx={{
+							display: 'flex'
+						}}
+					>
 						<Box
 							sx={{
 								height: '100%',
@@ -313,7 +285,11 @@ export function ProfilePage(): React.ReactElement {
 									alignItems: 'center'
 								}}
 							>
-								<Typography sx={{fontFamily: 'Montserrat'}}>
+								<Typography
+									sx={{
+										fontFamily: 'Montserrat'
+									}}
+								>
 									{t('user-settings')}
 								</Typography>
 							</Box>
@@ -328,7 +304,11 @@ export function ProfilePage(): React.ReactElement {
 								paddingTop: '40px'
 							}}
 						>
-							<Typography sx={{fontFamily: 'Montserrat'}}>
+							<Typography
+								sx={{
+									fontFamily: 'Montserrat'
+								}}
+							>
 								{t('change-theme-color')}:
 								<ToggleColorModeComponent
 									darkMode={darkMode}
@@ -341,7 +321,11 @@ export function ProfilePage(): React.ReactElement {
 									alignItems: 'center'
 								}}
 							>
-								<Typography sx={{fontFamily: 'Montserrat'}}>
+								<Typography
+									sx={{
+										fontFamily: 'Montserrat'
+									}}
+								>
 									{t('change-language')}:
 								</Typography>
 								<LanguagePicker />

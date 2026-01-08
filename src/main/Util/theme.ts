@@ -4,7 +4,9 @@ const PRIORITY_COLOR_HIGH = 'rgba(255, 99, 71, 1)';
 const PRIORITY_COLOR_MEDIUM = 'rgba(255, 255, 0, 1)';
 const PRIORITY_COLOR_LOW = 'rgba(0, 255, 0, 1)';
 
-const priorityColors: {[key: number]: string} = {
+const priorityColors: {
+	[key: number]: string;
+} = {
 	1: PRIORITY_COLOR_HIGH,
 	2: PRIORITY_COLOR_MEDIUM,
 	3: PRIORITY_COLOR_LOW
@@ -60,11 +62,7 @@ export const darkTheme: Theme = createTheme({
 	}
 });
 
-export function getThemeColor(
-	theme: Theme,
-	colorName: keyof Colors,
-	defaultColor: string = '#000000'
-): string {
+export function getThemeColor(theme: Theme, colorName: keyof Colors, defaultColor: string = '#000000'): string {
 	switch (theme.palette.mode) {
 		case 'light':
 			return lightColors[colorName] ?? defaultColor;

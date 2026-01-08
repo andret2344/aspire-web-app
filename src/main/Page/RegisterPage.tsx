@@ -1,3 +1,9 @@
+import React from 'react';
+import {useForm} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
+import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
+import {AxiosError} from 'axios';
+import {useSnackbar} from 'notistack';
 import {
 	Box,
 	Button,
@@ -10,15 +16,9 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import React from 'react';
-import {useForm} from 'react-hook-form';
 import {AuthContainer} from '@component/AuthContainer';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
-import {Link as Anchor, NavigateFunction, useNavigate} from 'react-router-dom';
 import {RegisterApiError, signUp} from '@service/AuthService';
-import {AxiosError} from 'axios';
-import {useSnackbar} from 'notistack';
-import {useTranslation} from 'react-i18next';
 
 interface IFormInput {
 	readonly email: string;
@@ -27,10 +27,8 @@ interface IFormInput {
 }
 
 export function RegisterPage(): React.ReactElement {
-	const [isPasswordShown, setIsPasswordShown] =
-		React.useState<boolean>(false);
-	const [isPasswordRepeatShown, setIsPasswordRepeatShown] =
-		React.useState<boolean>(false);
+	const [isPasswordShown, setIsPasswordShown] = React.useState<boolean>(false);
+	const [isPasswordRepeatShown, setIsPasswordRepeatShown] = React.useState<boolean>(false);
 
 	const theme: Theme = useTheme();
 	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
@@ -66,11 +64,12 @@ export function RegisterPage(): React.ReactElement {
 		signUp(data.email, data.password)
 			.then((): void => {
 				navigate('/', {replace: true});
-				enqueueSnackbar(t('account-created'), {variant: 'success'});
+				enqueueSnackbar(t('account-created'), {
+					variant: 'success'
+				});
 			})
 			.catch((response: AxiosError<RegisterApiError>): void => {
-				const registerApiError: RegisterApiError | undefined =
-					response.response?.data;
+				const registerApiError: RegisterApiError | undefined = response.response?.data;
 				if (registerApiError?.email) {
 					setError('email', {
 						type: 'manual',
@@ -113,7 +112,9 @@ export function RegisterPage(): React.ReactElement {
 					type='email'
 					error={!!errors.email}
 					helperText={errors.email?.message}
-					{...register('email', {required: true})}
+					{...register('email', {
+						required: true
+					})}
 				/>
 				<TextField
 					type={isPasswordShown ? 'text' : 'password'}
@@ -123,16 +124,20 @@ export function RegisterPage(): React.ReactElement {
 							endAdornment: (
 								<InputAdornment
 									position='end'
-									sx={{margin: 0, padding: 0}}
+									sx={{
+										margin: 0,
+										padding: 0
+									}}
 								>
 									<IconButton
 										data-testid='visibility-icon-password'
-										sx={{margin: 0, padding: 0}}
+										sx={{
+											margin: 0,
+											padding: 0
+										}}
 										onClick={handleClickShowPassword}
 									>
-										<PasswordVisibilityIcon
-											visible={isPasswordShown}
-										/>
+										<PasswordVisibilityIcon visible={isPasswordShown} />
 									</IconButton>
 								</InputAdornment>
 							)
@@ -159,18 +164,20 @@ export function RegisterPage(): React.ReactElement {
 							endAdornment: (
 								<InputAdornment
 									position='end'
-									sx={{margin: 0, padding: 0}}
+									sx={{
+										margin: 0,
+										padding: 0
+									}}
 								>
 									<IconButton
-										data-testid={
-											'visibility-icon-repeat-password'
-										}
-										sx={{margin: 0, padding: 0}}
+										data-testid={'visibility-icon-repeat-password'}
+										sx={{
+											margin: 0,
+											padding: 0
+										}}
 										onClick={handleClickShowPasswordRepeat}
 									>
-										<PasswordVisibilityIcon
-											visible={isPasswordRepeatShown}
-										/>
+										<PasswordVisibilityIcon visible={isPasswordRepeatShown} />
 									</IconButton>
 								</InputAdornment>
 							)
