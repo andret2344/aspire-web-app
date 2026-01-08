@@ -39,4 +39,15 @@ describe('EnvironmentHelper', (): void => {
 			.then((): void => fail('should not reach this point'))
 			.catch((error: Error): void => expect(error).toBeDefined());
 	});
+
+	it('returns undefined when not in production mode', async (): Promise<void> => {
+		// arrange
+		process.env.NODE_ENV = 'development';
+
+		// act
+		const config: Config | undefined = await getConfig();
+
+		// assert
+		expect(config).toBeUndefined();
+	});
 });

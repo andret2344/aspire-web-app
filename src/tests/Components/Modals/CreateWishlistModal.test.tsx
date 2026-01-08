@@ -8,8 +8,6 @@ import user from '@testing-library/user-event';
 import {CreateWishlistModal} from '@component/Modals/CreateWishlistModal';
 
 describe('CreateWishlistModal', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	test('renders correctly', (): void => {
 		// arrange
 		mockedUseMediaQuery.mockReturnValue(false);

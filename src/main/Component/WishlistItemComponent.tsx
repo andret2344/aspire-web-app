@@ -1,5 +1,6 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
+import MarkdownView from 'react-showdown';
 import {useSnackbar} from 'notistack';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
@@ -32,7 +33,6 @@ import {mapWishlistItemFromDto, mapWishlistItemToDto, WishlistItem, WishlistItem
 import {removeWishlistItem, updateWishlistItem} from '@service/WishlistItemService';
 import {Condition} from '@util/Condition';
 import {getThemeColor} from '@util/theme';
-import MarkdownView from 'react-showdown';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DescriptionModal} from './Modals/DescriptionModal';
 import {PriorityBadge} from './PriorityBadge';

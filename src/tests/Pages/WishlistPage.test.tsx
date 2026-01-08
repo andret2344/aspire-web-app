@@ -100,4 +100,34 @@ describe('WishlistPage', (): void => {
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);
 		expect(mockedNavigate).toHaveBeenCalledWith('/error');
 	});
+
+	it('handles duplicating an item', async (): Promise<void> => {
+		// arrange
+		mockedUseParams.mockReturnValue({
+			id: '1'
+		});
+		mockedGetWishlist.mockResolvedValue(getSampleWishlistDto());
+		mockedAddWishlistItem.mockResolvedValue(
+			getSampleWishlistDto({
+				id: 2
+			})
+		);
+
+		renderForTest(<WishlistPage />);
+		await screen.findByTestId('wishlist-page-grid-main');
+
+		// act
+		const moreButton: HTMLButtonElement = await waitFor(
+			(): HTMLButtonElement => screen.getByTestId('wishlist-item-button-more')
+		);
+		await user.click(moreButton);
+
+		const duplicateButton: HTMLElement = await waitFor(
+			(): HTMLElement => screen.getByTestId('menu-item-duplicate')
+		);
+		await user.click(duplicateButton);
+
+		// assert
+		expect(mockedAddWishlistItem).toHaveBeenCalledTimes(1);
+	});
 });

@@ -15,8 +15,6 @@ import axios, {AxiosError, AxiosResponse} from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 describe('AuthService', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('return 401 if pass undefined login or password to login function', async () => {
 		// act
 		const response = await logIn('', '');
@@ -223,6 +221,17 @@ describe('AuthService', (): void => {
 
 		// act
 		await expect(refreshToken()).rejects.toBeInstanceOf(AxiosError);
+	});
+
+	it('refresh token returns undefined when no refresh token exists', async (): Promise<void> => {
+		// arrange
+		localStorage.removeItem('refreshToken');
+
+		// act
+		const result: string | undefined = await refreshToken();
+
+		// assert
+		expect(result).toBeUndefined();
 	});
 
 	it('is token valid should return false if the token has no exp field', (): void => {

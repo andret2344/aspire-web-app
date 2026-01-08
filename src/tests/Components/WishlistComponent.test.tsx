@@ -8,8 +8,6 @@ import user from '@testing-library/user-event';
 import {WishlistComponent} from '@component/WishlistComponent';
 
 describe('WishlistComponent', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('renders correctly without password', (): void => {
 		// arrange
 		renderForTest(
@@ -248,7 +246,6 @@ describe('WishlistComponent', (): void => {
 				},
 				configurable: true
 			});
-			localStorage.clear();
 		});
 
 		it('copies url to clipboard', async (): Promise<void> => {

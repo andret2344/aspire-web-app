@@ -16,8 +16,6 @@ import MockAdapter from 'axios-mock-adapter';
 import apiInstance, {getApiConfig} from '../../main/Service/ApiInstance';
 
 describe('WishListService', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	test('get wishlists', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);

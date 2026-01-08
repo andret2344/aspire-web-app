@@ -5,8 +5,6 @@ import user from '@testing-library/user-event';
 import {VerifyEmailPage} from '@page/VerifyEmailPage';
 
 describe('VerifyEmailPage', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('renders correctly', (): void => {
 		// arrange
 		renderForTest(<VerifyEmailPage />);

@@ -6,8 +6,6 @@ import user from '@testing-library/user-event';
 import {DescriptionModal} from '@component/Modals/DescriptionModal';
 
 describe('DescriptionModal', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('renders', async (): Promise<void> => {
 		// arrange
 		renderForTest(

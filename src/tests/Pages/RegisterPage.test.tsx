@@ -8,8 +8,6 @@ import {fireEvent, waitFor} from '@testing-library/react';
 import {RegisterPage} from '@page/RegisterPage';
 
 describe('RegisterPage', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	test('renders', (): void => {
 		// arrange
 		renderForTest(<RegisterPage />);

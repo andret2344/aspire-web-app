@@ -11,8 +11,6 @@ import {isAxiosError} from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 describe('WishListItemService', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('adds wishlist item', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);

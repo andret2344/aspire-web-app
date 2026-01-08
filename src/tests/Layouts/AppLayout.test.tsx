@@ -2,10 +2,10 @@ import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedUseTokenValidation} from '../__mocks__/MockTokenValidationHook';
 import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
+import {Route, Routes} from 'react-router-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {AppLayout} from '@layout/AppLayout';
-import {Route, Routes} from 'react-router-dom';
 
 describe('AppLayout', (): void => {
 	it('renders with token valid', (): void => {

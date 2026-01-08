@@ -9,8 +9,6 @@ import user from '@testing-library/user-event';
 import {LoginPage} from '@page/LoginPage';
 
 describe('LoginPage', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	describe('rendering', (): void => {
 		it('renders', (): void => {
 			// arrange

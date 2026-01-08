@@ -83,22 +83,20 @@ export function WishlistPage(): React.ReactElement {
 	}
 
 	function handleItemDuplicate(item: WishlistItem): void {
-		executeAddWishlistItem(mapWishlistItemToDto(item));
+		executeAddWishlistItem(mapWishlistItemToDto(item)).then();
 	}
 
-	function executeAddWishlistItem(item: Omit<WishlistItemDto, 'id'>): Promise<void> {
-		return addWishlistItem(wishlistId, item)
-			.then(mapWishlistItemFromDto)
-			.then((item: WishlistItem): void => {
-				wishlist?.items.push(item);
-				setWishlist({
-					...wishlist!
-				});
-			});
+	async function executeAddWishlistItem(item: Omit<WishlistItemDto, 'id'>): Promise<void> {
+		const wishlistItem: WishlistItemDto = await addWishlistItem(wishlistId, item);
+		const mappedItem: WishlistItem = mapWishlistItemFromDto(wishlistItem);
+		wishlist!.items.push(mappedItem);
+		setWishlist({
+			...wishlist!
+		});
 	}
 
-	function handleAddClick(): void {
-		executeAddWishlistItem({
+	async function handleAddClick(): Promise<void> {
+		await executeAddWishlistItem({
 			name: t('unnamed'),
 			description: t('default-description'),
 			priority: Math.floor((Math.random() * 3) % 3) + 1,
