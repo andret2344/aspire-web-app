@@ -1,11 +1,10 @@
 import '../../__mocks__/MockCommonService';
+import {renderForTest} from '../../__utils__/RenderForTest';
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import {fireEvent} from '@testing-library/react';
-import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
-import {DeleteWishlistModal} from '../../../main/Component/Modals/DeleteWishlistModal';
-import {renderForTest} from '../../__utils__/RenderForTest';
+import {DeleteWishlistModal} from '@component/Modals/DeleteWishlistModal';
 
 describe('DeleteWishlistModal', (): void => {
 	test('renders correctly', (): void => {

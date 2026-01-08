@@ -1,10 +1,9 @@
+import {renderForTest, renderForTestWithoutDarkModeProvider} from '../__utils__/RenderForTest';
 import React from 'react';
-import {useDarkMode} from '@component/DarkModeContext';
 import {screen} from '@testing-library/dom';
 import {RenderResult, waitFor} from '@testing-library/react';
-import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
-import {renderForTest, renderForTestWithoutDarkModeProvider} from '../__utils__/RenderForTest';
+import {useDarkMode} from '@component/DarkModeContext';
 
 function TestComponent(): React.ReactElement {
 	const {darkMode, toggleDarkMode} = useDarkMode();

@@ -1,4 +1,4 @@
-import {isAxiosError} from 'axios';
+import {getSampleWishlistItemDto, getSampleWishlistItemDtoWithoutId} from '../__utils__/DataFactory';
 import {WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
 import apiInstance from '@service/ApiInstance';
 import {
@@ -7,8 +7,8 @@ import {
 	removeWishlistItem,
 	updateWishlistItem
 } from '@service/WishlistItemService';
+import {isAxiosError} from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import {getSampleWishlistItemDto, getSampleWishlistItemDtoWithoutId} from '../__utils__/DataFactory';
 
 describe('WishListItemService', (): void => {
 	beforeEach((): void => localStorage.clear());

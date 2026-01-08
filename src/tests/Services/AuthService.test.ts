@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosResponse} from 'axios';
+import {waitFor} from '@testing-library/react';
 import apiInstance, {getApiConfig} from '@service/ApiInstance';
 import {
 	changePassword,
@@ -11,7 +11,7 @@ import {
 	resetPassword,
 	signUp
 } from '@service/AuthService';
-import {waitFor} from '@testing-library/react';
+import axios, {AxiosError, AxiosResponse} from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 describe('AuthService', (): void => {

@@ -2,14 +2,12 @@ import {mockedNavigate, mockedUseParams} from '../__mocks__/MockCommonService';
 import {mockedGetWishlistHiddenItems} from '../__mocks__/MockWishlistItemService';
 import {mockedGetReadonlyWishlistByUUID} from '../__mocks__/MockWishlistService';
 import '../__mocks__/MockMDXEditor';
-
-import React from 'react';
-import '@testing-library/jest-dom';
-import {ReadonlyWishlistPage} from '@page/ReadonlyWishlistPage';
-import {fireEvent, screen} from '@testing-library/dom';
-import {waitFor} from '@testing-library/react';
 import {GENERIC_UUID, getSampleWishlistDto} from '../__utils__/DataFactory';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {fireEvent, screen} from '@testing-library/dom';
+import {waitFor} from '@testing-library/react';
+import {ReadonlyWishlistPage} from '@page/ReadonlyWishlistPage';
 
 describe('ReadonlyWishlistPage', (): void => {
 	test('renders correctly with wishlist data', async (): Promise<void> => {

@@ -1,9 +1,8 @@
-import React from 'react';
-import {VerifyEmailPage} from '@page/VerifyEmailPage';
-import {screen} from '@testing-library/dom';
-import '@testing-library/jest-dom';
-import user from '@testing-library/user-event';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen} from '@testing-library/dom';
+import user from '@testing-library/user-event';
+import {VerifyEmailPage} from '@page/VerifyEmailPage';
 
 describe('VerifyEmailPage', (): void => {
 	beforeEach((): void => localStorage.clear());

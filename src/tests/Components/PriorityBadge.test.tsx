@@ -1,9 +1,8 @@
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
 import {screen} from '@testing-library/dom';
-import '@testing-library/jest-dom';
-import {PriorityBadge} from '@component/PriorityBadge';
 import {RenderResult} from '@testing-library/react';
-import {renderForTest} from '../__utils__/RenderForTest';
+import {PriorityBadge} from '@component/PriorityBadge';
 
 describe('PriorityBadge', (): void => {
 	test('renders with correct id', (): void => {

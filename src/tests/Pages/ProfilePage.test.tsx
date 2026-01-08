@@ -1,10 +1,9 @@
+import {mockedChangePassword} from '../__mocks__/MockAuthService';
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
 import {screen, waitFor} from '@testing-library/dom';
-import {mockedChangePassword} from '../__mocks__/MockAuthService';
-import '@testing-library/jest-dom';
-import {ProfilePage} from '@page/ProfilePage';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../__utils__/RenderForTest';
+import {ProfilePage} from '@page/ProfilePage';
 
 describe('ProfilePage', (): void => {
 	test('renders correctly', (): void => {

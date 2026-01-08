@@ -1,9 +1,8 @@
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
-import '@testing-library/jest-dom';
-import {LanguagePicker} from '@component/LanguagePicker';
 import {screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {renderForTest} from '../__utils__/RenderForTest';
+import {LanguagePicker} from '@component/LanguagePicker';
 
 describe('LanguagePicker', (): void => {
 	test('renders correctly', (): void => {

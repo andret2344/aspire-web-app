@@ -1,13 +1,12 @@
-import React from 'react';
 import {mockedLogIn} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
-import '@testing-library/jest-dom';
-import {LoginPage} from '@page/LoginPage';
+import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
 import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../__utils__/RenderForTest';
+import {LoginPage} from '@page/LoginPage';
 
 describe('LoginPage', (): void => {
 	beforeEach((): void => localStorage.clear());

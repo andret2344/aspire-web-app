@@ -1,12 +1,11 @@
-import React from 'react';
-import {screen, waitFor} from '@testing-library/dom';
 import {mockedRequestResetPassword} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
-import '@testing-library/jest-dom';
-import {PasswordReminderPage} from '@page/PasswordReminderPage';
-import user from '@testing-library/user-event';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen, waitFor} from '@testing-library/dom';
+import user from '@testing-library/user-event';
+import {PasswordReminderPage} from '@page/PasswordReminderPage';
 
 describe('PasswordReminderPage', (): void => {
 	test('renders correctly', (): void => {

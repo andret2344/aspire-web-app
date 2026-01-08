@@ -183,5 +183,46 @@
 				}
 			}
 		}
-	}
+	},
+	"overrides": [
+		{
+			"includes": [
+				"**/*.test.{ts,tsx}"
+			],
+			"assist": {
+				"actions": {
+					"source": {
+						"organizeImports": {
+							"level": "on",
+							"options": {
+								"groups": [
+									[
+										"**/__mocks__/**"
+									],
+									[
+										"**/__utils__/**"
+									],
+									[
+										"react",
+										"react/**"
+									],
+									[
+										"@testing-library",
+										"@testing-library/**"
+									],
+									":NODE:",
+									[
+										"@mui/**"
+									],
+									":PACKAGE:",
+									":ALIAS:",
+									":PATH:"
+								]
+							}
+						}
+					}
+				}
+			}
+		}
+	]
 }

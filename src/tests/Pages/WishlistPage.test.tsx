@@ -6,15 +6,13 @@ import {
 } from '../__mocks__/MockWishlistItemService';
 import {mockedGetWishlist} from '../__mocks__/MockWishlistService';
 import '../__mocks__/MockMDXEditor';
-
-import React from 'react';
-import user from '@testing-library/user-event';
-import '@testing-library/jest-dom';
-import {WishlistPage} from '@page/WishlistPage';
-import {screen} from '@testing-library/dom';
-import {waitFor} from '@testing-library/react';
 import {getSampleWishlistDto} from '../__utils__/DataFactory';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen} from '@testing-library/dom';
+import {waitFor} from '@testing-library/react';
+import user from '@testing-library/user-event';
+import {WishlistPage} from '@page/WishlistPage';
 
 describe('WishlistPage', (): void => {
 	it('handles adding an item to a wishlist', async (): Promise<void> => {

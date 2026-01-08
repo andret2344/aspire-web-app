@@ -1,4 +1,5 @@
-import axios, {AxiosError} from 'axios';
+import {getSampleWishlist, getSampleWishlistDto} from '../__utils__/DataFactory';
+import {waitFor} from '@testing-library/react';
 import {mapWishlistArrayFromDto, mapWishlistFromDto, WishList, WishListDto} from '@entity/WishList';
 import {headers} from '@service/AuthService';
 import {
@@ -10,10 +11,9 @@ import {
 	setWishlistPassword,
 	updateWishlistName
 } from '@service/WishListService';
-import {waitFor} from '@testing-library/react';
+import axios, {AxiosError} from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import apiInstance, {getApiConfig} from '../../main/Service/ApiInstance';
-import {getSampleWishlist, getSampleWishlistDto} from '../__utils__/DataFactory';
 
 describe('WishListService', (): void => {
 	beforeEach((): void => localStorage.clear());

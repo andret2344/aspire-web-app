@@ -1,11 +1,10 @@
-import {screen} from '@testing-library/dom';
 import {mockedLogout} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
-import '@testing-library/jest-dom';
-import React from 'react';
-import {NavDrawer} from '@component/NavDrawer';
-import user from '@testing-library/user-event';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen} from '@testing-library/dom';
+import user from '@testing-library/user-event';
+import {NavDrawer} from '@component/NavDrawer';
 
 describe('NavDrawer', (): void => {
 	it('renders closed', (): void => {

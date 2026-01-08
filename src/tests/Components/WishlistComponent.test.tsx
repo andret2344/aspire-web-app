@@ -1,12 +1,11 @@
-import {WishlistComponent} from '@component/WishlistComponent';
-import {screen, waitFor} from '@testing-library/dom';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
-import '@testing-library/jest-dom';
-import React from 'react';
-import user from '@testing-library/user-event';
 import {getSampleWishlist} from '../__utils__/DataFactory';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen, waitFor} from '@testing-library/dom';
+import user from '@testing-library/user-event';
+import {WishlistComponent} from '@component/WishlistComponent';
 
 describe('WishlistComponent', (): void => {
 	beforeEach((): void => localStorage.clear());

@@ -1,12 +1,11 @@
-import React from 'react';
-import {fireEvent, waitFor} from '@testing-library/react';
 import {mockedSignUp} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
-import '@testing-library/jest-dom';
-import {RegisterPage} from '@page/RegisterPage';
-import {screen} from '@testing-library/dom';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen} from '@testing-library/dom';
+import {fireEvent, waitFor} from '@testing-library/react';
+import {RegisterPage} from '@page/RegisterPage';
 
 describe('RegisterPage', (): void => {
 	beforeEach((): void => localStorage.clear());

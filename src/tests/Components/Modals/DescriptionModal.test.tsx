@@ -1,10 +1,9 @@
-import React from 'react';
 import {mockedGetMarkdown} from '../../__mocks__/MockMDXEditor';
-import '@testing-library/jest-dom';
+import {renderForTest, renderForTestWithMockedDarkModeProvider} from '../../__utils__/RenderForTest';
+import React from 'react';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {DescriptionModal} from '../../../main/Component/Modals/DescriptionModal';
-import {renderForTest, renderForTestWithMockedDarkModeProvider} from '../../__utils__/RenderForTest';
+import {DescriptionModal} from '@component/Modals/DescriptionModal';
 
 describe('DescriptionModal', (): void => {
 	beforeEach((): void => localStorage.clear());

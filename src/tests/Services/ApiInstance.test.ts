@@ -1,7 +1,7 @@
-import {AxiosRequestConfig} from 'axios';
-import apiInstance, {getApiConfig, setConfig} from '@service/ApiInstance';
-import MockAdapter from 'axios-mock-adapter';
 import {mockedGetAccessToken, mockedRefreshToken, mockedSaveAccessToken} from '../__mocks__/MockAuthService';
+import apiInstance, {getApiConfig, setConfig} from '@service/ApiInstance';
+import {AxiosRequestConfig} from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 describe('ApiInstance', (): void => {
 	let originalEnv: NodeJS.ProcessEnv;

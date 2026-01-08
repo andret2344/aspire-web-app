@@ -1,5 +1,3 @@
-import React from 'react';
-import user from '@testing-library/user-event';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {
 	mockedAddWishlist,
@@ -8,12 +6,13 @@ import {
 	mockedSetWishlistPassword,
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
-import '@testing-library/jest-dom';
-import {WishlistListPage} from '@page/WishlistListPage';
-import {screen} from '@testing-library/dom';
-import {waitFor} from '@testing-library/react';
 import {getSampleWishlist, getSampleWishlistDto} from '../__utils__/DataFactory';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen} from '@testing-library/dom';
+import {waitFor} from '@testing-library/react';
+import user from '@testing-library/user-event';
+import {WishlistListPage} from '@page/WishlistListPage';
 
 describe('WishlistListPage', (): void => {
 	describe('render', (): void => {

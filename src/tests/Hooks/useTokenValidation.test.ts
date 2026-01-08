@@ -1,6 +1,6 @@
-import {TokenValidationResult, useTokenValidation} from '@hook/useTokenValidation';
-import {act, renderHook} from '@testing-library/react';
 import {mockedIsTokenValid} from '../__mocks__/MockAuthService';
+import {act, renderHook} from '@testing-library/react';
+import {TokenValidationResult, useTokenValidation} from '@hook/useTokenValidation';
 
 describe('useTokenValidation', (): void => {
 	test('returns loading=true initially', (): void => {

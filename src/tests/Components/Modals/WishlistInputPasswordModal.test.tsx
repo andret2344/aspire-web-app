@@ -1,10 +1,9 @@
-import React from 'react';
-import {screen} from '@testing-library/dom';
-import '@testing-library/jest-dom';
-import {WishlistInputPasswordModal} from '@component/Modals/WishlistInputPasswordModal';
-import user from '@testing-library/user-event';
 import {getSampleWishlist} from '../../__utils__/DataFactory';
 import {renderForTest} from '../../__utils__/RenderForTest';
+import React from 'react';
+import {screen} from '@testing-library/dom';
+import user from '@testing-library/user-event';
+import {WishlistInputPasswordModal} from '@component/Modals/WishlistInputPasswordModal';
 
 describe('WishlistInputPasswordModal', (): void => {
 	it('renders modal correctly', (): void => {

@@ -1,13 +1,12 @@
-import {screen, waitFor} from '@testing-library/dom';
 import {mockedUseMediaQuery} from '../__mocks__/MockMaterialUI';
 import {mockedGetMarkdown} from '../__mocks__/MockMDXEditor';
 import {mockedRemoveWishlistItem, mockedUpdateWishlistItem} from '../__mocks__/MockWishlistItemService';
-import '@testing-library/jest-dom';
-import React from 'react';
-import {WishlistItemComponent} from '@component/WishlistItemComponent';
-import user from '@testing-library/user-event';
 import {getSampleWishlist, getSampleWishlistItem} from '../__utils__/DataFactory';
 import {renderForTest} from '../__utils__/RenderForTest';
+import React from 'react';
+import {screen, waitFor} from '@testing-library/dom';
+import user from '@testing-library/user-event';
+import {WishlistItemComponent} from '@component/WishlistItemComponent';
 
 describe('WishlistItemComponent', (): void => {
 	it('opens and closes menu on small width', async (): Promise<void> => {

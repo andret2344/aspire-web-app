@@ -1,9 +1,8 @@
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
-import '@testing-library/jest-dom';
-import {EditableNameComponent} from '@component/EditableNameComponent';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {renderForTest} from '../__utils__/RenderForTest';
+import {EditableNameComponent} from '@component/EditableNameComponent';
 
 describe('EditableNameComponent', (): void => {
 	describe('rendering', (): void => {

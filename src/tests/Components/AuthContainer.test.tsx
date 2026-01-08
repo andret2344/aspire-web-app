@@ -1,7 +1,6 @@
-import '@testing-library/jest-dom';
-import {AuthContainer} from '@component/AuthContainer';
-import {screen} from '@testing-library/dom';
 import {renderForTest} from '../__utils__/RenderForTest';
+import {screen} from '@testing-library/dom';
+import {AuthContainer} from '@component/AuthContainer';
 
 describe('AuthContainer', (): void => {
 	test('renders correctly', (): void => {
