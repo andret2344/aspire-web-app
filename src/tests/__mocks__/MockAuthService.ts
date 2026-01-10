@@ -11,6 +11,8 @@ export const mockedRefreshToken = jest.fn();
 export const mockedIsTokenValid = jest.fn();
 export const mockedSaveAccessToken = jest.fn();
 export const mockedGetRefreshToken = jest.fn();
+export const mockedVerifyEmail = jest.fn();
+export const mockedConfirmEmail = jest.fn();
 
 jest.mock('@service/AuthService', () => ({
 	...jest.requireActual<typeof AuthService>('@service/AuthService'),
@@ -24,5 +26,7 @@ jest.mock('@service/AuthService', () => ({
 	refreshToken: mockedRefreshToken,
 	isTokenValid: mockedIsTokenValid,
 	saveAccessToken: mockedSaveAccessToken,
-	getRefreshToken: mockedGetRefreshToken
+	getRefreshToken: mockedGetRefreshToken,
+	verifyEmail: mockedVerifyEmail,
+	confirmEmail: mockedConfirmEmail
 }));

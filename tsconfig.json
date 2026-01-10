@@ -15,6 +15,9 @@
 			"@component/*": [
 				"src/main/Component/*"
 			],
+			"@context/*": [
+				"src/main/Context/*"
+			],
 			"@entity/*": [
 				"src/main/Entity/*"
 			],

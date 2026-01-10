@@ -2,6 +2,12 @@ import React from 'react';
 import {Route, Routes} from 'react-router-dom';
 import {SnackbarProvider} from 'notistack';
 import {CssBaseline} from '@mui/material';
+import {Header} from '@component/Header';
+import {useUserData, useUserDataActions} from '@context/UserDataContext';
+import {mapFromResponse} from '@entity/UserData';
+import {AppLayout} from '@layout/AppLayout';
+import {AuthLayout} from '@layout/AuthLayout';
+import {ConfirmEmailPage} from '@page/ConfirmEmailPage';
 import {ErrorPage} from '@page/ErrorPage';
 import {LoginPage} from '@page/LoginPage';
 import {NewPasswordPage} from '@page/NewPasswordPage';
@@ -10,16 +16,10 @@ import {ProfilePage} from '@page/ProfilePage';
 import {ReadonlyWishlistPage} from '@page/ReadonlyWishlistPage';
 import {RegisterPage} from '@page/RegisterPage';
 import {WishlistListPage} from '@page/WishlistListPage';
-import {setConfig} from '@service/ApiInstance';
-import {getConfig} from '@service/EnvironmentHelper';
-import './i18n';
-import {Header} from '@component/Header';
-import {mapFromResponse} from '@entity/UserData';
-import {AppLayout} from '@layout/AppLayout';
-import {AuthLayout} from '@layout/AuthLayout';
 import {WishlistPage} from '@page/WishlistPage';
+import {setConfig} from '@service/ApiInstance';
 import {getUserData} from '@service/AuthService';
-import {useUserData, useUserDataActions} from './Context/UserDataContext';
+import {getConfig} from '@service/EnvironmentHelper';
 
 export function App(): React.ReactElement {
 	const {loaded} = useUserData();
@@ -80,6 +80,11 @@ export function App(): React.ReactElement {
 				<Route
 					path='wishlist/:uuid'
 					element={<ReadonlyWishlistPage />}
+				/>
+
+				<Route
+					path='confirm/:token'
+					element={<ConfirmEmailPage />}
 				/>
 
 				<Route

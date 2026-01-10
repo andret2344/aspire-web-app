@@ -1,5 +1,5 @@
 import {mockedGetMarkdown} from '../../__mocks__/MockMDXEditor';
-import {renderForTest, renderForTestWithMockedDarkModeProvider} from '../../__utils__/RenderForTest';
+import {renderForTest, withMockedDarkModeProvider} from '../../__utils__/RenderForTest';
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
@@ -45,12 +45,13 @@ describe('DescriptionModal', (): void => {
 
 	it('renders in dark theme', async (): Promise<void> => {
 		// arrange
-		renderForTestWithMockedDarkModeProvider(
+		renderForTest(
 			<DescriptionModal
 				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
-			/>
+			/>,
+			[withMockedDarkModeProvider]
 		);
 
 		// act

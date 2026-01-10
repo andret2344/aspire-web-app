@@ -1,10 +1,11 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
+import {DarkModeProvider} from '@context/DarkModeContext';
+import {UserDataProvider} from '@context/UserDataContext';
 import {App} from './App';
-import {DarkModeProvider} from './Context/DarkModeContext';
 import './index.css';
-import {UserDataProvider} from './Context/UserDataContext';
+import './i18n';
 
 const container: HTMLElement | null = document.getElementById('root');
 

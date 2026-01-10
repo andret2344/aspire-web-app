@@ -1,15 +1,18 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {NavigateFunction, Outlet, useNavigate} from 'react-router-dom';
 import {Box, Theme, Typography} from '@mui/material';
 import {SystemStyleObject} from '@mui/system';
 import {NavDrawer, WIDTH_DRAWER_CLOSED, WIDTH_DRAWER_OPENED} from '@component/NavDrawer';
+import {useUserData} from '@context/UserDataContext';
 import {useTokenValidation} from '@hook/useTokenValidation';
+import {verifyEmail} from '@service/AuthService';
 import {getThemeColor} from '@util/theme';
-import {useUserData} from '../Context/UserDataContext';
 
 export function AppLayout(): React.ReactElement {
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
 	const {user, loaded} = useUserData();
+	const {t} = useTranslation();
 
 	const {tokenLoading, tokenValid} = useTokenValidation();
 	const navigate: NavigateFunction = useNavigate();
@@ -21,11 +24,13 @@ export function AppLayout(): React.ReactElement {
 			return;
 		}
 		if (!tokenValid) {
-			navigate('/', {replace: true});
+			navigate('/', {
+				replace: true
+			});
 		}
 	}, [tokenLoading, tokenValid, navigate]);
 
-	if (tokenLoading || !tokenValid) {
+	if (!user || tokenLoading || !tokenValid) {
 		return <></>;
 	}
 
@@ -33,8 +38,12 @@ export function AppLayout(): React.ReactElement {
 		return setIsDrawerOpen(!isDrawerOpen);
 	}
 
+	function handleVerifyClick(): void {
+		verifyEmail(user!).then();
+	}
+
 	function renderWarning(): React.ReactElement {
-		if (user?.isVerified || !loaded) {
+		if (user!.isVerified || !loaded) {
 			return <></>;
 		}
 		return (
@@ -57,7 +66,7 @@ export function AppLayout(): React.ReactElement {
 					noWrap
 					fontWeight={700}
 				>
-					Your email is not verified.&nbsp;
+					{t('email-not-verified')}&nbsp;
 				</Typography>
 				<Typography
 					sx={{
@@ -66,9 +75,10 @@ export function AppLayout(): React.ReactElement {
 					}}
 					variant='body2'
 					noWrap
+					onClick={handleVerifyClick}
 					fontWeight={700}
 				>
-					Verify.
+					{t('verify')}
 				</Typography>
 			</Box>
 		);

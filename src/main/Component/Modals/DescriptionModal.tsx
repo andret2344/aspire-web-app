@@ -1,6 +1,7 @@
 import React, {RefObject} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Box, Button, CircularProgress} from '@mui/material';
+import {useDarkMode} from '@context/DarkModeContext';
 import {
 	BlockTypeSelect,
 	BoldItalicUnderlineToggles,
@@ -22,7 +23,6 @@ import {
 	toolbarPlugin,
 	UndoRedo
 } from '@mdxeditor/editor';
-import {useDarkMode} from '../DarkModeContext';
 import {AspireModal} from './AspireModal';
 
 interface DescriptionModalProps {

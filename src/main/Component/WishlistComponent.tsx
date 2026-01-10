@@ -6,13 +6,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ShareIcon from '@mui/icons-material/Share';
-import {Box, Grid, IconButton, Theme, Typography} from '@mui/material';
+import {Box, Grid, IconButton, Theme, Tooltip, Typography} from '@mui/material';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
+import {useUserData} from '@context/UserDataContext';
 import {WishList} from '@entity/WishList';
 import {getApiConfig} from '@service/ApiInstance';
 import {removeWishlist, setWishlistPassword, updateWishlistName} from '@service/WishListService';
 import {getThemeColor} from '@util/theme';
-import {useUserData} from '../Context/UserDataContext';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
@@ -135,6 +135,38 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 		navigate(`/wishlists/${props.wishlist.id}`, {replace: true});
 	}
 
+	function disabledShareIconClickHandler(event: React.MouseEvent): void {
+		event.stopPropagation();
+	}
+
+	function renderShareIcon(): React.ReactElement {
+		if (user?.isVerified) {
+			return renderShareIconButton(false);
+		}
+		return (
+			<Tooltip
+				title={t('share-disabled')}
+				onClick={disabledShareIconClickHandler}
+			>
+				<span>{renderShareIconButton(true)}</span>
+			</Tooltip>
+		);
+	}
+
+	function renderShareIconButton(disabled: boolean): React.ReactElement {
+		return (
+			<IconButton
+				data-testid={`share-icon-button-${props.wishlist.id}`}
+				onClick={handleShareIconClick}
+				size='large'
+				aria-label='share'
+				disabled={disabled}
+			>
+				<ShareIcon />
+			</IconButton>
+		);
+	}
+
 	return (
 		<Box
 			data-testid='wishlist-row'
@@ -186,15 +218,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 					justifyContent='center'
 					alignItems='center'
 				>
-					<IconButton
-						data-testid={`share-icon-button-${props.wishlist.id}`}
-						onClick={handleShareIconClick}
-						size='large'
-						aria-label='share'
-						disabled={!user?.isVerified}
-					>
-						<ShareIcon />
-					</IconButton>
+					{renderShareIcon()}
 				</Grid>
 				<Grid
 					display='flex'

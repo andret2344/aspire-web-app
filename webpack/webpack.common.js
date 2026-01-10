@@ -8,6 +8,7 @@ module.exports = {
 		extensions: ['.tsx', '.ts', '.js'],
 		alias: {
 			'@component': path.resolve(__dirname, '..', './src/main/Component'),
+			'@context': path.resolve(__dirname, '..', './src/main/Context'),
 			'@entity': path.resolve(__dirname, '..', './src/main/Entity'),
 			'@hook': path.resolve(__dirname, '..', './src/main/Hook'),
 			'@service': path.resolve(__dirname, '..', './src/main/Service'),

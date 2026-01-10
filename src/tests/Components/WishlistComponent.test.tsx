@@ -1,3 +1,5 @@
+import {mockedUseUserData} from '../__mocks__/MockUserDataContext';
+import '../__mocks__/MockUserDataContext';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
 import {getSampleWishlist} from '../__utils__/DataFactory';
@@ -8,6 +10,18 @@ import user from '@testing-library/user-event';
 import {WishlistComponent} from '@component/WishlistComponent';
 
 describe('WishlistComponent', (): void => {
+	beforeEach((): void => {
+		mockedUseUserData.mockReturnValue({
+			user: {
+				id: 1,
+				email: 'test@example.com',
+				isVerified: true,
+				lastLogin: new Date()
+			},
+			loaded: true
+		});
+	});
+
 	it('renders correctly without password', (): void => {
 		// arrange
 		renderForTest(

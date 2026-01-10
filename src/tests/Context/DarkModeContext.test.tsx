@@ -1,9 +1,9 @@
-import {renderForTest, renderForTestWithoutDarkModeProvider} from '../__utils__/RenderForTest';
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import {RenderResult, waitFor} from '@testing-library/react';
 import user from '@testing-library/user-event';
-import {useDarkMode} from '@component/DarkModeContext';
+import {useDarkMode} from '@context/DarkModeContext';
 
 function TestComponent(): React.ReactElement {
 	const {darkMode, toggleDarkMode} = useDarkMode();
@@ -58,7 +58,7 @@ describe('DarkModeProvider', (): void => {
 	it('should throw an error when used outside of DarkModeProvider', (): void => {
 		// act
 		function renderer(): RenderResult {
-			return renderForTestWithoutDarkModeProvider(<TestComponent />);
+			return renderForTest(<TestComponent />, []);
 		}
 
 		// assert
