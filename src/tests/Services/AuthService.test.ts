@@ -1,4 +1,5 @@
 import {waitFor} from '@testing-library/react';
+import {UserData, UserDataResponse} from '@entity/UserData';
 import apiInstance, {getApiConfig} from '@service/ApiInstance';
 import {
 	changePassword,
@@ -16,7 +17,6 @@ import {
 } from '@service/AuthService';
 import axios, {AxiosError, AxiosResponse} from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import {UserData, UserDataResponse} from '@entity/UserData';
 
 describe('AuthService', (): void => {
 	it('return 401 if pass undefined login or password to login function', async () => {

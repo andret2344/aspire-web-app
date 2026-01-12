@@ -2,19 +2,19 @@ import {mockedConfirmEmail} from '../__mocks__/MockAuthService';
 import {mockedUseParams} from '../__mocks__/MockCommonService';
 import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
+import {BrowserRouter} from 'react-router-dom';
 import {render, screen, waitFor} from '@testing-library/react';
 import {ConfirmEmailPage} from '@page/ConfirmEmailPage';
-import {BrowserRouter} from 'react-router-dom';
 
 describe('ConfirmEmailPage', (): void => {
 	beforeEach((): void => {
 		jest.clearAllMocks();
 	});
 
-	it('renders loading state initially', (): void => {
+	it('renders loading state initially', async (): Promise<void> => {
 		// arrange
 		mockedUseParams.mockReturnValue({token: 'test-token'});
-		mockedConfirmEmail.mockImplementation(() => Promise.resolve());
+		mockedConfirmEmail.mockImplementation(() => new Promise(() => {})); // Never resolves
 
 		// act
 		renderForTest(<ConfirmEmailPage />);

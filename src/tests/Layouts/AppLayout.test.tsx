@@ -1,7 +1,7 @@
+import {mockedVerifyEmail} from '../__mocks__/MockAuthService';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedUseTokenValidation} from '../__mocks__/MockTokenValidationHook';
 import {mockedUseUserData} from '../__mocks__/MockUserDataContext';
-import {mockedVerifyEmail} from '../__mocks__/MockAuthService';
 import '../__mocks__/MockUserDataContext';
 import '../__mocks__/MockAuthService';
 import {renderForTest} from '../__utils__/RenderForTest';
@@ -9,8 +9,8 @@ import React from 'react';
 import {Route, Routes} from 'react-router-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {AppLayout} from '@layout/AppLayout';
 import {UserData} from '@entity/UserData';
+import {AppLayout} from '@layout/AppLayout';
 
 describe('AppLayout', (): void => {
 	beforeEach((): void => {

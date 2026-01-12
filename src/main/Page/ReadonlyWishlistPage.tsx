@@ -30,10 +30,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		getReadonlyWishlistByUUID(params.uuid)
 			.then(mapWishlistFromDto)
 			.then(setWishlist)
-			.catch((error): void => {
-				console.error(error);
-				navigate('/error', {replace: true});
-			});
+			.catch((): void | Promise<void> => navigate('/error', {replace: true}));
 	}, [params.uuid]);
 
 	if (!wishlist) {

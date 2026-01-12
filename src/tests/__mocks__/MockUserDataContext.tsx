@@ -8,6 +8,10 @@ const mockUser: UserData = {
 	lastLogin: new Date()
 };
 
+export const mockedSetUser: jest.Mock = jest.fn();
+export const mockedSetLoaded: jest.Mock = jest.fn();
+export const mockedRefreshUser: jest.Mock = jest.fn();
+
 export const mockedUseUserData: jest.Mock = jest.fn();
 export const mockedUseUserDataActions: jest.Mock = jest.fn();
 
@@ -17,8 +21,9 @@ mockedUseUserData.mockReturnValue({
 });
 
 mockedUseUserDataActions.mockReturnValue({
-	setUser: jest.fn(),
-	setLoaded: jest.fn()
+	setUser: mockedSetUser,
+	setLoaded: mockedSetLoaded,
+	refreshUser: mockedRefreshUser
 });
 
 jest.mock('@context/UserDataContext', () => ({

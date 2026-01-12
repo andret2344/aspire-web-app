@@ -1,5 +1,6 @@
 import React, {Context} from 'react';
-import {UserData} from '@entity/UserData';
+import {mapFromResponse, UserData, UserDataResponse} from '@entity/UserData';
+import {getUserData} from '@service/AuthService';
 
 type State = {
 	user: UserData | null;
@@ -9,6 +10,7 @@ type State = {
 type Actions = {
 	setUser: (userData: UserData | null) => void;
 	setLoaded: (loaded: boolean) => void;
+	refreshUser: () => Promise<void>;
 };
 
 const stateContext: Context<State | null> = React.createContext<State | null>(null);
@@ -18,8 +20,14 @@ export function UserDataProvider(props: React.PropsWithChildren): React.ReactEle
 	const [user, setUser] = React.useState<UserData | null>(null);
 	const [loaded, setLoaded] = React.useState<boolean>(false);
 
+	const refreshUser: () => Promise<void> = React.useCallback(async (): Promise<void> => {
+		const response: UserDataResponse = await getUserData();
+		const mapped: UserData = mapFromResponse(response);
+		setUser(mapped);
+	}, []);
+
 	const state = React.useMemo(() => ({user, loaded}), [user, loaded]);
-	const actions: Actions = React.useMemo<Actions>(() => ({setUser, setLoaded}), []);
+	const actions: Actions = React.useMemo<Actions>(() => ({setUser, setLoaded, refreshUser}), [refreshUser]);
 
 	return (
 		<stateContext.Provider value={state}>

@@ -1,6 +1,6 @@
 services:
   server:
-    container_name: aspire_api
+    container_name: aspire_server
     image: ghcr.io/andret2344/aspire-server:v0.1.0-dev.1
     depends_on:
       db:

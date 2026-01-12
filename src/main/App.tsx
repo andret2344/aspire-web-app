@@ -4,7 +4,6 @@ import {SnackbarProvider} from 'notistack';
 import {CssBaseline} from '@mui/material';
 import {Header} from '@component/Header';
 import {useUserData, useUserDataActions} from '@context/UserDataContext';
-import {mapFromResponse} from '@entity/UserData';
 import {AppLayout} from '@layout/AppLayout';
 import {AuthLayout} from '@layout/AuthLayout';
 import {ConfirmEmailPage} from '@page/ConfirmEmailPage';
@@ -18,18 +17,17 @@ import {RegisterPage} from '@page/RegisterPage';
 import {WishlistListPage} from '@page/WishlistListPage';
 import {WishlistPage} from '@page/WishlistPage';
 import {setConfig} from '@service/ApiInstance';
-import {getUserData} from '@service/AuthService';
 import {getConfig} from '@service/EnvironmentHelper';
 
 export function App(): React.ReactElement {
 	const {loaded} = useUserData();
-	const {setUser, setLoaded} = useUserDataActions();
+	const {setLoaded, refreshUser} = useUserDataActions();
 
 	React.useEffect((): void => {
-		Promise.all([getConfig().then(setConfig), getUserData().then(mapFromResponse).then(setUser)])
+		Promise.all([getConfig().then(setConfig), refreshUser()])
 			.catch(console.error)
 			.finally((): void => setLoaded(true));
-	}, [setLoaded, setUser]);
+	}, [setLoaded, refreshUser]);
 
 	if (!loaded) {
 		return <></>;
