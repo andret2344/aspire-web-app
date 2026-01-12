@@ -29,11 +29,11 @@ export function EditableNameComponent(props: EditableNameComponentProps): React.
 
 	function handleNameSubmit(): void {
 		setEditedName(undefined);
-		setDisplayName(editedName ?? props.name);
-		if (!editedName || editedName === props.name) {
+		setDisplayName(editedName!);
+		if (editedName === props.name) {
 			return;
 		}
-		props.onChange(editedName).catch((): void => {
+		props.onChange(editedName!).catch((): void => {
 			setDisplayName(props.name);
 			enqueueSnackbar(t('something-went-wrong'), {
 				variant: 'error'

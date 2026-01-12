@@ -251,6 +251,36 @@ describe('WishlistComponent', (): void => {
 		});
 	});
 
+	it('prevents navigation when clicking disabled share icon tooltip', async (): Promise<void> => {
+		// arrange
+		mockedUseUserData.mockReturnValue({
+			user: {
+				id: 1,
+				email: 'test@example.com',
+				isVerified: false,
+				lastLogin: new Date()
+			},
+			loaded: true
+		});
+
+		renderForTest(
+			<WishlistComponent
+				wishlist={getSampleWishlist()}
+				onRemove={(): void => undefined}
+				onNameEdit={(): void => undefined}
+				onPasswordChange={(): void => undefined}
+			/>
+		);
+
+		const tooltipWrapper: HTMLElement = screen.getByLabelText('share-disabled');
+
+		// act
+		await user.click(tooltipWrapper);
+
+		// assert
+		expect(mockedNavigate).not.toHaveBeenCalled();
+	});
+
 	describe('clipboard', (): void => {
 		beforeEach((): void => {
 			Object.defineProperty(global.navigator, 'clipboard', {
