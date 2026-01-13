@@ -13,5 +13,5 @@ export const appPaths = {
 
 	error: '/error',
 
-	notFound: '*',
+	notFound: '*'
 } as const;

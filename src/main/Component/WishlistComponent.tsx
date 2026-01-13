@@ -13,10 +13,10 @@ import {WishList} from '@entity/WishList';
 import {getApiConfig} from '@service/ApiInstance';
 import {removeWishlist, setWishlistPassword, updateWishlistName} from '@service/WishListService';
 import {getThemeColor} from '@util/theme';
+import {appPaths} from '../AppRoutes';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
-import {appPaths} from '../AppRoutes';
 
 interface WishlistComponentProps {
 	readonly wishlist: WishList;
