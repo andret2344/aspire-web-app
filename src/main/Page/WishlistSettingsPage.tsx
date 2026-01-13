@@ -1,17 +1,15 @@
-import {Typography} from '@mui/material';
 import React from 'react';
-import {mapWishlistFromDto, WishList} from '@entity/WishList';
-import {getWishlist} from '@service/WishListService';
+import {useTranslation} from 'react-i18next';
 import {NavigateFunction, useNavigate, useParams} from 'react-router-dom';
 import {useSnackbar} from 'notistack';
-import {useTranslation} from 'react-i18next';
+import {Typography} from '@mui/material';
+import {mapWishlistFromDto, WishList} from '@entity/WishList';
+import {getWishlist} from '@service/WishListService';
 
 export function WishlistSettingsPage(): React.ReactElement {
 	type Params = {readonly id?: string};
 
-	const [wishlist, setWishlist] = React.useState<WishList | undefined>(
-		undefined
-	);
+	const [wishlist, setWishlist] = React.useState<WishList | undefined>(undefined);
 	const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
 	const params: Params = useParams<Params>();
