@@ -8,6 +8,7 @@ import {useUserData} from '@context/UserDataContext';
 import {useTokenValidation} from '@hook/useTokenValidation';
 import {verifyEmail} from '@service/AuthService';
 import {getThemeColor} from '@util/theme';
+import {appPaths} from '../AppRoutes';
 
 export function AppLayout(): React.ReactElement {
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
@@ -24,9 +25,7 @@ export function AppLayout(): React.ReactElement {
 			return;
 		}
 		if (!tokenValid) {
-			navigate('/', {
-				replace: true
-			});
+			navigate(appPaths.login, {replace: true});
 		}
 	}, [tokenLoading, tokenValid, navigate]);
 
@@ -51,7 +50,7 @@ export function AppLayout(): React.ReactElement {
 				sx={(theme: Theme): SystemStyleObject<Theme> => ({
 					backgroundColor: getThemeColor(theme, 'redError'),
 					position: 'absolute',
-					marginTop: '56px',
+					marginTop: '3.5rem',
 					width: '100%',
 					zIndex: 1000,
 					display: 'flex',

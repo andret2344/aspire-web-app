@@ -9,6 +9,7 @@ import {mapWishlistFromDto, WishList} from '@entity/WishList';
 import {mapWishlistItemFromDto, mapWishlistItemToDto, WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
 import {getWishlist} from '@service/WishListService';
 import {addWishlistItem} from '@service/WishlistItemService';
+import {appPaths} from '../AppRoutes';
 
 export function WishlistPage(): React.ReactElement {
 	type Params = {
@@ -33,7 +34,7 @@ export function WishlistPage(): React.ReactElement {
 				enqueueSnackbar(t('something-went-wrong'), {
 					variant: 'error'
 				});
-				navigate('/error', {replace: true});
+				navigate(appPaths.error, {replace: true});
 			})
 			.finally((): void => setIsLoading(false));
 	}, []);

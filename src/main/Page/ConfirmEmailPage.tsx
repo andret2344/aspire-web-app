@@ -11,7 +11,7 @@ export function ConfirmEmailPage(): React.ReactElement {
 	const params: Params = useParams<Params>() as Params;
 	const {t} = useTranslation();
 	const [result, setResult] = React.useState<boolean | undefined>(undefined);
-	const requestLockRef: RefObject<string | undefined> = React.useRef<string | undefined>(undefined);
+	const requestLockRef: RefObject<string | null> = React.useRef<string | null>(null);
 
 	React.useEffect((): void => {
 		const token: string = params.token;

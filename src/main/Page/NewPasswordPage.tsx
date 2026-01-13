@@ -7,6 +7,7 @@ import {Button, IconButton, InputAdornment, TextField, Theme, useMediaQuery, use
 import {AuthContainer} from '@component/AuthContainer';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {resetPassword} from '@service/AuthService';
+import {appPaths} from '../AppRoutes';
 
 export function NewPasswordPage(): React.ReactElement {
 	type Inputs = {
@@ -56,7 +57,7 @@ export function NewPasswordPage(): React.ReactElement {
 				enqueueSnackbar('password-changed', {
 					variant: 'success'
 				});
-				navigate('/', {replace: true});
+				navigate(appPaths.login, {replace: true});
 			})
 			.catch((): void => {
 				enqueueSnackbar('something-went-wrong', {

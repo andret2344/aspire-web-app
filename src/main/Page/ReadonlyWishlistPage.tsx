@@ -12,6 +12,7 @@ import {WishlistItem} from '@entity/WishlistItem';
 import {getReadonlyWishlistByUUID} from '@service/WishListService';
 import {getWishlistHiddenItems} from '@service/WishlistItemService';
 import {getThemeColor} from '@util/theme';
+import {appPaths} from '../AppRoutes';
 
 export function ReadonlyWishlistPage(): React.ReactElement {
 	type Params = {
@@ -30,7 +31,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		getReadonlyWishlistByUUID(params.uuid)
 			.then(mapWishlistFromDto)
 			.then(setWishlist)
-			.catch((): void | Promise<void> => navigate('/error', {replace: true}));
+			.catch((): void | Promise<void> => navigate(appPaths.error, {replace: true}));
 	}, [params.uuid]);
 
 	if (!wishlist) {

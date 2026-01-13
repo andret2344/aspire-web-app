@@ -19,6 +19,7 @@ import {AuthContainer} from '@component/AuthContainer';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {useUserDataActions} from '@context/UserDataContext';
 import {logIn} from '@service/AuthService';
+import {appPaths} from '../AppRoutes';
 
 export function LoginPage(): React.ReactElement {
 	const [isPasswordShown, setIsPasswordShown] = React.useState<boolean>(false);
@@ -39,7 +40,7 @@ export function LoginPage(): React.ReactElement {
 		await logIn(data.email, data.password).then(async (response: number): Promise<void> => {
 			if ([200, 201].includes(response)) {
 				await refreshUser();
-				await navigate('/wishlists', {replace: true});
+				await navigate(appPaths.wishlists, {replace: true});
 				enqueueSnackbar(`${t('successfully-logged-in')}`, {
 					variant: 'info'
 				});

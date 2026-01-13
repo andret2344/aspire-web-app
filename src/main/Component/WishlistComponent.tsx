@@ -16,6 +16,7 @@ import {getThemeColor} from '@util/theme';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
+import {appPaths} from '../AppRoutes';
 
 interface WishlistComponentProps {
 	readonly wishlist: WishList;
@@ -132,7 +133,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	}
 
 	function handleItemClick(): void {
-		navigate(`/wishlists/${props.wishlist.id}`, {replace: true});
+		navigate(appPaths.wishlist.replace(':id', `${props.wishlist.id}`), {replace: true});
 	}
 
 	function disabledShareIconClickHandler(event: React.MouseEvent): void {

@@ -18,6 +18,7 @@ import {WishlistListPage} from '@page/WishlistListPage';
 import {WishlistPage} from '@page/WishlistPage';
 import {setConfig} from '@service/ApiInstance';
 import {getConfig} from '@service/EnvironmentHelper';
+import {appPaths} from './AppRoutes';
 
 export function App(): React.ReactElement {
 	const {loaded} = useUserData();
@@ -43,50 +44,50 @@ export function App(): React.ReactElement {
 			<Routes>
 				<Route element={<AuthLayout />}>
 					<Route
-						path='/'
+						path={appPaths.login}
 						element={<LoginPage />}
 					/>
 					<Route
-						path='register'
+						path={appPaths.register}
 						element={<RegisterPage />}
 					/>
 					<Route
-						path='reset-password'
+						path={appPaths.resetPassword}
 						element={<PasswordReminderPage />}
 					/>
 					<Route
-						path='new-password/:token'
+						path={appPaths.newPassword}
 						element={<NewPasswordPage />}
 					/>
 				</Route>
 
 				<Route element={<AppLayout />}>
 					<Route
-						path='wishlists'
+						path={appPaths.wishlists}
 						element={<WishlistListPage />}
 					/>
 					<Route
-						path='wishlists/:id'
+						path={appPaths.wishlist}
 						element={<WishlistPage />}
 					/>
 					<Route
-						path='profile'
+						path={appPaths.profile}
 						element={<ProfilePage />}
 					/>
 				</Route>
 
 				<Route
-					path='wishlist/:uuid'
+					path={appPaths.readonlyWishlist}
 					element={<ReadonlyWishlistPage />}
 				/>
 
 				<Route
-					path='confirm/:token'
+					path={appPaths.confirmEmail}
 					element={<ConfirmEmailPage />}
 				/>
 
 				<Route
-					path='*'
+					path={appPaths.notFound}
 					element={<ErrorPage />}
 				/>
 			</Routes>

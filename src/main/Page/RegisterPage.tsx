@@ -19,6 +19,7 @@ import {
 import {AuthContainer} from '@component/AuthContainer';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {RegisterApiError, signUp} from '@service/AuthService';
+import {appPaths} from '../AppRoutes';
 
 interface IFormInput {
 	readonly email: string;
@@ -57,13 +58,13 @@ export function RegisterPage(): React.ReactElement {
 				type: 'manual',
 				message: t('passwords-not-equal')
 			});
-			navigate('/register', {replace: true});
+			navigate(appPaths.register, {replace: true});
 			return;
 		}
 
 		signUp(data.email, data.password)
 			.then((): void => {
-				navigate('/', {replace: true});
+				navigate(appPaths.login, {replace: true});
 				enqueueSnackbar(t('account-created'), {
 					variant: 'success'
 				});

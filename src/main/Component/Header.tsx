@@ -10,6 +10,7 @@ export function Header(): React.ReactElement {
 				flexDirection: 'column',
 				position: 'fixed',
 				width: '100%',
+				height: '3.5rem',
 				padding: '0px',
 				zIndex: 1000
 			}}
@@ -40,7 +41,7 @@ export function Header(): React.ReactElement {
 							sx={{
 								fontFamily: 'Courgette',
 								fontWeight: 700,
-								fontSize: '35px',
+								fontSize: '2.125rem',
 								letterSpacing: '.3rem',
 								color: 'white',
 								textDecoration: 'none'

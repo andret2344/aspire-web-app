@@ -16,7 +16,7 @@ type Actions = {
 const stateContext: Context<State | null> = React.createContext<State | null>(null);
 const actionsContext: Context<Actions | null> = React.createContext<Actions | null>(null);
 
-export function UserDataProvider(props: React.PropsWithChildren): React.ReactElement {
+export function UserDataProvider(props: Readonly<React.PropsWithChildren>): React.ReactElement {
 	const [user, setUser] = React.useState<UserData | null>(null);
 	const [loaded, setLoaded] = React.useState<boolean>(false);
 
