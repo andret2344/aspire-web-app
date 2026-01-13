@@ -1,11 +1,9 @@
-import {Container, Paper, Typography} from '@mui/material';
 import React from 'react';
-import {None} from '@type/None';
 import {useTranslation} from 'react-i18next';
+import {Container, Paper, Typography} from '@mui/material';
+import {None} from '@type/None';
 
-export function AuthContainer(
-	props: React.PropsWithChildren<None>
-): React.ReactElement {
+export function AuthContainer(props: React.PropsWithChildren<None>): React.ReactElement {
 	const {t} = useTranslation();
 
 	return (

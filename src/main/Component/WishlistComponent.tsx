@@ -1,26 +1,24 @@
 import React from 'react';
-import {Box, Grid, IconButton, Theme, Typography} from '@mui/material';
-import ShareIcon from '@mui/icons-material/Share';
+import {useTranslation} from 'react-i18next';
+import {NavigateFunction, useNavigate} from 'react-router-dom';
+import {useSnackbar} from 'notistack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
-import {getThemeColor} from '@util/theme';
-import {WishList} from '@entity/WishList';
+import ShareIcon from '@mui/icons-material/Share';
+import {Box, Grid, IconButton, Theme, Tooltip, Typography} from '@mui/material';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
-import {
-	removeWishlist,
-	setWishlistPassword,
-	updateWishlistName
-} from '@service/WishListService';
-import {useSnackbar} from 'notistack';
-import {useTranslation} from 'react-i18next';
+import {useUserData} from '@context/UserDataContext';
+import {WishList} from '@entity/WishList';
 import {getApiConfig} from '@service/ApiInstance';
-import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
-import {NavigateFunction, useNavigate} from 'react-router-dom';
-import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
-import {EditableNameComponent} from './EditableNameComponent';
+import {removeWishlist, setWishlistPassword, updateWishlistName} from '@service/WishListService';
+import {getThemeColor} from '@util/theme';
 import {FeatureFlag} from '@util/FeatureFlagContext';
+import {appPaths} from '../AppRoutes';
+import {EditableNameComponent} from './EditableNameComponent';
+import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
+import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
 
 interface WishlistComponentProps {
 	readonly wishlist: WishList;
@@ -29,17 +27,14 @@ interface WishlistComponentProps {
 	readonly onPasswordChange: (newPassword: string) => void;
 }
 
-export function WishlistComponent(
-	props: WishlistComponentProps
-): React.ReactElement {
-	const [isDeleteModalOpen, setIsDeleteModalOpen] =
-		React.useState<boolean>(false);
-	const [isPasswordModalOpened, setIsPasswordModalOpened] =
-		React.useState<boolean>(false);
+export function WishlistComponent(props: WishlistComponentProps): React.ReactElement {
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState<boolean>(false);
+	const [isPasswordModalOpened, setIsPasswordModalOpened] = React.useState<boolean>(false);
 
 	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
+	const {user} = useUserData();
 
 	function handlePasswordModalClose(): void {
 		setIsPasswordModalOpened(false);
@@ -74,11 +69,11 @@ export function WishlistComponent(
 	function handleShareIconClick(event: React.MouseEvent): void {
 		event.stopPropagation();
 		navigator.clipboard
-			.writeText(
-				`${getApiConfig().frontend}/wishlist/${props.wishlist.uuid}`
-			)
+			.writeText(`${getApiConfig().frontend}/wishlist/${props.wishlist.uuid}`)
 			.then((): string | number =>
-				enqueueSnackbar(t('url-copied'), {variant: 'info'})
+				enqueueSnackbar(t('url-copied'), {
+					variant: 'info'
+				})
 			)
 			.catch((): string | number =>
 				enqueueSnackbar(t('something-went-wrong'), {
@@ -90,11 +85,15 @@ export function WishlistComponent(
 	function handleWishlistRemove(): void {
 		removeWishlist(props.wishlist.id)
 			.then((): void => {
-				enqueueSnackbar(t('wishlist-removed'), {variant: 'success'});
+				enqueueSnackbar(t('wishlist-removed'), {
+					variant: 'success'
+				});
 				props.onRemove(props.wishlist.id);
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'})
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				})
 			)
 			.finally((): void => setIsDeleteModalOpen(false));
 	}
@@ -111,7 +110,9 @@ export function WishlistComponent(
 	function handlePasswordClear(): void {
 		setWishlistPassword(props.wishlist.id, '')
 			.then((): void => {
-				enqueueSnackbar(t('password-cleared'), {variant: 'success'});
+				enqueueSnackbar(t('password-cleared'), {
+					variant: 'success'
+				});
 				props.onPasswordChange('');
 				setIsPasswordModalOpened(false);
 			})
@@ -122,10 +123,7 @@ export function WishlistComponent(
 			);
 	}
 
-	async function handlePasswordAccept(
-		id: number,
-		password: string
-	): Promise<void> {
+	async function handlePasswordAccept(id: number, password: string): Promise<void> {
 		setWishlistPassword(id, password)
 			.then((): void => {
 				enqueueSnackbar(t('password-changed'), {
@@ -142,7 +140,39 @@ export function WishlistComponent(
 	}
 
 	function handleItemClick(): void {
-		navigate(`/wishlists/${props.wishlist.id}`);
+		navigate(appPaths.wishlist.replace(':id', `${props.wishlist.id}`), {replace: true});
+	}
+
+	function disabledShareIconClickHandler(event: React.MouseEvent): void {
+		event.stopPropagation();
+	}
+
+	function renderShareIcon(): React.ReactElement {
+		if (user?.isVerified) {
+			return renderShareIconButton(false);
+		}
+		return (
+			<Tooltip
+				title={t('share-disabled')}
+				onClick={disabledShareIconClickHandler}
+			>
+				<span>{renderShareIconButton(true)}</span>
+			</Tooltip>
+		);
+	}
+
+	function renderShareIconButton(disabled: boolean): React.ReactElement {
+		return (
+			<IconButton
+				data-testid={`share-icon-button-${props.wishlist.id}`}
+				onClick={handleShareIconClick}
+				size='large'
+				aria-label='share'
+				disabled={disabled}
+			>
+				<ShareIcon />
+			</IconButton>
+		);
 	}
 
 	return (
@@ -212,14 +242,7 @@ export function WishlistComponent(
 					justifyContent='center'
 					alignItems='center'
 				>
-					<IconButton
-						data-testid={`share-icon-button-${props.wishlist.id}`}
-						onClick={handleShareIconClick}
-						size='large'
-						aria-label='share'
-					>
-						<ShareIcon />
-					</IconButton>
+					{renderShareIcon()}
 				</Grid>
 				<Grid
 					display='flex'

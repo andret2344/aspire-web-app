@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavigateFunction, Outlet, useNavigate} from 'react-router-dom';
 import {useTokenValidation} from '@hook/useTokenValidation';
+import {appPaths} from '../AppRoutes';
 
 export function AuthLayout(): React.ReactElement {
 	const {tokenLoading, tokenValid} = useTokenValidation();
@@ -11,7 +12,7 @@ export function AuthLayout(): React.ReactElement {
 			return;
 		}
 		if (tokenValid) {
-			navigate('/wishlists');
+			navigate(appPaths.wishlists, {replace: true});
 		}
 	}, [tokenLoading, tokenValid, navigate]);
 

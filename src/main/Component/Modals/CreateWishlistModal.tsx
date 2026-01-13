@@ -1,15 +1,8 @@
-import {
-	Box,
-	Button,
-	TextField,
-	Theme,
-	useMediaQuery,
-	useTheme
-} from '@mui/material';
 import React from 'react';
-import {addWishlist} from '@service/WishListService';
-import {mapWishlistFromDto, WishList, WishListDto} from '@entity/WishList';
 import {useTranslation} from 'react-i18next';
+import {Box, Button, TextField, Theme, useMediaQuery, useTheme} from '@mui/material';
+import {mapWishlistFromDto, WishList, WishListDto} from '@entity/WishList';
+import {addWishlist} from '@service/WishListService';
 import {AspireModal} from './AspireModal';
 
 interface WishlistModalProps {
@@ -18,9 +11,7 @@ interface WishlistModalProps {
 	readonly onAddWishlist: (newWishlist: WishList) => void;
 }
 
-export function CreateWishlistModal(
-	props: WishlistModalProps
-): React.ReactElement {
+export function CreateWishlistModal(props: WishlistModalProps): React.ReactElement {
 	const [wishlistName, setWishlistName] = React.useState<string>('');
 
 	const theme: Theme = useTheme();
@@ -31,9 +22,7 @@ export function CreateWishlistModal(
 		setWishlistName(e.target.value);
 	}
 
-	async function handleSubmit(
-		e: React.FormEvent<HTMLFormElement>
-	): Promise<void> {
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
 		e.preventDefault();
 		const newWishlist: WishListDto = await addWishlist(wishlistName.trim());
 		props.onAddWishlist(mapWishlistFromDto(newWishlist));
@@ -73,7 +62,9 @@ export function CreateWishlistModal(
 					data-testid='button-cancel'
 					variant='outlined'
 					color='error'
-					sx={{margin: '10px 20px 0 20px'}}
+					sx={{
+						margin: '10px 20px 0 20px'
+					}}
 					onClick={props.onClose}
 				>
 					{t('cancel')}
@@ -83,7 +74,9 @@ export function CreateWishlistModal(
 					color='primary'
 					variant='contained'
 					disabled={!wishlistName}
-					sx={{margin: '10px 20px 0 20px'}}
+					sx={{
+						margin: '10px 20px 0 20px'
+					}}
 					type='submit'
 				>
 					{t('save')}

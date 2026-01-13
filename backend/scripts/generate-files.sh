@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+umask 077
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 JWT_DIR="${SCRIPT_DIR}/../jwt"
@@ -11,8 +12,12 @@ PUB="$JWT_DIR/public.pem"
 command -v openssl >/dev/null 2>&1 || { echo "ERROR: openssl not found"; exit 1; }
 
 # zawsze nowy passphrase + app secret (alfanum)
-APP_SECRET="$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 64)"
-JWT_PASSPHRASE="$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 24)"
+APP_SECRET="$(openssl rand -hex 32)"
+JWT_PASSPHRASE=""
+while [ "${#JWT_PASSPHRASE}" -lt 24 ]; do
+  JWT_PASSPHRASE="${JWT_PASSPHRASE}$(openssl rand -base64 48 | tr -dc 'A-Za-z0-9')"
+done
+JWT_PASSPHRASE="${JWT_PASSPHRASE:0:24}"
 
 # wypisz (surowo)
 printf 'APP_SECRET=%s\n' "$APP_SECRET"

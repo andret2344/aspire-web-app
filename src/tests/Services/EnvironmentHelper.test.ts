@@ -1,6 +1,6 @@
-import MockAdapter from 'axios-mock-adapter';
 import {Config, getConfig} from '@service/EnvironmentHelper';
 import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 describe('EnvironmentHelper', (): void => {
 	it('gets config from the server', async (): Promise<void> => {
@@ -13,7 +13,9 @@ describe('EnvironmentHelper', (): void => {
 		};
 
 		const mock = new MockAdapter(axios);
-		mock.onGet(/discovery\.andret\.eu/).reply(200, {data: mockConfig});
+		mock.onGet(/discovery\.andret\.eu/).reply(200, {
+			data: mockConfig
+		});
 
 		process.env.NODE_ENV = 'production';
 		process.env.REACT_APP_API_TOKEN = 'test-token';
@@ -36,5 +38,16 @@ describe('EnvironmentHelper', (): void => {
 		getConfig()
 			.then((): void => fail('should not reach this point'))
 			.catch((error: Error): void => expect(error).toBeDefined());
+	});
+
+	it('returns undefined when not in production mode', async (): Promise<void> => {
+		// arrange
+		process.env.NODE_ENV = 'development';
+
+		// act
+		const config: Config | undefined = await getConfig();
+
+		// assert
+		expect(config).toBeUndefined();
 	});
 });

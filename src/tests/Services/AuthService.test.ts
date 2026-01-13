@@ -1,22 +1,24 @@
-import MockAdapter from 'axios-mock-adapter';
-import axios, {AxiosError, AxiosResponse} from 'axios';
+import {waitFor} from '@testing-library/react';
+import {UserData, UserDataResponse} from '@entity/UserData';
 import apiInstance, {getApiConfig} from '@service/ApiInstance';
 import {
 	changePassword,
+	confirmEmail,
 	getRefreshToken,
+	getUserData,
 	isTokenValid,
 	logIn,
 	logout,
 	refreshToken,
 	requestResetPassword,
 	resetPassword,
-	signUp
+	signUp,
+	verifyEmail
 } from '@service/AuthService';
-import {waitFor} from '@testing-library/react';
+import axios, {AxiosError, AxiosResponse} from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 describe('AuthService', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('return 401 if pass undefined login or password to login function', async () => {
 		// act
 		const response = await logIn('', '');
@@ -94,7 +96,12 @@ describe('AuthService', (): void => {
 
 	it('logout successfully', async () => {
 		// arrange
-		const mockedHeader = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
+		const mockedHeader = btoa(
+			JSON.stringify({
+				alg: 'HS256',
+				typ: 'JWT'
+			})
+		);
 		const mockedPayload = btoa(
 			JSON.stringify({
 				sub: '1234567890',
@@ -188,11 +195,7 @@ describe('AuthService', (): void => {
 		}).reply(200);
 
 		// act
-		const response = await changePassword(
-			currentPassword,
-			newPassword,
-			newPasswordConfirm
-		);
+		const response = await changePassword(currentPassword, newPassword, newPasswordConfirm);
 
 		// assert
 		expect(response).toEqual(200);
@@ -205,10 +208,7 @@ describe('AuthService', (): void => {
 		};
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
 		const mock = new MockAdapter(axios);
-		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(
-			200,
-			mockResponseData
-		);
+		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(200, mockResponseData);
 
 		// act
 		const result: string | undefined = await refreshToken();
@@ -221,12 +221,21 @@ describe('AuthService', (): void => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		localStorage.setItem('refreshToken', 'existing-refresh-token');
-		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(
-			500
-		);
+		mock.onPost(`${getApiConfig().backend}/account/token/refresh`).reply(500);
 
 		// act
 		await expect(refreshToken()).rejects.toBeInstanceOf(AxiosError);
+	});
+
+	it('refresh token returns undefined when no refresh token exists', async (): Promise<void> => {
+		// arrange
+		localStorage.removeItem('refreshToken');
+
+		// act
+		const result: string | undefined = await refreshToken();
+
+		// assert
+		expect(result).toBeUndefined();
 	});
 
 	it('is token valid should return false if the token has no exp field', (): void => {
@@ -257,5 +266,78 @@ describe('AuthService', (): void => {
 
 		// act && assert
 		expect(isTokenValid()).toBe(false);
+	});
+
+	it('getUserData returns user data successfully', async (): Promise<void> => {
+		// arrange
+		const mockResponseData: UserDataResponse = {
+			id: 1,
+			email: 'test@example.com',
+			is_verified: true,
+			last_login: '2024-01-01T12:00:00Z'
+		};
+		const mock = new MockAdapter(apiInstance);
+		const baseUrl = getApiConfig().backend;
+		mock.onGet(`${baseUrl}/account/me`).reply(200, mockResponseData);
+
+		// act
+		const result: UserDataResponse = await getUserData();
+
+		// assert
+		expect(result).toEqual(mockResponseData);
+		expect(result.id).toBe(1);
+		expect(result.email).toBe('test@example.com');
+		expect(result.is_verified).toBe(true);
+		expect(result.last_login).toBe('2024-01-01T12:00:00Z');
+	});
+
+	it('verifyEmail sends correct request', async (): Promise<void> => {
+		// arrange
+		const user: UserData = {
+			id: 1,
+			email: 'test@example.com',
+			isVerified: false,
+			lastLogin: new Date()
+		};
+		const mock = new MockAdapter(apiInstance);
+		const baseUrl = getApiConfig().backend;
+		mock.onPost(`${baseUrl}/account/verify_email`, {
+			user_id: 1
+		}).reply(200);
+
+		// act
+		const response: AxiosResponse = await verifyEmail(user);
+
+		// assert
+		expect(response.status).toBe(200);
+	});
+
+	it('confirmEmail sends correct request', async (): Promise<void> => {
+		// arrange
+		const token = 'test-confirmation-token';
+		const mock = new MockAdapter(apiInstance);
+		const baseUrl = getApiConfig().backend;
+		mock.onPost(`${baseUrl}/account/confirm`, {
+			token
+		}).reply(200);
+
+		// act
+		const response: AxiosResponse = await confirmEmail(token);
+
+		// assert
+		expect(response.status).toBe(200);
+	});
+
+	it('confirmEmail handles error response', async (): Promise<void> => {
+		// arrange
+		const token = 'invalid-token';
+		const mock = new MockAdapter(apiInstance);
+		const baseUrl = getApiConfig().backend;
+		mock.onPost(`${baseUrl}/account/confirm`, {
+			token
+		}).reply(400, {error: 'Invalid token'});
+
+		// act & assert
+		await expect(confirmEmail(token)).rejects.toThrow();
 	});
 });

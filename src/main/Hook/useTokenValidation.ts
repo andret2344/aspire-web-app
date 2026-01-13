@@ -23,5 +23,8 @@ export function useTokenValidation(timeout?: number): TokenValidationResult {
 		setLoading(false);
 	}
 
-	return {tokenLoading: loading, tokenValid: valid};
+	return {
+		tokenLoading: loading,
+		tokenValid: valid
+	};
 }

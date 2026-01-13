@@ -1,7 +1,7 @@
-import {Tooltip, Typography} from '@mui/material';
 import React from 'react';
-import {getPriority, Priority} from '@entity/Priority';
 import {useTranslation} from 'react-i18next';
+import {Tooltip, Typography} from '@mui/material';
+import {getPriority, Priority} from '@entity/Priority';
 
 interface PriorityBadgeProps {
 	readonly value: number;

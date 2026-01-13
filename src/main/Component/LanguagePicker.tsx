@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {ReactCountryFlag} from 'react-country-flag';
 import {useTranslation} from 'react-i18next';
+import {Button, MenuItem} from '@mui/material';
 import Menu from '@mui/material/Menu';
 import {getLanguageByCode, getLanguages, Language} from '@entity/Language';
-import {Button, MenuItem} from '@mui/material';
 
 export function LanguagePicker(): React.ReactElement {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,10 +29,7 @@ export function LanguagePicker(): React.ReactElement {
 			<MenuItem
 				key={language.iconCode}
 				style={{
-					borderRight:
-						language.code === i18n.language
-							? '3px solid blue'
-							: 'unset'
+					borderRight: language.code === i18n.language ? '3px solid blue' : 'unset'
 				}}
 				onClick={(): void => {
 					i18n.changeLanguage(language.code);
@@ -41,9 +38,7 @@ export function LanguagePicker(): React.ReactElement {
 			>
 				<ReactCountryFlag
 					svg
-					countryCode={
-						iconCodeMap[language.iconCode] ?? language.iconCode
-					}
+					countryCode={iconCodeMap[language.iconCode] ?? language.iconCode}
 				/>
 				{language.name}
 			</MenuItem>
@@ -55,7 +50,10 @@ export function LanguagePicker(): React.ReactElement {
 		return (
 			<Button
 				onClick={handleClick}
-				sx={{fontFamily: 'Montserrat', marginLeft: '5px'}}
+				sx={{
+					fontFamily: 'Montserrat',
+					marginLeft: '5px'
+				}}
 				variant='contained'
 			>
 				{language?.name}

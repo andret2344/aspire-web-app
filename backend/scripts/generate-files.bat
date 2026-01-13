@@ -14,17 +14,8 @@ if errorlevel 1 (
   exit /b 1
 )
 
-set "CHARS=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-set "APP_SECRET="
-for /L %%i in (1,1,64) do (
-  set /A "idx=!random! %% 62"
-  for %%c in (!idx!) do set "APP_SECRET=!APP_SECRET!!CHARS:~%%c,1!"
-)
-set "JWT_PASSPHRASE="
-for /L %%i in (1,1,24) do (
-  set /A "idx=!random! %% 62"
-  for %%c in (!idx!) do set "JWT_PASSPHRASE=!JWT_PASSPHRASE!!CHARS:~%%c,1!"
-)
+for /f "usebackq delims=" %%A in (`openssl rand -hex 32`) do set "APP_SECRET=%%A"
+for /f "usebackq delims=" %%A in (`openssl rand -base64 48`) do set "JWT_PASSPHRASE=%%A"
 
 echo APP_SECRET=!APP_SECRET!
 echo JWT_PASSPHRASE=!JWT_PASSPHRASE!

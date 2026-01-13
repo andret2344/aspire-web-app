@@ -24,6 +24,7 @@ module.exports = {
 	moduleNameMapper: {
 		'\\.(css|less|scss|sass)$': 'identity-obj-proxy',
 		'^@component/(.*)$': '<rootDir>/src/main/Component/$1',
+		'^@context/(.*)$': '<rootDir>/src/main/Context/$1',
 		'^@entity/(.*)$': '<rootDir>/src/main/Entity/$1',
 		'^@hook/(.*)$': '<rootDir>/src/main/Hook/$1',
 		'^@layout/(.*)$': '<rootDir>/src/main/Layout/$1',

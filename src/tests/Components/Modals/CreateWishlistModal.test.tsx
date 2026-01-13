@@ -1,16 +1,13 @@
-import {mockedAddWishlist} from '../../__mocks__/MockWishlistService';
 import {mockedUseMediaQuery} from '../../__mocks__/MockMaterialUI';
+import {mockedAddWishlist} from '../../__mocks__/MockWishlistService';
+import {getSampleWishlistDto} from '../../__utils__/DataFactory';
+import {renderForTest} from '../../__utils__/RenderForTest';
 import React from 'react';
-import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
 import {CreateWishlistModal} from '@component/Modals/CreateWishlistModal';
-import {renderForTest} from '../../__utils__/RenderForTest';
-import {getSampleWishlistDto} from '../../__utils__/DataFactory';
 
 describe('CreateWishlistModal', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	test('renders correctly', (): void => {
 		// arrange
 		mockedUseMediaQuery.mockReturnValue(false);

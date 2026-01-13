@@ -1,18 +1,11 @@
 import {mockedGetMarkdown} from '../../__mocks__/MockMDXEditor';
-
+import {renderForTest, withMockedDarkModeProvider} from '../../__utils__/RenderForTest';
 import React from 'react';
-import '@testing-library/jest-dom';
 import {screen} from '@testing-library/dom';
 import user from '@testing-library/user-event';
-import {DescriptionModal} from '../../../main/Component/Modals/DescriptionModal';
-import {
-	renderForTest,
-	renderForTestWithMockedDarkModeProvider
-} from '../../__utils__/RenderForTest';
+import {DescriptionModal} from '@component/Modals/DescriptionModal';
 
 describe('DescriptionModal', (): void => {
-	beforeEach((): void => localStorage.clear());
-
 	it('renders', async (): Promise<void> => {
 		// arrange
 		renderForTest(
@@ -24,9 +17,7 @@ describe('DescriptionModal', (): void => {
 		);
 
 		// act
-		const cancelButton: HTMLElement = screen.getByTestId(
-			'modal-description-cancel'
-		);
+		const cancelButton: HTMLElement = screen.getByTestId('modal-description-cancel');
 		const mdxEditor: HTMLElement = screen.getByTestId('mock-mdx-editor');
 
 		// assert
@@ -54,12 +45,13 @@ describe('DescriptionModal', (): void => {
 
 	it('renders in dark theme', async (): Promise<void> => {
 		// arrange
-		renderForTestWithMockedDarkModeProvider(
+		renderForTest(
 			<DescriptionModal
 				open={true}
 				onClose={(): void => undefined}
 				onAccept={(): void => undefined}
-			/>
+			/>,
+			[withMockedDarkModeProvider]
 		);
 
 		// act
@@ -81,9 +73,7 @@ describe('DescriptionModal', (): void => {
 			/>
 		);
 
-		const confirmButton: HTMLElement = screen.getByTestId(
-			'modal-description-confirm'
-		);
+		const confirmButton: HTMLElement = screen.getByTestId('modal-description-confirm');
 
 		// act
 		await user.click(confirmButton);
@@ -104,9 +94,7 @@ describe('DescriptionModal', (): void => {
 			/>
 		);
 
-		const cancelButton: HTMLElement = screen.getByTestId(
-			'modal-description-cancel'
-		);
+		const cancelButton: HTMLElement = screen.getByTestId('modal-description-cancel');
 
 		// act
 		await user.click(cancelButton);

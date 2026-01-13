@@ -1,11 +1,14 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
+import {JwtPayload, jwtDecode} from 'jwt-decode';
+import {UserData, UserDataResponse} from '@entity/UserData';
 import apiInstance, {getApiConfig} from './ApiInstance';
-import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 const ACCESS_TOKEN: string = 'accessToken';
 const REFRESH_TOKEN: string = 'refreshToken';
 
-export const headers: {[key: string]: string} = {
+export const headers: {
+	[key: string]: string;
+} = {
 	Accept: 'application/json',
 	'Content-Type': 'application/json'
 };
@@ -42,10 +45,7 @@ export async function logIn(email: string, password: string): Promise<number> {
 	}
 }
 
-export async function signUp(
-	email: string,
-	password: string
-): Promise<AxiosResponse> {
+export async function signUp(email: string, password: string): Promise<AxiosResponse> {
 	const baseUrl: string = getApiConfig().backend;
 	return await axios.post(
 		`${baseUrl}/account/register`,
@@ -57,9 +57,27 @@ export async function signUp(
 	);
 }
 
-export async function requestResetPassword(
-	email: string
-): Promise<AxiosResponse> {
+export async function getUserData(): Promise<UserDataResponse> {
+	const baseUrl: string = getApiConfig().backend;
+	const result: AxiosResponse<UserDataResponse> = await apiInstance.get(`${baseUrl}/account/me`, requestConfig);
+	return result.data;
+}
+
+export async function verifyEmail(user: UserData): Promise<AxiosResponse> {
+	const baseUrl: string = getApiConfig().backend;
+	return await apiInstance.post(`${baseUrl}/account/verify_email`, {
+		user_id: user.id
+	});
+}
+
+export async function confirmEmail(token: string): Promise<AxiosResponse> {
+	const baseUrl: string = getApiConfig().backend;
+	return await apiInstance.post(`${baseUrl}/account/confirm`, {
+		token
+	});
+}
+
+export async function requestResetPassword(email: string): Promise<AxiosResponse> {
 	const baseUrl: string = getApiConfig().backend;
 	const url: string = `${getApiConfig().frontend}/new-password`;
 	return await axios.post(
@@ -72,11 +90,7 @@ export async function requestResetPassword(
 	);
 }
 
-export async function resetPassword(
-	password: string,
-	token: string,
-	passwordRepeat: string
-): Promise<number> {
+export async function resetPassword(password: string, token: string, passwordRepeat: string): Promise<number> {
 	const baseUrl: string = getApiConfig().backend;
 	const response: AxiosResponse = await axios.post(
 		`${baseUrl}/account/password_reset/confirm`,
@@ -115,12 +129,9 @@ export async function refreshToken(): Promise<string | undefined> {
 		return;
 	}
 	const baseUrl: string = getApiConfig().backend;
-	const result: AxiosResponse = await axios.post(
-		`${baseUrl}/account/token/refresh`,
-		{
-			refresh_token: refreshToken
-		}
-	);
+	const result: AxiosResponse = await axios.post(`${baseUrl}/account/token/refresh`, {
+		refresh_token: refreshToken
+	});
 
 	saveAccessToken(result.data.token);
 	saveRefreshToken(result.data.refresh_token);

@@ -1,13 +1,9 @@
-import {RenderResult, waitFor} from '@testing-library/react';
+import {renderForTest} from '../__utils__/RenderForTest';
 import React from 'react';
-import {useDarkMode} from '@component/DarkModeContext';
 import {screen} from '@testing-library/dom';
-import '@testing-library/jest-dom';
+import {RenderResult, waitFor} from '@testing-library/react';
 import user from '@testing-library/user-event';
-import {
-	renderForTest,
-	renderForTestWithoutDarkModeProvider
-} from '../__utils__/RenderForTest';
+import {useDarkMode} from '@context/DarkModeContext';
 
 function TestComponent(): React.ReactElement {
 	const {darkMode, toggleDarkMode} = useDarkMode();
@@ -38,9 +34,7 @@ describe('DarkModeProvider', (): void => {
 		await user.click(button);
 
 		// act
-		const text: HTMLElement = await waitFor(
-			(): HTMLElement => screen.getByText('Dark mode is on')
-		);
+		const text: HTMLElement = await waitFor((): HTMLElement => screen.getByText('Dark mode is on'));
 
 		// assert
 		expect(text).toBeInTheDocument();
@@ -48,10 +42,7 @@ describe('DarkModeProvider', (): void => {
 
 	it('should read and write to localStorage', (): void => {
 		// arrange
-		const setItemMock: jest.SpyInstance = jest.spyOn(
-			Storage.prototype,
-			'setItem'
-		);
+		const setItemMock: jest.SpyInstance = jest.spyOn(Storage.prototype, 'setItem');
 		const getItemMock: jest.SpyInstance = jest
 			.spyOn(Storage.prototype, 'getItem')
 			.mockImplementation((): string => 'true');
@@ -67,12 +58,10 @@ describe('DarkModeProvider', (): void => {
 	it('should throw an error when used outside of DarkModeProvider', (): void => {
 		// act
 		function renderer(): RenderResult {
-			return renderForTestWithoutDarkModeProvider(<TestComponent />);
+			return renderForTest(<TestComponent />, []);
 		}
 
 		// assert
-		expect(renderer).toThrow(
-			'useDarkMode must be used within a DarkModeProvider'
-		);
+		expect(renderer).toThrow('useDarkMode must be used within a DarkModeProvider');
 	});
 });

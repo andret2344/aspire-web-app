@@ -1,10 +1,12 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
-import {App} from './App';
 import {BrowserRouter} from 'react-router-dom';
-import {DarkModeProvider} from '@component/DarkModeContext';
+import {DarkModeProvider} from '@context/DarkModeContext';
+import {UserDataProvider} from '@context/UserDataContext';
 import {FeatureFlagsProvider} from '@util/FeatureFlagContext';
+import {App} from './App';
 import './index.css';
+import './i18n';
 
 const container: HTMLElement | null = document.getElementById('root');
 
@@ -14,9 +16,11 @@ if (container) {
 		<React.StrictMode>
 			<BrowserRouter>
 				<DarkModeProvider>
-					<FeatureFlagsProvider>
-						<App />
-					</FeatureFlagsProvider>
+					<UserDataProvider>
+						<FeatureFlagsProvider>
+							<App />
+						</FeatureFlagsProvider>
+					</UserDataProvider>
 				</DarkModeProvider>
 			</BrowserRouter>
 		</React.StrictMode>

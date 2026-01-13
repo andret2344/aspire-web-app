@@ -1,20 +1,20 @@
-import {Grid} from '@mui/material';
 import React from 'react';
-import {mapWishlistArrayFromDto, WishList} from '@entity/WishList';
-import {WishlistComponent} from '@component/WishlistComponent';
-import {getWishlists} from '@service/WishListService';
-import {CreateWishlistModal} from '@component/Modals/CreateWishlistModal';
-import {NavigateFunction, useNavigate} from 'react-router-dom';
-import {WishlistItem} from '@entity/WishlistItem';
-import {useSnackbar} from 'notistack';
 import {useTranslation} from 'react-i18next';
+import {NavigateFunction, useNavigate} from 'react-router-dom';
+import {useSnackbar} from 'notistack';
+import {Grid} from '@mui/material';
 import {AddButton} from '@component/AddButton';
+import {CreateWishlistModal} from '@component/Modals/CreateWishlistModal';
+import {WishlistComponent} from '@component/WishlistComponent';
+import {mapWishlistArrayFromDto, WishList} from '@entity/WishList';
+import {WishlistItem} from '@entity/WishlistItem';
+import {getWishlists} from '@service/WishListService';
+import {appPaths} from '../AppRoutes';
 
 export function WishlistListPage(): React.ReactElement {
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
 	const [isLoading, setIsLoading] = React.useState<boolean>(true);
-	const [isAddWishlistModalOpened, setIsAddWishlistModalOpened] =
-		React.useState<boolean>(false);
+	const [isAddWishlistModalOpened, setIsAddWishlistModalOpened] = React.useState<boolean>(false);
 
 	const navigate: NavigateFunction = useNavigate();
 	const {t} = useTranslation();
@@ -25,28 +25,28 @@ export function WishlistListPage(): React.ReactElement {
 			.then(mapWishlistArrayFromDto)
 			.then(setWishlists)
 			.catch((): void => {
-				enqueueSnackbar(t('something-went-wrong'), {variant: 'error'});
-				navigate('/error');
+				enqueueSnackbar(t('something-went-wrong'), {
+					variant: 'error'
+				});
+				navigate(appPaths.error, {replace: true});
 			})
 			.finally((): void => setIsLoading(false));
 	}, []);
 
 	function findWishlistIndexById(wishlistId: number): number {
-		return wishlists.findIndex(
-			(wishlist: WishList): boolean => wishlistId === wishlist.id
-		);
+		return wishlists.findIndex((wishlist: WishList): boolean => wishlistId === wishlist.id);
 	}
 
 	function handleNameEdit(wishlistId: number, newName: string): void {
 		const number: number = findWishlistIndexById(wishlistId);
-		wishlists[number] = {...wishlists[number], name: newName};
+		wishlists[number] = {
+			...wishlists[number],
+			name: newName
+		};
 		setWishlists([...wishlists]);
 	}
 
-	function handlePasswordChange(
-		wishlistId: number,
-		newPassword: string
-	): void {
+	function handlePasswordChange(wishlistId: number, newPassword: string): void {
 		const index: number = findWishlistIndexById(wishlistId);
 		wishlists[index] = {
 			...wishlists[index],
@@ -66,9 +66,7 @@ export function WishlistListPage(): React.ReactElement {
 	}
 
 	function handleWishlistRemove(wishlistId: number): void {
-		setWishlists((prev: WishList[]): WishList[] =>
-			prev.filter((w: WishList): boolean => w.id !== wishlistId)
-		);
+		setWishlists((prev: WishList[]): WishList[] => prev.filter((w: WishList): boolean => w.id !== wishlistId));
 	}
 
 	function renderWishlistButton(wishlist: WishList): React.ReactElement {
@@ -77,23 +75,18 @@ export function WishlistListPage(): React.ReactElement {
 				key={wishlist.id}
 				wishlist={wishlist}
 				onRemove={handleWishlistRemove}
-				onNameEdit={(newName: string): void =>
-					handleNameEdit(wishlist.id, newName)
-				}
-				onPasswordChange={(newPassword: string): void =>
-					handlePasswordChange(wishlist.id, newPassword)
-				}
+				onNameEdit={(newName: string): void => handleNameEdit(wishlist.id, newName)}
+				onPasswordChange={(newPassword: string): void => handlePasswordChange(wishlist.id, newPassword)}
 			/>
 		);
 	}
 
 	function addNewWishlist(newWishlist: WishList): void {
-		setWishlists((prevWishlists: WishList[]): WishList[] => [
-			...prevWishlists,
-			newWishlist
-		]);
+		setWishlists((prevWishlists: WishList[]): WishList[] => [...prevWishlists, newWishlist]);
 		setIsAddWishlistModalOpened(false);
-		enqueueSnackbar(t('wishlist-created'), {variant: 'success'});
+		enqueueSnackbar(t('wishlist-created'), {
+			variant: 'success'
+		});
 	}
 
 	if (isLoading) {
@@ -128,9 +121,7 @@ export function WishlistListPage(): React.ReactElement {
 						paddingBottom: '3rem'
 					}}
 				>
-					<AddButton onClick={handleAddClick}>
-						{t('add-new-wishlist')}
-					</AddButton>
+					<AddButton onClick={handleAddClick}>{t('add-new-wishlist')}</AddButton>
 				</Grid>
 			</Grid>
 			<CreateWishlistModal

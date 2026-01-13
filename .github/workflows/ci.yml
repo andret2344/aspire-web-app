@@ -1,9 +1,10 @@
 name: CI
 
 on:
-  push:
-    branches: [ "**" ]
   pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 env:
   NODE_OPTIONS: --max_old_space_size=4096
@@ -39,12 +40,12 @@ jobs:
     needs: install
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
         with:
-          node-version: 'lts/*'
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
+          version: latest
+      - name: Run Biome
+        run: biome ci .
 
   test:
     name: Test
@@ -64,3 +65,14 @@ jobs:
         with:
           name: coverage
           path: coverage/
+      - name: Upload coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results

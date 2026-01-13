@@ -6,9 +6,7 @@ export const mockedRemoveWishlistItem: jest.Mock = jest.fn();
 export const mockedGetWishlistHiddenItems: jest.Mock = jest.fn();
 
 jest.mock('@service/WishlistItemService', () => ({
-	...jest.requireActual<typeof WishlistItemService>(
-		'@service/WishlistItemService'
-	),
+	...jest.requireActual<typeof WishlistItemService>('@service/WishlistItemService'),
 	updateWishlistItem: mockedUpdateWishlistItem,
 	addWishlistItem: mockedAddWishlistItem,
 	removeWishlistItem: mockedRemoveWishlistItem,
