@@ -12,6 +12,7 @@ import {WishlistItem} from '@entity/WishlistItem';
 import {getReadonlyWishlistByUUID} from '@service/WishListService';
 import {getWishlistHiddenItems} from '@service/WishlistItemService';
 import {getThemeColor} from '@util/theme';
+import {appPaths} from '../AppRoutes';
 
 export function ReadonlyWishlistPage(): React.ReactElement {
 	type Params = {
@@ -30,10 +31,8 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		getReadonlyWishlistByUUID(params.uuid)
 			.then(mapWishlistFromDto)
 			.then(setWishlist)
-			.catch((): void => {
-				navigate('/error');
-			});
-	}, [navigate, params.uuid]);
+			.catch((): void | Promise<void> => navigate(appPaths.error, {replace: true}));
+	}, [params.uuid]);
 
 	if (!wishlist) {
 		return <></>;
@@ -66,11 +65,11 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 	async function handlePasswordEnter(uuid: string, password: string): Promise<void> {
 		await getWishlistHiddenItems(uuid, password)
 			.then(setHiddenItems)
-			.catch((): string | number =>
-				enqueueSnackbar(t('password-invalid'), {
+			.catch((): void => {
+				enqueueSnackbar(t('access-code-invalid'), {
 					variant: 'error'
-				})
-			);
+				});
+			});
 		setIsPasswordModalOpened(false);
 	}
 

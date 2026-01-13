@@ -22,10 +22,7 @@ export async function getWishlist(id: number): Promise<WishListDto> {
 
 export async function getReadonlyWishlistByUUID(uuid: string): Promise<WishListDto> {
 	const baseUrl: string = getApiConfig().backend;
-	const result: AxiosResponse<WishListDto> = await axios.get<WishListDto>(
-		`${baseUrl}/wishlists?uuid=${uuid}`,
-		requestConfig
-	);
+	const result: AxiosResponse<WishListDto> = await axios.get(`${baseUrl}/readonly/${uuid}`, requestConfig);
 	return result.data;
 }
 

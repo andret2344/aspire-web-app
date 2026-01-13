@@ -72,7 +72,7 @@ describe('WishListService', (): void => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
-		mock.onGet(`${baseUrl}/wishlists?uuid=test-uuid`, {
+		mock.onGet(`${baseUrl}/readonly/test-uuid`, {
 			headers
 		}).reply(200, getSampleWishlistDto());
 
@@ -89,7 +89,7 @@ describe('WishListService', (): void => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
-		mock.onGet(`${baseUrl}/wishlists?uuid=test-uuid`, {
+		mock.onGet(`${baseUrl}/readonly/test-uuid`, {
 			headers
 		}).reply(500);
 

@@ -51,7 +51,7 @@ describe('NewPasswordPage', (): void => {
 		// assert
 		await waitFor((): void => {
 			expect(mockedResetPassword).toHaveBeenCalledWith('Testowe123!', 'Testowe123!', token);
-			expect(mockedNavigate).toHaveBeenCalledWith('/');
+			expect(mockedNavigate).toHaveBeenCalledWith('/', {replace: true});
 		});
 	});
 

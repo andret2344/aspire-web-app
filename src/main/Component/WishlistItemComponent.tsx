@@ -74,10 +74,8 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 	}
 
 	function handlePriorityChoiceOpen(event: React.MouseEvent<HTMLElement>): void {
-		if (props.onEdit) {
-			event.stopPropagation();
-			setAnchorEl(event.currentTarget);
-		}
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
 	}
 
 	function handlePriorityChoiceClose(): void {
@@ -141,7 +139,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 
 	function handleDuplicate(event: React.MouseEvent<HTMLElement>): void {
 		event.stopPropagation();
-		props.onDuplicate?.(props.item);
+		props.onDuplicate!(props.item);
 		setMenuAnchorEl(null);
 	}
 

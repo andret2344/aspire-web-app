@@ -1,3 +1,5 @@
+import {mockedUseUserData} from '../__mocks__/MockUserDataContext';
+import '../__mocks__/MockUserDataContext';
 import {mockedNavigate} from '../__mocks__/MockCommonService';
 import {mockedSetWishlistPassword} from '../__mocks__/MockWishlistService';
 import {getSampleWishlist} from '../__utils__/DataFactory';
@@ -8,6 +10,18 @@ import user from '@testing-library/user-event';
 import {WishlistComponent} from '@component/WishlistComponent';
 
 describe('WishlistComponent', (): void => {
+	beforeEach((): void => {
+		mockedUseUserData.mockReturnValue({
+			user: {
+				id: 1,
+				email: 'test@example.com',
+				isVerified: true,
+				lastLogin: new Date()
+			},
+			loaded: true
+		});
+	});
+
 	it('renders correctly without password', (): void => {
 		// arrange
 		renderForTest(
@@ -81,7 +95,9 @@ describe('WishlistComponent', (): void => {
 		await user.click(wishlistRowGrid);
 
 		// assert
-		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists/1');
+		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists/1', {
+			replace: true
+		});
 	});
 
 	describe('password modal', (): void => {
@@ -233,6 +249,36 @@ describe('WishlistComponent', (): void => {
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
 			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, '');
 		});
+	});
+
+	it('prevents navigation when clicking disabled share icon tooltip', async (): Promise<void> => {
+		// arrange
+		mockedUseUserData.mockReturnValue({
+			user: {
+				id: 1,
+				email: 'test@example.com',
+				isVerified: false,
+				lastLogin: new Date()
+			},
+			loaded: true
+		});
+
+		renderForTest(
+			<WishlistComponent
+				wishlist={getSampleWishlist()}
+				onRemove={(): void => undefined}
+				onNameEdit={(): void => undefined}
+				onPasswordChange={(): void => undefined}
+			/>
+		);
+
+		const tooltipWrapper: HTMLElement = screen.getByLabelText('share-disabled');
+
+		// act
+		await user.click(tooltipWrapper);
+
+		// assert
+		expect(mockedNavigate).not.toHaveBeenCalled();
 	});
 
 	describe('clipboard', (): void => {

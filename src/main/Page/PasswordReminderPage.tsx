@@ -6,6 +6,7 @@ import {useSnackbar} from 'notistack';
 import {Box, Button, Link, TextField, Theme, Typography, useMediaQuery, useTheme} from '@mui/material';
 import {AuthContainer} from '@component/AuthContainer';
 import {requestResetPassword} from '@service/AuthService';
+import {appPaths} from '../AppRoutes';
 
 export function PasswordReminderPage(): React.ReactElement {
 	type Inputs = {
@@ -24,7 +25,7 @@ export function PasswordReminderPage(): React.ReactElement {
 				enqueueSnackbar(t('password-reset-link-sent'), {
 					variant: 'success'
 				});
-				navigate('/');
+				navigate(appPaths.login, {replace: true});
 			})
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {

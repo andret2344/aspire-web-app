@@ -76,6 +76,8 @@ describe('AuthLayout', (): void => {
 
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
+		expect(mockedNavigate).toHaveBeenCalledWith('/wishlists', {
+			replace: true
+		});
 	});
 });

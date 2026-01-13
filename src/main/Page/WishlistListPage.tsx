@@ -9,6 +9,7 @@ import {WishlistComponent} from '@component/WishlistComponent';
 import {mapWishlistArrayFromDto, WishList} from '@entity/WishList';
 import {WishlistItem} from '@entity/WishlistItem';
 import {getWishlists} from '@service/WishListService';
+import {appPaths} from '../AppRoutes';
 
 export function WishlistListPage(): React.ReactElement {
 	const [wishlists, setWishlists] = React.useState<WishList[]>([]);
@@ -27,7 +28,7 @@ export function WishlistListPage(): React.ReactElement {
 				enqueueSnackbar(t('something-went-wrong'), {
 					variant: 'error'
 				});
-				navigate('/error');
+				navigate(appPaths.error, {replace: true});
 			})
 			.finally((): void => setIsLoading(false));
 	}, []);

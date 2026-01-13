@@ -1,9 +1,11 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
+import {DarkModeProvider} from '@context/DarkModeContext';
+import {UserDataProvider} from '@context/UserDataContext';
 import {App} from './App';
-import {DarkModeProvider} from './Component/DarkModeContext';
 import './index.css';
+import './i18n';
 
 const container: HTMLElement | null = document.getElementById('root');
 
@@ -13,7 +15,9 @@ if (container) {
 		<React.StrictMode>
 			<BrowserRouter>
 				<DarkModeProvider>
-					<App />
+					<UserDataProvider>
+						<App />
+					</UserDataProvider>
 				</DarkModeProvider>
 			</BrowserRouter>
 		</React.StrictMode>

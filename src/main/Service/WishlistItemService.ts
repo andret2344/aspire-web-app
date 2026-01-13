@@ -1,6 +1,6 @@
-import {AxiosResponse} from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {mapWishlistItemFromDto, WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
-import apiInstance from './ApiInstance';
+import apiInstance, {getApiConfig} from './ApiInstance';
 
 function getWishlistItemsUrl(wishlistId: number, id: number | undefined = undefined): string {
 	if (id) {
@@ -10,7 +10,8 @@ function getWishlistItemsUrl(wishlistId: number, id: number | undefined = undefi
 }
 
 export async function getWishlistHiddenItems(uuid: string, password: string): Promise<WishlistItem[]> {
-	const result: AxiosResponse<WishlistItemDto[]> = await apiInstance.get(`/hidden_items?uuid=${uuid}`, {
+	const baseUrl: string = getApiConfig().backend;
+	const result: AxiosResponse<WishlistItemDto[]> = await axios.get(`${baseUrl}/readonly/${uuid}/hidden_items`, {
 		headers: {
 			'Access-Code': password
 		}

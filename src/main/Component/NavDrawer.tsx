@@ -4,6 +4,7 @@ import {Link, NavigateFunction, useNavigate} from 'react-router-dom';
 import {ListAlt, Logout, Menu, MenuOpen, Settings} from '@mui/icons-material';
 import {Divider, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import {logout} from '@service/AuthService';
+import {appPaths} from '../AppRoutes';
 
 export const WIDTH_DRAWER_OPENED: number = 240;
 export const WIDTH_DRAWER_CLOSED: number = 60;
@@ -20,7 +21,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 
 	function handleLogout(): void {
 		logout();
-		navigate('/');
+		navigate(appPaths.login, {replace: true});
 	}
 
 	function renderMenuIcon(): React.JSX.Element {

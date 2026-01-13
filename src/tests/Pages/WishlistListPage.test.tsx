@@ -7,7 +7,7 @@ import {
 	mockedUpdateWishlistName
 } from '../__mocks__/MockWishlistService';
 import {getSampleWishlist, getSampleWishlistDto} from '../__utils__/DataFactory';
-import {renderForTest} from '../__utils__/RenderForTest';
+import {renderForTest, withUserDataProvider} from '../__utils__/RenderForTest';
 import React from 'react';
 import {screen} from '@testing-library/dom';
 import {waitFor} from '@testing-library/react';
@@ -21,7 +21,7 @@ describe('WishlistListPage', (): void => {
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 
 			// act
-			renderForTest(<WishlistListPage />);
+			renderForTest(<WishlistListPage />, [withUserDataProvider]);
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// assert
@@ -34,12 +34,14 @@ describe('WishlistListPage', (): void => {
 			mockedGetWishlists.mockRejectedValue(null);
 
 			// act
-			renderForTest(<WishlistListPage />);
+			renderForTest(<WishlistListPage />, [withUserDataProvider]);
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// assert
 			expect(mockedNavigate).toHaveBeenCalledTimes(1);
-			expect(mockedNavigate).toHaveBeenCalledWith('/error');
+			expect(mockedNavigate).toHaveBeenCalledWith('/error', {
+				replace: true
+			});
 			expect(screen.queryByText('something-went-wrong')).not.toBeNull();
 			expect(screen.queryByText('Mock Wishlist')).toBeNull();
 		});
@@ -57,7 +59,7 @@ describe('WishlistListPage', (): void => {
 				})
 			);
 
-			renderForTest(<WishlistListPage />);
+			renderForTest(<WishlistListPage />, [withUserDataProvider]);
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// act
@@ -78,7 +80,7 @@ describe('WishlistListPage', (): void => {
 			// arrange
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 
-			renderForTest(<WishlistListPage />);
+			renderForTest(<WishlistListPage />, [withUserDataProvider]);
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// act
@@ -99,7 +101,7 @@ describe('WishlistListPage', (): void => {
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedRemoveWishlist.mockResolvedValue(void 0);
 
-			renderForTest(<WishlistListPage />);
+			renderForTest(<WishlistListPage />, [withUserDataProvider]);
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// act
@@ -117,7 +119,7 @@ describe('WishlistListPage', (): void => {
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedRemoveWishlist.mockResolvedValue(void 0);
 
-			renderForTest(<WishlistListPage />);
+			renderForTest(<WishlistListPage />, [withUserDataProvider]);
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// act
@@ -133,7 +135,7 @@ describe('WishlistListPage', (): void => {
 			mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 			mockedRemoveWishlist.mockRejectedValue(void 0);
 
-			renderForTest(<WishlistListPage />);
+			renderForTest(<WishlistListPage />, [withUserDataProvider]);
 			await screen.findByTestId('wishlist-list-page-grid-main');
 
 			// act
@@ -156,7 +158,7 @@ describe('WishlistListPage', (): void => {
 			})
 		);
 
-		renderForTest(<WishlistListPage />);
+		renderForTest(<WishlistListPage />, [withUserDataProvider]);
 		await screen.findByTestId('wishlist-list-page-grid-main');
 
 		// act
@@ -176,7 +178,7 @@ describe('WishlistListPage', (): void => {
 		mockedGetWishlists.mockResolvedValue([getSampleWishlistDto()]);
 		mockedSetWishlistPassword.mockResolvedValue(void 0);
 
-		renderForTest(<WishlistListPage />);
+		renderForTest(<WishlistListPage />, [withUserDataProvider]);
 		await screen.findByTestId('wishlist-list-page-grid-main');
 
 		// act

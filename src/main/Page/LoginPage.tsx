@@ -17,7 +17,9 @@ import {
 } from '@mui/material';
 import {AuthContainer} from '@component/AuthContainer';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
+import {useUserDataActions} from '@context/UserDataContext';
 import {logIn} from '@service/AuthService';
+import {appPaths} from '../AppRoutes';
 
 export function LoginPage(): React.ReactElement {
 	const [isPasswordShown, setIsPasswordShown] = React.useState<boolean>(false);
@@ -28,15 +30,17 @@ export function LoginPage(): React.ReactElement {
 	const {enqueueSnackbar} = useSnackbar();
 	const {t} = useTranslation();
 	const {register, handleSubmit} = useForm();
+	const {refreshUser} = useUserDataActions();
 
 	function handleClickShowPassword(): void {
 		setIsPasswordShown((prev: boolean): boolean => !prev);
 	}
 
 	async function onSubmit(data: FieldValues): Promise<void> {
-		await logIn(data.email, data.password).then((response: number): void => {
+		await logIn(data.email, data.password).then(async (response: number): Promise<void> => {
 			if ([200, 201].includes(response)) {
-				navigate('/wishlists');
+				await refreshUser();
+				await navigate(appPaths.wishlists, {replace: true});
 				enqueueSnackbar(`${t('successfully-logged-in')}`, {
 					variant: 'info'
 				});

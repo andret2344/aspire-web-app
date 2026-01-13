@@ -10,6 +10,7 @@ export function Header(): React.ReactElement {
 				flexDirection: 'column',
 				position: 'fixed',
 				width: '100%',
+				height: '3.5rem',
 				padding: '0px',
 				zIndex: 1000
 			}}
@@ -30,27 +31,25 @@ export function Header(): React.ReactElement {
 						alignItems: 'center'
 					}}
 				>
-					<Box>
-						<Typography
-							variant='h6'
-							noWrap
+					<Typography
+						variant='h6'
+						noWrap
+					>
+						<Link
+							component={Anchor}
+							to='/'
+							sx={{
+								fontFamily: 'Courgette',
+								fontWeight: 700,
+								fontSize: '2.125rem',
+								letterSpacing: '.3rem',
+								color: 'white',
+								textDecoration: 'none'
+							}}
 						>
-							<Link
-								component={Anchor}
-								to='/'
-								sx={{
-									fontFamily: 'Courgette',
-									fontWeight: 700,
-									fontSize: '35px',
-									letterSpacing: '.3rem',
-									color: 'white',
-									textDecoration: 'none'
-								}}
-							>
-								Aspire
-							</Link>
-						</Typography>
-					</Box>
+							Aspire
+						</Link>
+					</Typography>
 				</Box>
 			</Container>
 		</Box>

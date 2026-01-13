@@ -2,6 +2,11 @@ import React from 'react';
 import {Route, Routes} from 'react-router-dom';
 import {SnackbarProvider} from 'notistack';
 import {CssBaseline} from '@mui/material';
+import {Header} from '@component/Header';
+import {useUserData, useUserDataActions} from '@context/UserDataContext';
+import {AppLayout} from '@layout/AppLayout';
+import {AuthLayout} from '@layout/AuthLayout';
+import {ConfirmEmailPage} from '@page/ConfirmEmailPage';
 import {ErrorPage} from '@page/ErrorPage';
 import {LoginPage} from '@page/LoginPage';
 import {NewPasswordPage} from '@page/NewPasswordPage';
@@ -10,23 +15,20 @@ import {ProfilePage} from '@page/ProfilePage';
 import {ReadonlyWishlistPage} from '@page/ReadonlyWishlistPage';
 import {RegisterPage} from '@page/RegisterPage';
 import {WishlistListPage} from '@page/WishlistListPage';
+import {WishlistPage} from '@page/WishlistPage';
 import {setConfig} from '@service/ApiInstance';
 import {getConfig} from '@service/EnvironmentHelper';
-import './i18n';
-import {Header} from '@component/Header';
-import {AppLayout} from '@layout/AppLayout';
-import {AuthLayout} from '@layout/AuthLayout';
-import {WishlistPage} from '@page/WishlistPage';
+import {appPaths} from './AppRoutes';
 
 export function App(): React.ReactElement {
-	const [loaded, setLoaded] = React.useState<boolean>(false);
+	const {loaded} = useUserData();
+	const {setLoaded, refreshUser} = useUserDataActions();
 
 	React.useEffect((): void => {
-		getConfig()
-			.then(setConfig)
+		Promise.all([getConfig().then(setConfig), refreshUser()])
 			.catch(console.error)
 			.finally((): void => setLoaded(true));
-	}, []);
+	}, [setLoaded, refreshUser]);
 
 	if (!loaded) {
 		return <></>;
@@ -42,45 +44,50 @@ export function App(): React.ReactElement {
 			<Routes>
 				<Route element={<AuthLayout />}>
 					<Route
-						path='/'
+						path={appPaths.login}
 						element={<LoginPage />}
 					/>
 					<Route
-						path='register'
+						path={appPaths.register}
 						element={<RegisterPage />}
 					/>
 					<Route
-						path='reset-password'
+						path={appPaths.resetPassword}
 						element={<PasswordReminderPage />}
 					/>
 					<Route
-						path='new-password/:token'
+						path={appPaths.newPassword}
 						element={<NewPasswordPage />}
 					/>
 				</Route>
 
 				<Route element={<AppLayout />}>
 					<Route
-						path='wishlists'
+						path={appPaths.wishlists}
 						element={<WishlistListPage />}
 					/>
 					<Route
-						path='wishlists/:id'
+						path={appPaths.wishlist}
 						element={<WishlistPage />}
 					/>
 					<Route
-						path='profile'
+						path={appPaths.profile}
 						element={<ProfilePage />}
 					/>
 				</Route>
 
 				<Route
-					path='wishlist/:uuid'
+					path={appPaths.readonlyWishlist}
 					element={<ReadonlyWishlistPage />}
 				/>
 
 				<Route
-					path='*'
+					path={appPaths.confirmEmail}
+					element={<ConfirmEmailPage />}
+				/>
+
+				<Route
+					path={appPaths.notFound}
 					element={<ErrorPage />}
 				/>
 			</Routes>

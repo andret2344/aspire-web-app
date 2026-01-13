@@ -3,11 +3,11 @@ import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {useSnackbar} from 'notistack';
 import {Box, Button, Grid, IconButton, InputAdornment, Paper, TextField, Typography} from '@mui/material';
-import {useDarkMode} from '@component/DarkModeContext';
 import {LanguagePicker} from '@component/LanguagePicker';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '@component/ToggleColorModeComponent';
 import {changePassword} from '@service/AuthService';
+import {useDarkMode} from '../Context/DarkModeContext';
 
 export function ProfilePage(): React.ReactElement {
 	type Inputs = {

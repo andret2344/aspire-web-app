@@ -1,13 +1,13 @@
 import {getSampleWishlistItemDto, getSampleWishlistItemDtoWithoutId} from '../__utils__/DataFactory';
 import {WishlistItem, WishlistItemDto} from '@entity/WishlistItem';
-import apiInstance from '@service/ApiInstance';
+import apiInstance, {getApiConfig} from '@service/ApiInstance';
 import {
 	addWishlistItem,
 	getWishlistHiddenItems,
 	removeWishlistItem,
 	updateWishlistItem
 } from '@service/WishlistItemService';
-import {isAxiosError} from 'axios';
+import axios, {isAxiosError} from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 describe('WishListItemService', (): void => {
@@ -29,10 +29,11 @@ describe('WishListItemService', (): void => {
 
 	it('gets wishlist hidden items', async (): Promise<void> => {
 		// arrange
-		const mock = new MockAdapter(apiInstance);
+		const mock = new MockAdapter(axios);
 		const uuid = 'test-uuid';
 		const password = 'test';
-		mock.onGet(`/hidden_items?uuid=${uuid}`).reply(200, []);
+		const baseUrl = getApiConfig().backend;
+		mock.onGet(`${baseUrl}/readonly/${uuid}/hidden_items`).reply(200, []);
 
 		// act
 		const result: WishlistItem[] = await getWishlistHiddenItems(uuid, password);

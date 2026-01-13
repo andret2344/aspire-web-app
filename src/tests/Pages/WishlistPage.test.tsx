@@ -98,7 +98,7 @@ describe('WishlistPage', (): void => {
 
 		// assert
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);
-		expect(mockedNavigate).toHaveBeenCalledWith('/error');
+		expect(mockedNavigate).toHaveBeenCalledWith('/error', {replace: true});
 	});
 
 	it('handles duplicating an item', async (): Promise<void> => {

@@ -37,7 +37,7 @@ export function WishlistInputPasswordModal(props: WishlistInputPasswordModalProp
 
 	function renderContent(): React.ReactElement {
 		if (props.alreadyEntered) {
-			return <p>Password accepted!</p>;
+			return <p>{t('access-code-accepted')}</p>;
 		}
 		return (
 			<TextField
@@ -70,7 +70,7 @@ export function WishlistInputPasswordModal(props: WishlistInputPasswordModalProp
 				}}
 				hiddenLabel
 				variant='filled'
-				placeholder={t('password')}
+				placeholder={t('access-code')}
 				onChange={handlePasswordChange}
 				sx={{
 					width: {
@@ -86,7 +86,7 @@ export function WishlistInputPasswordModal(props: WishlistInputPasswordModalProp
 
 	return (
 		<AspireModal
-			title={t('access-wishlist-password')}
+			title={t('access-code-wishlist')}
 			open={props.open}
 			onClose={handleCancelButton}
 		>
