@@ -133,7 +133,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	}
 
 	function handleItemClick(): void {
-		navigate(appPaths.wishlist.replace(':id', `${props.wishlist.id}`), {replace: true});
+		navigate(appPaths.wishlist.replace(':id', `${props.wishlist.id}`));
 	}
 
 	function disabledShareIconClickHandler(event: React.MouseEvent): void {

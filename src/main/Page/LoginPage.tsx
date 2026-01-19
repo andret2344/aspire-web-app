@@ -40,7 +40,7 @@ export function LoginPage(): React.ReactElement {
 		await logIn(data.email, data.password).then(async (response: number): Promise<void> => {
 			if ([200, 201].includes(response)) {
 				await refreshUser();
-				await navigate(appPaths.wishlists, {replace: true});
+				await navigate(appPaths.wishlists);
 				enqueueSnackbar(`${t('successfully-logged-in')}`, {
 					variant: 'info'
 				});

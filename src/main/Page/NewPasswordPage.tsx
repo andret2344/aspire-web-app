@@ -57,7 +57,7 @@ export function NewPasswordPage(): React.ReactElement {
 				enqueueSnackbar('password-changed', {
 					variant: 'success'
 				});
-				navigate(appPaths.login, {replace: true});
+				navigate(appPaths.login);
 			})
 			.catch((): void => {
 				enqueueSnackbar('something-went-wrong', {
