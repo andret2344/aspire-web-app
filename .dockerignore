@@ -4,11 +4,3 @@ coverage
 .git
 .github
 backend
-
-.env
-.env.*
-*.key
-*.pem
-
-build
-dist
