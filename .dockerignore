@@ -1,0 +1,14 @@
+node_modules
+coverage
+.idea
+.git
+.github
+backend
+
+.env
+.env.*
+*.key
+*.pem
+
+build
+dist

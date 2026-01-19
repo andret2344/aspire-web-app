@@ -1,12 +1,17 @@
-FROM --platform=linux/amd64 node:lts-alpine3.18 AS build-deps
-LABEL author="Mytthew"
+FROM node:22-alpine3.18 AS build-deps
 WORKDIR /app
 
-COPY package*.json yarn.lock ./
+COPY package.json yarn.lock ./
 
-RUN yarn
+RUN yarn --frozen-lockfile
 
-COPY . .
+COPY public ./public
+COPY src ./src
+COPY webpack ./webpack
+
+COPY .babelrc ./.babelrc
+COPY tsconfig*.json ./
+COPY cssTransform.js ./cssTransform.js
 
 RUN yarn build
 

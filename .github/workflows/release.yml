@@ -1,11 +1,11 @@
-name: Release (manual)
+name: Release
 
 on:
   push:
     tags: [ "v*" ]
 
 env:
-  CONTAINER_IMAGE: ${{ github.event.inputs.image != '' && github.event.inputs.image || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
+  CONTAINER_IMAGE: ghcr.io/${{ github.repository }}
 
 permissions:
   contents: read
@@ -41,6 +41,7 @@ jobs:
         with:
           context: .
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: |
             ${{ env.CONTAINER_IMAGE }}:v${{ steps.version.outputs.VERSION }}
             ${{ env.CONTAINER_IMAGE }}:latest
