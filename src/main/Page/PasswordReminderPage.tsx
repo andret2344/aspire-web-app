@@ -25,7 +25,7 @@ export function PasswordReminderPage(): React.ReactElement {
 				enqueueSnackbar(t('password-reset-link-sent'), {
 					variant: 'success'
 				});
-				navigate(appPaths.login, {replace: true});
+				navigate(appPaths.login);
 			})
 			.catch((): void => {
 				enqueueSnackbar(t('something-went-wrong'), {

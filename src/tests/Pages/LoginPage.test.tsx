@@ -97,9 +97,7 @@ describe('LoginPage', (): void => {
 			// assert
 			await waitFor((): void => expect(screen.getByText('successfully-logged-in')).toBeInTheDocument());
 			expect(mockedNavigate).toHaveBeenCalledTimes(1);
-			expect(mockedNavigate).toHaveBeenCalledWith('/wishlists', {
-				replace: true
-			});
+			expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
 		});
 
 		it('displays wrong credentials snackbar on login', async (): Promise<void> => {

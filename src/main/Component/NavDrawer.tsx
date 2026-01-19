@@ -21,7 +21,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 
 	function handleLogout(): void {
 		logout();
-		navigate(appPaths.login, {replace: true});
+		navigate(appPaths.login);
 	}
 
 	function renderMenuIcon(): React.JSX.Element {

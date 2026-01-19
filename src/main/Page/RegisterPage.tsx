@@ -58,19 +58,19 @@ export function RegisterPage(): React.ReactElement {
 				type: 'manual',
 				message: t('passwords-not-equal')
 			});
-			navigate(appPaths.register, {replace: true});
+			navigate(appPaths.register);
 			return;
 		}
 
 		signUp(data.email, data.password)
 			.then((): void => {
-				navigate(appPaths.login, {replace: true});
+				navigate(appPaths.login);
 				enqueueSnackbar(t('account-created'), {
 					variant: 'success'
 				});
 			})
-			.catch((response: AxiosError<RegisterApiError>): void => {
-				const registerApiError: RegisterApiError | undefined = response.response?.data;
+			.catch((error: AxiosError<RegisterApiError>): void => {
+				const registerApiError: RegisterApiError | undefined = error.response?.data;
 				if (registerApiError?.email) {
 					setError('email', {
 						type: 'manual',
