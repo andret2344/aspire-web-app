@@ -57,7 +57,7 @@ module.exports = {
 			process: 'process/browser.js'
 		}),
 		new Dotenv({
-			path: `./.env.local`,
+			path: path.resolve(__dirname, '..', '.env.local'),
 			systemvars: true
 		})
 	],

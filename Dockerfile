@@ -9,10 +9,13 @@ COPY public ./public
 COPY src ./src
 COPY webpack ./webpack
 
+COPY .env.local ./.env.local
 COPY .babelrc ./.babelrc
 COPY tsconfig*.json ./
 COPY cssTransform.js ./cssTransform.js
 
+ARG REACT_API_URL
+ENV REACT_API_URL=$REACT_API_URL
 RUN yarn build
 
 FROM nginx:mainline-alpine3.18-slim
