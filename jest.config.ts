@@ -33,6 +33,7 @@ module.exports = {
 		'^@util/(.*)$': '<rootDir>/src/main/Util/$1',
 		'^react-markdown$': '<rootDir>/src/tests/__mocks__/MockReactMarkdown.tsx',
 		'^remark-gfm$': '<rootDir>/src/tests/__mocks__/MockReactGfm.ts',
+		'^rehype-raw$': '<rootDir>/src/tests/__mocks__/MockRehypeRaw.ts',
 	},
 	testMatch: ['**/?(*.)+(spec|test).(ts|tsx)'],
 	collectCoverage: true,
