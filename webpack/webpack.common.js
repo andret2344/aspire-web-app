@@ -1,6 +1,5 @@
 const path = require('node:path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
@@ -52,9 +51,6 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: path.resolve(__dirname, '..', './src/main/index.html')
-		}),
-		new webpack.ProvidePlugin({
-			process: 'process/browser.js'
 		}),
 		new Dotenv({
 			path: path.resolve(__dirname, '..', '.env.local'),
