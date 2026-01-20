@@ -12,7 +12,6 @@ module.exports = {
 		'^.+\\.(ts|tsx)$': 'ts-jest',
 		'\\.css$': '<rootDir>/cssTransform.js'
 	},
-	transformIgnorePatterns: ['node_modules/(?!@mdxeditor)'],
 	coverageThreshold: {
 		global: {
 			statements: 95,
@@ -31,7 +30,9 @@ module.exports = {
 		'^@page/(.*)$': '<rootDir>/src/main/Page/$1',
 		'^@service/(.*)$': '<rootDir>/src/main/Service/$1',
 		'^@type/(.*)$': '<rootDir>/src/main/Type/$1',
-		'^@util/(.*)$': '<rootDir>/src/main/Util/$1'
+		'^@util/(.*)$': '<rootDir>/src/main/Util/$1',
+		'^react-markdown$': '<rootDir>/src/tests/__mocks__/MockReactMarkdown.tsx',
+		'^remark-gfm$': '<rootDir>/src/tests/__mocks__/MockReactGfm.ts',
 	},
 	testMatch: ['**/?(*.)+(spec|test).(ts|tsx)'],
 	collectCoverage: true,
