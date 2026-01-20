@@ -15,6 +15,7 @@ import {
 	listsPlugin,
 	MDXEditor,
 	MDXEditorMethods,
+	StrikeThroughSupSubToggles,
 	markdownShortcutPlugin,
 	quotePlugin,
 	Separator,
@@ -58,7 +59,9 @@ export function DescriptionModal(props: DescriptionModalProps): React.ReactEleme
 				<InsertTable />
 				<InsertThematicBreak />
 				<Separator />
-				<ListsToggle />
+				<StrikeThroughSupSubToggles />
+				<Separator />
+				<ListsToggle options={['number', 'bullet']} />
 			</>
 		);
 	}

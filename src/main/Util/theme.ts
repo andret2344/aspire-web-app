@@ -1,4 +1,4 @@
-import {createTheme, Theme} from '@mui/material';
+import {createTheme, Theme, ThemeOptions} from '@mui/material';
 
 const PRIORITY_COLOR_HIGH = 'rgba(255, 99, 71, 1)';
 const PRIORITY_COLOR_MEDIUM = 'rgba(255, 255, 0, 1)';
@@ -42,6 +42,40 @@ const darkColors: Colors = {
 	bgModal: 'rgba(1, 9, 27, 1)'
 };
 
+const defaultThemeOptions: ThemeOptions = {
+	components: {
+		MuiCssBaseline: {
+			styleOverrides: {
+				'.mdxeditor-popup-container': {
+					zIndex: 1500,
+				},
+				'.mdxeditor-select-content': {
+					zIndex: 1500,
+				},
+
+				'.md-render table': {
+					width: '100%',
+					borderCollapse: 'collapse',
+					marginTop: '12px',
+					marginBottom: '12px',
+					display: 'block',
+					overflowX: 'auto',
+				},
+				'.md-render th, .md-render td': {
+					border: '1px solid',
+					borderColor: 'black',
+					padding: '8px 12px',
+					verticalAlign: 'top',
+					whiteSpace: 'nowrap',
+				},
+				'.md-render thead th': {
+					fontWeight: 600,
+				},
+			},
+		},
+	},
+}
+
 export const lightTheme: Theme = createTheme({
 	palette: {
 		mode: 'light',
@@ -49,7 +83,8 @@ export const lightTheme: Theme = createTheme({
 			main: '#026DD1'
 		},
 		...lightColors
-	}
+	},
+	...defaultThemeOptions
 });
 
 export const darkTheme: Theme = createTheme({
@@ -59,7 +94,8 @@ export const darkTheme: Theme = createTheme({
 			main: '#026DD1'
 		},
 		...darkColors
-	}
+	},
+	...defaultThemeOptions
 });
 
 export function getThemeColor(theme: Theme, colorName: keyof Colors, defaultColor: string = '#000000'): string {

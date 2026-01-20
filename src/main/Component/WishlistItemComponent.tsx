@@ -1,6 +1,5 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import MarkdownView from 'react-showdown';
 import {useSnackbar} from 'notistack';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined';
@@ -36,6 +35,8 @@ import {getThemeColor} from '@util/theme';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DescriptionModal} from './Modals/DescriptionModal';
 import {PriorityBadge} from './PriorityBadge';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -448,8 +449,13 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 						margin: '1rem'
 					}}
 				>
-					<Typography component='div'>
-						<MarkdownView markdown={props.item.description} />
+					<Typography
+						component='div'
+						className='md-render'
+					>
+						<ReactMarkdown remarkPlugins={[remarkGfm]}>
+							{props.item.description}
+						</ReactMarkdown>
 					</Typography>
 					<Condition check={props.onEdit !== undefined}>
 						<Button

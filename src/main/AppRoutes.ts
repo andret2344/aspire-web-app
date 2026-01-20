@@ -8,7 +8,7 @@ export const appPaths = {
 	wishlist: '/wishlists/:id',
 	profile: '/profile',
 
-	readonlyWishlist: '/wishlist/:id',
+	readonlyWishlist: '/wishlist/:uuid',
 	confirmEmail: '/confirm/:token',
 
 	error: '/error',
