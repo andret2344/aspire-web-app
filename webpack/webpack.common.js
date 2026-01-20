@@ -1,6 +1,7 @@
-const path = require('path');
+const path = require('node:path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
 	entry: path.resolve(__dirname, '..', './src/main/index.tsx'),
@@ -54,6 +55,10 @@ module.exports = {
 		}),
 		new webpack.ProvidePlugin({
 			process: 'process/browser.js'
+		}),
+		new Dotenv({
+			path: `./.env.local`,
+			systemvars: true
 		})
 	],
 	stats: 'errors-only'

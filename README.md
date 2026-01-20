@@ -28,7 +28,7 @@ The project will start on the default `8083` port.
 ### Setup frontend
 
 1. Run `yarn install`.
-2. Make a copy of `<rootDir>/.env` file and name it as `<rootDir>/.env.dev`.
+2. Make a copy of `<rootDir>/.env` file and name it as `<rootDir>/.env.local`.
 3. In the newly created file use the backend address you want to reach. For instance:
 
 ```dotenv
