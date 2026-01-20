@@ -47,10 +47,10 @@ const defaultThemeOptions: ThemeOptions = {
 		MuiCssBaseline: {
 			styleOverrides: {
 				'.mdxeditor-popup-container': {
-					zIndex: 1500,
+					zIndex: 1500
 				},
 				'.mdxeditor-select-content': {
-					zIndex: 1500,
+					zIndex: 1500
 				},
 
 				'.md-render table': {
@@ -59,22 +59,22 @@ const defaultThemeOptions: ThemeOptions = {
 					marginTop: '12px',
 					marginBottom: '12px',
 					display: 'block',
-					overflowX: 'auto',
+					overflowX: 'auto'
 				},
 				'.md-render th, .md-render td': {
 					border: '1px solid',
 					borderColor: 'black',
 					padding: '8px 12px',
 					verticalAlign: 'top',
-					whiteSpace: 'nowrap',
+					whiteSpace: 'nowrap'
 				},
 				'.md-render thead th': {
-					fontWeight: 600,
-				},
-			},
-		},
-	},
-}
+					fontWeight: 600
+				}
+			}
+		}
+	}
+};
 
 export const lightTheme: Theme = createTheme({
 	palette: {

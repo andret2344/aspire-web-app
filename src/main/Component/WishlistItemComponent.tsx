@@ -32,11 +32,11 @@ import {mapWishlistItemFromDto, mapWishlistItemToDto, WishlistItem, WishlistItem
 import {removeWishlistItem, updateWishlistItem} from '@service/WishlistItemService';
 import {Condition} from '@util/Condition';
 import {getThemeColor} from '@util/theme';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DescriptionModal} from './Modals/DescriptionModal';
 import {PriorityBadge} from './PriorityBadge';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -453,9 +453,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 						component='div'
 						className='md-render'
 					>
-						<ReactMarkdown remarkPlugins={[remarkGfm]}>
-							{props.item.description}
-						</ReactMarkdown>
+						<ReactMarkdown remarkPlugins={[remarkGfm]}>{props.item.description}</ReactMarkdown>
 					</Typography>
 					<Condition check={props.onEdit !== undefined}>
 						<Button
