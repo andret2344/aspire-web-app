@@ -33,6 +33,7 @@ import {removeWishlistItem, updateWishlistItem} from '@service/WishlistItemServi
 import {Condition} from '@util/Condition';
 import {getThemeColor} from '@util/theme';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DescriptionModal} from './Modals/DescriptionModal';
@@ -453,7 +454,12 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 						component='div'
 						className='md-render'
 					>
-						<ReactMarkdown remarkPlugins={[remarkGfm]}>{props.item.description}</ReactMarkdown>
+						<ReactMarkdown
+							remarkPlugins={[remarkGfm]}
+							rehypePlugins={[rehypeRaw]}
+						>
+							{props.item.description}
+						</ReactMarkdown>
 					</Typography>
 					<Condition check={props.onEdit !== undefined}>
 						<Button

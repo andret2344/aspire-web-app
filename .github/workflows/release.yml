@@ -48,7 +48,6 @@ jobs:
           context: .
           push: true
           build-args: |
-            REACT_API_URL=${{ vars.REACT_API_URL }}
             REACT_APP_API_TOKEN=${{ secrets.REACT_APP_API_TOKEN }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
