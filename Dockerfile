@@ -15,6 +15,10 @@ COPY cssTransform.js ./cssTransform.js
 
 ARG REACT_API_URL
 ENV REACT_API_URL=$REACT_API_URL
+
+ARG REACT_APP_API_TOKEN
+ENV REACT_APP_API_TOKEN=$REACT_APP_API_TOKEN
+
 RUN yarn build
 
 FROM nginx:mainline-alpine3.18-slim
