@@ -25,7 +25,9 @@ export function App(): React.ReactElement {
 	const {setLoaded, refreshUser} = useUserDataActions();
 
 	React.useEffect((): void => {
-		Promise.all([getConfig().then(setConfig), refreshUser()])
+		getConfig()
+			.then(setConfig)
+			.then(refreshUser)
 			.catch(console.error)
 			.finally((): void => setLoaded(true));
 	}, [setLoaded, refreshUser]);
