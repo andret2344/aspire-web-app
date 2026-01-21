@@ -45,7 +45,7 @@ const darkColors: Colors = {
 const defaultThemeOptions: ThemeOptions = {
 	components: {
 		MuiCssBaseline: {
-			styleOverrides: {
+			styleOverrides: (theme: Theme) => ({
 				'.mdxeditor-popup-container': {
 					zIndex: 1500
 				},
@@ -72,9 +72,9 @@ const defaultThemeOptions: ThemeOptions = {
 					fontWeight: 600
 				},
 				'.mdx-editor': {
-					backgroundColor: '#191919'
+					backgroundColor: theme.palette.background.paper
 				}
-			}
+			})
 		}
 	}
 };

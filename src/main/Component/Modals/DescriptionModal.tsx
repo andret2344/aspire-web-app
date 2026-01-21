@@ -94,17 +94,18 @@ export function DescriptionModal(props: DescriptionModalProps): React.ReactEleme
 					flexDirection: 'column',
 					alignItems: 'center',
 					justifyContent: 'space-between',
-					width: {
-						xs: '100%',
-						md: '90%'
+					maxWidth: {
+						xs: '90vw',
+						md: '80vw'
 					},
+					width: '100%',
 					overflowY: 'auto',
 					maxHeight: '70vh'
 				}}
 			>
 				<MDXEditor
 					contentEditableClassName='mdx-editor'
-					className={`mdxeditor-mobile mdxeditor ${darkMode ? 'dark-theme' : ''}`}
+					className={`mdxeditor-mobile ${darkMode ? 'dark-theme' : ''}`}
 					markdown={props.defaultDescription ?? ''}
 					plugins={[
 						headingsPlugin({
