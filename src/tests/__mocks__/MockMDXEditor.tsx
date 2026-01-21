@@ -9,6 +9,8 @@ jest.mock('@mdxeditor/editor', () => ({
 		(props: React.PropsWithChildren<MDXEditorProps>, ref: ForwardedRef<unknown>): React.ReactElement => {
 			if (ref) {
 				(ref as React.RefObject<MDXEditorMethods | null>).current = {
+					getContentEditableHTML: jest.fn(),
+					getSelectionMarkdown: jest.fn(),
 					getMarkdown: mockedGetMarkdown,
 					setMarkdown: mockedSetMarkdown,
 					insertMarkdown: jest.fn(),

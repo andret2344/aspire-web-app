@@ -97,7 +97,9 @@ export function DescriptionModal(props: DescriptionModalProps): React.ReactEleme
 					width: {
 						xs: '100%',
 						md: '90%'
-					}
+					},
+					overflowY: 'auto',
+					maxHeight: '70vh'
 				}}
 			>
 				<MDXEditor
@@ -123,40 +125,40 @@ export function DescriptionModal(props: DescriptionModalProps): React.ReactEleme
 					ref={descriptionEditorRef}
 					placeholder={t('type-description-here')}
 				/>
-				<Box
+			</Box>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					width: '80%',
+					alignItems: 'center',
+					padding: '10px'
+				}}
+			>
+				<Button
+					data-testid='modal-description-confirm'
+					type='submit'
+					variant='contained'
+					disabled={props.loading}
 					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'center',
-						width: '80%',
-						alignItems: 'center',
-						padding: '10px'
+						margin: '0 20px'
 					}}
 				>
-					<Button
-						data-testid='modal-description-confirm'
-						type='submit'
-						variant='contained'
-						disabled={props.loading}
-						sx={{
-							margin: '0 20px'
-						}}
-					>
-						{renderButtonContent()}
-					</Button>
-					<Button
-						data-testid='modal-description-cancel'
-						variant='outlined'
-						color='error'
-						disabled={props.loading}
-						onClick={handleClose}
-						sx={{
-							margin: '0 20px'
-						}}
-					>
-						{t('cancel')}
-					</Button>
-				</Box>
+					{renderButtonContent()}
+				</Button>
+				<Button
+					data-testid='modal-description-cancel'
+					variant='outlined'
+					color='error'
+					disabled={props.loading}
+					onClick={handleClose}
+					sx={{
+						margin: '0 20px'
+					}}
+				>
+					{t('cancel')}
+				</Button>
 			</Box>
 		</AspireModal>
 	);

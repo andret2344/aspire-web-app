@@ -27,7 +27,7 @@ export function AspireModal(props: React.PropsWithChildren<AspireModalProps>): R
 				alignItems: 'center',
 				margin: {
 					xs: '0',
-					md: '30px 0'
+					md: '2rem 0'
 				}
 			}}
 		>
@@ -36,7 +36,7 @@ export function AspireModal(props: React.PropsWithChildren<AspireModalProps>): R
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					padding: '1.6rem 2.8rem',
+					padding: '1.625rem 1.625rem',
 					borderRadius: '0.75rem',
 					backgroundColor: getThemeColor(theme, 'bgModal'),
 					boxShadow: '0.5rem 0.5rem 1.5rem 0rem rgba(0, 0, 0, 1)',

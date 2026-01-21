@@ -70,6 +70,9 @@ const defaultThemeOptions: ThemeOptions = {
 				},
 				'.md-render thead th': {
 					fontWeight: 600
+				},
+				'.mdx-editor': {
+					backgroundColor: '#191919'
 				}
 			}
 		}
