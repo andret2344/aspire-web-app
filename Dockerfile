@@ -9,7 +9,6 @@ COPY public ./public
 COPY src ./src
 COPY webpack ./webpack
 
-COPY .env ./.env
 COPY .babelrc ./.babelrc
 COPY tsconfig*.json ./
 COPY cssTransform.js ./cssTransform.js
