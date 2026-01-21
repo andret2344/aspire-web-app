@@ -4,8 +4,7 @@ const defaultSchema = {
 };
 
 function rehypeSanitize() {
-	return () => {
-	};
+	return () => {};
 }
 
 export {defaultSchema};

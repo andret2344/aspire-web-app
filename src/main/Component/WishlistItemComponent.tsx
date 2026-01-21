@@ -34,11 +34,11 @@ import {Condition} from '@util/Condition';
 import {getThemeColor} from '@util/theme';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize, {defaultSchema} from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DescriptionModal} from './Modals/DescriptionModal';
 import {PriorityBadge} from './PriorityBadge';
-import rehypeSanitize, {defaultSchema} from 'rehype-sanitize';
 
 interface WishlistItemComponentProps {
 	readonly item: WishlistItem;
@@ -50,7 +50,7 @@ interface WishlistItemComponentProps {
 }
 
 export function WishlistItemComponent(props: WishlistItemComponentProps): React.ReactElement {
-	const allowedTags: string[] = [...defaultSchema.tagNames || [], "u", "sub", "sup"];
+	const allowedTags: string[] = [...(defaultSchema.tagNames || []), 'u', 'sub', 'sup'];
 	type ProgressField = (keyof WishlistItemDto)[];
 	const [isOpened, setIsOpened] = React.useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
