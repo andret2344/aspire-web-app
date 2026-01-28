@@ -49,6 +49,21 @@ interface WishlistItemComponentProps {
 	readonly onDuplicate?: (item: WishlistItem) => void;
 }
 
+type ExternalLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+	children?: React.ReactNode;
+};
+
+function MarkdownExternalLink({target, rel, ...props}: ExternalLinkProps): React.ReactElement {
+	return (
+		<a
+			{...props}
+			aria-label='external link'
+			target={target ?? "_blank"}
+			rel={rel ?? "noopener noreferrer"}
+		/>
+	);
+}
+
 export function WishlistItemComponent(props: WishlistItemComponentProps): React.ReactElement {
 	const allowedTags: string[] = [...(defaultSchema.tagNames || []), 'u', 'sub', 'sup'];
 	type ProgressField = (keyof WishlistItemDto)[];
@@ -459,6 +474,9 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 						<ReactMarkdown
 							remarkPlugins={[remarkGfm]}
 							rehypePlugins={[rehypeRaw, [rehypeSanitize, {tagNames: allowedTags}]]}
+							components={{
+								a: MarkdownExternalLink,
+							}}
 						>
 							{props.item.description}
 						</ReactMarkdown>
