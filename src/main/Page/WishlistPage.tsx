@@ -100,7 +100,7 @@ export function WishlistPage(): React.ReactElement {
 		await executeAddWishlistItem({
 			name: t('unnamed'),
 			description: t('default-description'),
-			priority: Math.floor((Math.random() * 3) % 3) + 1,
+			priority: 0,
 			hidden: false
 		});
 	}

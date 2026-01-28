@@ -58,6 +58,7 @@
 	"password-settings": "Ustawienia zabezpieczeń",
 	"passwords-not-equal": "Hasła są różne",
 	"priority": "Priorytet",
+	"priority-description-unknown": "Nieznany",
 	"priority-description-high": "Wysoki",
 	"priority-description-low": "Niski",
 	"priority-description-medium": "Średni",

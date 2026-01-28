@@ -58,6 +58,7 @@
 	"password-settings": "Password settings",
 	"passwords-not-equal": "Passwords are not equal",
 	"priority": "Priority",
+	"priority-description-unknown": "Unknown",
 	"priority-description-high": "High",
 	"priority-description-low": "Low",
 	"priority-description-medium": "Medium",
