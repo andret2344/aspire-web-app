@@ -440,6 +440,5 @@ describe('WishlistItemComponent', (): void => {
 		expect(link).toHaveAttribute('target', '_blank');
 		expect(link).toHaveAttribute('rel', 'noopener noreferrer');
 		expect(link).toHaveAttribute('href', 'https://example.com');
-		expect(link).toHaveAttribute('aria-label', 'external link');
 	});
 });

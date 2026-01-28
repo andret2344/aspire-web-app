@@ -53,14 +53,15 @@ type ExternalLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 	children?: React.ReactNode;
 };
 
-function MarkdownExternalLink({target, rel, ...props}: ExternalLinkProps): React.ReactElement {
+function MarkdownExternalLink({children, target, rel, ...props}: ExternalLinkProps): React.ReactElement {
 	return (
 		<a
 			{...props}
-			aria-label='external link'
-			target={target ?? "_blank"}
-			rel={rel ?? "noopener noreferrer"}
-		/>
+			target={target ?? '_blank'}
+			rel={rel ?? 'noopener noreferrer'}
+		>
+			{children}
+		</a>
 	);
 }
 
@@ -475,7 +476,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 							remarkPlugins={[remarkGfm]}
 							rehypePlugins={[rehypeRaw, [rehypeSanitize, {tagNames: allowedTags}]]}
 							components={{
-								a: MarkdownExternalLink,
+								a: MarkdownExternalLink
 							}}
 						>
 							{props.item.description}
