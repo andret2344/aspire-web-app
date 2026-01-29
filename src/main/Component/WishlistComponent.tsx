@@ -3,6 +3,9 @@ import {useTranslation} from 'react-i18next';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {useSnackbar} from 'notistack';
 import DeleteIcon from '@mui/icons-material/Delete';
+import KeyIcon from '@mui/icons-material/Key';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import ShareIcon from '@mui/icons-material/Share';
 import {Box, Grid, IconButton, Theme, Tooltip, Typography} from '@mui/material';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
@@ -14,10 +17,7 @@ import {getThemeColor} from '@util/theme';
 import {appPaths} from '../AppRoutes';
 import {EditableNameComponent} from './EditableNameComponent';
 import {DeleteWishlistModal} from './Modals/DeleteWishlistModal';
-import LockIcon from '@mui/icons-material/Lock';
 import {WishlistSetupPasswordModal} from './Modals/WishlistSetupPasswordModal';
-import KeyIcon from '@mui/icons-material/Key';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 interface WishlistComponentProps {
 	readonly wishlist: WishList;
@@ -45,27 +45,33 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	}
 
 	function renderPasswordIcon(): React.ReactElement {
-		return <Tooltip title={t('set-wishlist-password')}>
-			<KeyIcon data-testid='icon-key' />
-		</Tooltip>;
+		return (
+			<Tooltip title={t('set-wishlist-password')}>
+				<KeyIcon data-testid='icon-key' />
+			</Tooltip>
+		);
 	}
 
 	function renderLockIcon(): React.ReactElement {
 		if (props.wishlist.hasPassword) {
-			return <Tooltip title={t('access-code-set')}>
-				<LockIcon
-					fontSize='small'
-					data-testid='icon-lock'
-				/>
-			</Tooltip>;
+			return (
+				<Tooltip title={t('access-code-set')}>
+					<LockIcon
+						fontSize='small'
+						data-testid='icon-lock'
+					/>
+				</Tooltip>
+			);
 		}
-		return <Tooltip title={t('access-code-not-set')}>
-			<LockOpenIcon
-				data-testid='icon-lock-open'
-				fontSize='small'
-				color='disabled'
-			/>
-		</Tooltip>;
+		return (
+			<Tooltip title={t('access-code-not-set')}>
+				<LockOpenIcon
+					data-testid='icon-lock-open'
+					fontSize='small'
+					color='disabled'
+				/>
+			</Tooltip>
+		);
 	}
 
 	async function handleNameChange(name: string): Promise<string> {
@@ -160,9 +166,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 
 	function renderShareIcon(): React.ReactElement {
 		if (user?.isVerified) {
-			return <Tooltip title={t('copy-wishlist-url')}>
-				{renderShareIconButton(false)}
-			</Tooltip>;
+			return <Tooltip title={t('copy-wishlist-url')}>{renderShareIconButton(false)}</Tooltip>;
 		}
 		return (
 			<Tooltip

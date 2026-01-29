@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Link, NavigateFunction, useNavigate} from 'react-router-dom';
-import {ListAlt, Logout, Settings, NavigateNext, NavigateBefore} from '@mui/icons-material';
+import {ListAlt, Logout, NavigateBefore, NavigateNext, Settings} from '@mui/icons-material';
 import {
 	Box,
 	Button,
@@ -13,9 +13,9 @@ import {
 	ListItemIcon,
 	ListItemText
 } from '@mui/material';
+import {AspireModal} from '@component/Modals/AspireModal';
 import {logout} from '@service/AuthService';
 import {appPaths} from '../AppRoutes';
-import {AspireModal} from '@component/Modals/AspireModal';
 
 export const WIDTH_DRAWER_OPENED: number = 240;
 export const WIDTH_DRAWER_CLOSED: number = 60;
