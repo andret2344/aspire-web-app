@@ -57,7 +57,7 @@ describe('NavDrawer', (): void => {
 		expect(handleToggle).toHaveBeenCalledTimes(1);
 	});
 
-	test('logout', async (): Promise<void> => {
+	test('logout with confirmation', async (): Promise<void> => {
 		// arrange
 		renderForTest(
 			<NavDrawer
@@ -70,9 +70,43 @@ describe('NavDrawer', (): void => {
 		const menuItemLogout: HTMLElement = screen.getByTestId('nav-drawer-item-logout');
 		await user.click(menuItemLogout);
 
+		// assert - modal should be opened, logout not called yet
+		expect(screen.getByText('log-out-confirm')).toBeInTheDocument();
+		expect(mockedLogout).toHaveBeenCalledTimes(0);
+
+		// act - confirm logout
+		const confirmButton: HTMLElement = screen.getByTestId('button-save');
+		await user.click(confirmButton);
+
 		// assert
 		expect(mockedLogout).toHaveBeenCalledTimes(1);
 		expect(mockedNavigate).toHaveBeenCalledTimes(1);
 		expect(mockedNavigate).toHaveBeenCalledWith('/');
+	});
+
+	test('logout with cancellation', async (): Promise<void> => {
+		// arrange
+		renderForTest(
+			<NavDrawer
+				open={true}
+				onToggle={(): void => undefined}
+			/>
+		);
+
+		// act
+		const menuItemLogout: HTMLElement = screen.getByTestId('nav-drawer-item-logout');
+		await user.click(menuItemLogout);
+
+		// assert - modal should be opened
+		expect(screen.getByText('log-out-confirm')).toBeInTheDocument();
+
+		// act - cancel logout
+		const cancelButton: HTMLElement = screen.getByTestId('button-cancel');
+		await user.click(cancelButton);
+
+		// assert - modal should be closed, logout not called
+		expect(screen.queryByText('log-out-confirm')).not.toBeInTheDocument();
+		expect(mockedLogout).toHaveBeenCalledTimes(0);
+		expect(mockedNavigate).toHaveBeenCalledTimes(0);
 	});
 });

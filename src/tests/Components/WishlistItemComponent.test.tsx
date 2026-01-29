@@ -225,7 +225,7 @@ describe('WishlistItemComponent', (): void => {
 			);
 		});
 
-		it('handles visibility icon click to expand the description', async (): Promise<void> => {
+		it('handles visibility icon click without password', async (): Promise<void> => {
 			// arrange
 			const handleEditClick: jest.Mock = jest.fn();
 			mockedUpdateWishlistItem.mockResolvedValue(void 0);
@@ -242,10 +242,10 @@ describe('WishlistItemComponent', (): void => {
 			// act
 			const iconVisible: HTMLElement = screen.getByTestId('item-visible-icon');
 			await user.click(iconVisible);
-			const wishlistItemDescription: HTMLElement = screen.getByText('Item description');
+			const wishlistItemDescription: HTMLElement | null = screen.queryByText('Item description');
 
 			// assert
-			expect(wishlistItemDescription).toBeInTheDocument();
+			expect(wishlistItemDescription).toBeNull();
 			expect(handleEditClick).toHaveBeenCalledTimes(0);
 		});
 	});
@@ -440,5 +440,75 @@ describe('WishlistItemComponent', (): void => {
 		expect(link).toHaveAttribute('target', '_blank');
 		expect(link).toHaveAttribute('rel', 'noopener noreferrer');
 		expect(link).toHaveAttribute('href', 'https://example.com');
+	});
+
+	it('renders external links with custom target and rel', async (): Promise<void> => {
+		// arrange
+		renderForTest(
+			<WishlistItemComponent
+				item={getSampleWishlistItem({
+					description: '<a href="https://example.com" target="_self" rel="nofollow">Custom Link</a>'
+				})}
+				wishlist={getSampleWishlist()}
+				position={1}
+			/>
+		);
+
+		// act
+		const itemRow: HTMLElement = screen.getByTestId('wishlist-item-row-grid-1-1');
+		await user.click(itemRow);
+		const link: HTMLAnchorElement = await screen.findByText('Custom Link');
+
+		// assert
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute('target', '_self');
+		expect(link).toHaveAttribute('rel', 'nofollow');
+		expect(link).toHaveAttribute('href', 'https://example.com');
+	});
+
+	it('opens priority menu on mobile', async (): Promise<void> => {
+		// arrange
+		mockedUseMediaQuery.mockReturnValue(true);
+		renderForTest(
+			<WishlistItemComponent
+				item={getSampleWishlistItem()}
+				wishlist={getSampleWishlist()}
+				position={1}
+				onEdit={(): void => undefined}
+				onRemove={(): void => undefined}
+			/>
+		);
+
+		// act
+		const buttonMore: HTMLElement = screen.getByTestId('wishlist-item-button-more');
+		await user.click(buttonMore);
+
+		// assert
+		const priorityMenuItem: HTMLElement = screen.getByText(/Priority:/);
+		expect(priorityMenuItem).toBeInTheDocument();
+	});
+
+	it('handles item with unknown priority in mobile menu', async (): Promise<void> => {
+		// arrange
+		mockedUseMediaQuery.mockReturnValue(true);
+		renderForTest(
+			<WishlistItemComponent
+				item={getSampleWishlistItem({
+					priority: 999
+				})}
+				wishlist={getSampleWishlist()}
+				position={1}
+				onEdit={(): void => undefined}
+				onRemove={(): void => undefined}
+			/>
+		);
+
+		// act
+		const buttonMore: HTMLElement = screen.getByTestId('wishlist-item-button-more');
+		await user.click(buttonMore);
+
+		// assert
+		const priorityMenuItem: HTMLElement = screen.getByText('Priority:');
+		expect(priorityMenuItem).toBeInTheDocument();
 	});
 });
