@@ -1,5 +1,6 @@
 import {createTheme, Theme, ThemeOptions} from '@mui/material';
 
+const PRIORITY_COLOR_UNKNOWN = 'rgba(100, 100, 100, 1)';
 const PRIORITY_COLOR_HIGH = 'rgba(255, 99, 71, 1)';
 const PRIORITY_COLOR_MEDIUM = 'rgba(255, 255, 0, 1)';
 const PRIORITY_COLOR_LOW = 'rgba(0, 255, 0, 1)';
@@ -7,6 +8,7 @@ const PRIORITY_COLOR_LOW = 'rgba(0, 255, 0, 1)';
 const priorityColors: {
 	[key: number]: string;
 } = {
+	0: PRIORITY_COLOR_UNKNOWN,
 	1: PRIORITY_COLOR_HIGH,
 	2: PRIORITY_COLOR_MEDIUM,
 	3: PRIORITY_COLOR_LOW

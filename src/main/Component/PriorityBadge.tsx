@@ -43,7 +43,7 @@ export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
 					alignItems: 'center'
 				}}
 			>
-				{priority.value}
+				{priority.label}
 			</Typography>
 		</Tooltip>
 	);

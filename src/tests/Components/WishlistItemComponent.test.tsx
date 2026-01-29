@@ -417,4 +417,28 @@ describe('WishlistItemComponent', (): void => {
 		expect(handleDuplicateClick).toHaveBeenCalledTimes(1);
 		expect(handleDuplicateClick).toHaveBeenCalledWith(getSampleWishlistItem());
 	});
+
+	it('renders external links with default security attributes', async (): Promise<void> => {
+		// arrange
+		renderForTest(
+			<WishlistItemComponent
+				item={getSampleWishlistItem({
+					description: 'Check out [Example Link](https://example.com)'
+				})}
+				wishlist={getSampleWishlist()}
+				position={1}
+			/>
+		);
+
+		// act
+		const itemRow: HTMLElement = screen.getByTestId('wishlist-item-row-grid-1-1');
+		await user.click(itemRow);
+		const link: HTMLAnchorElement = await screen.findByText('Example Link');
+
+		// assert
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute('target', '_blank');
+		expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+		expect(link).toHaveAttribute('href', 'https://example.com');
+	});
 });
