@@ -1,12 +1,12 @@
 import React from 'react';
 
+type AnchorType = React.ComponentType<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
+
 type MarkdownProps = {
 	children?: React.ReactNode;
 	components?: {
-		// biome-ignore lint/suspicious/noExplicitAny: Required
-		a?: React.ComponentType<any>;
-		// biome-ignore lint/suspicious/noExplicitAny: Required
-		[key: string]: React.ComponentType<any> | undefined;
+		a?: AnchorType;
+		[key: string]: AnchorType | undefined;
 	};
 };
 
@@ -15,7 +15,7 @@ export default (props: MarkdownProps): React.ReactElement => {
 	const linkMatch = content.match(/\[([^\]]+)]\(([^)]+)\)/);
 
 	if (linkMatch && props.components?.a) {
-		const LinkComponent = props.components.a;
+		const LinkComponent: AnchorType = props.components.a;
 		const [, text, url] = linkMatch;
 		return (
 			<div data-testid='mock-react-markdown'>
