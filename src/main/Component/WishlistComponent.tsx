@@ -3,8 +3,9 @@ import {useTranslation} from 'react-i18next';
 import {NavigateFunction, useNavigate} from 'react-router-dom';
 import {useSnackbar} from 'notistack';
 import DeleteIcon from '@mui/icons-material/Delete';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import KeyIcon from '@mui/icons-material/Key';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import ShareIcon from '@mui/icons-material/Share';
 import {Box, Grid, IconButton, Theme, Tooltip, Typography} from '@mui/material';
 import {SystemStyleObject} from '@mui/system/styleFunctionSx/styleFunctionSx';
@@ -44,10 +45,33 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	}
 
 	function renderPasswordIcon(): React.ReactElement {
-		if (!props.wishlist.hasPassword) {
-			return <LockOpenOutlinedIcon data-testid='icon-lock-open' />;
+		return (
+			<Tooltip title={t('set-wishlist-password')}>
+				<KeyIcon data-testid='icon-key' />
+			</Tooltip>
+		);
+	}
+
+	function renderLockIcon(): React.ReactElement {
+		if (props.wishlist.hasPassword) {
+			return (
+				<Tooltip title={t('access-code-set')}>
+					<LockIcon
+						fontSize='small'
+						data-testid='icon-lock'
+					/>
+				</Tooltip>
+			);
 		}
-		return <LockOutlinedIcon data-testid='icon-lock' />;
+		return (
+			<Tooltip title={t('access-code-not-set')}>
+				<LockOpenIcon
+					data-testid='icon-lock-open'
+					fontSize='small'
+					color='disabled'
+				/>
+			</Tooltip>
+		);
 	}
 
 	async function handleNameChange(name: string): Promise<string> {
@@ -142,7 +166,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 
 	function renderShareIcon(): React.ReactElement {
 		if (user?.isVerified) {
-			return renderShareIconButton(false);
+			return <Tooltip title={t('copy-wishlist-url')}>{renderShareIconButton(false)}</Tooltip>;
 		}
 		return (
 			<Tooltip
@@ -201,6 +225,13 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 					</Typography>
 				</Grid>
 				<Grid
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
+				>
+					{renderLockIcon()}
+				</Grid>
+				<Grid
 					size='grow'
 					sx={{
 						whiteSpace: 'nowrap',
@@ -240,13 +271,15 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 					justifyContent='center'
 					alignItems='center'
 				>
-					<IconButton
-						onClick={handleDeleteIconClick}
-						size='large'
-						data-testid={`delete-wishlist-${props.wishlist.id}`}
-					>
-						<DeleteIcon />
-					</IconButton>
+					<Tooltip title={t('delete')}>
+						<IconButton
+							onClick={handleDeleteIconClick}
+							size='large'
+							data-testid={`delete-wishlist-${props.wishlist.id}`}
+						>
+							<DeleteIcon />
+						</IconButton>
+					</Tooltip>
 				</Grid>
 			</Grid>
 			<WishlistSetupPasswordModal

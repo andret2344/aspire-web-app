@@ -21,6 +21,7 @@ import {
 	Menu,
 	MenuItem,
 	Theme,
+	Tooltip,
 	Typography,
 	useMediaQuery,
 	useTheme
@@ -87,8 +88,8 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 	}
 
 	function handleVisibilityClick(event: React.MouseEvent): void {
+		event.stopPropagation();
 		if (props.wishlist.hasPassword) {
-			event.stopPropagation();
 			handleItemUpdate(props.item.id, 'hidden', !props.item.hidden);
 		}
 	}
@@ -230,21 +231,25 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 		}
 		if (props.item.hidden) {
 			return (
-				<IconButton
-					onClick={handleVisibilityClick}
-					data-testid='item-hidden-icon'
-				>
-					<VisibilityOffOutlinedIcon />
-				</IconButton>
+				<Tooltip title={t('unhide-item')}>
+					<IconButton
+						onClick={handleVisibilityClick}
+						data-testid='item-hidden-icon'
+					>
+						<VisibilityOffOutlinedIcon />
+					</IconButton>
+				</Tooltip>
 			);
 		}
 		return (
-			<IconButton
-				onClick={handleVisibilityClick}
-				data-testid='item-visible-icon'
-			>
-				<VisibilityIcon />
-			</IconButton>
+			<Tooltip title={t(props.wishlist.hasPassword ? 'hide-item' : 'set-wishlist-password-first')}>
+				<IconButton
+					onClick={handleVisibilityClick}
+					data-testid='item-visible-icon'
+				>
+					<VisibilityIcon />
+				</IconButton>
+			</Tooltip>
 		);
 	}
 
