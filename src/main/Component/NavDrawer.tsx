@@ -97,7 +97,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 
 					<ListItemButton
 						component={Link}
-						to='/wishlists'
+						to={appPaths.wishlists}
 					>
 						<ListItemIcon>
 							<ListAlt />
@@ -107,7 +107,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 
 					<ListItemButton
 						component={Link}
-						to='/profile'
+						to={appPaths.profile}
 						data-testid='nav-drawer-item-profile'
 					>
 						<ListItemIcon>
@@ -118,7 +118,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 
 					<ListItemButton
 						component={Link}
-						to='/faq'
+						to={appPaths.faq}
 						data-testid='nav-drawer-item-faq'
 					>
 						<ListItemIcon>
