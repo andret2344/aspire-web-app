@@ -47,20 +47,20 @@ export function NewPasswordPage(): React.ReactElement {
 		if (data.password !== data.passwordRepeat) {
 			setError('passwordRepeat', {
 				type: 'manual',
-				message: t('passwords-not-equal')
+				message: t('auth.passwords-not-equal')
 			});
 			return;
 		}
 
 		resetPassword(data.password, data.passwordRepeat, params.token)
 			.then((): void => {
-				enqueueSnackbar('password-changed', {
+				enqueueSnackbar(t('messages.password-changed'), {
 					variant: 'success'
 				});
 				navigate(appPaths.login);
 			})
 			.catch((): void => {
-				enqueueSnackbar('something-went-wrong', {
+				enqueueSnackbar(t('common.something-went-wrong'), {
 					variant: 'error'
 				});
 			});
@@ -108,7 +108,7 @@ export function NewPasswordPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={t('password')}
+					placeholder={t('auth.password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
@@ -146,7 +146,7 @@ export function NewPasswordPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={t('repeat-password')}
+					placeholder={t('auth.repeat-password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
@@ -165,7 +165,7 @@ export function NewPasswordPage(): React.ReactElement {
 					}}
 					type='submit'
 				>
-					{t('change-password')}
+					{t('auth.change-password')}
 				</Button>
 			</form>
 		</AuthContainer>

@@ -17,8 +17,7 @@ export function WishlistListPage(): React.ReactElement {
 	const [isAddWishlistModalOpened, setIsAddWishlistModalOpened] = React.useState<boolean>(false);
 
 	const navigate: NavigateFunction = useNavigate();
-	const {t: tMessages} = useTranslation('messages');
-	const {t: tWishlist} = useTranslation('wishlist');
+	const {t} = useTranslation();
 	const {enqueueSnackbar} = useSnackbar();
 
 	React.useEffect((): void => {
@@ -26,7 +25,7 @@ export function WishlistListPage(): React.ReactElement {
 			.then(mapWishlistArrayFromDto)
 			.then(setWishlists)
 			.catch((): void => {
-				enqueueSnackbar(tMessages('something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				});
 				navigate(appPaths.error, {replace: true});
@@ -85,7 +84,7 @@ export function WishlistListPage(): React.ReactElement {
 	function addNewWishlist(newWishlist: WishList): void {
 		setWishlists((prevWishlists: WishList[]): WishList[] => [...prevWishlists, newWishlist]);
 		setIsAddWishlistModalOpened(false);
-		enqueueSnackbar(tMessages('wishlist-created'), {
+		enqueueSnackbar(t('messages.wishlist-created'), {
 			variant: 'success'
 		});
 	}
@@ -121,7 +120,7 @@ export function WishlistListPage(): React.ReactElement {
 						paddingBottom: '3rem'
 					}}
 				>
-					<AddButton onClick={handleAddClick}>{tWishlist('add-new-wishlist')}</AddButton>
+					<AddButton onClick={handleAddClick}>{t('wishlist.add-new-wishlist')}</AddButton>
 				</Grid>
 			</Grid>
 			<CreateWishlistModal

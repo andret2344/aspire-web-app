@@ -13,7 +13,7 @@ import {appPaths} from '../AppRoutes';
 export function AppLayout(): React.ReactElement {
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
 	const {user, loaded} = useUserData();
-	const {t: tAuth} = useTranslation('auth');
+	const {t} = useTranslation();
 
 	const {tokenLoading, tokenValid} = useTokenValidation();
 	const navigate: NavigateFunction = useNavigate();
@@ -63,7 +63,7 @@ export function AppLayout(): React.ReactElement {
 					noWrap
 					fontWeight={700}
 				>
-					{tAuth('email-not-verified')}&nbsp;
+					{t('auth.email-not-verified')}&nbsp;
 				</Typography>
 				<Typography
 					sx={{
@@ -75,7 +75,7 @@ export function AppLayout(): React.ReactElement {
 					onClick={handleVerifyClick}
 					fontWeight={700}
 				>
-					{tAuth('verify')}
+					{t('auth.verify')}
 				</Typography>
 			</Box>
 		);

@@ -15,8 +15,7 @@ export function CreateWishlistModal(props: WishlistModalProps): React.ReactEleme
 	const [wishlistName, setWishlistName] = React.useState<string>('');
 
 	const theme: Theme = useTheme();
-	const {t: tWishlist} = useTranslation('wishlist');
-	const {t: tCommon} = useTranslation('common');
+	const {t} = useTranslation();
 	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 
 	function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -35,13 +34,13 @@ export function CreateWishlistModal(props: WishlistModalProps): React.ReactEleme
 			data-testid='add-wishlist-modal'
 			onClose={props.onClose}
 			open={props.open}
-			title={tWishlist('enter-wishlist-name')}
+			title={t('wishlist.enter-wishlist-name')}
 			onSubmit={handleSubmit}
 		>
 			<TextField
 				data-testid='input-wishlist-name'
 				id='demo-helper-text-misaligned-no-helper'
-				label={tCommon('name')}
+				label={t('common.name')}
 				value={wishlistName}
 				onChange={handleNameChange}
 				size={isMobile ? 'small' : 'medium'}
@@ -68,7 +67,7 @@ export function CreateWishlistModal(props: WishlistModalProps): React.ReactEleme
 					}}
 					onClick={props.onClose}
 				>
-					{tCommon('cancel')}
+					{t('common.cancel')}
 				</Button>
 				<Button
 					data-testid='button-save'
@@ -80,7 +79,7 @@ export function CreateWishlistModal(props: WishlistModalProps): React.ReactEleme
 					}}
 					type='submit'
 				>
-					{tCommon('save')}
+					{t('common.save')}
 				</Button>
 			</Box>
 		</AspireModal>

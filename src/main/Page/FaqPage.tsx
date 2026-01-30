@@ -40,7 +40,7 @@ export function FaqPage(): React.ReactElement {
 					py: '2.5rem'
 				}}
 			>
-				{t('faq-title')}
+				{faq('description')}
 			</Typography>
 			<Box
 				sx={{

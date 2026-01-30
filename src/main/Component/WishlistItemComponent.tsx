@@ -111,7 +111,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 
 	async function handleNameChange(name: string): Promise<string> {
 		const value: string = await handleItemUpdate(props.item.id, 'name', name);
-		enqueueSnackbar(t('item-updated'), {
+		enqueueSnackbar(t('wishlist.item-updated'), {
 			variant: 'success'
 		});
 		return value;
@@ -143,12 +143,12 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 		removeWishlistItem(props.wishlist.id, props.item.id)
 			.then((): void => {
 				props.onRemove!(props.item.id);
-				enqueueSnackbar(t('item-removed'), {
+				enqueueSnackbar(t('wishlist.item-removed'), {
 					variant: 'success'
 				});
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('common.something-went-wrong'), {
 					variant: 'error'
 				})
 			);
@@ -231,7 +231,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 		}
 		if (props.item.hidden) {
 			return (
-				<Tooltip title={t('unhide-item')}>
+				<Tooltip title={t('wishlist.unhide-item')}>
 					<IconButton
 						onClick={handleVisibilityClick}
 						data-testid='item-hidden-icon'
@@ -242,7 +242,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 			);
 		}
 		return (
-			<Tooltip title={t(props.wishlist.hasPassword ? 'hide-item' : 'set-wishlist-password-first')}>
+			<Tooltip title={t(props.wishlist.hasPassword ? 'wishlist.hide-item' : 'wishlist.set-wishlist-password-first')}>
 				<IconButton
 					onClick={handleVisibilityClick}
 					data-testid='item-visible-icon'
@@ -280,7 +280,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 					<ListItemIcon>{renderPriorityChip()}</ListItemIcon>
 					<ListItemText>
 						Priority:&nbsp;
-						{t(priority?.descriptionKey ?? '')}
+						{t(priority?.descriptionKey ? `wishlist.${priority.descriptionKey}` : '')}
 					</ListItemText>
 				</MenuItem>
 			</Condition>
@@ -298,7 +298,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 					value={priority.value}
 					data-testid={`priority-menu-item-${priority.value}`}
 				/>
-				&nbsp;-&nbsp;{t(priority.descriptionKey)}
+				&nbsp;-&nbsp;{t(`wishlist.${priority.descriptionKey}`)}
 			</MenuItem>
 		);
 	}
@@ -364,7 +364,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 					<ListItemIcon>
 						<ContentCopyIcon data-testid='menu-item-duplicate' />
 					</ListItemIcon>
-					<ListItemText>{t('duplicate')}</ListItemText>
+					<ListItemText>{t('common.duplicate')}</ListItemText>
 				</MenuItem>
 			</Condition>
 		);

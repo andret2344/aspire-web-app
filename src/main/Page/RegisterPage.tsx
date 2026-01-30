@@ -33,8 +33,7 @@ export function RegisterPage(): React.ReactElement {
 
 	const theme: Theme = useTheme();
 	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
-	const {t: tAuth} = useTranslation('auth');
-	const {t: tMessages} = useTranslation('messages');
+	const {t} = useTranslation();
 	const navigate: NavigateFunction = useNavigate();
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -57,7 +56,7 @@ export function RegisterPage(): React.ReactElement {
 		if (data.password !== data.passwordRepeat) {
 			setError('passwordRepeat', {
 				type: 'manual',
-				message: tAuth('passwords-not-equal')
+				message: t('auth.passwords-not-equal')
 			});
 			navigate(appPaths.register);
 			return;
@@ -66,7 +65,7 @@ export function RegisterPage(): React.ReactElement {
 		signUp(data.email, data.password)
 			.then((): void => {
 				navigate(appPaths.login);
-				enqueueSnackbar(tMessages('account-created'), {
+				enqueueSnackbar(t('messages.account-created'), {
 					variant: 'success'
 				});
 			})
@@ -105,7 +104,7 @@ export function RegisterPage(): React.ReactElement {
 					required
 					hiddenLabel
 					variant='filled'
-					placeholder={`${tAuth('email-address')}`}
+					placeholder={`${t('auth.email-address')}`}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -147,7 +146,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={tAuth('password')}
+					placeholder={t('auth.password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -187,7 +186,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={tAuth('repeat-password')}
+					placeholder={t('auth.repeat-password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -205,7 +204,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					type='submit'
 				>
-					{tAuth('create-account')}
+					{t('auth.create-account')}
 				</Button>
 				<Box
 					mt='10px'
@@ -220,7 +219,7 @@ export function RegisterPage(): React.ReactElement {
 							fontWeight: 400
 						}}
 					>
-						{tAuth('already-have-account')}
+						{t('auth.already-have-account')}
 					</Typography>
 					<Link
 						component={Anchor}
@@ -233,7 +232,7 @@ export function RegisterPage(): React.ReactElement {
 							textDecoration: 'underline'
 						}}
 					>
-						{tAuth('sign-in')}
+						{t('auth.sign-in')}
 					</Link>
 				</Box>
 			</form>

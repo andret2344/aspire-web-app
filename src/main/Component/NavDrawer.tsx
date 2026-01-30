@@ -28,9 +28,7 @@ interface NavDrawerProps {
 }
 
 export function NavDrawer(props: NavDrawerProps): React.ReactElement {
-	const {t: tNav} = useTranslation('navigation');
-	const {t: tCommon} = useTranslation('common');
-	const {t: tAuth} = useTranslation('auth');
+	const {t} = useTranslation();
 	const navigate: NavigateFunction = useNavigate();
 	const width: number = props.open ? WIDTH_DRAWER_OPENED : WIDTH_DRAWER_CLOSED;
 	const [isModalOpened, setIsModalOpened] = React.useState<boolean>(false);
@@ -107,7 +105,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<ListAlt />
 						</ListItemIcon>
-						{renderListItemText(tNav('wishlists'))}
+						{renderListItemText(t('navigation.wishlists'))}
 					</ListItemButton>
 
 					<ListItemButton
@@ -118,7 +116,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<Settings />
 						</ListItemIcon>
-						{renderListItemText(tNav('settings'))}
+						{renderListItemText(t('navigation.settings'))}
 					</ListItemButton>
 
 					<ListItemButton
@@ -129,7 +127,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<HelpOutline />
 						</ListItemIcon>
-						{renderListItemText(tNav('faq'))}
+						{renderListItemText(t('navigation.faq'))}
 					</ListItemButton>
 				</List>
 
@@ -143,17 +141,17 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<Logout color='error' />
 						</ListItemIcon>
-						{renderListItemText(tNav('log-out'), theme.palette.error.main)}
+						{renderListItemText(t('navigation.log-out'), theme.palette.error.main)}
 					</ListItemButton>
 				</List>
 			</Drawer>
 			<AspireModal
-				title={tNav('log-out')}
+				title={t('navigation.log-out')}
 				open={isModalOpened}
 				onClose={handleLogoutCancel}
 				onSubmit={handleLogoutConfirm}
 			>
-				{tAuth('log-out-confirm')}
+				{t('auth.log-out-confirm')}
 				<Box
 					sx={{
 						display: 'flex',
@@ -172,7 +170,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						}}
 						onClick={handleLogoutCancel}
 					>
-						{tCommon('cancel')}
+						{t('common.cancel')}
 					</Button>
 					<Button
 						data-testid='button-save'
@@ -183,7 +181,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						}}
 						type='submit'
 					>
-						{tNav('log-out')}
+						{t('navigation.log-out')}
 					</Button>
 				</Box>
 			</AspireModal>

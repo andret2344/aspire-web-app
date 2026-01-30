@@ -42,14 +42,14 @@ export function WishlistSetupPasswordModal(props: WishlistSetupPasswordModalProp
 
 	function getTooltipInfoKey(): string {
 		if (props.wishlist.hasPassword) {
-			return 'access-code-clear-tooltip-enabled';
+			return 'wishlist.access-code-clear-tooltip-enabled';
 		}
-		return 'access-code-clear-tooltip-disabled';
+		return 'wishlist.access-code-clear-tooltip-disabled';
 	}
 
 	return (
 		<AspireModal
-			title={t('set-wishlist-password')}
+			title={t('wishlist.set-wishlist-password')}
 			open={props.open}
 			onClose={handleCancelButton}
 		>
@@ -83,7 +83,7 @@ export function WishlistSetupPasswordModal(props: WishlistSetupPasswordModalProp
 				}}
 				hiddenLabel
 				variant='filled'
-				placeholder={t('password')}
+				placeholder={t('auth.password')}
 				onChange={handlePasswordChange}
 				sx={{
 					width: {
@@ -104,7 +104,7 @@ export function WishlistSetupPasswordModal(props: WishlistSetupPasswordModalProp
 					color='error'
 					variant='outlined'
 				>
-					{t('cancel')}
+					{t('common.cancel')}
 				</Button>
 				<Tooltip title={t(getTooltipInfoKey())}>
 					<span>
@@ -116,7 +116,7 @@ export function WishlistSetupPasswordModal(props: WishlistSetupPasswordModalProp
 							variant='contained'
 							endIcon={<InfoOutlineIcon />}
 						>
-							{t('clear')}
+							{t('common.clear')}
 						</Button>
 					</span>
 				</Tooltip>
@@ -126,7 +126,7 @@ export function WishlistSetupPasswordModal(props: WishlistSetupPasswordModalProp
 					disabled={!password}
 					variant='contained'
 				>
-					{t('confirm')}
+					{t('common.confirm')}
 				</Button>
 			</Stack>
 		</AspireModal>

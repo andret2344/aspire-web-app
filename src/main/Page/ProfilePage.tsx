@@ -6,8 +6,8 @@ import {Box, Button, Grid, IconButton, InputAdornment, Paper, TextField, Typogra
 import {LanguagePicker} from '@component/LanguagePicker';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
 import {ToggleColorModeComponent} from '@component/ToggleColorModeComponent';
+import {useDarkMode} from '@context/DarkModeContext';
 import {changePassword} from '@service/AuthService';
-import {useDarkMode} from '../Context/DarkModeContext';
 
 export function ProfilePage(): React.ReactElement {
 	type Inputs = {
@@ -29,9 +29,7 @@ export function ProfilePage(): React.ReactElement {
 		setError,
 		formState: {errors}
 	} = useForm<Inputs>();
-	const {t: tProfile} = useTranslation('profile');
-	const {t: tAuth} = useTranslation('auth');
-	const {t: tMessages} = useTranslation('messages');
+	const {t} = useTranslation();
 
 	function handleClickShowPassword(): void {
 		setIsOldPasswordShown((prev: boolean): boolean => !prev);
@@ -49,20 +47,20 @@ export function ProfilePage(): React.ReactElement {
 		if (data.newPassword !== data.newPasswordConfirm) {
 			setError('newPasswordConfirm', {
 				type: 'manual',
-				message: tAuth('passwords-not-equal')
+				message: t('auth.passwords-not-equal')
 			});
 			return;
 		}
 
 		changePassword(data.currentPassword, data.newPassword, data.newPasswordConfirm)
 			.then((): void => {
-				enqueueSnackbar(`${tMessages('password-changed')}`, {
+				enqueueSnackbar(`${t('messages.password-changed')}`, {
 					variant: 'success'
 				});
 				reset();
 			})
 			.catch((): void => {
-				enqueueSnackbar(tMessages('password-invalid'), {
+				enqueueSnackbar(t('messages.password-invalid'), {
 					variant: 'error'
 				});
 			});
@@ -124,7 +122,7 @@ export function ProfilePage(): React.ReactElement {
 										fontFamily: 'Montserrat'
 									}}
 								>
-									{tProfile('password-settings')}
+									{t('profile.password-settings')}
 								</Typography>
 							</Box>
 						</Box>
@@ -150,7 +148,7 @@ export function ProfilePage(): React.ReactElement {
 										marginBottom: '20px'
 									}}
 									id='password'
-									placeholder={tAuth('current-password')}
+									placeholder={t('auth.current-password')}
 									type={isOldPasswordShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
@@ -184,7 +182,7 @@ export function ProfilePage(): React.ReactElement {
 										marginBottom: '20px'
 									}}
 									id='new-password'
-									placeholder={tAuth('new-password')}
+									placeholder={t('auth.new-password')}
 									type={isNewPasswordShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
@@ -220,7 +218,7 @@ export function ProfilePage(): React.ReactElement {
 										marginBottom: '20px'
 									}}
 									id='confirm-password'
-									placeholder={tAuth('confirm-password')}
+									placeholder={t('auth.confirm-password')}
 									type={isNewPasswordRepeatShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
@@ -259,7 +257,7 @@ export function ProfilePage(): React.ReactElement {
 									variant='contained'
 									type='submit'
 								>
-									{tAuth('change-password')}
+									{t('auth.change-password')}
 								</Button>
 							</form>
 						</Box>
@@ -289,7 +287,7 @@ export function ProfilePage(): React.ReactElement {
 										fontFamily: 'Montserrat'
 									}}
 								>
-									{tProfile('user-settings')}
+									{t('profile.user-settings')}
 								</Typography>
 							</Box>
 						</Box>
@@ -308,7 +306,7 @@ export function ProfilePage(): React.ReactElement {
 									fontFamily: 'Montserrat'
 								}}
 							>
-								{tProfile('change-theme-color')}:
+								{t('profile.change-theme-color')}:
 								<ToggleColorModeComponent
 									darkMode={darkMode}
 									toggleDarkMode={toggleDarkMode}
@@ -325,7 +323,7 @@ export function ProfilePage(): React.ReactElement {
 										fontFamily: 'Montserrat'
 									}}
 								>
-									{tProfile('change-language')}:
+									{t('profile.change-language')}:
 								</Typography>
 								<LanguagePicker />
 							</Box>
