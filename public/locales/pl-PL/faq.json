@@ -1,0 +1,45 @@
+{
+	"title": "FAQ",
+	"items": [
+		{
+			"q": "Ile mogę mieć list życzeń?",
+			"a": "Nie ma ograniczenia co do ilości list życzeń, ani ilości elementów w nich."
+		},
+		{
+			"q": "Czy można elementy listy życzeń ukryć?",
+			"a": "Tak, jednak wymaga to ustawienia kodu dostępu listy życzeń. Następnie wybrane elementy można ukryć, by były widoczne jedynie po wpisaniu tego kodu dostępu."
+		},
+		{
+			"q": "Czy kody dostępu muszą być takie same?",
+			"a": "Każda lista życzeń może mieć swój własny kod dostępu, jednak dotyczy on zawsze wszystkich ukrytych na niej elementów."
+		},
+		{
+			"q": "Nie mogę ukryć elementu na liście życzeń.",
+			"a": "Aby móc ukryć element, najpierw musi zostać ustawiony kod dostępu."
+		},
+		{
+			"q": "Czy kod dostępu ukrywa całą listę życzeń?",
+			"a": "Nie, kod dostępu umożliwia jedynie ukrycie wybranych elementów. Wszystkie pozostałe elementy są widoczne."
+		},
+		{
+			"q": "Czy moja lista życzeń jest publiczna?",
+			"a": "Dostęp do listy życzeń jest możliwy poprzez jej unikalny adres URL i każdy, kto go posiada, może listę życzeń zobaczyć."
+		},
+		{
+			"q": "Jak zmienić unikalny adres URL listy życzeń?",
+			"a": "Na chwilę obecną jedyną możliwością jest stworzenie nowej listy, gdyż adres URL zawiera unikalny identyfikator."
+		},
+		{
+			"q": "Usunąłem/Usunęłam listę życzeń lub jej element. Czy mogę go przywrócić?",
+			"a": "Opcja przywracania usuniętych list lub elementów nie jest obecnie dostępna."
+		},
+		{
+			"q": "Jaką funkcję pełni priorytet elementu listy życzeń?",
+			"a": "Priorytet pełni jedynie funkcję informacyjną dla odwiedzających. Nie wpływa on na nic w ramach listy życzeń."
+		},
+		{
+			"q": "Czy mogę posortować elementy lub zmienić ich kolejność?",
+			"a": "Elementy są ułożone w kolejności ich dodawania i obecnie nie ma możliwości zmiany tego zachowania."
+		}
+	]
+}

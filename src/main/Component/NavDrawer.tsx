@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Link, NavigateFunction, useNavigate} from 'react-router-dom';
-import {ListAlt, Logout, NavigateBefore, NavigateNext, Settings} from '@mui/icons-material';
+import {HelpOutline, ListAlt, Logout, NavigateBefore, NavigateNext, Settings} from '@mui/icons-material';
 import {
 	Box,
 	Button,
@@ -11,8 +11,10 @@ import {
 	List,
 	ListItemButton,
 	ListItemIcon,
-	ListItemText
+	ListItemText,
+	Theme
 } from '@mui/material';
+import {useTheme} from '@mui/material/styles';
 import {AspireModal} from '@component/Modals/AspireModal';
 import {logout} from '@service/AuthService';
 import {appPaths} from '../AppRoutes';
@@ -30,6 +32,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 	const navigate: NavigateFunction = useNavigate();
 	const width: number = props.open ? WIDTH_DRAWER_OPENED : WIDTH_DRAWER_CLOSED;
 	const [isModalOpened, setIsModalOpened] = React.useState<boolean>(false);
+	const theme: Theme = useTheme();
 
 	function handleLogoutCancel(): void {
 		setIsModalOpened(false);
@@ -51,11 +54,18 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 		return <NavigateNext />;
 	}
 
-	function renderListItemText(text: string): React.ReactElement {
+	function renderListItemText(text: string, color: string | undefined = undefined): React.ReactElement {
 		if (!props.open) {
 			return <></>;
 		}
-		return <ListItemText primary={text} />;
+		return (
+			<ListItemText
+				primary={text}
+				slotProps={{
+					primary: {color}
+				}}
+			/>
+		);
 	}
 
 	return (
@@ -87,7 +97,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 
 					<ListItemButton
 						component={Link}
-						to='/wishlists'
+						to={appPaths.wishlists}
 					>
 						<ListItemIcon>
 							<ListAlt />
@@ -97,13 +107,24 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 
 					<ListItemButton
 						component={Link}
-						to='/profile'
+						to={appPaths.profile}
 						data-testid='nav-drawer-item-profile'
 					>
 						<ListItemIcon>
 							<Settings />
 						</ListItemIcon>
 						{renderListItemText(t('settings'))}
+					</ListItemButton>
+
+					<ListItemButton
+						component={Link}
+						to={appPaths.faq}
+						data-testid='nav-drawer-item-faq'
+					>
+						<ListItemIcon>
+							<HelpOutline />
+						</ListItemIcon>
+						{renderListItemText(t('faq'))}
 					</ListItemButton>
 				</List>
 
@@ -115,9 +136,9 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						data-testid='nav-drawer-item-logout'
 					>
 						<ListItemIcon>
-							<Logout />
+							<Logout color='error' />
 						</ListItemIcon>
-						{renderListItemText(t('log-out'))}
+						{renderListItemText(t('log-out'), theme.palette.error.main)}
 					</ListItemButton>
 				</List>
 			</Drawer>

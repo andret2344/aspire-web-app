@@ -102,7 +102,7 @@ export function WishlistListPage(): React.ReactElement {
 			data-testid='wishlist-list-page-grid-main'
 			sx={{
 				flexGrow: 1,
-				paddingTop: '56px'
+				paddingTop: '3.5rem'
 			}}
 			container
 		>

@@ -74,7 +74,7 @@ export function ProfilePage(): React.ReactElement {
 			container
 			columnSpacing={2}
 			sx={{
-				paddingTop: '56px'
+				paddingTop: '3.5rem'
 			}}
 		>
 			<Grid

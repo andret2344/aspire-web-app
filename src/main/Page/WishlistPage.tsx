@@ -113,7 +113,7 @@ export function WishlistPage(): React.ReactElement {
 				flexGrow: 1,
 				height: '100vh',
 				overflowY: 'auto',
-				paddingTop: '56px'
+				paddingTop: '3.5rem'
 			}}
 			container
 		>

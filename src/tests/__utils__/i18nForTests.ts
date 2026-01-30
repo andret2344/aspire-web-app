@@ -6,7 +6,20 @@ i18n.use(initReactI18next).init({
 	fallbackLng: 'en',
 	resources: {
 		en: {
-			translation: {}
+			translation: {},
+			faq: {
+				title: 'FAQ',
+				items: [
+					{
+						q: 'Question 1',
+						a: 'Answer 1'
+					},
+					{
+						q: 'Question 2',
+						a: 'Answer 2'
+					}
+				]
+			}
 		}
 	},
 	interpolation: {
