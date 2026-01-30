@@ -66,7 +66,7 @@ export function ReadonlyWishlistPage(): React.ReactElement {
 		await getWishlistHiddenItems(uuid, password)
 			.then(setHiddenItems)
 			.catch((): void => {
-				enqueueSnackbar(t('access-code-invalid'), {
+				enqueueSnackbar(t('wishlist.access-code-invalid'), {
 					variant: 'error'
 				});
 			});

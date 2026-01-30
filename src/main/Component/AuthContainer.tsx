@@ -82,7 +82,7 @@ export function AuthContainer(props: React.PropsWithChildren<None>): React.React
 						textDecoration: 'none'
 					}}
 				>
-					{t('subtitle')}
+					{t('common.subtitle')}
 				</Typography>
 				{props.children}
 			</Paper>

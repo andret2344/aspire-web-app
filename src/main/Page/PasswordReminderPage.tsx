@@ -22,13 +22,13 @@ export function PasswordReminderPage(): React.ReactElement {
 	function onSubmit(data: Inputs): void {
 		requestResetPassword(data.email)
 			.then((): void => {
-				enqueueSnackbar(t('password-reset-link-sent'), {
+				enqueueSnackbar(t('messages.password-reset-link-sent'), {
 					variant: 'success'
 				});
 				navigate(appPaths.login);
 			})
 			.catch((): void => {
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('common.something-went-wrong'), {
 					variant: 'error'
 				});
 			});
@@ -48,7 +48,7 @@ export function PasswordReminderPage(): React.ReactElement {
 						fontWeight: 400
 					}}
 				>
-					{t('enter-email')}
+					{t('auth.enter-email')}
 				</Typography>
 			</Box>
 			<form
@@ -65,7 +65,7 @@ export function PasswordReminderPage(): React.ReactElement {
 				<TextField
 					hiddenLabel
 					variant='filled'
-					placeholder={t('email-address')}
+					placeholder={t('auth.email-address')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '200px',
@@ -83,7 +83,7 @@ export function PasswordReminderPage(): React.ReactElement {
 					}}
 					type='submit'
 				>
-					{t('send')}
+					{t('common.send')}
 				</Button>
 				<Box
 					mt='10px'
@@ -98,7 +98,7 @@ export function PasswordReminderPage(): React.ReactElement {
 							fontWeight: 400
 						}}
 					>
-						{t('back-to')}
+						{t('common.back-to')}
 					</Typography>
 					<Link
 						component={Anchor}
@@ -111,7 +111,7 @@ export function PasswordReminderPage(): React.ReactElement {
 							textDecoration: 'underline'
 						}}
 					>
-						{t('log-in')}
+						{t('auth.log-in')}
 					</Link>
 				</Box>
 				<Box
@@ -127,7 +127,7 @@ export function PasswordReminderPage(): React.ReactElement {
 							fontWeight: 400
 						}}
 					>
-						{t('no-account')}
+						{t('auth.no-account')}
 					</Typography>
 					<Link
 						component={Anchor}
@@ -140,7 +140,7 @@ export function PasswordReminderPage(): React.ReactElement {
 							fontWeight: 400
 						}}
 					>
-						{t('sign-up')}
+						{t('auth.sign-up')}
 					</Link>
 				</Box>
 			</form>

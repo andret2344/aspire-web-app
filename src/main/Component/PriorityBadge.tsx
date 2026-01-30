@@ -19,7 +19,7 @@ export function PriorityBadge(props: PriorityBadgeProps): React.ReactElement {
 
 	return (
 		<Tooltip
-			title={t(priority.descriptionKey)}
+			title={t(`wishlist.${priority.descriptionKey}`)}
 			arrow
 			disableInteractive
 			onClick={props.onClick}

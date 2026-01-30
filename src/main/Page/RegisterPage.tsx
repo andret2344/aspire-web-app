@@ -56,7 +56,7 @@ export function RegisterPage(): React.ReactElement {
 		if (data.password !== data.passwordRepeat) {
 			setError('passwordRepeat', {
 				type: 'manual',
-				message: t('passwords-not-equal')
+				message: t('auth.passwords-not-equal')
 			});
 			navigate(appPaths.register);
 			return;
@@ -65,7 +65,7 @@ export function RegisterPage(): React.ReactElement {
 		signUp(data.email, data.password)
 			.then((): void => {
 				navigate(appPaths.login);
-				enqueueSnackbar(t('account-created'), {
+				enqueueSnackbar(t('messages.account-created'), {
 					variant: 'success'
 				});
 			})
@@ -104,7 +104,7 @@ export function RegisterPage(): React.ReactElement {
 					required
 					hiddenLabel
 					variant='filled'
-					placeholder={`${t('email-address')}`}
+					placeholder={`${t('auth.email-address')}`}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -146,7 +146,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={t('password')}
+					placeholder={t('auth.password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -186,7 +186,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={t('repeat-password')}
+					placeholder={t('auth.repeat-password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -204,7 +204,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					type='submit'
 				>
-					{t('create-account')}
+					{t('auth.create-account')}
 				</Button>
 				<Box
 					mt='10px'
@@ -219,7 +219,7 @@ export function RegisterPage(): React.ReactElement {
 							fontWeight: 400
 						}}
 					>
-						{t('already-have-account')}
+						{t('auth.already-have-account')}
 					</Typography>
 					<Link
 						component={Anchor}
@@ -232,7 +232,7 @@ export function RegisterPage(): React.ReactElement {
 							textDecoration: 'underline'
 						}}
 					>
-						{t('sign-in')}
+						{t('auth.sign-in')}
 					</Link>
 				</Box>
 			</form>

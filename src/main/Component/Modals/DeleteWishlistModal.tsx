@@ -16,7 +16,7 @@ export function DeleteWishlistModal(props: DeleteWishlistModalProps): React.Reac
 	function createTitle(): React.ReactElement {
 		return (
 			<Trans
-				i18nKey='delete-confirmation'
+				i18nKey='wishlist.delete-confirmation'
 				values={{
 					wishlist: props.wishlistName
 				}}
@@ -54,7 +54,7 @@ export function DeleteWishlistModal(props: DeleteWishlistModalProps): React.Reac
 						margin: '0 20px'
 					}}
 				>
-					{t('cancel')}
+					{t('common.cancel')}
 				</Button>
 				<Button
 					variant='contained'
@@ -65,7 +65,7 @@ export function DeleteWishlistModal(props: DeleteWishlistModalProps): React.Reac
 						margin: '0 20px'
 					}}
 				>
-					{t('delete')}
+					{t('common.delete')}
 				</Button>
 			</Box>
 		</AspireModal>

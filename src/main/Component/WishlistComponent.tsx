@@ -46,7 +46,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 
 	function renderPasswordIcon(): React.ReactElement {
 		return (
-			<Tooltip title={t('set-wishlist-password')}>
+			<Tooltip title={t('wishlist.set-wishlist-password')}>
 				<KeyIcon data-testid='icon-key' />
 			</Tooltip>
 		);
@@ -55,7 +55,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	function renderLockIcon(): React.ReactElement {
 		if (props.wishlist.hasPassword) {
 			return (
-				<Tooltip title={t('access-code-set')}>
+				<Tooltip title={t('wishlist.access-code-set')}>
 					<LockIcon
 						fontSize='small'
 						data-testid='icon-lock'
@@ -64,7 +64,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 			);
 		}
 		return (
-			<Tooltip title={t('access-code-not-set')}>
+			<Tooltip title={t('wishlist.access-code-not-set')}>
 				<LockOpenIcon
 					data-testid='icon-lock-open'
 					fontSize='small'
@@ -77,7 +77,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	async function handleNameChange(name: string): Promise<string> {
 		await updateWishlistName(props.wishlist.id, name);
 		props.onNameEdit(name);
-		enqueueSnackbar(t('wishlist-renamed'), {
+		enqueueSnackbar(t('wishlist.wishlist-renamed'), {
 			variant: 'success'
 		});
 		return name;
@@ -88,12 +88,12 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 		navigator.clipboard
 			.writeText(`${getApiConfig().frontend}/wishlist/${props.wishlist.uuid}`)
 			.then((): string | number =>
-				enqueueSnackbar(t('url-copied'), {
+				enqueueSnackbar(t('wishlist.url-copied'), {
 					variant: 'info'
 				})
 			)
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('common.something-went-wrong'), {
 					variant: 'error'
 				})
 			);
@@ -102,13 +102,13 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	function handleWishlistRemove(): void {
 		removeWishlist(props.wishlist.id)
 			.then((): void => {
-				enqueueSnackbar(t('wishlist-removed'), {
+				enqueueSnackbar(t('wishlist.wishlist-removed'), {
 					variant: 'success'
 				});
 				props.onRemove(props.wishlist.id);
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('common.something-went-wrong'), {
 					variant: 'error'
 				})
 			)
@@ -127,14 +127,14 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	function handlePasswordClear(): void {
 		setWishlistPassword(props.wishlist.id, '')
 			.then((): void => {
-				enqueueSnackbar(t('password-cleared'), {
+				enqueueSnackbar(t('wishlist.password-cleared'), {
 					variant: 'success'
 				});
 				props.onPasswordChange('');
 				setIsPasswordModalOpened(false);
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('common.something-went-wrong'), {
 					variant: 'error'
 				})
 			);
@@ -143,14 +143,14 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	async function handlePasswordAccept(id: number, password: string): Promise<void> {
 		setWishlistPassword(id, password)
 			.then((): void => {
-				enqueueSnackbar(t('password-changed'), {
+				enqueueSnackbar(t('wishlist.password-changed'), {
 					variant: 'success'
 				});
 				props.onPasswordChange(password);
 				setIsPasswordModalOpened(false);
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('common.something-went-wrong'), {
 					variant: 'error'
 				})
 			);
@@ -166,11 +166,11 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 
 	function renderShareIcon(): React.ReactElement {
 		if (user?.isVerified) {
-			return <Tooltip title={t('copy-wishlist-url')}>{renderShareIconButton(false)}</Tooltip>;
+			return <Tooltip title={t('wishlist.copy-wishlist-url')}>{renderShareIconButton(false)}</Tooltip>;
 		}
 		return (
 			<Tooltip
-				title={t('share-disabled')}
+				title={t('wishlist.share-disabled')}
 				onClick={disabledShareIconClickHandler}
 			>
 				<span>{renderShareIconButton(true)}</span>
@@ -271,7 +271,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 					justifyContent='center'
 					alignItems='center'
 				>
-					<Tooltip title={t('delete')}>
+					<Tooltip title={t('common.delete')}>
 						<IconButton
 							onClick={handleDeleteIconClick}
 							size='large'

@@ -25,7 +25,7 @@ export function WishlistListPage(): React.ReactElement {
 			.then(mapWishlistArrayFromDto)
 			.then(setWishlists)
 			.catch((): void => {
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				});
 				navigate(appPaths.error, {replace: true});
@@ -84,7 +84,7 @@ export function WishlistListPage(): React.ReactElement {
 	function addNewWishlist(newWishlist: WishList): void {
 		setWishlists((prevWishlists: WishList[]): WishList[] => [...prevWishlists, newWishlist]);
 		setIsAddWishlistModalOpened(false);
-		enqueueSnackbar(t('wishlist-created'), {
+		enqueueSnackbar(t('messages.wishlist-created'), {
 			variant: 'success'
 		});
 	}
@@ -101,8 +101,7 @@ export function WishlistListPage(): React.ReactElement {
 		<Grid
 			data-testid='wishlist-list-page-grid-main'
 			sx={{
-				flexGrow: 1,
-				paddingTop: '3.5rem'
+				flexGrow: 1
 			}}
 			container
 		>
@@ -121,7 +120,7 @@ export function WishlistListPage(): React.ReactElement {
 						paddingBottom: '3rem'
 					}}
 				>
-					<AddButton onClick={handleAddClick}>{t('add-new-wishlist')}</AddButton>
+					<AddButton onClick={handleAddClick}>{t('wishlist.add-new-wishlist')}</AddButton>
 				</Grid>
 			</Grid>
 			<CreateWishlistModal

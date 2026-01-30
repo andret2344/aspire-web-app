@@ -38,13 +38,13 @@ export function ConfirmEmailPage(): React.ReactElement {
 						variant='h4'
 						textAlign='center'
 					>
-						{t('email-confirmed')}
+						{t('auth.email-confirmed')}
 					</Typography>
 					<Typography
 						variant='h6'
 						textAlign='center'
 					>
-						{t('email-confirmed-message')}
+						{t('auth.email-confirmed-message')}
 					</Typography>
 				</div>
 			);
@@ -55,13 +55,13 @@ export function ConfirmEmailPage(): React.ReactElement {
 					variant='h4'
 					textAlign='center'
 				>
-					{t('email-not-confirmed')}
+					{t('auth.email-not-confirmed')}
 				</Typography>
 				<Typography
 					variant='h6'
 					textAlign='center'
 				>
-					{t('email-not-confirmed-message')}
+					{t('auth.email-not-confirmed-message')}
 				</Typography>
 			</div>
 		);

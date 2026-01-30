@@ -9,7 +9,7 @@ i18n.use(Backend)
 	.init({
 		fallbackLng: 'en',
 		supportedLngs: ['pl-PL', 'en-US'],
-		debug: false, //process.env.NODE_ENV === 'development',
+		debug: process.env.NODE_ENV === 'development',
 		interpolation: {
 			escapeValue: false
 		},

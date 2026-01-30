@@ -70,7 +70,7 @@ export function DescriptionModal(props: DescriptionModalProps): React.ReactEleme
 		if (props.loading) {
 			return <CircularProgress size={18} />;
 		}
-		return t('confirm');
+		return t('common.confirm');
 	}
 
 	function handleClose(): void {
@@ -83,7 +83,7 @@ export function DescriptionModal(props: DescriptionModalProps): React.ReactEleme
 		<AspireModal
 			onClose={handleClose}
 			open={props.open}
-			title={t('description')}
+			title={t('common.description')}
 			onSubmit={handleSubmit}
 			maxWidth='80%'
 			width='auto'
@@ -124,7 +124,7 @@ export function DescriptionModal(props: DescriptionModalProps): React.ReactEleme
 						})
 					]}
 					ref={descriptionEditorRef}
-					placeholder={t('type-description-here')}
+					placeholder={t('common.type-description-here')}
 				/>
 			</Box>
 			<Box
@@ -158,7 +158,7 @@ export function DescriptionModal(props: DescriptionModalProps): React.ReactEleme
 						margin: '0 20px'
 					}}
 				>
-					{t('cancel')}
+					{t('common.cancel')}
 				</Button>
 			</Box>
 		</AspireModal>
