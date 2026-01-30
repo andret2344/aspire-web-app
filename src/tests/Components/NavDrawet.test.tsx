@@ -109,4 +109,37 @@ describe('NavDrawer', (): void => {
 		expect(mockedLogout).toHaveBeenCalledTimes(0);
 		expect(mockedNavigate).toHaveBeenCalledTimes(0);
 	});
+
+	it('renders FAQ menu item when opened', (): void => {
+		// arrange
+		renderForTest(
+			<NavDrawer
+				open={true}
+				onToggle={(): void => undefined}
+			/>
+		);
+
+		// act
+		const faqMenuItem: HTMLElement = screen.getByTestId('nav-drawer-item-faq');
+
+		// assert
+		expect(faqMenuItem).toBeInTheDocument();
+		expect(faqMenuItem).toHaveAttribute('href', '/faq');
+	});
+
+	it('does not render FAQ text when drawer is closed', (): void => {
+		// arrange
+		renderForTest(
+			<NavDrawer
+				open={false}
+				onToggle={(): void => undefined}
+			/>
+		);
+
+		// act
+		const faqText: HTMLElement | null = screen.queryByText('faq');
+
+		// assert
+		expect(faqText).toBeNull();
+	});
 });

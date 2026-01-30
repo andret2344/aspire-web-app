@@ -8,6 +8,7 @@ import {AppLayout} from '@layout/AppLayout';
 import {AuthLayout} from '@layout/AuthLayout';
 import {ConfirmEmailPage} from '@page/ConfirmEmailPage';
 import {ErrorPage} from '@page/ErrorPage';
+import {FaqPage} from '@page/FaqPage';
 import {LoginPage} from '@page/LoginPage';
 import {NewPasswordPage} from '@page/NewPasswordPage';
 import {PasswordReminderPage} from '@page/PasswordReminderPage';
@@ -75,6 +76,10 @@ export function App(): React.ReactElement {
 					<Route
 						path={appPaths.profile}
 						element={<ProfilePage />}
+					/>
+					<Route
+						path={appPaths.faq}
+						element={<FaqPage />}
 					/>
 				</Route>
 

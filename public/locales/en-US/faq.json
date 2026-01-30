@@ -1,0 +1,45 @@
+{
+	"title": "FAQ",
+	"items": [
+		{
+			"q": "How many wish lists can I have?",
+			"a": "There is no limit to the number of wish lists you can create or the number of items they can contain."
+		},
+		{
+			"q": "Can I hide items on my wish list?",
+			"a": "Yes, but you first need to set an access code for the wish list. After that, selected items can be hidden and will only be visible after entering the access code."
+		},
+		{
+			"q": "Do access codes have to be the same?",
+			"a": "Each wish list can have its own access code. However, the access code always applies to all hidden items on that list."
+		},
+		{
+			"q": "I can’t hide an item on my wish list.",
+			"a": "To hide an item, an access code must be set first."
+		},
+		{
+			"q": "Does the access code hide the entire wish list?",
+			"a": "No. The access code only hides selected items. All other items remain visible."
+		},
+		{
+			"q": "Is my wish list public?",
+			"a": "Your wish list can be accessed via its unique URL, and anyone who has this link can view the wish list."
+		},
+		{
+			"q": "How can I change the unique URL of my wish list?",
+			"a": "At the moment, the only option is to create a new wish list, as the URL contains a unique identifier."
+		},
+		{
+			"q": "I deleted a wish list or an item. Can I restore it?",
+			"a": "Restoring deleted wish lists or items is not currently available."
+		},
+		{
+			"q": "What is the purpose of item priority on a wish list?",
+			"a": "The priority is for informational purposes only. It does not affect how the wish list works."
+		},
+		{
+			"q": "Can I sort items or change their order?",
+			"a": "Items are displayed in the order they were added, and it is not currently possible to change this."
+		}
+	]
+}

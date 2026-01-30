@@ -7,6 +7,7 @@ export const appPaths = {
 	wishlists: '/wishlists',
 	wishlist: '/wishlists/:id',
 	profile: '/profile',
+	faq: '/faq',
 
 	readonlyWishlist: '/wishlist/:uuid',
 	confirmEmail: '/confirm/:token',
