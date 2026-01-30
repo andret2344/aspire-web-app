@@ -28,7 +28,8 @@ export function LoginPage(): React.ReactElement {
 	const theme: Theme = useTheme();
 	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
 	const {enqueueSnackbar} = useSnackbar();
-	const {t} = useTranslation();
+	const {t: tAuth} = useTranslation('auth');
+	const {t: tMessages} = useTranslation('messages');
 	const {register, handleSubmit} = useForm();
 	const {refreshUser} = useUserDataActions();
 
@@ -41,15 +42,15 @@ export function LoginPage(): React.ReactElement {
 			if ([200, 201].includes(response)) {
 				await refreshUser();
 				await navigate(appPaths.wishlists);
-				enqueueSnackbar(`${t('successfully-logged-in')}`, {
+				enqueueSnackbar(`${tMessages('successfully-logged-in')}`, {
 					variant: 'info'
 				});
 			} else if ([401].includes(response)) {
-				enqueueSnackbar(`${t('wrong-login-or-password')}`, {
+				enqueueSnackbar(`${tAuth('wrong-login-or-password')}`, {
 					variant: 'warning'
 				});
 			} else {
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(tMessages('something-went-wrong'), {
 					variant: 'error'
 				});
 			}
@@ -75,7 +76,7 @@ export function LoginPage(): React.ReactElement {
 					autoComplete='new-password'
 					hiddenLabel
 					variant='filled'
-					placeholder={t('login')}
+					placeholder={tAuth('login')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -116,7 +117,7 @@ export function LoginPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={t('password')}
+					placeholder={tAuth('password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -133,7 +134,7 @@ export function LoginPage(): React.ReactElement {
 					}}
 					type='submit'
 				>
-					{t('log-in')}
+					{tAuth('log-in')}
 				</Button>
 				<Link
 					data-testid='login-page-button-forgot'
@@ -146,7 +147,7 @@ export function LoginPage(): React.ReactElement {
 						textDecoration: 'underline'
 					}}
 				>
-					{t('forgot-password')}
+					{tAuth('forgot-password')}
 				</Link>
 				<Box
 					mt='10px'
@@ -161,7 +162,7 @@ export function LoginPage(): React.ReactElement {
 							fontWeight: 400
 						}}
 					>
-						{t('no-account')}
+						{tAuth('no-account')}
 					</Typography>
 					<Link
 						component={Anchor}
@@ -174,7 +175,7 @@ export function LoginPage(): React.ReactElement {
 							textDecoration: 'underline'
 						}}
 					>
-						{t('sign-up')}
+						{tAuth('sign-up')}
 					</Link>
 				</Box>
 			</form>

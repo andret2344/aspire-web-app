@@ -28,7 +28,9 @@ interface NavDrawerProps {
 }
 
 export function NavDrawer(props: NavDrawerProps): React.ReactElement {
-	const {t} = useTranslation();
+	const {t: tNav} = useTranslation('navigation');
+	const {t: tCommon} = useTranslation('common');
+	const {t: tAuth} = useTranslation('auth');
 	const navigate: NavigateFunction = useNavigate();
 	const width: number = props.open ? WIDTH_DRAWER_OPENED : WIDTH_DRAWER_CLOSED;
 	const [isModalOpened, setIsModalOpened] = React.useState<boolean>(false);
@@ -75,11 +77,14 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 				sx={{
 					width: width,
 					flexShrink: 0,
+					transition: 'width 0.3s',
 					'& .MuiDrawer-paper': {
 						width: width,
 						transition: 'width 0.3s',
 						overflowX: 'hidden',
-						mt: '56px'
+						position: 'relative',
+						border: 'none',
+						height: '100%'
 					}
 				}}
 			>
@@ -102,7 +107,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<ListAlt />
 						</ListItemIcon>
-						{renderListItemText(t('wishlists'))}
+						{renderListItemText(tNav('wishlists'))}
 					</ListItemButton>
 
 					<ListItemButton
@@ -113,7 +118,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<Settings />
 						</ListItemIcon>
-						{renderListItemText(t('settings'))}
+						{renderListItemText(tNav('settings'))}
 					</ListItemButton>
 
 					<ListItemButton
@@ -124,7 +129,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<HelpOutline />
 						</ListItemIcon>
-						{renderListItemText(t('faq'))}
+						{renderListItemText(tNav('faq'))}
 					</ListItemButton>
 				</List>
 
@@ -138,17 +143,17 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<Logout color='error' />
 						</ListItemIcon>
-						{renderListItemText(t('log-out'), theme.palette.error.main)}
+						{renderListItemText(tNav('log-out'), theme.palette.error.main)}
 					</ListItemButton>
 				</List>
 			</Drawer>
 			<AspireModal
-				title={t('log-out')}
+				title={tNav('log-out')}
 				open={isModalOpened}
 				onClose={handleLogoutCancel}
 				onSubmit={handleLogoutConfirm}
 			>
-				{t('log-out-confirm')}
+				{tAuth('log-out-confirm')}
 				<Box
 					sx={{
 						display: 'flex',
@@ -167,7 +172,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						}}
 						onClick={handleLogoutCancel}
 					>
-						{t('cancel')}
+						{tCommon('cancel')}
 					</Button>
 					<Button
 						data-testid='button-save'
@@ -178,7 +183,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						}}
 						type='submit'
 					>
-						{t('log-out')}
+						{tNav('log-out')}
 					</Button>
 				</Box>
 			</AspireModal>

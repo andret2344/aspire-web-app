@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {NavigateFunction, Outlet, useNavigate} from 'react-router-dom';
 import {Box, Theme, Typography} from '@mui/material';
 import {SystemStyleObject} from '@mui/system';
-import {NavDrawer, WIDTH_DRAWER_CLOSED, WIDTH_DRAWER_OPENED} from '@component/NavDrawer';
+import {NavDrawer} from '@component/NavDrawer';
 import {useUserData} from '@context/UserDataContext';
 import {useTokenValidation} from '@hook/useTokenValidation';
 import {verifyEmail} from '@service/AuthService';
@@ -13,12 +13,10 @@ import {appPaths} from '../AppRoutes';
 export function AppLayout(): React.ReactElement {
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
 	const {user, loaded} = useUserData();
-	const {t} = useTranslation();
+	const {t: tAuth} = useTranslation('auth');
 
 	const {tokenLoading, tokenValid} = useTokenValidation();
 	const navigate: NavigateFunction = useNavigate();
-
-	const width: number = isDrawerOpen ? WIDTH_DRAWER_OPENED : WIDTH_DRAWER_CLOSED;
 
 	React.useEffect((): void => {
 		if (tokenLoading) {
@@ -65,7 +63,7 @@ export function AppLayout(): React.ReactElement {
 					noWrap
 					fontWeight={700}
 				>
-					{t('email-not-verified')}&nbsp;
+					{tAuth('email-not-verified')}&nbsp;
 				</Typography>
 				<Typography
 					sx={{
@@ -77,7 +75,7 @@ export function AppLayout(): React.ReactElement {
 					onClick={handleVerifyClick}
 					fontWeight={700}
 				>
-					{t('verify')}
+					{tAuth('verify')}
 				</Typography>
 			</Box>
 		);
@@ -85,19 +83,27 @@ export function AppLayout(): React.ReactElement {
 
 	return (
 		<>
-			<NavDrawer
-				open={isDrawerOpen}
-				onToggle={handleDrawerToggle}
-			/>
 			{renderWarning()}
 			<Box
-				component='main'
 				sx={{
-					pl: `${width}px`,
-					transition: 'padding-left 0.3s'
+					display: 'flex',
+					height: '100vh',
+					paddingTop: '3.5rem'
 				}}
 			>
-				<Outlet />
+				<NavDrawer
+					open={isDrawerOpen}
+					onToggle={handleDrawerToggle}
+				/>
+				<Box
+					component='main'
+					sx={{
+						flex: 1,
+						overflow: 'auto'
+					}}
+				>
+					<Outlet />
+				</Box>
 			</Box>
 		</>
 	);

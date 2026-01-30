@@ -29,7 +29,9 @@ export function ProfilePage(): React.ReactElement {
 		setError,
 		formState: {errors}
 	} = useForm<Inputs>();
-	const {t} = useTranslation();
+	const {t: tProfile} = useTranslation('profile');
+	const {t: tAuth} = useTranslation('auth');
+	const {t: tMessages} = useTranslation('messages');
 
 	function handleClickShowPassword(): void {
 		setIsOldPasswordShown((prev: boolean): boolean => !prev);
@@ -47,20 +49,20 @@ export function ProfilePage(): React.ReactElement {
 		if (data.newPassword !== data.newPasswordConfirm) {
 			setError('newPasswordConfirm', {
 				type: 'manual',
-				message: t('passwords-not-equal')
+				message: tAuth('passwords-not-equal')
 			});
 			return;
 		}
 
 		changePassword(data.currentPassword, data.newPassword, data.newPasswordConfirm)
 			.then((): void => {
-				enqueueSnackbar(`${t('password-changed')}`, {
+				enqueueSnackbar(`${tMessages('password-changed')}`, {
 					variant: 'success'
 				});
 				reset();
 			})
 			.catch((): void => {
-				enqueueSnackbar(t('password-invalid'), {
+				enqueueSnackbar(tMessages('password-invalid'), {
 					variant: 'error'
 				});
 			});
@@ -73,9 +75,6 @@ export function ProfilePage(): React.ReactElement {
 			}}
 			container
 			columnSpacing={2}
-			sx={{
-				paddingTop: '3.5rem'
-			}}
 		>
 			<Grid
 				size={{
@@ -125,7 +124,7 @@ export function ProfilePage(): React.ReactElement {
 										fontFamily: 'Montserrat'
 									}}
 								>
-									{t('password-settings')}
+									{tProfile('password-settings')}
 								</Typography>
 							</Box>
 						</Box>
@@ -151,7 +150,7 @@ export function ProfilePage(): React.ReactElement {
 										marginBottom: '20px'
 									}}
 									id='password'
-									placeholder={t('current-password')}
+									placeholder={tAuth('current-password')}
 									type={isOldPasswordShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
@@ -185,7 +184,7 @@ export function ProfilePage(): React.ReactElement {
 										marginBottom: '20px'
 									}}
 									id='new-password'
-									placeholder={t('new-password')}
+									placeholder={tAuth('new-password')}
 									type={isNewPasswordShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
@@ -221,7 +220,7 @@ export function ProfilePage(): React.ReactElement {
 										marginBottom: '20px'
 									}}
 									id='confirm-password'
-									placeholder={t('confirm-password')}
+									placeholder={tAuth('confirm-password')}
 									type={isNewPasswordRepeatShown ? 'text' : 'password'}
 									slotProps={{
 										input: {
@@ -260,7 +259,7 @@ export function ProfilePage(): React.ReactElement {
 									variant='contained'
 									type='submit'
 								>
-									{t('change-password')}
+									{tAuth('change-password')}
 								</Button>
 							</form>
 						</Box>
@@ -290,7 +289,7 @@ export function ProfilePage(): React.ReactElement {
 										fontFamily: 'Montserrat'
 									}}
 								>
-									{t('user-settings')}
+									{tProfile('user-settings')}
 								</Typography>
 							</Box>
 						</Box>
@@ -309,7 +308,7 @@ export function ProfilePage(): React.ReactElement {
 									fontFamily: 'Montserrat'
 								}}
 							>
-								{t('change-theme-color')}:
+								{tProfile('change-theme-color')}:
 								<ToggleColorModeComponent
 									darkMode={darkMode}
 									toggleDarkMode={toggleDarkMode}
@@ -326,7 +325,7 @@ export function ProfilePage(): React.ReactElement {
 										fontFamily: 'Montserrat'
 									}}
 								>
-									{t('change-language')}:
+									{tProfile('change-language')}:
 								</Typography>
 								<LanguagePicker />
 							</Box>

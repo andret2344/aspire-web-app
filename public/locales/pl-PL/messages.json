@@ -1,0 +1,18 @@
+{
+	"access-code-accepted": "Kod dostępu został zaakceptowany!",
+	"account-created": "Konto zostało utworzone",
+	"item-removed": "Usunięto element",
+	"item-updated": "Element zaktualizowano",
+	"password-changed": "Hasło zmieniono prawidłowo",
+	"password-cleared": "Hasło zostało usunięte.",
+	"password-invalid": "Coś poszło nie tak! Prawdopodobnie twoje obecne hasło jest nieprawidłowe.",
+	"password-reset-link-sent": "Link do zresetowania hasła został wysłany!",
+	"saved": "Zapisano pomyślnie.",
+	"something-went-wrong": "Coś poszło nie tak.",
+	"successfully-logged-in": "Zalogowano pomyślnie!",
+	"too-long": "Za długa nazwa lub opis.",
+	"url-copied": "Adres URL został skopiowany do schowka",
+	"wishlist-created": "Utworzono nową listę życzeń",
+	"wishlist-removed": "Usunięto listę życzeń",
+	"wishlist-renamed": "Zmieniono nazwę listy życzeń"
+}
