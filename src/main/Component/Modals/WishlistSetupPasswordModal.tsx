@@ -49,7 +49,7 @@ export function WishlistSetupPasswordModal(props: WishlistSetupPasswordModalProp
 
 	return (
 		<AspireModal
-			title={t('wishlist.set-wishlist-password')}
+			title={t('wishlist.set-access-code')}
 			open={props.open}
 			onClose={handleCancelButton}
 		>

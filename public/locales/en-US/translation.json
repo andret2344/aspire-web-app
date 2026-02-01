@@ -1,33 +1,7 @@
 {
-	"common": {
-		"action": "Action",
-		"back-to": "Back to",
-		"cancel": "Cancel",
-		"clear": "Clear",
-		"confirm": "Confirm",
-		"delete": "Delete",
-		"description": "Description",
-		"duplicate": "Duplicate",
-		"name": "Name",
-		"priority": "Priority",
-		"save": "Save",
-		"send": "Send",
-		"subtitle": "The Aspiration Abyss",
-		"type-description-here": "Type description here",
-		"unnamed": "Unnamed",
-		"visibility": "Visibility"
-	},
-	"navigation": {
-		"faq": "FAQ",
-		"log-out": "Log out",
-		"settings": "Settings",
-		"wishlists": "Wishlists"
-	},
 	"auth": {
 		"already-have-account": "Already have an account?",
-		"already-verified": "Already verified?",
 		"change-password": "Change password",
-		"click-the-link": "Just click on the link in that email to complete your register. If you don't see it, you may check your spam folder.",
 		"confirm-password": "Confirm password",
 		"create-account": "Create an account",
 		"current-password": "Current password",
@@ -48,10 +22,49 @@
 		"password": "Password",
 		"passwords-not-equal": "Passwords are not equal",
 		"repeat-password": "Repeat password",
-		"resend-email": "Resend the verification e-mail.",
 		"sign-in": "Sign in",
 		"sign-up": "Sign up",
 		"verify": "Verify."
+	},
+	"common": {
+		"action": "Action",
+		"back-to": "Back to",
+		"cancel": "Cancel",
+		"clear": "Clear",
+		"confirm": "Confirm",
+		"delete": "Delete",
+		"description": "Description",
+		"duplicate": "Duplicate",
+		"name": "Name",
+		"priority": "Priority",
+		"save": "Save",
+		"send": "Send",
+		"subtitle": "The Aspiration Abyss",
+		"type-description-here": "Type description here",
+		"unnamed": "Unnamed",
+		"visibility": "Visibility"
+	},
+	"messages": {
+		"account-created": "Successfully created an account",
+		"password-changed": "Password changed successfully!",
+		"password-invalid": "Some error occurred! Probably your current password is not valid.",
+		"password-reset-link-sent": "Password reset link sent!",
+		"something-went-wrong": "Something went wrong.",
+		"successfully-logged-in": "Successfully logged in!",
+		"url-copied": "Share URL copied to clipboard",
+		"wrong-login-or-password": "Wrong login or password. Try again."
+	},
+	"navigation": {
+		"faq": "FAQ",
+		"log-out": "Log out",
+		"settings": "Settings",
+		"wishlists": "Wishlists"
+	},
+	"profile": {
+		"change-language": "Change language",
+		"change-theme-color": "Change theme color",
+		"password-settings": "Password settings",
+		"user-settings": "User settings"
 	},
 	"validation": {
 		"email": {
@@ -107,29 +120,11 @@
 		"priority-description-medium": "Medium",
 		"priority-description-unknown": "Unknown",
 		"set-access-code": "Set the access code",
-		"set-access-code-first": "Set the wishlist access code first.",
-		"share-disabled": "You have to verify to share wishlists.",
+		"set-access-code-first": "Set the wishlist access code first",
+		"share-disabled": "You have to verify to share wishlists",
 		"unhide-item": "Unhide item",
 		"wishlist-created": "Wishlist created",
 		"wishlist-removed": "Wishlist removed successfully",
 		"wishlist-renamed": "Wishlist name changed successfully"
-	},
-	"profile": {
-		"change-language": "Change language",
-		"change-theme-color": "Change theme color",
-		"password-settings": "Password settings",
-		"user-settings": "User settings"
-	},
-	"messages": {
-		"account-created": "Successfully created an account",
-		"password-changed": "Password changed successfully!",
-		"password-invalid": "Some error occurred! Probably your current password is not valid.",
-		"password-reset-link-sent": "Password reset link sent!",
-		"saved": "Saved.",
-		"something-went-wrong": "Something went wrong.",
-		"successfully-logged-in": "Successfully logged in!",
-		"too-long": "Too long name or description.",
-		"url-copied": "Share URL copied to clipboard",
-		"wrong-login-or-password": "Wrong login or password. Try again."
 	}
 }
