@@ -76,7 +76,6 @@ export function RegisterPage(): React.ReactElement {
 				});
 			})
 			.catch((error: AxiosError<{detail: string}>): void => {
-				console.dir(error.response, {depth: 10});
 				const registerApiErrors: RegisterApiError[] = JSON.parse(error.response?.data?.detail || '[]');
 				const emailError: RegisterApiError | undefined = registerApiErrors.find(
 					(registerApiError: RegisterApiError): boolean => registerApiError.field === 'email'
