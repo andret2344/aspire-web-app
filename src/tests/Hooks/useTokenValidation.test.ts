@@ -3,7 +3,7 @@ import {act, renderHook} from '@testing-library/react';
 import {TokenValidationResult, useTokenValidation} from '@hook/useTokenValidation';
 
 describe('useTokenValidation', (): void => {
-	test('returns loading=true initially', (): void => {
+	it('returns loading=true initially', (): void => {
 		// arrange
 		const {result} = renderHook((): TokenValidationResult => useTokenValidation(50));
 
@@ -12,7 +12,7 @@ describe('useTokenValidation', (): void => {
 		expect(result.current.tokenValid).toBeUndefined();
 	});
 
-	test('returns valid=true when the token is valid', async (): Promise<void> => {
+	it('returns valid=true when the token is valid', async (): Promise<void> => {
 		// arrange
 		mockedIsTokenValid.mockReturnValue(true);
 
@@ -25,7 +25,7 @@ describe('useTokenValidation', (): void => {
 		expect(result.current.tokenValid).toBe(true);
 	});
 
-	test('should return valid=false when the token is invalid', async (): Promise<void> => {
+	it('should return valid=false when the token is invalid', async (): Promise<void> => {
 		// arrange
 		mockedIsTokenValid.mockReturnValue(false);
 

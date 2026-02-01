@@ -16,7 +16,7 @@ import MockAdapter from 'axios-mock-adapter';
 import apiInstance, {getApiConfig} from '../../main/Service/ApiInstance';
 
 describe('WishListService', (): void => {
-	test('get wishlists', async (): Promise<void> => {
+	it('get wishlists', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		mock.onGet('/wishlists').reply(200, [getSampleWishlistDto()]);
@@ -30,7 +30,7 @@ describe('WishListService', (): void => {
 			);
 	});
 
-	test('get wishlists rejected', async (): Promise<void> => {
+	it('get wishlists rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		mock.onGet('/wishlists').reply(500);
@@ -42,7 +42,7 @@ describe('WishListService', (): void => {
 		});
 	});
 
-	test('get wishlist by id', async (): Promise<void> => {
+	it('get wishlist by id', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		mock.onGet('/wishlists/1').reply(200, getSampleWishlistDto());
@@ -56,7 +56,7 @@ describe('WishListService', (): void => {
 			});
 	});
 
-	test('get wishlist by id rejected', async (): Promise<void> => {
+	it('get wishlist by id rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		mock.onGet('/wishlists/1').reply(500);
@@ -68,7 +68,7 @@ describe('WishListService', (): void => {
 		});
 	});
 
-	test('get readonly wishlist by uuid', async (): Promise<void> => {
+	it('get readonly wishlist by uuid', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
@@ -85,7 +85,7 @@ describe('WishListService', (): void => {
 			});
 	});
 
-	test('get readonly wishlist by uuid rejected', async (): Promise<void> => {
+	it('get readonly wishlist by uuid rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(axios);
 		const baseUrl = getApiConfig().backend;
@@ -100,7 +100,7 @@ describe('WishListService', (): void => {
 		});
 	});
 
-	test('add wishlist', async (): Promise<void> => {
+	it('add wishlist', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		mock.onPost('/wishlists').reply(200, getSampleWishlistDto());
@@ -114,7 +114,7 @@ describe('WishListService', (): void => {
 		);
 	});
 
-	test('add wishlist rejected', async (): Promise<void> => {
+	it('add wishlist rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		mock.onPost('/wishlists').reply(500);
@@ -126,7 +126,7 @@ describe('WishListService', (): void => {
 		});
 	});
 
-	test('remove wishlist', async (): Promise<void> => {
+	it('remove wishlist', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const idToRemove = 1;
@@ -140,7 +140,7 @@ describe('WishListService', (): void => {
 		});
 	});
 
-	test('remove wishlist rejected', async (): Promise<void> => {
+	it('remove wishlist rejected', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const idToRemove = 1;
@@ -153,7 +153,7 @@ describe('WishListService', (): void => {
 		});
 	});
 
-	test('update wishlist name', async (): Promise<void> => {
+	it('update wishlist name', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;
@@ -175,7 +175,7 @@ describe('WishListService', (): void => {
 		mock.restore();
 	});
 
-	test('set wishlist password correctly', async (): Promise<void> => {
+	it('set wishlist password correctly', async (): Promise<void> => {
 		// arrange
 		const mock = new MockAdapter(apiInstance);
 		const wishlistId = 1;

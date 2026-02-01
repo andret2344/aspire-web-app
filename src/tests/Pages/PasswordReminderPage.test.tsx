@@ -13,7 +13,7 @@ describe('PasswordReminderPage', (): void => {
 		renderForTest(<PasswordReminderPage />);
 
 		// act
-		const errorText: HTMLElement = screen.getByText('enter-email');
+		const errorText: HTMLElement = screen.getByText('auth.enter-email');
 
 		// assert
 		expect(errorText).toBeInTheDocument();
@@ -25,7 +25,7 @@ describe('PasswordReminderPage', (): void => {
 		renderForTest(<PasswordReminderPage />);
 
 		// act
-		const errorText: HTMLElement = screen.getByText('enter-email');
+		const errorText: HTMLElement = screen.getByText('auth.enter-email');
 
 		// assert
 		expect(errorText).toBeInTheDocument();
@@ -36,8 +36,8 @@ describe('PasswordReminderPage', (): void => {
 		renderForTest(<PasswordReminderPage />);
 
 		// act
-		const logInLink: HTMLElement = screen.getByText('log-in');
-		const signUpLink: HTMLElement = screen.getByText('sign-up');
+		const logInLink: HTMLElement = screen.getByText('auth.log-in');
+		const signUpLink: HTMLElement = screen.getByText('auth.sign-up');
 
 		// assert
 		expect(logInLink).toBeInTheDocument();
@@ -53,7 +53,7 @@ describe('PasswordReminderPage', (): void => {
 		const sendButton: HTMLElement = screen.getByRole('button', {
 			name: /send/i
 		});
-		const input: HTMLElement = screen.getByPlaceholderText('email-address');
+		const input: HTMLElement = screen.getByPlaceholderText('auth.email-address');
 		await user.type(input, 'test@example.com');
 		await user.click(sendButton);
 
@@ -72,14 +72,14 @@ describe('PasswordReminderPage', (): void => {
 		const sendButton: HTMLElement = screen.getByRole('button', {
 			name: /send/i
 		});
-		const input: HTMLElement = screen.getByPlaceholderText('email-address');
+		const input: HTMLElement = screen.getByPlaceholderText('auth.email-address');
 		await user.type(input, 'test@example.com');
 		await user.click(sendButton);
 		const errorSnackbar: HTMLElement = await screen.findByRole('alert');
 
 		// assert
 		await waitFor((): void => {
-			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
+			expect(errorSnackbar).toHaveTextContent('messages.something-went-wrong');
 		});
 	});
 });

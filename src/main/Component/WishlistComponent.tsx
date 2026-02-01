@@ -88,12 +88,12 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 		navigator.clipboard
 			.writeText(`${getApiConfig().frontend}/wishlist/${props.wishlist.uuid}`)
 			.then((): string | number =>
-				enqueueSnackbar(t('wishlist.url-copied'), {
+				enqueueSnackbar(t('messages.url-copied'), {
 					variant: 'info'
 				})
 			)
 			.catch((): string | number =>
-				enqueueSnackbar(t('common.something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				})
 			);
@@ -108,7 +108,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 				props.onRemove(props.wishlist.id);
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('common.something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				})
 			)
@@ -127,14 +127,14 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	function handlePasswordClear(): void {
 		setWishlistPassword(props.wishlist.id, '')
 			.then((): void => {
-				enqueueSnackbar(t('wishlist.password-cleared'), {
+				enqueueSnackbar(t('wishlist.access-code-cleared'), {
 					variant: 'success'
 				});
 				props.onPasswordChange('');
 				setIsPasswordModalOpened(false);
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('common.something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				})
 			);
@@ -143,14 +143,14 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 	async function handlePasswordAccept(id: number, password: string): Promise<void> {
 		setWishlistPassword(id, password)
 			.then((): void => {
-				enqueueSnackbar(t('wishlist.password-changed'), {
+				enqueueSnackbar(t('wishlist.access-code-changed'), {
 					variant: 'success'
 				});
 				props.onPasswordChange(password);
 				setIsPasswordModalOpened(false);
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('common.something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				})
 			);

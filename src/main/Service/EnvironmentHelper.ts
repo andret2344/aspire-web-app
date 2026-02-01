@@ -17,7 +17,7 @@ export async function getConfig(): Promise<Config | undefined> {
 		return undefined;
 	}
 
-	const token: string | undefined = process.env.REACT_APP_API_TOKEN;
+	const token: string | undefined = process.env.REACT_APP_DISCOVERY_TOKEN;
 
 	const response: AxiosResponse<ConfigResponse> = await axios.get<ConfigResponse>(`${URL_DISCOVERY}?uuid=${token}`);
 	return response.data.data;

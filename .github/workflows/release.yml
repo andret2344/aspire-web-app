@@ -48,7 +48,7 @@ jobs:
           context: .
           push: true
           build-args: |
-            REACT_APP_API_TOKEN=${{ secrets.REACT_APP_API_TOKEN }}
+            REACT_APP_DISCOVERY_TOKEN=${{ secrets.REACT_APP_DISCOVERY_TOKEN }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64

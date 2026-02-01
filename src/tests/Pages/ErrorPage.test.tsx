@@ -9,7 +9,7 @@ describe('ErrorPage', (): void => {
 		renderForTest(<ErrorPage />);
 
 		// act
-		const errorText: HTMLElement = screen.getByText('something-went-wrong');
+		const errorText: HTMLElement = screen.getByText('messages.something-went-wrong');
 
 		// assert
 		expect(errorText).toBeInTheDocument();

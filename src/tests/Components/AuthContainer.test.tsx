@@ -13,7 +13,7 @@ describe('AuthContainer', (): void => {
 
 		// assert
 		expect(screen.getByText('Aspire')).toBeInTheDocument();
-		expect(screen.getByText('subtitle')).toBeInTheDocument();
+		expect(screen.getByText('common.subtitle')).toBeInTheDocument();
 		expect(screen.getByTestId('test-div')).toHaveTextContent('Hello');
 	});
 });

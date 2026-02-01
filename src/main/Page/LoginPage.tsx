@@ -45,7 +45,7 @@ export function LoginPage(): React.ReactElement {
 					variant: 'info'
 				});
 			} else if ([401].includes(response)) {
-				enqueueSnackbar(`${t('auth.wrong-login-or-password')}`, {
+				enqueueSnackbar(`${t('messages.wrong-login-or-password')}`, {
 					variant: 'warning'
 				});
 			} else {
@@ -72,10 +72,10 @@ export function LoginPage(): React.ReactElement {
 			>
 				<TextField
 					data-testid='login-page-input-username'
-					autoComplete='new-password'
+					autoComplete='username'
 					hiddenLabel
 					variant='filled'
-					placeholder={t('auth.login')}
+					placeholder={t('auth.email-address')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',

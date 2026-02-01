@@ -13,9 +13,9 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// assert
-		expect(screen.getByText('create-account')).toBeInTheDocument();
-		expect(screen.getByText('already-have-account')).toBeInTheDocument();
-		expect(screen.getByText('sign-in')).toBeInTheDocument();
+		expect(screen.getByText('auth.create-account')).toBeInTheDocument();
+		expect(screen.getByText('auth.already-have-account')).toBeInTheDocument();
+		expect(screen.getByText('auth.sign-in')).toBeInTheDocument();
 	});
 
 	test('renders correctly on small screen', (): void => {
@@ -24,9 +24,9 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// assert
-		expect(screen.getByText('create-account')).toBeInTheDocument();
-		expect(screen.getByText('already-have-account')).toBeInTheDocument();
-		expect(screen.getByText('sign-in')).toBeInTheDocument();
+		expect(screen.getByText('auth.create-account')).toBeInTheDocument();
+		expect(screen.getByText('auth.already-have-account')).toBeInTheDocument();
+		expect(screen.getByText('auth.sign-in')).toBeInTheDocument();
 	});
 
 	test('register button is clickable', (): void => {
@@ -35,7 +35,7 @@ describe('RegisterPage', (): void => {
 
 		// act
 		const registerButton: HTMLElement = screen.getByRole('button', {
-			name: 'create-account'
+			name: 'auth.create-account'
 		});
 
 		// assert
@@ -47,7 +47,7 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		const emailInput: HTMLElement = screen.getByPlaceholderText('email-address');
+		const emailInput: HTMLElement = screen.getByPlaceholderText('auth.email-address');
 		fireEvent.change(emailInput, {
 			target: {
 				value: 'test@example.com'
@@ -63,8 +63,8 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		const passwordInput: HTMLElement = screen.getByPlaceholderText('password');
-		const repeatPasswordInput: HTMLElement = screen.getByPlaceholderText('repeat-password');
+		const passwordInput: HTMLElement = screen.getByPlaceholderText('auth.password');
+		const repeatPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.repeat-password');
 		const toggleShowPasswordButton: HTMLElement = screen.getByTestId('visibility-icon-password');
 		const toggleShowRepeatPasswordButton = screen.getByTestId('visibility-icon-repeat-password');
 
@@ -82,8 +82,8 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		const loginPageButton: HTMLElement = screen.getByText('already-have-account');
-		const signInLink: HTMLElement = screen.getByText('sign-in');
+		const loginPageButton: HTMLElement = screen.getByText('auth.already-have-account');
+		const signInLink: HTMLElement = screen.getByText('auth.sign-in');
 
 		// assert
 		expect(loginPageButton).toBeInTheDocument();
@@ -95,30 +95,26 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('email-address'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.email-address'), {
 			target: {
 				value: 'test@example.com'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.repeat-password'), {
 			target: {
 				value: 'differentPassword'
 			}
 		});
 
-		fireEvent.click(
-			screen.getByRole('button', {
-				name: 'create-account'
-			})
-		);
+		fireEvent.click(screen.getByText('auth.create-account'));
 
 		// assert
-		expect(await screen.findByText('passwords-not-equal')).toBeInTheDocument();
+		expect(await screen.findByText('auth.passwords-not-equal')).toBeInTheDocument();
 	});
 
 	test('navigates to home and shows success snackbar on successful registration', async (): Promise<void> => {
@@ -129,32 +125,28 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('email-address'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.email-address'), {
 			target: {
 				value: 'test@example.com'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.repeat-password'), {
 			target: {
 				value: 'password123'
 			}
 		});
 
-		fireEvent.click(
-			screen.getByRole('button', {
-				name: 'create-account'
-			})
-		);
+		fireEvent.click(screen.getByText('auth.create-account'));
 
 		// assert
 		await waitFor((): void => {
 			expect(mockedNavigate).toHaveBeenCalledWith('/');
-			expect(screen.getByText('account-created')).toBeInTheDocument();
+			expect(screen.getByText('messages.account-created')).toBeInTheDocument();
 		});
 	});
 
@@ -163,7 +155,12 @@ describe('RegisterPage', (): void => {
 		const mockError = {
 			response: {
 				data: {
-					email: 'User with this email already exists.'
+					detail: JSON.stringify([
+						{
+							field: 'email',
+							error: 'validation.email.invalid'
+						}
+					])
 				}
 			}
 		};
@@ -171,30 +168,26 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('email-address'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.email-address'), {
 			target: {
 				value: 'test@example.com'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.repeat-password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.click(
-			screen.getByRole('button', {
-				name: 'create-account'
-			})
-		);
+		fireEvent.click(screen.getByText('auth.create-account'));
 
 		// assert
 		await waitFor((): void => {
-			expect(screen.getByText('User with this email already exists.')).toBeInTheDocument();
+			expect(screen.getByText('validation.email.invalid')).toBeInTheDocument();
 		});
 	});
 
@@ -203,8 +196,12 @@ describe('RegisterPage', (): void => {
 		const mockError = {
 			response: {
 				data: {
-					password:
-						'This password is too short. it must contain at least 8 characters.This password is too common.This password is entirely numeric.'
+					detail: JSON.stringify([
+						{
+							field: 'password',
+							error: 'validation.password.too-short'
+						}
+					])
 				}
 			}
 		};
@@ -212,34 +209,26 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('email-address'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.email-address'), {
 			target: {
 				value: 'test@example.com'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.repeat-password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.click(
-			screen.getByRole('button', {
-				name: 'create-account'
-			})
-		);
+		fireEvent.click(screen.getByText('auth.create-account'));
 
 		// assert
 		await waitFor((): void => {
-			expect(
-				screen.getByText(
-					'This password is too short. it must contain at least 8 characters.This password is too common.This password is entirely numeric.'
-				)
-			).toBeInTheDocument();
+			expect(screen.getByText('validation.password.too-short')).toBeInTheDocument();
 		});
 	});
 
@@ -247,37 +236,33 @@ describe('RegisterPage', (): void => {
 		// arrange
 		const mockError = {
 			response: {
-				data: {}
+				data: [{}]
 			}
 		};
 		mockedSignUp.mockRejectedValue(mockError);
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('email-address'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.email-address'), {
 			target: {
 				value: 'test@example.com'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.repeat-password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.click(
-			screen.getByRole('button', {
-				name: 'create-account'
-			})
-		);
+		fireEvent.click(screen.getByText('auth.create-account'));
 
 		// assert
 		await waitFor((): void => {
-			expect(screen.queryByText('account-created')).toBeNull();
+			expect(screen.queryByText('auth.account-created')).toBeNull();
 		});
 	});
 
@@ -290,30 +275,26 @@ describe('RegisterPage', (): void => {
 		renderForTest(<RegisterPage />);
 
 		// act
-		fireEvent.change(screen.getByPlaceholderText('email-address'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.email-address'), {
 			target: {
 				value: 'test@example.com'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.change(screen.getByPlaceholderText('repeat-password'), {
+		fireEvent.change(screen.getByPlaceholderText('auth.repeat-password'), {
 			target: {
 				value: 'password123'
 			}
 		});
-		fireEvent.click(
-			screen.getByRole('button', {
-				name: 'create-account'
-			})
-		);
+		fireEvent.click(screen.getByText('auth.create-account'));
 
 		// assert
 		await waitFor((): void => {
-			expect(screen.queryByText('account-created')).toBeNull();
+			expect(screen.queryByText('auth.account-created')).toBeNull();
 		});
 	});
 });

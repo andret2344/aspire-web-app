@@ -60,7 +60,7 @@ export function NewPasswordPage(): React.ReactElement {
 				navigate(appPaths.login);
 			})
 			.catch((): void => {
-				enqueueSnackbar(t('common.something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				});
 			});

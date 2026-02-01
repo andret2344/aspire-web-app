@@ -19,10 +19,9 @@ function getDetails(item: FaqItem, idx: number): React.JSX.Element {
 }
 
 export function FaqPage(): React.ReactElement {
-	const {t: faq} = useTranslation('faq');
-	const {t} = useTranslation();
+	const {t} = useTranslation('faq');
 
-	const items = faq('items', {returnObjects: true}) as FaqItem[];
+	const items = t('items', {returnObjects: true}) as FaqItem[];
 
 	return (
 		<Container
@@ -40,7 +39,7 @@ export function FaqPage(): React.ReactElement {
 					py: '2.5rem'
 				}}
 			>
-				{faq('description')}
+				{t('description')}
 			</Typography>
 			<Box
 				sx={{

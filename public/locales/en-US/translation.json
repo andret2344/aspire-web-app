@@ -12,7 +12,6 @@
 		"priority": "Priority",
 		"save": "Save",
 		"send": "Send",
-		"something-went-wrong": "Something went wrong.",
 		"subtitle": "The Aspiration Abyss",
 		"type-description-here": "Type description here",
 		"unnamed": "Unnamed",
@@ -43,7 +42,6 @@
 		"forgot-password": "Forgot password?",
 		"log-in": "Log in",
 		"log-out-confirm": "Are you sure you want to log out?",
-		"login": "Login",
 		"new-password": "New password",
 		"no-account": "Don't have an account?",
 		"no-email-received": "Didn't receive the email?",
@@ -53,14 +51,42 @@
 		"resend-email": "Resend the verification e-mail.",
 		"sign-in": "Sign in",
 		"sign-up": "Sign up",
-		"verify": "Verify.",
-		"wrong-login-or-password": "Wrong login or password. Try again."
+		"verify": "Verify."
+	},
+	"validation": {
+		"email": {
+			"blank": "Email can't be blank.",
+			"invalid": "Invalid email.",
+			"max-length": "Email must be at most {{maxLength}} characters long.",
+			"used": "User with this e-mail address already exists."
+		},
+		"old-password": {
+			"blank": "Current password can't be blank."
+		},
+		"password": {
+			"blank": "Password can't be blank.",
+			"compromised": "Password is too common, choose something more complex.",
+			"min-length": "Password must be at least {{minLength}} characters long.",
+			"max-length": "Password must be at most {{maxLength}} characters long."
+		},
+		"password-confirmation": {
+			"blank": "Password confirmation can't be blank."
+		},
+		"token": {
+			"blank": "Token can't be blank."
+		},
+		"url": {
+			"blank": "URL can't be blank.",
+			"invalid": "Invalid URL."
+		}
 	},
 	"wishlist": {
 		"access-code": "Access code",
 		"access-code-accepted": "Access code accepted!",
+		"access-code-changed": "Access code changed successfully!",
 		"access-code-clear-tooltip-disabled": "You can't clear the access code because you haven't set up one yet.",
 		"access-code-clear-tooltip-enabled": "Clears the already set up wishlist access code making all the protected items visible again.",
+		"access-code-cleared": "Password cleared successfully.",
 		"access-code-invalid": "The access code is invalid",
 		"access-code-not-set": "Access code is not set",
 		"access-code-set": "Access code is set",
@@ -76,17 +102,14 @@
 		"item-no": "ID",
 		"item-removed": "Wishlist item removed successfully",
 		"item-updated": "Item updated",
-		"password-changed": "Password changed successfully!",
-		"password-cleared": "Password cleared successfully.",
 		"priority-description-high": "High",
 		"priority-description-low": "Low",
 		"priority-description-medium": "Medium",
 		"priority-description-unknown": "Unknown",
-		"set-wishlist-password": "Set the access code",
-		"set-wishlist-password-first": "Set the wishlist access code first.",
+		"set-access-code": "Set the access code",
+		"set-access-code-first": "Set the wishlist access code first.",
 		"share-disabled": "You have to verify to share wishlists.",
 		"unhide-item": "Unhide item",
-		"url-copied": "Share URL copied to clipboard",
 		"wishlist-created": "Wishlist created",
 		"wishlist-removed": "Wishlist removed successfully",
 		"wishlist-renamed": "Wishlist name changed successfully"
@@ -105,6 +128,8 @@
 		"saved": "Saved.",
 		"something-went-wrong": "Something went wrong.",
 		"successfully-logged-in": "Successfully logged in!",
-		"too-long": "Too long name or description."
+		"too-long": "Too long name or description.",
+		"url-copied": "Share URL copied to clipboard",
+		"wrong-login-or-password": "Wrong login or password. Try again."
 	}
 }

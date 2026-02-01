@@ -5,11 +5,14 @@
 /shelf/
 
 /biome.xml
+/data_source_mapping.xml
 /dataSources.local.xml
 /dataSources.xml
 /db-forest-config.xml
+/discord.xml
 /git_toolbox_blame.xml
 /git_toolbox_prj.xml
 /modules.xml
 /php.xml
+/sqldialects.xml
 /workspace.xml

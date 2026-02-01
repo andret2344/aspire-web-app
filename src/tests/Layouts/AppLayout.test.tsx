@@ -123,7 +123,7 @@ describe('AppLayout', (): void => {
 		await user.click(iconButton);
 
 		// assert
-		const settingsMenuItem: HTMLElement = screen.getByText('settings');
+		const settingsMenuItem: HTMLElement = screen.getByText('navigation.settings');
 		expect(settingsMenuItem).toBeInTheDocument();
 	});
 
@@ -191,8 +191,8 @@ describe('AppLayout', (): void => {
 		);
 
 		// assert
-		const warningText: HTMLElement = screen.getByText('email-not-verified');
-		const verifyLink: HTMLElement = screen.getByText('verify');
+		const warningText: HTMLElement = screen.getByText('auth.email-not-verified');
+		const verifyLink: HTMLElement = screen.getByText('auth.verify');
 		expect(warningText).toBeInTheDocument();
 		expect(verifyLink).toBeInTheDocument();
 	});
@@ -260,7 +260,7 @@ describe('AppLayout', (): void => {
 			</Routes>
 		);
 
-		const verifyLink: HTMLElement = screen.getByText('verify');
+		const verifyLink: HTMLElement = screen.getByText('auth.verify');
 
 		// act
 		await user.click(verifyLink);

@@ -148,7 +148,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 				});
 			})
 			.catch((): string | number =>
-				enqueueSnackbar(t('common.something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				})
 			);
@@ -242,7 +242,9 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 			);
 		}
 		return (
-			<Tooltip title={t(props.wishlist.hasPassword ? 'wishlist.hide-item' : 'wishlist.set-wishlist-password-first')}>
+			<Tooltip
+				title={t(props.wishlist.hasPassword ? 'wishlist.hide-item' : 'wishlist.set-wishlist-password-first')}
+			>
 				<IconButton
 					onClick={handleVisibilityClick}
 					data-testid='item-visible-icon'

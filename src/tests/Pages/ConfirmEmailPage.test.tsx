@@ -33,8 +33,8 @@ describe('ConfirmEmailPage', (): void => {
 
 		// assert
 		await waitFor(() => {
-			expect(screen.getByText('email-confirmed')).toBeInTheDocument();
-			expect(screen.getByText('email-confirmed-message')).toBeInTheDocument();
+			expect(screen.getByText('auth.email-confirmed')).toBeInTheDocument();
+			expect(screen.getByText('auth.email-confirmed-message')).toBeInTheDocument();
 		});
 		expect(mockedConfirmEmail).toHaveBeenCalledTimes(1);
 		expect(mockedConfirmEmail).toHaveBeenCalledWith('valid-token');
@@ -50,8 +50,8 @@ describe('ConfirmEmailPage', (): void => {
 
 		// assert
 		await waitFor(() => {
-			expect(screen.getByText('email-not-confirmed')).toBeInTheDocument();
-			expect(screen.getByText('email-not-confirmed-message')).toBeInTheDocument();
+			expect(screen.getByText('auth.email-not-confirmed')).toBeInTheDocument();
+			expect(screen.getByText('auth.email-not-confirmed-message')).toBeInTheDocument();
 		});
 		expect(mockedConfirmEmail).toHaveBeenCalledTimes(1);
 		expect(mockedConfirmEmail).toHaveBeenCalledWith('invalid-token');
@@ -65,9 +65,9 @@ describe('ConfirmEmailPage', (): void => {
 		renderForTest(<ConfirmEmailPage />);
 
 		// assert
-		await waitFor(() => {
-			expect(screen.getByText('email-not-confirmed')).toBeInTheDocument();
-			expect(screen.getByText('email-not-confirmed-message')).toBeInTheDocument();
+		await waitFor((): void => {
+			expect(screen.getByText('auth.email-not-confirmed')).toBeInTheDocument();
+			expect(screen.getByText('auth.email-not-confirmed-message')).toBeInTheDocument();
 		});
 		expect(mockedConfirmEmail).not.toHaveBeenCalled();
 	});
@@ -81,8 +81,8 @@ describe('ConfirmEmailPage', (): void => {
 		renderForTest(<ConfirmEmailPage />);
 
 		// assert
-		await waitFor(() => {
-			expect(screen.getByText('email-confirmed')).toBeInTheDocument();
+		await waitFor((): void => {
+			expect(screen.getByText('auth.email-confirmed')).toBeInTheDocument();
 		});
 		expect(mockedConfirmEmail).toHaveBeenCalledTimes(1);
 		expect(mockedConfirmEmail).toHaveBeenCalledWith('unique-token');
@@ -101,7 +101,7 @@ describe('ConfirmEmailPage', (): void => {
 			return Promise.resolve();
 		});
 
-		// act - Wrap in StrictMode to trigger double useEffect calls
+		// act
 		render(
 			<React.StrictMode>
 				<BrowserRouter>
@@ -111,9 +111,8 @@ describe('ConfirmEmailPage', (): void => {
 		);
 
 		// assert
-		// Wait for the confirmation to complete
-		await waitFor(() => {
-			expect(screen.getByText('email-confirmed')).toBeInTheDocument();
+		await waitFor((): void => {
+			expect(screen.getByText('auth.email-confirmed')).toBeInTheDocument();
 		});
 
 		// The requestLockRef ensures confirmEmail is called only once even if

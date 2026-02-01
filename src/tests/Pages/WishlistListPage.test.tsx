@@ -42,7 +42,7 @@ describe('WishlistListPage', (): void => {
 			expect(mockedNavigate).toHaveBeenCalledWith('/error', {
 				replace: true
 			});
-			expect(screen.queryByText('something-went-wrong')).not.toBeNull();
+			expect(screen.queryByText('messages.something-went-wrong')).not.toBeNull();
 			expect(screen.queryByText('Mock Wishlist')).toBeNull();
 		});
 	});
@@ -110,7 +110,7 @@ describe('WishlistListPage', (): void => {
 			await user.click(screen.getByTestId('delete-wishlist-modal-button-delete'));
 
 			// assert
-			expect(screen.getByText('wishlist-removed')).toBeInTheDocument();
+			expect(screen.getByText('wishlist.wishlist-removed')).toBeInTheDocument();
 			expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
 		});
 
@@ -143,7 +143,7 @@ describe('WishlistListPage', (): void => {
 			await user.click(screen.getByTestId('delete-wishlist-modal-button-delete'));
 
 			// assert
-			expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
+			expect(screen.getByText('messages.something-went-wrong')).toBeInTheDocument();
 			expect(mockedRemoveWishlist).toHaveBeenCalledTimes(1);
 			expect(mockedNavigate).toHaveBeenCalledTimes(0);
 		});

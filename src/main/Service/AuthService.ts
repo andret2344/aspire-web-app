@@ -17,11 +17,6 @@ export const requestConfig: AxiosRequestConfig = {
 	headers
 };
 
-export interface RegisterApiError {
-	readonly email?: string;
-	readonly password?: string;
-}
-
 export async function logIn(email: string, password: string): Promise<number> {
 	if (!email || !password) {
 		return 401;

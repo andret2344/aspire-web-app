@@ -35,7 +35,7 @@ export function EditableNameComponent(props: EditableNameComponentProps): React.
 		}
 		props.onChange(editedName!).catch((): void => {
 			setDisplayName(props.name);
-			enqueueSnackbar(t('common.something-went-wrong'), {
+			enqueueSnackbar(t('messages.something-went-wrong'), {
 				variant: 'error'
 			});
 		});

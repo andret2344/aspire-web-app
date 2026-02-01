@@ -42,8 +42,8 @@ describe('NewPasswordPage', (): void => {
 
 		// act
 		const changePasswordButton: HTMLElement = screen.getByTestId('button-change-password');
-		const passwordInput: HTMLElement = screen.getByPlaceholderText('password');
-		const passwordRepeatInput: HTMLElement = screen.getByPlaceholderText('repeat-password');
+		const passwordInput: HTMLElement = screen.getByPlaceholderText('auth.password');
+		const passwordRepeatInput: HTMLElement = screen.getByPlaceholderText('auth.repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
 		await user.type(passwordRepeatInput, 'Testowe123!');
 		await user.click(changePasswordButton);
@@ -65,8 +65,8 @@ describe('NewPasswordPage', (): void => {
 
 		// act
 		const changePasswordButton: HTMLElement = screen.getByTestId('button-change-password');
-		const passwordInput: HTMLElement = screen.getByPlaceholderText('password');
-		const passwordRepeatInput: HTMLElement = screen.getByPlaceholderText('repeat-password');
+		const passwordInput: HTMLElement = screen.getByPlaceholderText('auth.password');
+		const passwordRepeatInput: HTMLElement = screen.getByPlaceholderText('auth.repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
 		await user.type(passwordRepeatInput, 'Testowe123!');
 		await user.click(changePasswordButton);
@@ -74,7 +74,7 @@ describe('NewPasswordPage', (): void => {
 
 		// assert
 		await waitFor((): void => {
-			expect(errorSnackbar).toHaveTextContent('something-went-wrong');
+			expect(errorSnackbar).toHaveTextContent('messages.something-went-wrong');
 		});
 	});
 
@@ -84,12 +84,12 @@ describe('NewPasswordPage', (): void => {
 
 		// act
 		const changePasswordButton: HTMLElement = screen.getByTestId('button-change-password');
-		const passwordInput: HTMLElement = screen.getByPlaceholderText('password');
-		const passwordRepeatInput: HTMLElement = screen.getByPlaceholderText('repeat-password');
+		const passwordInput: HTMLElement = screen.getByPlaceholderText('auth.password');
+		const passwordRepeatInput: HTMLElement = screen.getByPlaceholderText('auth.repeat-password');
 		await user.type(passwordInput, 'Testowe123!');
 		await user.type(passwordRepeatInput, 'D1ff4r4n7!');
 		await user.click(changePasswordButton);
-		const errorSnackbar: HTMLElement = screen.getByText('passwords-not-equal');
+		const errorSnackbar: HTMLElement = screen.getByText('auth.passwords-not-equal');
 
 		// assert
 		await waitFor((): void => {
