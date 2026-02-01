@@ -132,7 +132,7 @@ describe('EditableNameComponent', (): void => {
 			await user.click(confirmButton);
 
 			// assert
-			const error: HTMLElement = await screen.findByText('something-went-wrong');
+			const error: HTMLElement = await screen.findByText('messages.something-went-wrong');
 			expect(error).toBeInTheDocument();
 		});
 	});

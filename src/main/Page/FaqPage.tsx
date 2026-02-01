@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {Accordion, AccordionDetails, AccordionSummary, Container, Typography} from '@mui/material';
+import {Accordion, AccordionDetails, AccordionSummary, Box, Container, Typography} from '@mui/material';
 
 type FaqItem = {q: string; a: string};
 
@@ -19,26 +19,36 @@ function getDetails(item: FaqItem, idx: number): React.JSX.Element {
 }
 
 export function FaqPage(): React.ReactElement {
-	const {t: faq} = useTranslation('faq');
-	const {t} = useTranslation();
+	const {t} = useTranslation('faq');
 
-	const items = faq('items', {returnObjects: true}) as FaqItem[];
+	const items = t('items', {returnObjects: true}) as FaqItem[];
 
 	return (
 		<Container
 			sx={{
-				paddingTop: '3.5rem'
+				display: 'flex',
+				flexDirection: 'column',
+				height: '100%'
 			}}
 		>
 			<Typography
 				variant='h2'
 				textAlign='center'
 				component='p'
+				sx={{
+					py: '2.5rem'
+				}}
 			>
-				{t('faq-title')}
+				{t('description')}
 			</Typography>
-
-			{items.map(getDetails)}
+			<Box
+				sx={{
+					overflow: 'auto',
+					flex: 1
+				}}
+			>
+				{items.map(getDetails)}
+			</Box>
 		</Container>
 	);
 }

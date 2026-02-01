@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import {AuthContainer} from '@component/AuthContainer';
 import {PasswordVisibilityIcon} from '@component/PasswordVisibilityIcon';
-import {RegisterApiError, signUp} from '@service/AuthService';
+import {signUp} from '@service/AuthService';
 import {appPaths} from '../AppRoutes';
 
 interface IFormInput {
@@ -27,9 +27,15 @@ interface IFormInput {
 	readonly passwordRepeat: string;
 }
 
+interface RegisterApiError {
+	readonly field: string;
+	readonly error: string;
+}
+
 export function RegisterPage(): React.ReactElement {
 	const [isPasswordShown, setIsPasswordShown] = React.useState<boolean>(false);
 	const [isPasswordRepeatShown, setIsPasswordRepeatShown] = React.useState<boolean>(false);
+	const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
 	const theme: Theme = useTheme();
 	const isMobile: boolean = useMediaQuery(theme.breakpoints.down('md'));
@@ -56,33 +62,42 @@ export function RegisterPage(): React.ReactElement {
 		if (data.password !== data.passwordRepeat) {
 			setError('passwordRepeat', {
 				type: 'manual',
-				message: t('passwords-not-equal')
+				message: t('auth.passwords-not-equal')
 			});
-			navigate(appPaths.register);
 			return;
 		}
 
+		setIsLoading(true);
 		signUp(data.email, data.password)
 			.then((): void => {
 				navigate(appPaths.login);
-				enqueueSnackbar(t('account-created'), {
+				enqueueSnackbar(t('messages.account-created'), {
 					variant: 'success'
 				});
 			})
-			.catch((error: AxiosError<RegisterApiError>): void => {
-				const registerApiError: RegisterApiError | undefined = error.response?.data;
-				if (registerApiError?.email) {
+			.catch((error: AxiosError<{detail: string}>): void => {
+				const registerApiErrors: RegisterApiError[] = JSON.parse(error.response?.data?.detail || '[]');
+				const emailError: RegisterApiError | undefined = registerApiErrors.find(
+					(registerApiError: RegisterApiError): boolean => registerApiError.field === 'email'
+				);
+				if (emailError) {
 					setError('email', {
 						type: 'manual',
-						message: registerApiError.email
+						message: t(emailError.error, {maxLength: 255})
 					});
 				}
-				if (registerApiError?.password) {
+				const passwordError: RegisterApiError | undefined = registerApiErrors.find(
+					(registerApiError: RegisterApiError): boolean => registerApiError.field === 'password'
+				);
+				if (passwordError) {
 					setError('password', {
 						type: 'manual',
-						message: registerApiError.password
+						message: t(passwordError.error, {minLength: 8, maxLength: 255})
 					});
 				}
+			})
+			.finally((): void => {
+				setIsLoading(false);
 			});
 	}
 
@@ -104,7 +119,7 @@ export function RegisterPage(): React.ReactElement {
 					required
 					hiddenLabel
 					variant='filled'
-					placeholder={`${t('email-address')}`}
+					placeholder={`${t('auth.email-address')}`}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -146,7 +161,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={t('password')}
+					placeholder={t('auth.password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -186,7 +201,7 @@ export function RegisterPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={t('repeat-password')}
+					placeholder={t('auth.repeat-password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -203,8 +218,9 @@ export function RegisterPage(): React.ReactElement {
 						marginTop: '10px'
 					}}
 					type='submit'
+					disabled={isLoading}
 				>
-					{t('create-account')}
+					{t('auth.create-account')}
 				</Button>
 				<Box
 					mt='10px'
@@ -219,7 +235,7 @@ export function RegisterPage(): React.ReactElement {
 							fontWeight: 400
 						}}
 					>
-						{t('already-have-account')}
+						{t('auth.already-have-account')}
 					</Typography>
 					<Link
 						component={Anchor}
@@ -232,7 +248,7 @@ export function RegisterPage(): React.ReactElement {
 							textDecoration: 'underline'
 						}}
 					>
-						{t('sign-in')}
+						{t('auth.sign-in')}
 					</Link>
 				</Box>
 			</form>

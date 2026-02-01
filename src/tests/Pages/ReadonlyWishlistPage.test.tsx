@@ -112,7 +112,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		});
 
 		// assert
-		expect(screen.getByText('confirm')).toBeInTheDocument();
+		expect(screen.getByText('common.confirm')).toBeInTheDocument();
 	});
 
 	test('cancel button works correctly in the password modal', async (): Promise<void> => {
@@ -133,7 +133,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		});
 
 		// assert
-		expect(screen.getByText('confirm')).toBeInTheDocument();
+		expect(screen.getByText('common.confirm')).toBeInTheDocument();
 		fireEvent.click(screen.getByTestId('wishlist-password-modal-cancel'));
 	});
 
@@ -154,7 +154,7 @@ describe('ReadonlyWishlistPage', (): void => {
 		await waitFor((): void => {
 			fireEvent.click(screen.getByTestId('hidden-items-icon-button'));
 		});
-		fireEvent.change(screen.getByPlaceholderText('access-code'), {
+		fireEvent.change(screen.getByPlaceholderText('wishlist.access-code'), {
 			target: {
 				value: 'password123'
 			}
@@ -162,6 +162,44 @@ describe('ReadonlyWishlistPage', (): void => {
 		fireEvent.click(screen.getByTestId('wishlist-password-modal-confirm'));
 
 		// assert
-		await waitFor((): void => expect(screen.getByText('access-code-invalid')).toBeInTheDocument());
+		await waitFor((): void => expect(screen.getByText('wishlist.access-code-invalid')).toBeInTheDocument());
+	});
+
+	test('confirm button retrieves hidden items when password is correct', async (): Promise<void> => {
+		// arrange
+		mockedUseParams.mockReturnValue({
+			uuid: GENERIC_UUID
+		});
+		mockedGetReadonlyWishlistByUUID.mockResolvedValue(
+			getSampleWishlistDto({
+				has_password: true
+			})
+		);
+		const hiddenItem = {
+			id: 2,
+			name: 'Hidden Item',
+			description: '<p>Hidden description</p>',
+			priority: 2,
+			hidden: true
+		};
+		mockedGetWishlistHiddenItems.mockResolvedValue([hiddenItem]);
+		renderForTest(<ReadonlyWishlistPage />);
+
+		// act
+		await waitFor((): void => {
+			fireEvent.click(screen.getByTestId('hidden-items-icon-button'));
+		});
+		fireEvent.change(screen.getByPlaceholderText('wishlist.access-code'), {
+			target: {
+				value: 'password123'
+			}
+		});
+		fireEvent.click(screen.getByTestId('wishlist-password-modal-confirm'));
+
+		// assert
+		await waitFor((): void => {
+			expect(mockedGetWishlistHiddenItems).toHaveBeenCalledWith(GENERIC_UUID, 'password123');
+			expect(screen.getByText('Hidden Item')).toBeInTheDocument();
+		});
 	});
 });

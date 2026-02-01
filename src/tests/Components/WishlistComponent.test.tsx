@@ -76,7 +76,7 @@ describe('WishlistComponent', (): void => {
 		await user.click(hiddenItemsButton);
 
 		// assert
-		expect(screen.getByText('set-wishlist-password')).toBeInTheDocument();
+		expect(screen.getByText('wishlist.set-wishlist-password')).toBeInTheDocument();
 	});
 
 	it('navigates to wishlist page on item click', async (): Promise<void> => {
@@ -145,7 +145,7 @@ describe('WishlistComponent', (): void => {
 			await user.click(screen.getByTestId('wishlist-password-modal-confirm'));
 
 			// assert
-			expect(screen.getByText('password-changed')).toBeInTheDocument();
+			expect(screen.getByText('wishlist.access-code-changed')).toBeInTheDocument();
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
 			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, 'password');
 			expect(handlePasswordChange).toHaveBeenCalledTimes(1);
@@ -177,7 +177,7 @@ describe('WishlistComponent', (): void => {
 			await user.click(screen.getByTestId('wishlist-password-modal-confirm'));
 
 			// assert
-			expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
+			expect(screen.getByText('messages.something-went-wrong')).toBeInTheDocument();
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
 			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, 'password');
 			expect(handlePasswordChange).toHaveBeenCalledTimes(0);
@@ -210,7 +210,7 @@ describe('WishlistComponent', (): void => {
 			await user.click(screen.getByTestId('wishlist-password-modal-clear'));
 
 			// assert
-			expect(screen.getByText('password-cleared')).toBeInTheDocument();
+			expect(screen.getByText('wishlist.access-code-cleared')).toBeInTheDocument();
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
 			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, '');
 			expect(handlePasswordChange).toHaveBeenCalledTimes(1);
@@ -243,7 +243,7 @@ describe('WishlistComponent', (): void => {
 			await user.click(screen.getByTestId('wishlist-password-modal-clear'));
 
 			// assert
-			expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
+			expect(screen.getByText('messages.something-went-wrong')).toBeInTheDocument();
 			expect(mockedSetWishlistPassword).toHaveBeenCalledTimes(1);
 			expect(mockedSetWishlistPassword).toHaveBeenCalledWith(1, '');
 		});
@@ -270,7 +270,7 @@ describe('WishlistComponent', (): void => {
 			/>
 		);
 
-		const tooltipWrapper: HTMLElement = screen.getByLabelText('share-disabled');
+		const tooltipWrapper: HTMLElement = screen.getByLabelText('wishlist.share-disabled');
 
 		// act
 		await user.click(tooltipWrapper);
@@ -312,7 +312,7 @@ describe('WishlistComponent', (): void => {
 			// assert
 			const clipboardText: string = await navigator.clipboard.readText();
 			expect(clipboardText).toBe('http://localhost/wishlist/b838027b-9177-43d6-918e-67917f1d9b15');
-			expect(screen.getByText('url-copied')).toBeInTheDocument();
+			expect(screen.getByText('messages.url-copied')).toBeInTheDocument();
 		});
 
 		it('throws an exception when copying to clipboard', async (): Promise<void> => {
@@ -334,7 +334,7 @@ describe('WishlistComponent', (): void => {
 			await user.click(shareIcon);
 
 			// assert
-			expect(screen.getByText('something-went-wrong')).toBeInTheDocument();
+			expect(screen.getByText('messages.something-went-wrong')).toBeInTheDocument();
 		});
 	});
 });

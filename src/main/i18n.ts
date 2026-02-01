@@ -7,12 +7,14 @@ i18n.use(Backend)
 	.use(LanguageDetector)
 	.use(initReactI18next)
 	.init({
-		fallbackLng: 'en',
+		fallbackLng: 'en-US',
 		supportedLngs: ['pl-PL', 'en-US'],
-		debug: false, //process.env.NODE_ENV === 'development',
+		debug: process.env.NODE_ENV === 'development',
 		interpolation: {
 			escapeValue: false
 		},
+		load: 'currentOnly',
+		cleanCode: false,
 		react: {
 			// https://react.i18next.com/latest/trans-component#trans-props
 			transSupportBasicHtmlNodes: true,

@@ -41,15 +41,15 @@ export function LoginPage(): React.ReactElement {
 			if ([200, 201].includes(response)) {
 				await refreshUser();
 				await navigate(appPaths.wishlists);
-				enqueueSnackbar(`${t('successfully-logged-in')}`, {
+				enqueueSnackbar(`${t('messages.successfully-logged-in')}`, {
 					variant: 'info'
 				});
 			} else if ([401].includes(response)) {
-				enqueueSnackbar(`${t('wrong-login-or-password')}`, {
+				enqueueSnackbar(`${t('messages.wrong-login-or-password')}`, {
 					variant: 'warning'
 				});
 			} else {
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				});
 			}
@@ -72,10 +72,10 @@ export function LoginPage(): React.ReactElement {
 			>
 				<TextField
 					data-testid='login-page-input-username'
-					autoComplete='new-password'
+					autoComplete='username'
 					hiddenLabel
 					variant='filled'
-					placeholder={t('login')}
+					placeholder={t('auth.email-address')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -116,7 +116,7 @@ export function LoginPage(): React.ReactElement {
 					}}
 					hiddenLabel
 					variant='filled'
-					placeholder={t('password')}
+					placeholder={t('auth.password')}
 					size={isMobile ? 'small' : 'medium'}
 					sx={{
 						width: '350px',
@@ -133,7 +133,7 @@ export function LoginPage(): React.ReactElement {
 					}}
 					type='submit'
 				>
-					{t('log-in')}
+					{t('auth.log-in')}
 				</Button>
 				<Link
 					data-testid='login-page-button-forgot'
@@ -146,7 +146,7 @@ export function LoginPage(): React.ReactElement {
 						textDecoration: 'underline'
 					}}
 				>
-					{t('forgot-password')}
+					{t('auth.forgot-password')}
 				</Link>
 				<Box
 					mt='10px'
@@ -161,7 +161,7 @@ export function LoginPage(): React.ReactElement {
 							fontWeight: 400
 						}}
 					>
-						{t('no-account')}
+						{t('auth.no-account')}
 					</Typography>
 					<Link
 						component={Anchor}
@@ -174,7 +174,7 @@ export function LoginPage(): React.ReactElement {
 							textDecoration: 'underline'
 						}}
 					>
-						{t('sign-up')}
+						{t('auth.sign-up')}
 					</Link>
 				</Box>
 			</form>

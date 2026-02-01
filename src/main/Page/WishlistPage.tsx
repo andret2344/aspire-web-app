@@ -31,7 +31,7 @@ export function WishlistPage(): React.ReactElement {
 			.then(mapWishlistFromDto)
 			.then(setWishlist)
 			.catch((): void => {
-				enqueueSnackbar(t('something-went-wrong'), {
+				enqueueSnackbar(t('messages.something-went-wrong'), {
 					variant: 'error'
 				});
 				navigate(appPaths.error, {replace: true});
@@ -98,8 +98,8 @@ export function WishlistPage(): React.ReactElement {
 
 	async function handleAddClick(): Promise<void> {
 		await executeAddWishlistItem({
-			name: t('unnamed'),
-			description: t('default-description'),
+			name: t('common.unnamed'),
+			description: t('wishlist.default-description'),
 			priority: 0,
 			hidden: false
 		});
@@ -110,10 +110,7 @@ export function WishlistPage(): React.ReactElement {
 			data-testid='wishlist-page-grid-main'
 			sx={{
 				paddingBottom: '50px',
-				flexGrow: 1,
-				height: '100vh',
-				overflowY: 'auto',
-				paddingTop: '3.5rem'
+				flexGrow: 1
 			}}
 			container
 		>
@@ -142,7 +139,7 @@ export function WishlistPage(): React.ReactElement {
 						paddingBottom: '3rem'
 					}}
 				>
-					<AddButton onClick={handleAddClick}>{t('add-new-item')}</AddButton>
+					<AddButton onClick={handleAddClick}>{t('wishlist.add-new-item')}</AddButton>
 				</Grid>
 			</Grid>
 		</Grid>

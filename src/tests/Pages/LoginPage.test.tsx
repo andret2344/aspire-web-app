@@ -34,7 +34,7 @@ describe('LoginPage', (): void => {
 			renderForTest(<LoginPage />, [withUserDataProvider]);
 
 			// assert
-			expect(screen.getByPlaceholderText('password')).toBeInTheDocument();
+			expect(screen.getByPlaceholderText('auth.password')).toBeInTheDocument();
 		});
 	});
 
@@ -95,7 +95,7 @@ describe('LoginPage', (): void => {
 			await user.click(loginButton);
 
 			// assert
-			await waitFor((): void => expect(screen.getByText('successfully-logged-in')).toBeInTheDocument());
+			await waitFor((): void => expect(screen.getByText('messages.successfully-logged-in')).toBeInTheDocument());
 			expect(mockedNavigate).toHaveBeenCalledTimes(1);
 			expect(mockedNavigate).toHaveBeenCalledWith('/wishlists');
 		});
@@ -119,7 +119,7 @@ describe('LoginPage', (): void => {
 			await user.click(loginButton);
 
 			// assert
-			await waitFor((): void => expect(screen.getByText('wrong-login-or-password')).toBeInTheDocument());
+			await waitFor((): void => expect(screen.getByText('messages.wrong-login-or-password')).toBeInTheDocument());
 		});
 
 		it('displays error snackbar on login when server error response', async (): Promise<void> => {
@@ -140,7 +140,7 @@ describe('LoginPage', (): void => {
 			await user.click(loginButton);
 
 			// assert
-			await waitFor((): void => expect(screen.getByText('something-went-wrong')).toBeInTheDocument());
+			await waitFor((): void => expect(screen.getByText('messages.something-went-wrong')).toBeInTheDocument());
 		});
 	});
 });

@@ -10,7 +10,7 @@ describe('FaqPage', (): void => {
 		renderForTest(<FaqPage />);
 
 		// act
-		const title: HTMLElement = screen.getByText('faq-title');
+		const title: HTMLElement = screen.getByText('description');
 
 		// assert
 		expect(title).toBeInTheDocument();

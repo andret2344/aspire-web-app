@@ -11,10 +11,8 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		// act
-		const passwordSettingsText: HTMLElement = screen.getByText('password-settings');
-		const saveButton: HTMLElement = screen.getByRole('button', {
-			name: 'change-password'
-		});
+		const passwordSettingsText: HTMLElement = screen.getByText('profile.password-settings');
+		const saveButton: HTMLElement = screen.getByText('auth.change-password');
 
 		// assert
 		expect(passwordSettingsText).toBeInTheDocument();
@@ -27,17 +25,15 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		// act
-		const changePasswordButton: HTMLElement = screen.getByRole('button', {
-			name: /change-password/i
-		});
-		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('current-password');
-		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('new-password');
-		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('confirm-password');
+		const changePasswordButton: HTMLElement = screen.getByText('auth.change-password');
+		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.current-password');
+		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.new-password');
+		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe1234!Edit');
 		await user.type(confirmPasswordInput, 'Testowe1234!Edit1');
 		await user.click(changePasswordButton);
-		const errorSnackbars: HTMLElement[] = screen.getAllByText('passwords-not-equal');
+		const errorSnackbars: HTMLElement[] = screen.getAllByText('auth.passwords-not-equal');
 
 		// assert
 		await waitFor((): void => {
@@ -51,12 +47,10 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		// act
-		const changePasswordButton: HTMLElement = screen.getByRole('button', {
-			name: /change-password/i
-		});
-		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('current-password');
-		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('new-password');
-		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('confirm-password');
+		const changePasswordButton: HTMLElement = screen.getByText('auth.change-password');
+		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.current-password');
+		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.new-password');
+		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe1234!Edit');
 		await user.type(confirmPasswordInput, 'Testowe1234!Edit');
@@ -75,12 +69,10 @@ describe('ProfilePage', (): void => {
 		renderForTest(<ProfilePage />);
 
 		// act
-		const changePasswordButton: HTMLElement = screen.getByRole('button', {
-			name: /change-password/i
-		});
-		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('current-password');
-		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('new-password');
-		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('confirm-password');
+		const changePasswordButton: HTMLElement = screen.getByText('auth.change-password');
+		const currentPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.current-password');
+		const newPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.new-password');
+		const confirmPasswordInput: HTMLElement = screen.getByPlaceholderText('auth.confirm-password');
 		await user.type(currentPasswordInput, 'Testowe123!');
 		await user.type(newPasswordInput, 'Testowe123!Edit');
 		await user.type(confirmPasswordInput, 'Testowe123!Edit');

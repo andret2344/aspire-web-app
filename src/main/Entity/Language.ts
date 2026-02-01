@@ -6,13 +6,13 @@ export interface Language {
 
 export const LANGUAGE_POLISH: Language = {
 	code: 'pl-PL',
-	iconCode: 'pl-PL',
+	iconCode: 'pl',
 	name: 'Polski'
 };
 
 export const LANGUAGE_ENGLISH: Language = {
 	code: 'en-US',
-	iconCode: 'en-US',
+	iconCode: 'gb',
 	name: 'English'
 };
 

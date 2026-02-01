@@ -13,7 +13,7 @@ export function ErrorPage(): React.ReactElement {
 			justifyContent='center'
 			alignItems='center'
 		>
-			<Typography variant='h4'>{t('something-went-wrong')}</Typography>
+			<Typography variant='h4'>{t('messages.something-went-wrong')}</Typography>
 		</Box>
 	);
 }

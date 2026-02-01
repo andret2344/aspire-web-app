@@ -134,7 +134,7 @@ describe('WishlistItemComponent', (): void => {
 
 			// assert
 			expect(handleEditButtonClick).toHaveBeenCalledTimes(0);
-			await waitFor((): void => expect(screen.getByText('something-went-wrong')).toBeInTheDocument());
+			await waitFor((): void => expect(screen.getByText('messages.something-went-wrong')).toBeInTheDocument());
 		});
 	});
 

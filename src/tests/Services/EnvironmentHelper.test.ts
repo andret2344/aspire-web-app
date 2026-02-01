@@ -18,7 +18,7 @@ describe('EnvironmentHelper', (): void => {
 		});
 
 		process.env.NODE_ENV = 'production';
-		process.env.REACT_APP_API_TOKEN = 'test-token';
+		process.env.REACT_APP_DISCOVERY_TOKEN = 'test-token';
 
 		// act
 		const config: Config | undefined = await getConfig();

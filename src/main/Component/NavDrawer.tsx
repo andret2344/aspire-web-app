@@ -75,11 +75,14 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 				sx={{
 					width: width,
 					flexShrink: 0,
+					transition: 'width 0.3s',
 					'& .MuiDrawer-paper': {
 						width: width,
 						transition: 'width 0.3s',
 						overflowX: 'hidden',
-						mt: '56px'
+						position: 'relative',
+						border: 'none',
+						height: '100%'
 					}
 				}}
 			>
@@ -102,7 +105,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<ListAlt />
 						</ListItemIcon>
-						{renderListItemText(t('wishlists'))}
+						{renderListItemText(t('navigation.wishlists'))}
 					</ListItemButton>
 
 					<ListItemButton
@@ -113,7 +116,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<Settings />
 						</ListItemIcon>
-						{renderListItemText(t('settings'))}
+						{renderListItemText(t('navigation.settings'))}
 					</ListItemButton>
 
 					<ListItemButton
@@ -124,7 +127,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<HelpOutline />
 						</ListItemIcon>
-						{renderListItemText(t('faq'))}
+						{renderListItemText(t('navigation.faq'))}
 					</ListItemButton>
 				</List>
 
@@ -138,17 +141,17 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						<ListItemIcon>
 							<Logout color='error' />
 						</ListItemIcon>
-						{renderListItemText(t('log-out'), theme.palette.error.main)}
+						{renderListItemText(t('navigation.log-out'), theme.palette.error.main)}
 					</ListItemButton>
 				</List>
 			</Drawer>
 			<AspireModal
-				title={t('log-out')}
+				title={t('navigation.log-out')}
 				open={isModalOpened}
 				onClose={handleLogoutCancel}
 				onSubmit={handleLogoutConfirm}
 			>
-				{t('log-out-confirm')}
+				{t('auth.log-out-confirm')}
 				<Box
 					sx={{
 						display: 'flex',
@@ -167,7 +170,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						}}
 						onClick={handleLogoutCancel}
 					>
-						{t('cancel')}
+						{t('common.cancel')}
 					</Button>
 					<Button
 						data-testid='button-save'
@@ -178,7 +181,7 @@ export function NavDrawer(props: NavDrawerProps): React.ReactElement {
 						}}
 						type='submit'
 					>
-						{t('log-out')}
+						{t('navigation.log-out')}
 					</Button>
 				</Box>
 			</AspireModal>
