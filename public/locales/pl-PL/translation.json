@@ -1,4 +1,31 @@
 {
+	"auth": {
+		"already-have-account": "Masz już konto?",
+		"change-password": "Zmień hasło",
+		"confirm-password": "Potwierdź hasło",
+		"create-account": "Stwórz konto",
+		"current-password": "Obecne hasło",
+		"email-address": "Adres e-mail",
+		"email-confirmed": "Twój adres e-mail został potwierdzony.",
+		"email-confirmed-message": "Możesz bezpiecznie zamknąć obecną kartę.",
+		"email-not-confirmed": "Twój adres e-mail nie został potwierdzony.",
+		"email-not-confirmed-message": "Token jest nieprawidłowy lub wygasł.",
+		"email-not-verified": "Twój adres e-mail nie został zweryfikowany.",
+		"email-sent": "Wysłaliśmy wiadomość e-mail na adres",
+		"enter-email": "Podaj adres e-mail, a my wyślemy Ci link do resetu hasła",
+		"forgot-password": "Zapomniałeś hasła?",
+		"log-in": "Zaloguj się",
+		"log-out-confirm": "Czy na pewno chcesz się wylogować?",
+		"new-password": "Nowe hasło",
+		"no-account": "Nie masz konta?",
+		"no-email-received": "Nie otrzymałeś wiadomości e-mail?",
+		"password": "Hasło",
+		"passwords-not-equal": "Hasła są różne",
+		"repeat-password": "Powtórz hasło",
+		"sign-in": "Zaloguj się",
+		"sign-up": "Zarejestruj się",
+		"verify": "Zweryfikuj."
+	},
 	"common": {
 		"action": "Akcja",
 		"back-to": "Powrót",
@@ -17,43 +44,54 @@
 		"unnamed": "Bez nazwy",
 		"visibility": "Widoczność"
 	},
+	"messages": {
+		"account-created": "Konto zostało utworzone",
+		"password-changed": "Hasło zmieniono prawidłowo",
+		"password-invalid": "Coś poszło nie tak! Prawdopodobnie twoje obecne hasło jest nieprawidłowe.",
+		"password-reset-link-sent": "Link do zresetowania hasła został wysłany!",
+		"something-went-wrong": "Coś poszło nie tak.",
+		"successfully-logged-in": "Zalogowano pomyślnie!",
+		"url-copied": "Adres URL został skopiowany do schowka",
+		"wrong-login-or-password": "Niepoprawny login lub hasło. Spróbuj ponownie."
+	},
 	"navigation": {
 		"faq": "FAQ",
 		"log-out": "Wyloguj",
 		"settings": "Ustawienia",
 		"wishlists": "Listy życzeń"
 	},
-	"auth": {
-		"already-have-account": "Masz już konto?",
-		"already-verified": "Już zweryfikowany?",
-		"change-password": "Zmień hasło",
-		"click-the-link": "Wystarczy kliknąć łącze w tej wiadomości e-mail, aby dokończyć rejestrację. Jeśli go nie widzisz, sprawdź folder SPAM.",
-		"confirm-password": "Potwierdź hasło",
-		"create-account": "Stwórz konto",
-		"current-password": "Obecne hasło",
-		"email-address": "Adres e-mail",
-		"email-confirmed": "Twój adres e-mail został potwierdzony.",
-		"email-confirmed-message": "Możesz bezpiecznie zamknąć obecną kartę.",
-		"email-not-confirmed": "Twój adres e-mail nie został potwierdzony.",
-		"email-not-confirmed-message": "Token jest nieprawidłowy lub wygasł.",
-		"email-not-verified": "Twój adres e-mail nie został zweryfikowany.",
-		"email-sent": "Wysłaliśmy wiadomość e-mail na adres",
-		"enter-email": "Podaj adres e-mail, a my wyślemy Ci link do resetu hasła",
-		"forgot-password": "Zapomniałeś hasła?",
-		"log-in": "Zaloguj się",
-		"log-out-confirm": "Czy na pewno chcesz się wylogować?",
-		"login": "Nazwa użytkownika",
-		"new-password": "Nowe hasło",
-		"no-account": "Nie masz konta?",
-		"no-email-received": "Nie otrzymałeś wiadomości e-mail?",
-		"password": "Hasło",
-		"passwords-not-equal": "Hasła są różne",
-		"repeat-password": "Powtórz hasło",
-		"resend-email": "Wyślij ponownie e-mail z weryfikacją.",
-		"sign-in": "Zaloguj się",
-		"sign-up": "Zarejestruj się",
-		"verify": "Zweryfikuj.",
-		"wrong-login-or-password": "Niepoprawny login lub hasło. Spróbuj ponownie."
+	"profile": {
+		"change-language": "Zmień język",
+		"change-theme-color": "Zmień kolor motywu",
+		"password-settings": "Ustawienia zabezpieczeń",
+		"user-settings": "Ustawienia użytkownika"
+	},
+	"validation": {
+		"email": {
+			"blank": "Adres e-mail nie może być pusty.",
+			"invalid": "Nieprawidłowy adres e-mail.",
+			"max-length": "Adres e-mail musi mieć co najwyżej {{maxLength}} znaków.",
+			"used": "Użytkownik z tym adresem e-mail już istnieje."
+		},
+		"old-password": {
+			"blank": "Obecne hasło nie może być puste."
+		},
+		"password": {
+			"blank": "Hasło nie może być puste.",
+			"compromised": "Hasło jest zbyt proste, wybierz coś bardziej skomplikowanego.",
+			"min-length": "Hasło musi mieć co najmniej {{minLength}} znaków.",
+			"max-length": "Hasło musi mieć co najwyżej {{maxLength}} znaków."
+		},
+		"password-confirmation": {
+			"blank": "Powtórzone hasło nie może być puste."
+		},
+		"token": {
+			"blank": "Token nie może być pusty."
+		},
+		"url": {
+			"blank": "Adres URL nie może być pusty.",
+			"invalid": "Nieprawidłowy adres URL."
+		}
 	},
 	"wishlist": {
 		"access-code": "Kod dostępu",
@@ -85,25 +123,8 @@
 		"set-access-code-first": "Najpierw ustaw kod dostępu.",
 		"share-disabled": "Musisz zweryfikować swój adres e-mail, aby móc udostępnić listę życzeń.",
 		"unhide-item": "Pokaż element",
-		"url-copied": "Adres URL został skopiowany do schowka",
 		"wishlist-created": "Utworzono nową listę życzeń",
 		"wishlist-removed": "Usunięto listę życzeń",
 		"wishlist-renamed": "Zmieniono nazwę listy życzeń"
-	},
-	"profile": {
-		"change-language": "Zmień język",
-		"change-theme-color": "Zmień kolor motywu",
-		"password-settings": "Ustawienia zabezpieczeń",
-		"user-settings": "Ustawienia użytkownika"
-	},
-	"messages": {
-		"account-created": "Konto zostało utworzone",
-		"password-changed": "Hasło zmieniono prawidłowo",
-		"password-invalid": "Coś poszło nie tak! Prawdopodobnie twoje obecne hasło jest nieprawidłowe.",
-		"password-reset-link-sent": "Link do zresetowania hasła został wysłany!",
-		"saved": "Zapisano pomyślnie.",
-		"something-went-wrong": "Coś poszło nie tak.",
-		"successfully-logged-in": "Zalogowano pomyślnie!",
-		"too-long": "Za długa nazwa lub opis."
 	}
 }

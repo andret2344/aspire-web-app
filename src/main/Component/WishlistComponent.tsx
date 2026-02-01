@@ -46,7 +46,7 @@ export function WishlistComponent(props: WishlistComponentProps): React.ReactEle
 
 	function renderPasswordIcon(): React.ReactElement {
 		return (
-			<Tooltip title={t('wishlist.set-wishlist-password')}>
+			<Tooltip title={t('wishlist.set-access-code')}>
 				<KeyIcon data-testid='icon-key' />
 			</Tooltip>
 		);

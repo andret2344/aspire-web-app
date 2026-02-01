@@ -76,7 +76,7 @@ describe('WishlistComponent', (): void => {
 		await user.click(hiddenItemsButton);
 
 		// assert
-		expect(screen.getByText('wishlist.set-wishlist-password')).toBeInTheDocument();
+		expect(screen.getByText('wishlist.set-access-code')).toBeInTheDocument();
 	});
 
 	it('navigates to wishlist page on item click', async (): Promise<void> => {
