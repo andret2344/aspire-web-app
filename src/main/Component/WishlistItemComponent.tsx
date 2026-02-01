@@ -242,9 +242,7 @@ export function WishlistItemComponent(props: WishlistItemComponentProps): React.
 			);
 		}
 		return (
-			<Tooltip
-				title={t(props.wishlist.hasPassword ? 'wishlist.hide-item' : 'wishlist.set-access-code-first')}
-			>
+			<Tooltip title={t(props.wishlist.hasPassword ? 'wishlist.hide-item' : 'wishlist.set-access-code-first')}>
 				<IconButton
 					onClick={handleVisibilityClick}
 					data-testid='item-visible-icon'
